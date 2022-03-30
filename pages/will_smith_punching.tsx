@@ -45,14 +45,23 @@ class IndexPage extends Component<MyProps & WithUserAgentProps, MyStates>
   componentDidMount() 
   {
     let body  = document.querySelector("body");
-    if(!this.state.isMobile && body)
-      body.classList.add("desktop_body");
-  }
+    if(body)
+      body.classList.add(this.state.isMobile ? 'mobile_body_noscroll' : 'desktop_body_noscroll');
+  }//END componentDidMount
 
   render() 
   {
     return  <>
-              dsfsfsfe
+              <div className={this.state.isMobile? mobileStyles.container : styles.container}>
+                <div className={this.state.isMobile? mobileStyles.header : styles.header}>
+                  <div className={this.state.isMobile? mobileStyles.title : styles.title}>
+                    Will Smith Punching generator
+                  </div>
+                  <div className={this.state.isMobile? 'm_s_btn' : 's_btn'}>
+                    2
+                  </div>
+                </div>
+              </div>
             </>
   }
 

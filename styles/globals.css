@@ -42,14 +42,19 @@ a {
 html, body 
 {
   scroll-behavior: smooth;
-  height:100%;
+  height:100vh;
   width: 100%;
   background-color: #EBECF0;
 }
 
-.desktop_body
+.desktop_body_noscroll
 {
   background-color: #63637D;
+}
+
+.mobile_body_noscroll
+{
+  overflow-y: hidden;
 }
 
 
@@ -62,4 +67,18 @@ html, body
         -ms-user-select: none; /* Internet Explorer/Edge */
             user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome, Edge, Opera and Firefox */
+}
+
+.m_s_btn, .s_btn
+{
+  border-radius: 6px;
+  background-color: #EBECF0;
+  -webkit-box-shadow: 2px 2px 5px 0px #BABECC; 
+  box-shadow: 2px 2px 5px 0px #BABECC;
+  height: 38px;
+  width: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }

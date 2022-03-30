@@ -3,6 +3,8 @@ import Head from 'next/head'
 import { WithUserAgentProps, withUserAgent } from 'next-useragent'
 import styles from '../styles/index/desktop.module.css'
 import mobileStyles from '../styles/index/mobile.module.css'
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import GetAppIcon from '@material-ui/icons/GetApp';
 
 type MyProps = {
   ua: any,
@@ -57,9 +59,13 @@ class IndexPage extends Component<MyProps & WithUserAgentProps, MyStates>
                   <div className={this.state.isMobile? mobileStyles.title : styles.title}>
                     Will Smith Punching generator
                   </div>
-                  <div className={this.state.isMobile? 'm_s_btn' : 's_btn'}>
-                    2
+                  <div className={this.state.isMobile? mobileStyles.header_r : styles.header_r}>
+                    <MoreVertIcon className={this.state.isMobile? mobileStyles.header_btn : styles.header_btn} />
+                    <GetAppIcon className={this.state.isMobile? mobileStyles.header_btn : styles.header_btn} />
                   </div>
+                </div>
+                <div className={this.state.isMobile? mobileStyles.whiteContainer : styles.whiteContainer}>
+                  fdsfdsfds
                 </div>
               </div>
             </>

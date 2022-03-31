@@ -5,6 +5,7 @@ import mobileStyles from '../styles/will_smith_punching/mobile.module.css'
 import Header from '../components/generator/header'
 import Steps from '../components/generator/steps'
 import Canvas from '../components/generator/canvas'
+import CPU from '../components/generator/cpu'
 import BottomControlPanel from '../components/generator/bottomControlPanel'
 
 
@@ -22,6 +23,7 @@ interface IndexPage {
   stepsRef: any
   canvasRef: any
   bottomControlPanelRef: any
+  cpuRef: any
 }
 
 class IndexPage extends Component<MyProps & WithUserAgentProps, MyStates> 
@@ -42,6 +44,7 @@ class IndexPage extends Component<MyProps & WithUserAgentProps, MyStates>
     this.stepsRef = React.createRef();
     this.canvasRef = React.createRef();
     this.bottomControlPanelRef = React.createRef();
+    this.cpuRef = React.createRef();
 
   }//END constructor  
 
@@ -62,6 +65,7 @@ class IndexPage extends Component<MyProps & WithUserAgentProps, MyStates>
   render() 
   {
     return  <>
+              <CPU parent={this} ref={this.cpuRef} />
               <div className={this.state.isMobile? mobileStyles.container : styles.container}>
                 <Header parent={this} ref={this.headerRef} />
                 <div className={this.state.isMobile? mobileStyles.whiteContainer : styles.whiteContainer}>

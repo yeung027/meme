@@ -12,6 +12,16 @@
 {
     width: 90%;
     height: 90%;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.img
+{
     border: #BCA9F1 1px solid;
     background-color: #fff;
+    max-width: 99%;
+    max-height: 99%;
 }

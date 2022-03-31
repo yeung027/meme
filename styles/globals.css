@@ -45,7 +45,7 @@ html, body
   height:100%;
   width: 100%;
   display: flex;
-  background-color: #5C33CF;
+  background-color: #5f00d2;
 }
 
 .desktop_body_noscroll
@@ -56,6 +56,7 @@ html, body
 .mobile_body_noscroll
 {
   overflow-y: hidden;
+  position: fixed;
 }
 
 

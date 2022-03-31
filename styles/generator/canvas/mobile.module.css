@@ -1,0 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap');
+
+.container
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 95%;
+}
+
+.canvas
+{
+    width: 90%;
+    height: 90%;
+    border: #BCA9F1 1px solid;
+    background-color: #fff;
+}

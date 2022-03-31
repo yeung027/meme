@@ -45,12 +45,12 @@ html, body
   height:100%;
   width: 100%;
   display: flex;
-  background-color: #5f00d2;
 }
 
 .desktop_body_noscroll
 {
-  background-color: #63637D;
+  overflow-y: hidden;
+  position: fixed;
 }
 
 .mobile_body_noscroll

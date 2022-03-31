@@ -33,26 +33,23 @@ class Header extends Component<MyProps, MyStates>
   render() 
   {
       return    <>
-                    <div className={this.parent.state.isMobile? mobileStyles.header : styles.header}>
-                  <div className={this.parent.state.isMobile? mobileStyles.title : styles.title}>
-                    Will Smith Punching generator
-                  </div>
-                  <div className={this.parent.state.isMobile? mobileStyles.header_r : styles.header_r}>
-                    <IconButton color="primary" component="span">
-                      <MoreVertIcon className={this.parent.state.isMobile? mobileStyles.header_btn : styles.header_btn} />
-                    </IconButton>
-                    <IconButton color="primary" component="span">
-                      <GetAppIcon className={this.parent.state.isMobile? mobileStyles.header_btn : styles.header_btn} />
-                    </IconButton>
-                  </div>
-                </div>
-                <div className={this.parent.state.isMobile? mobileStyles.whiteContainer : styles.whiteContainer}>
-                  fdsfdsfds
-  </div>
+                    <div className={this.parent.state.isMobile? mobileStyles.container : styles.container}>
+                        <div className={this.parent.state.isMobile? mobileStyles.title : styles.title}>
+                            Will Smith Punching generator
+                        </div>
+                        <div className={this.parent.state.isMobile? mobileStyles.right : styles.right}>
+                            <IconButton color="primary" component="span">
+                            <MoreVertIcon className={this.parent.state.isMobile? mobileStyles.btn : styles.btn} />
+                            </IconButton>
+                            <IconButton color="primary" component="span">
+                            <GetAppIcon className={this.parent.state.isMobile? mobileStyles.btn : styles.btn} />
+                            </IconButton>
+                        </div>
+                    </div>
                 </>
   }
 
-}//END class IndexPage
+}//END class Header
 
 
 export default Header;

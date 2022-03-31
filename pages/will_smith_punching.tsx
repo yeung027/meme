@@ -5,6 +5,7 @@ import mobileStyles from '../styles/will_smith_punching/mobile.module.css'
 import Header from '../components/generator/header'
 import Steps from '../components/generator/steps'
 import Canvas from '../components/generator/canvas'
+import BottomControlPanel from '../components/generator/bottomControlPanel'
 
 
 type MyProps = {
@@ -20,6 +21,7 @@ interface IndexPage {
   headerRef: any
   stepsRef: any
   canvasRef: any
+  bottomControlPanelRef: any
 }
 
 class IndexPage extends Component<MyProps & WithUserAgentProps, MyStates> 
@@ -39,6 +41,7 @@ class IndexPage extends Component<MyProps & WithUserAgentProps, MyStates>
     this.headerRef = React.createRef();
     this.stepsRef = React.createRef();
     this.canvasRef = React.createRef();
+    this.bottomControlPanelRef = React.createRef();
 
   }//END constructor  
 
@@ -66,7 +69,7 @@ class IndexPage extends Component<MyProps & WithUserAgentProps, MyStates>
                   <Canvas parent={this} ref={this.canvasRef} />
                 </div>
                 <div className={this.state.isMobile? mobileStyles.bottomControlPanelContainer : styles.bottomControlPanelContainer}>
-                  dsdas
+                  <BottomControlPanel parent={this} ref={this.bottomControlPanelRef} />
                 </div>
               </div>
             </>

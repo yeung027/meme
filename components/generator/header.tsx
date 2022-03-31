@@ -39,10 +39,10 @@ class Header extends Component<MyProps, MyStates>
                         </div>
                         <div className={this.parent.state.isMobile? mobileStyles.right : styles.right}>
                             <IconButton color="primary" component="span">
-                            <MoreVertIcon className={this.parent.state.isMobile? mobileStyles.btn : styles.btn} />
+                                <MoreVertIcon className={this.parent.state.isMobile? mobileStyles.btn : styles.btn} />
                             </IconButton>
                             <IconButton color="primary" component="span">
-                            <GetAppIcon className={this.parent.state.isMobile? mobileStyles.btn : styles.btn} />
+                                <GetAppIcon className={this.parent.state.isMobile? mobileStyles.btn : styles.btn} />
                             </IconButton>
                         </div>
                     </div>

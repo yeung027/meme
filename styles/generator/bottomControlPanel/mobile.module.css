@@ -1,0 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap');
+
+.container
+{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 95%;
+}
+
+.btn
+{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #CAD2DD;
+    font-size: 12px;
+    font-family: 'Roboto';
+}
+
+.active
+{
+    color: #7A56DF;
+}

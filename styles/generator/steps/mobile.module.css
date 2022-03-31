@@ -68,8 +68,13 @@
 {
     width: 60px;
     height: 1px;
-    background-color: #FFC531;
+    background-color: #C1CAD7;
     position: absolute;
     margin:4px 0 0 8px;
     z-index: 9;
+}
+
+.active .line
+{
+    background-color: #FFC531;
 }

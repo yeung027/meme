@@ -28,7 +28,7 @@ class CanvasDrawer extends Component<MyProps, MyStates>
 
   }//END constructor
 
-  mergeComplete(b64:any, imgEle: any)
+  async mergeComplete(b64:any, imgEle: any)
   {
     
     if(imgEle)
@@ -50,8 +50,16 @@ class CanvasDrawer extends Component<MyProps, MyStates>
       url = b64;
       if(ok2)
       {
-        alert('dsadsadsd');
-        navigator.share({url});
+
+        const toShare = {
+          title: "Viruses in a trench coat",
+          text: "Definitely not 5 viruses in a trench coat",
+          files: b64
+        }
+
+        //alert('dsadsadsd');
+        //navigator.share({url});
+        await navigator.share(toShare);
       }
 
   //link.click();

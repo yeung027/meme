@@ -24,9 +24,24 @@ class CanvasDrawer extends Component<MyProps, MyStates>
       imgSrc: '/generator/will_smith_punching/raw.png'
     }//END state
     
-    this.mergeComplete = this.mergeComplete.bind(this);
+    this.mergeComplete  = this.mergeComplete.bind(this);
+    this.imgClick       = this.imgClick.bind(this);
 
   }//END constructor
+
+  imgClick()
+  {
+    console.log('click');
+    if (navigator.share) {
+      navigator.share({
+        title: '標題',
+        text: '文字描述',
+        url: this.state.imgSrc,
+      })
+        .then(() => console.log('成功'))
+        .catch((error) => console.log('發生錯誤', error));
+    }
+  }//END imgClick
 
   async mergeComplete(b64:any, imgEle: any)
   {
@@ -43,7 +58,9 @@ class CanvasDrawer extends Component<MyProps, MyStates>
       const link = document.createElement("a");
   link.href = b64;
   link.download = 'okok.png';
-  alert(navigator.share);
+  this.setState({ imgSrc: b64 });
+
+  //alert(navigator.share);
       console.log(navigator.share);
       let ok2:any= navigator.share;
       let url = document.location.href;
@@ -72,10 +89,12 @@ class CanvasDrawer extends Component<MyProps, MyStates>
 
   componentDidMount()
   {
+    
     var self = this;
     let imgEle: any  = document.querySelector('#canvasIMG');
     if(imgEle)
     {
+      imgEle.addEventListener('click', this.imgClick);
       console.log('try');
       mergeImages(['/generator/will_smith_punching/raw.png', '/generator/will_smith_punching/happy.png'])
         .then(function (b64) 

@@ -43,7 +43,13 @@ class CanvasDrawer extends Component<MyProps, MyStates>
     }
   }//END imgClick
 
-  async mergeComplete(b64:any, imgEle: any)
+
+  mergeComplete(b64:any, imgEle: any)
+  {
+    console.log('mergeComplete');
+  }//END mergeComplete
+
+  async backup_function_lol(b64:any, imgEle: any)
   {
     
     if(imgEle)
@@ -85,7 +91,7 @@ class CanvasDrawer extends Component<MyProps, MyStates>
 
 //fileDownload(b64, 'filename.png');
     }
-  }//END mergeComplete
+  }//END backup_function_lol
 
   componentDidMount()
   {
@@ -106,9 +112,7 @@ class CanvasDrawer extends Component<MyProps, MyStates>
 
   render() 
   {
-      return  <>
-                <a href={this.state.imgSrc}>okok</a>
-              </>;
+      return  null;
   }
 
 }//END class CanvasDrawer

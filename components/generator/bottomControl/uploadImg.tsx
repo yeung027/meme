@@ -4,13 +4,16 @@ import mobileStyles from '../../../styles/generator/bottomControl/uploadImg/mobi
 import utilStyles from '../../../styles/generator/bottomControl/util.module.css'
 import NotificationImportantIcon from '@material-ui/icons/NotificationImportant';
 import AddIcon from '@material-ui/icons/Add';
+import ImageUploading from 'react-images-uploading';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 type MyProps = {
     parent:any
 };
 
 type MyStates = {
-    
+  uploadImg: any,
+  fileSelected: boolean
 };
 
 interface ButtonControlUploadGUI {
@@ -25,16 +28,41 @@ class ButtonControlUploadGUI extends Component<MyProps, MyStates>
     this.parent = props.parent;
 
     this.state = {
-      
+      uploadImg: null,
+      fileSelected: false
     }//END state
     
   }//END constructor
 
-  
+  componentDidMount() 
+  {
+    let img_file  = document.querySelector("#img_file");
+    if(img_file)
+    {
+      img_file.click();
+      //console.log('yoyoyoyoyo~');
+
+    }
+    this.uploadOnChange = this.uploadOnChange.bind(this);
+  }//END componentDidMount
+
+  uploadOnChange()
+  {
+    console.log('uploadOnChange');
+    this.setState({ 
+      fileSelected: true
+     });
+  }//END uploadOnChange
 
   render() 
   {
     let containerClass    = this.parent.parent.state.isMobile? mobileStyles.container : styles.container;
+    let uploadBtnIconEle  = <AddIcon className={utilStyles.icon} />
+
+    if(this.state.fileSelected)
+    {
+      uploadBtnIconEle  = <CircularProgress size={20} className={utilStyles.progressIcon} />
+    }
 
     return  <div className={containerClass}>
               <div className={this.parent.parent.state.isMobile? mobileStyles.header : styles.header}>
@@ -47,10 +75,30 @@ class ButtonControlUploadGUI extends Component<MyProps, MyStates>
                 </div>
               </div>
               <div className={this.parent.parent.state.isMobile? mobileStyles.main : styles.main}>
-                <div className={utilStyles.iconPurpleBtn_L}>
-                  <AddIcon className={utilStyles.icon} />
-                  <span className={utilStyles.span}>Upload</span>
-                </div>
+
+                <ImageUploading
+                  multiple
+                  value={this.state.uploadImg}
+                  onChange={this.uploadOnChange}
+                  maxNumber={1}
+                  dataURLKey="data_url"
+                >
+                  {({
+                    imageList,
+                    onImageUpload,
+                    onImageRemoveAll,
+                    onImageUpdate,
+                    onImageRemove,
+                    isDragging,
+                    dragProps,
+                  }) => (
+          
+                  <div className={utilStyles.iconPurpleBtn_L} onClick={this.parent.state.isAnimation? null : onImageUpload}>
+                    {uploadBtnIconEle}
+                    <span className={utilStyles.span}>Upload</span>
+                  </div>
+                  )}
+                </ImageUploading>
               </div>
             </div>
 

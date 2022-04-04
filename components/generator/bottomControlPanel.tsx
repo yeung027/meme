@@ -28,15 +28,24 @@ class BottomControlPanel extends Component<MyProps, MyStates>
     this.parent = props.parent;
 
     this.state = {
-      isAnimation: false,
-      animationInout: false
+      isAnimation: true,
+      animationInout: true
     }//END state
     
+    this.animationEnd = this.animationEnd.bind(this);
   }//END constructor
+
+  animationEnd()
+  {
+    console.log('animationEnd');
+    this.setState({ 
+      isAnimation: false
+     });
+  }//END animationEnd
 
   render_backup()
   {
-    let containerClass    = this.parent.state.isMobile? mobileStyles.container : styles.container;
+    /*let containerClass    = this.parent.state.isMobile? mobileStyles.container : styles.container;
     let innerClass        = this.parent.state.isMobile? mobileStyles.inner : styles.inner;
     if(this.state.isAnimation)
     {
@@ -70,7 +79,7 @@ class BottomControlPanel extends Component<MyProps, MyStates>
                       <span>Preview</span>
                   </div>
               </div>
-            </div>
+            </div>*/
   }//END render_backup
 
   render() 
@@ -85,7 +94,7 @@ class BottomControlPanel extends Component<MyProps, MyStates>
       containerClass = [containerClass, temp_class].join(' ');
     }
 
-    return  <div className={containerClass}>
+    return  <div className={containerClass} onAnimationEnd={this.animationEnd}>
               <div className={innerClass}>
                   <UploadImgUI parent={this} />
               </div>

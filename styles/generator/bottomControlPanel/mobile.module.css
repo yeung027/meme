@@ -58,3 +58,23 @@
         opacity: 0;
     }
 }
+
+.fadeIn .inner
+{
+    animation-delay: 0s;
+    animation: toFadeIn 0.7s;
+    animation-fill-mode: forwards;
+}
+
+@keyframes toFadeIn {
+    from 
+    {
+        margin-top: 102px;
+        opacity: 0;
+    }
+    to   
+    {
+        margin-top: 0;
+        opacity: 1;
+    }
+}

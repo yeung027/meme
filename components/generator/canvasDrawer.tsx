@@ -47,6 +47,11 @@ class CanvasDrawer extends Component<MyProps, MyStates>
   mergeComplete(b64:any, imgEle: any)
   {
     console.log('mergeComplete');
+
+    if(imgEle)
+    {
+      imgEle.src = b64;
+    }
   }//END mergeComplete
 
   async backup_function_lol(b64:any, imgEle: any)
@@ -96,7 +101,7 @@ class CanvasDrawer extends Component<MyProps, MyStates>
   componentDidMount()
   {
     
-    var self = this;
+    /*var self = this;
     let imgEle: any  = document.querySelector('#canvasIMG');
     if(imgEle)
     {
@@ -107,7 +112,7 @@ class CanvasDrawer extends Component<MyProps, MyStates>
         {
           self.mergeComplete(b64, imgEle);
         });
-    }
+    }*/
   }//END componentDidMount
 
   render() 

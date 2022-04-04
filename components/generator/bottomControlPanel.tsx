@@ -11,7 +11,8 @@ type MyProps = {
 };
 
 type MyStates = {
-
+    isAnimation: boolean,
+    animationInout: boolean //IN = true, OUT = false
 };
 
 interface BottomControlPanel {
@@ -26,36 +27,55 @@ class BottomControlPanel extends Component<MyProps, MyStates>
     this.parent = props.parent;
 
     this.state = {
-      
+      isAnimation: true,
+      animationInout: false
     }//END state
     
   }//END constructor
 
   render() 
   {
-      let buttonClass = this.parent.state.isMobile? mobileStyles.btn : styles.btn;
+      let containerClass    = this.parent.state.isMobile? mobileStyles.container : styles.container;
+      let buttonClass       = this.parent.state.isMobile? mobileStyles.btn : styles.btn;
+      let buttonInnerClass  = this.parent.state.isMobile? mobileStyles.btnInner : styles.btnInner;
       let buttonActiveClass = [buttonClass, this.parent.state.isMobile? mobileStyles.active : styles.active].join(' ');
+      if(this.state.isAnimation)
+      {
+        let in_or_out   = this.state.animationInout;
+        let temp_class = this.state.animationInout? (this.parent.state.isMobile? mobileStyles.fadeIn : styles.fadeIn) : (this.parent.state.isMobile? mobileStyles.fadeOut : styles.fadeOut);
+        //console.log('temp_class: ' + temp_class);
+        containerClass = [containerClass, temp_class].join(' ');
+      }
+      
 
-      return  <div className={this.parent.state.isMobile? mobileStyles.container : styles.container}>
+      return  <div className={containerClass}>
                 
                 <div className={buttonClass}>
-                    <ImageIcon className={this.parent.state.isMobile? mobileStyles.icon : styles.icon} />
-                    <span>Image</span>
+                    <div className={buttonInnerClass}>
+                        <ImageIcon className={this.parent.state.isMobile? mobileStyles.icon : styles.icon} />
+                        <span>Image</span>
+                    </div>
                 </div>
 
                 <div className={buttonActiveClass}>
-                    <TextFieldsIcon className={this.parent.state.isMobile? mobileStyles.icon : styles.icon} />
-                    <span>Text</span>
+                    <div className={buttonInnerClass}>
+                        <TextFieldsIcon className={this.parent.state.isMobile? mobileStyles.icon : styles.icon} />
+                        <span>Text</span>
+                    </div>
                 </div>
 
                 <div className={buttonClass}>
-                    <InsertEmoticonIcon className={this.parent.state.isMobile? mobileStyles.icon : styles.icon} />
-                    <span>Stickers</span>
+                    <div className={buttonInnerClass}>
+                        <InsertEmoticonIcon className={this.parent.state.isMobile? mobileStyles.icon : styles.icon} />
+                        <span>Stickers</span>
+                    </div>
                 </div>
 
                 <div className={buttonClass}>
-                    <VisibilityIcon className={this.parent.state.isMobile? mobileStyles.icon : styles.icon} />
-                    <span>Preview</span>
+                    <div className={buttonInnerClass}>
+                        <VisibilityIcon className={this.parent.state.isMobile? mobileStyles.icon : styles.icon} />
+                        <span>Preview</span>
+                    </div>
                 </div>
 
               </div>

@@ -1,0 +1,42 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap');
+
+.iconPurpleBtn_L
+{
+    background-color: #7900D2;
+    -webkit-border-radius: 12px;
+    -moz-border-radius: 12px;
+    border-radius: 12px;
+    padding:10px;
+    display: flex;
+    flex-direction: row;
+    height: 37px;
+    -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+    box-sizing: border-box;         /* Opera/IE 8+ */
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.iconPurpleBtn_L:hover .icon, .iconPurpleBtn_L:hover .span
+{
+    color:#FFC531;
+}
+
+.iconPurpleBtn_L .icon
+{
+    color: #fff;
+}
+
+.iconPurpleBtn_L .span
+{
+    display: flex;
+    justify-content: center;
+    line-height: 39px;
+    font-size: 13px;
+    font-family: 'Roboto';
+    font-weight: 400;
+    color: #fff;
+    padding: 0 0 0 3px;
+}
+

@@ -32,23 +32,53 @@ class ButtonControlUploadGUI extends Component<MyProps, MyStates>
       fileSelected: false
     }//END state
     
+    this.getCanvasDrawer  = this.getCanvasDrawer.bind(this);
+    this.voidImgUpload    = this.voidImgUpload.bind(this);
   }//END constructor
+
+  voidImgUpload()
+  {
+
+  }
 
   componentDidMount() 
   {
-    let img_file  = document.querySelector("#img_file");
+    let img_file: HTMLElement = document.querySelector("#img_file") as HTMLElement;
+
     if(img_file)
     {
-      img_file.click();
+      try
+      {
+        img_file.click();
+      }
+      catch (error)
+      {
+
+      }
       //console.log('yoyoyoyoyo~');
 
     }
     this.uploadOnChange = this.uploadOnChange.bind(this);
   }//END componentDidMount
 
-  uploadOnChange()
+  getCanvasDrawer()
   {
-    console.log('uploadOnChange');
+    if(!this.parent) return null;
+    if(!this.parent.parent) return null;
+    if(!this.parent.parent.cpuRef || !this.parent.parent.cpuRef.current) 
+      return null;
+    if(!this.parent.parent.cpuRef.current.canvasDrawerRef 
+      || !this.parent.parent.cpuRef.current.canvasDrawerRef.current)
+      return null;
+    return this.parent.parent.cpuRef.current.canvasDrawerRef.current
+  }//END getCanvasDrawer
+
+  uploadOnChange(imageList:Array<any>, addUpdateIndex:any)
+  {
+    //console.log(this.getCanvasDrawer());
+    //console.log(imageList.length);
+    if(this.getCanvasDrawer() && imageList && imageList.length>0)
+      this.getCanvasDrawer().mergeImg(imageList[0]);
     this.setState({ 
       fileSelected: true
      });
@@ -97,7 +127,7 @@ class ButtonControlUploadGUI extends Component<MyProps, MyStates>
                   }) => (
           
                   <div className={uploadBtnClass} 
-                    onClick={this.parent.state.isAnimation || this.state.fileSelected ? null : onImageUpload}
+                    onClick={this.parent.state.isAnimation || this.state.fileSelected ? this.voidImgUpload : onImageUpload}
                   >
                     {uploadBtnIconEle}
                     <span className={utilStyles.span}>{uploadBtnLabel}</span>

@@ -58,10 +58,13 @@ class ButtonControlUploadGUI extends Component<MyProps, MyStates>
   {
     let containerClass    = this.parent.parent.state.isMobile? mobileStyles.container : styles.container;
     let uploadBtnIconEle  = <AddIcon className={utilStyles.icon} />
-
+    let uploadBtnLabel  = 'Upload';
+    let uploadBtnClass  = utilStyles.iconPurpleBtn_L;
     if(this.state.fileSelected)
     {
       uploadBtnIconEle  = <CircularProgress size={20} className={utilStyles.progressIcon} />
+      uploadBtnLabel    = 'Processing...'
+      uploadBtnClass  = [uploadBtnClass, utilStyles.blink].join(' ');
     }
 
     return  <div className={containerClass}>
@@ -77,7 +80,7 @@ class ButtonControlUploadGUI extends Component<MyProps, MyStates>
               <div className={this.parent.parent.state.isMobile? mobileStyles.main : styles.main}>
 
                 <ImageUploading
-                  multiple
+                  /*multiple*/
                   value={this.state.uploadImg}
                   onChange={this.uploadOnChange}
                   maxNumber={1}
@@ -93,9 +96,11 @@ class ButtonControlUploadGUI extends Component<MyProps, MyStates>
                     dragProps,
                   }) => (
           
-                  <div className={utilStyles.iconPurpleBtn_L} onClick={this.parent.state.isAnimation? null : onImageUpload}>
+                  <div className={uploadBtnClass} 
+                    onClick={this.parent.state.isAnimation || this.state.fileSelected ? null : onImageUpload}
+                  >
                     {uploadBtnIconEle}
-                    <span className={utilStyles.span}>Upload</span>
+                    <span className={utilStyles.span}>{uploadBtnLabel}</span>
                   </div>
                   )}
                 </ImageUploading>

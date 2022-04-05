@@ -37,10 +37,22 @@
     font-family: 'Roboto';
     font-weight: 400;
     color: #fff;
-    padding: 0 0 0 3px;
+    padding: 0 0 0 5px;
 }
 
 .iconPurpleBtn_L .progressIcon
 {
     color:#FFC531;
 }
+
+.blink
+{
+    color:red;
+    animation: blinker 2.3s linear infinite;
+}
+  
+@keyframes blinker {
+    50% {
+      opacity: 0.5;
+    }
+  }

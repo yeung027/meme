@@ -1,5 +1,9 @@
 import React,{Component} from 'react';
 import mergeImages from 'merge-images';
+//import convert from 'client-side-image-resize';
+import Compress from 'compress.js';
+const convert = require('client-side-image-resize');
+//const Compress = require('compress.js');
 
 type MyProps = {
     parent:any
@@ -35,7 +39,29 @@ class CanvasDrawer extends Component<MyProps, MyStates>
     var self = this;
     let imgEle: any  = document.querySelector('#canvasIMG');
     if(!imgEle) return false;
-    console.log(b64.data_url);
+    //console.log(b64.data_url);
+    
+    //const Compress = require('compress.js')
+
+    var binaryData = [];
+    binaryData.push(b64);
+    let blob = new Blob(binaryData, {type: "image/png"});
+    const compress = new Compress();
+
+    convert({ 
+      file: blob,  
+      width: 200, 
+      height: 200, // You can ommit width or height and it will resize proportionally.
+      type: 'jpeg'
+      }).then(function (resp:any) 
+      {
+        console.log(resp);
+      }).catch(function (error:any) 
+      {
+        console.log(error);
+      })
+
+
     mergeImages([b64.data_url, '/generator/will_smith_punching/raw.png'])
       .then(function (b64) 
       {

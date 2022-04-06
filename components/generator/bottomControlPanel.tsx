@@ -6,6 +6,7 @@ import TextFieldsIcon from '@material-ui/icons/TextFields';
 import InsertEmoticonIcon from '@material-ui/icons/InsertEmoticon';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import UploadImgUI from './bottomControl/uploadImg';
+import EditImgUI from './bottomControl/editImg';
 
 type MyProps = {
     parent:any
@@ -33,15 +34,21 @@ class BottomControlPanel extends Component<MyProps, MyStates>
     }//END state
     
     this.animationEnd = this.animationEnd.bind(this);
+    this.stageChange  = this.stageChange.bind(this);
   }//END constructor
 
   animationEnd()
   {
-    console.log('animationEnd');
+    //console.log('animationEnd');
     this.setState({ 
       isAnimation: false
      });
   }//END animationEnd
+
+  stageChange()
+  {
+    console.log('stageChange');
+  }//END stageChange
 
   render() 
   {

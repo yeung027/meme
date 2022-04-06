@@ -6,14 +6,20 @@ import NotificationImportantIcon from '@material-ui/icons/NotificationImportant'
 import AddIcon from '@material-ui/icons/Add';
 import ImageUploading from 'react-images-uploading';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Snackbar from '@material-ui/core/Snackbar';
+import Grow from '@material-ui/core/Grow';
+import MuiAlert from '@material-ui/lab/Alert';
 
 type MyProps = {
     parent:any
 };
 
 type MyStates = {
-  uploadImg: any,
+  uploadImg: any
   fileSelected: boolean
+  snackOpen: boolean
+  snackType: any
+  snackMsg: string
 };
 
 interface ButtonControlUploadGUI {
@@ -29,12 +35,37 @@ class ButtonControlUploadGUI extends Component<MyProps, MyStates>
 
     this.state = {
       uploadImg: null,
-      fileSelected: false
+      fileSelected: false,
+      snackOpen: false,
+      snackType: 'error',
+      snackMsg: null,
     }//END state
     
     this.getCanvasDrawer  = this.getCanvasDrawer.bind(this);
     this.voidImgUpload    = this.voidImgUpload.bind(this);
+    this.snackOnClick             = this.snackOnClick.bind(this);
+    this.getSnackTransition       = this.getSnackTransition.bind(this);
+    this.snackOnClose             = this.snackOnClose.bind(this);
   }//END constructor
+
+  snackOnClose()
+  {
+    this.setState({ 
+      snackOpen: false,
+    });
+  }//END snackOnClose
+
+  getSnackTransition(props) 
+  {
+    return <Grow {...props} />
+  }//END getSnackTransition
+
+  snackOnClick(e)
+  {
+    this.setState({ 
+      snackOpen: false,
+    });
+  }//END snackOnClick
 
   voidImgUpload()
   {
@@ -58,7 +89,9 @@ class ButtonControlUploadGUI extends Component<MyProps, MyStates>
       //console.log('yoyoyoyoyo~');
 
     }
-    this.uploadOnChange = this.uploadOnChange.bind(this);
+    this.uploadOnChange           = this.uploadOnChange.bind(this);
+    this.uploadOnChangeCallback   = this.uploadOnChangeCallback.bind(this);
+    
   }//END componentDidMount
 
   getCanvasDrawer()
@@ -73,16 +106,34 @@ class ButtonControlUploadGUI extends Component<MyProps, MyStates>
     return this.parent.parent.cpuRef.current.canvasDrawerRef.current
   }//END getCanvasDrawer
 
-  uploadOnChange(imageList:Array<any>, addUpdateIndex:any)
+  async uploadOnChange(imageList:Array<any>, addUpdateIndex:any)
   {
     //console.log(this.getCanvasDrawer());
     //console.log(imageList.length);
     if(this.getCanvasDrawer() && imageList && imageList.length>0)
-      this.getCanvasDrawer().mergeImg(imageList[0]);
+      try
+      {
+        await this.getCanvasDrawer().mergeImg(imageList[0], this.uploadOnChangeCallback);
+      }
+      catch(error)
+      {
+        //console.log(error);
+        this.setState({ 
+          snackOpen: true,
+          snackType: 'error',
+          snackMsg: 'Something went wrong, please try again later, sorry for the inconvenience.'
+        });
+      }
+    
     this.setState({ 
       fileSelected: true
      });
   }//END uploadOnChange
+
+  uploadOnChangeCallback(success:boolean)
+  {
+    console.log('callback~' + success);
+  }//END uploadOnChangeCallback
 
   render() 
   {
@@ -98,6 +149,27 @@ class ButtonControlUploadGUI extends Component<MyProps, MyStates>
     }
 
     return  <div className={containerClass}>
+              <Snackbar 
+                open={this.state.snackOpen} 
+                autoHideDuration={6000} 
+                onClose={this.snackOnClose}
+                onClick={this.snackOnClick}
+                TransitionComponent={this.getSnackTransition}
+                anchorOrigin={{
+                  vertical: "bottom",
+                  horizontal: "right"
+               }}
+                className={this.parent.parent.state.isMobile? mobileStyles.snack : styles.snack}
+              >
+                <MuiAlert 
+                  elevation={6} 
+                  variant="filled"
+                  severity={this.state.snackType}
+                >
+                  {this.state.snackMsg}
+                </MuiAlert>
+              </Snackbar>
+
               <div className={this.parent.parent.state.isMobile? mobileStyles.header : styles.header}>
                 <div className={this.parent.parent.state.isMobile? mobileStyles.title : styles.title}>
                   <NotificationImportantIcon className={this.parent.parent.state.isMobile? mobileStyles.titleIcon : styles.titleIcon} />

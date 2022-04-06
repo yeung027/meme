@@ -1,7 +1,7 @@
 import React,{Component} from 'react';
 import ImageText from './imageText'
 import mergeImages from 'merge-images';
-import Compress from 'compress.js';
+//import Compress from 'compress.js';
 const convert = require('client-side-image-resize');
 
 type MyProps = {
@@ -41,14 +41,15 @@ class CanvasDrawer extends Component<MyProps, MyStates>
     
   }//END constructor
 
-  async mergeImg(b64:any)
+  async mergeImg(b64:any, callback)
   {
     var self = this;
     let imgEle: any  = document.querySelector('#canvasIMG');
     if(!imgEle)
     {
       console.error('IMG element not found!');
-      return false;
+      callback(false);
+      throw ('IMG element not found!');
     }
     //console.log(b64);
 
@@ -57,7 +58,8 @@ class CanvasDrawer extends Component<MyProps, MyStates>
     if(!rawImageSize || !b64ImageSize)
     {
       console.error('Cannot get image size!');
-      return false;
+      callback(false);
+      throw ('Cannot get image size!');
     }
 
     let resizedIMG:any;
@@ -73,7 +75,8 @@ class CanvasDrawer extends Component<MyProps, MyStates>
     catch(error)
     {
       console.error(error);
-      return;
+      callback(false);
+      throw (error);
     }
 
     let resizedIMG_URL = URL.createObjectURL(resizedIMG);
@@ -87,12 +90,14 @@ class CanvasDrawer extends Component<MyProps, MyStates>
       //console.log(b64);
       imgEle.src = b64;
       //self.drawImageToCanvas(b64);
+      callback(true);
     })
     .catch(function (error:any) 
     {
       console.error(error);
-    }) ;
-
+      callback(false);
+      throw (error);
+    });
   }//END mergeImg
 
   async getResizeRate_compareWithRaw(b64:any, rate:number)
@@ -158,7 +163,6 @@ class CanvasDrawer extends Component<MyProps, MyStates>
       img.onload = () => resolve([img.width, img.height])
       img.onerror = () => reject('Error occurred while get b64 Image Size');
       img.src = b64;
-      //resolve(this.b64ToImgFile(b64));
     })
   }//END getb64ImgSize
 

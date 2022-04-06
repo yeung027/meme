@@ -46,6 +46,8 @@ class ButtonControlUploadGUI extends Component<MyProps, MyStates>
     this.snackOnClick             = this.snackOnClick.bind(this);
     this.getSnackTransition       = this.getSnackTransition.bind(this);
     this.snackOnClose             = this.snackOnClose.bind(this);
+    this.uploadOnChange           = this.uploadOnChange.bind(this);
+    this.uploadOnChangeCallback   = this.uploadOnChangeCallback.bind(this);
   }//END constructor
 
   snackOnClose()
@@ -89,8 +91,6 @@ class ButtonControlUploadGUI extends Component<MyProps, MyStates>
       //console.log('yoyoyoyoyo~');
 
     }
-    this.uploadOnChange           = this.uploadOnChange.bind(this);
-    this.uploadOnChangeCallback   = this.uploadOnChangeCallback.bind(this);
     
   }//END componentDidMount
 

@@ -41,7 +41,7 @@ class BottomControlPanel extends Component<MyProps, MyStates>
 
     this.stage  = STAGE;
     this.state = {
-      isAnimation: true,
+      isAnimation: false,
       animationInout: true,
       currentUI: this.stage.UPLOADIMG,
       pendingUIChange: false,

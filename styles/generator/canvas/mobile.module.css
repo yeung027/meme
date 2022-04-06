@@ -25,3 +25,11 @@
     width: 94%;
     height: 99.62%;
 }
+
+.drag
+{
+    
+    width:70px;
+    height:70px;
+    background-color: red;
+}

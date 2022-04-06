@@ -8,17 +8,23 @@ import VisibilityIcon from '@material-ui/icons/Visibility';
 import UploadImgUI from './bottomControl/uploadImg';
 import EditImgUI from './bottomControl/editImg';
 
+
 type MyProps = {
     parent:any
+    stage:any
 };
 
 type MyStates = {
     isAnimation: boolean,
-    animationInout: boolean //IN = true, OUT = false
+    animationInout: boolean, //IN = true, OUT = false
+    currentUI: string,
+    pendingUIChange: boolean,
+    pendingUI: any
 };
 
 interface BottomControlPanel {
-parent: any
+  parent: any
+  stage:any
 }
 
 class BottomControlPanel extends Component<MyProps, MyStates>
@@ -28,9 +34,18 @@ class BottomControlPanel extends Component<MyProps, MyStates>
     super(props);
     this.parent = props.parent;
 
+    enum STAGE {
+      UPLOADIMG = 'uploadimg',
+      EDITIMG = 'editimg'
+    }
+
+    this.stage  = STAGE;
     this.state = {
       isAnimation: true,
-      animationInout: true
+      animationInout: true,
+      currentUI: this.stage.UPLOADIMG,
+      pendingUIChange: false,
+      pendingUI: null
     }//END state
     
     this.animationEnd = this.animationEnd.bind(this);
@@ -45,9 +60,16 @@ class BottomControlPanel extends Component<MyProps, MyStates>
      });
   }//END animationEnd
 
-  stageChange()
+  stageChange(ui:any)
   {
-    console.log('stageChange');
+    if(ui === this.stage.EDITIMG)
+    {
+      this.setState({ 
+        isAnimation: true,
+        pendingUIChange: true
+       });
+    }
+
   }//END stageChange
 
   render() 
@@ -62,9 +84,15 @@ class BottomControlPanel extends Component<MyProps, MyStates>
       containerClass = [containerClass, temp_class].join(' ');
     }
 
+    let ui  = null;
+    if(this.state.currentUI === this.stage.UPLOADIMG)
+      ui  = <UploadImgUI parent={this} />
+    else if(this.state.currentUI === this.stage.EDITIMG)
+      ui  = <EditImgUI parent={this} />
+
     return  <div className={containerClass} onAnimationEnd={this.animationEnd}>
               <div className={innerClass}>
-                  <UploadImgUI parent={this} />
+                  {ui}
               </div>
             </div>
 

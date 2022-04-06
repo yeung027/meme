@@ -38,7 +38,7 @@ class ButtonControlUploadGUI extends Component<MyProps, MyStates>
       fileSelected: false,
       snackOpen: false,
       snackType: 'error',
-      snackMsg: null,
+      snackMsg: '',
     }//END state
     
     this.getCanvasDrawer  = this.getCanvasDrawer.bind(this);
@@ -55,12 +55,12 @@ class ButtonControlUploadGUI extends Component<MyProps, MyStates>
     });
   }//END snackOnClose
 
-  getSnackTransition(props) 
+  getSnackTransition(props:any) 
   {
     return <Grow {...props} />
   }//END getSnackTransition
 
-  snackOnClick(e)
+  snackOnClick(e:any)
   {
     this.setState({ 
       snackOpen: false,
@@ -132,7 +132,9 @@ class ButtonControlUploadGUI extends Component<MyProps, MyStates>
 
   uploadOnChangeCallback(success:boolean)
   {
-    console.log('callback~' + success);
+    //console.log('callback~' + success);
+    this.parent.stageChange(this.parent.stage.EDITIMG);
+
   }//END uploadOnChangeCallback
 
   render() 

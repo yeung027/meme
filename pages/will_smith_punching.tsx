@@ -73,7 +73,7 @@ class IndexPage extends Component<MyProps & WithUserAgentProps, MyStates>
                   <Canvas parent={this} ref={this.canvasRef} />
                 </div>
                 <div className={this.state.isMobile? mobileStyles.bottomControlPanelContainer : styles.bottomControlPanelContainer}>
-                  <BottomControlPanel parent={this} ref={this.bottomControlPanelRef} />
+                  <BottomControlPanel parent={this} ref={this.bottomControlPanelRef} stage={null} />
                 </div>
               </div>
             </>

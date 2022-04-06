@@ -15,8 +15,8 @@ type MyStates = {
 
 interface CanvasDrawer  {
   parent: any
-  rawImgSrc: string
   imageTextRef: any
+  rawImgSrc: string
 }
 
 class CanvasDrawer extends Component<MyProps, MyStates>
@@ -41,7 +41,7 @@ class CanvasDrawer extends Component<MyProps, MyStates>
     
   }//END constructor
 
-  async mergeImg(b64:any, callback)
+  async mergeImg(b64:any, callback:any)
   {
     var self = this;
     let imgEle: any  = document.querySelector('#canvasIMG');

@@ -31,7 +31,7 @@ class CPU extends Component<MyProps, MyStates>
   render() 
   {
       return  <>
-                <CanvasDrawer parent={this} ref={this.canvasDrawerRef} />
+                <CanvasDrawer parent={this} ref={this.canvasDrawerRef} rawImgSrc={''} />
               </>;
   }
 

@@ -19,7 +19,7 @@ type MyStates = {
     animationInout: boolean, //IN = true, OUT = false
     currentUI: string,
     pendingUIChange: boolean,
-    pendingUI: any
+    pendingUI: any,
 };
 
 interface BottomControlPanel {
@@ -45,7 +45,7 @@ class BottomControlPanel extends Component<MyProps, MyStates>
       animationInout: true,
       currentUI: this.stage.UPLOADIMG,
       pendingUIChange: false,
-      pendingUI: null
+      pendingUI: null,
     }//END state
     
     this.animationEnd = this.animationEnd.bind(this);
@@ -55,6 +55,28 @@ class BottomControlPanel extends Component<MyProps, MyStates>
   animationEnd()
   {
     //console.log('animationEnd');
+
+    if(this.state.pendingUIChange && this.state.pendingUI != null && !this.state.animationInout)
+    {
+      this.setState({ 
+        isAnimation: true,
+        currentUI: this.state.pendingUI,
+        animationInout: true
+       });
+
+      return;
+    }
+    else if(this.state.pendingUI != null && this.state.animationInout)
+    {
+      this.setState({ 
+        isAnimation: false,
+        pendingUIChange: false,
+        pendingUI: null
+       });
+      return;
+    }
+
+
     this.setState({ 
       isAnimation: false
      });
@@ -66,7 +88,9 @@ class BottomControlPanel extends Component<MyProps, MyStates>
     {
       this.setState({ 
         isAnimation: true,
-        pendingUIChange: true
+        pendingUIChange: true,
+        pendingUI: this.stage.EDITIMG,
+        animationInout: false
        });
     }
 

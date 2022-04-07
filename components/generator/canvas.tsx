@@ -56,8 +56,8 @@ class Canvas extends Component<MyProps, MyStates>
     if (isNaN(w)) w = 0;
     if (isNaN(h)) h = 0;
     this.setState({ 
-      canvasWidth: w *0.94,
-      canvasHeight: h * 0.9952
+      canvasWidth: w ,
+      canvasHeight: h,
     }); 
 
   }//END updateCanvasComputedStyle
@@ -71,41 +71,61 @@ class Canvas extends Component<MyProps, MyStates>
 
   render() 
   {
-      let rawWrapperStyle = {
+      let rawBGStyle = {
         width: this.state.canvasWidth,
-        height:this.state.canvasHeight
+        height:this.state.canvasHeight,
+      }
+
+      let rawImgStyle = {
+        width: this.state.canvasWidth,
+        height:this.state.canvasHeight,
       }
 
       return  <div className={this.parent.state.isMobile? mobileStyles.container : styles.container}>
-                <Tappable onTap={this.handleTap} className={this.parent.state.isMobile? mobileStyles.tappable : styles.tappable}>
-                  <div id='canvas' className={this.parent.state.isMobile? mobileStyles.canvas : styles.canvas}>
-                    
-                    {
+                <div className={this.parent.state.isMobile? mobileStyles.canvasOutter : styles.canvasOutter}>
+                <div id='canvas' className={this.parent.state.isMobile? mobileStyles.canvas : styles.canvas}>
+                  {
 
-                      this.state.images.map((image, i) => {     
+                    this.state.images.map((image, i) => {     
 
-                      let wrapperStyle = {
-                        width: this.state.canvasWidth,
-                        height:this.state.canvasHeight
-                      }  
+                    let wrapperStyle = {
+                      width: this.state.canvasWidth,
+                      height:this.state.canvasHeight
+                    }  
 
-                      let imgStyle = {
-                        width: image.w,
-                        height:image.h,
-                        marginTop: image.y,
-                        marginLeft: image.x
-                      }    
+                    let imgStyle = {
+                      width: image.w,
+                      height:image.h,
+                      marginTop: image.y,
+                      marginLeft: image.x
+                    }    
 
-                      return <div key={'key-'+i} className={this.parent.state.isMobile? mobileStyles.imgWrapper : styles.imgWrapper} style={wrapperStyle}><img key={'img-key-'+i} src={image.upload.data_url} className={this.parent.state.isMobile? mobileStyles.img : styles.img} style={imgStyle}  /></div>
-                      }
-                    )}
-                    <div className={this.parent.state.isMobile? mobileStyles.rawImgOuter : styles.rawImgOuter}>
-                      <div className={this.parent.state.isMobile? mobileStyles.rawImgWrapper : styles.rawImgWrapper} style={rawWrapperStyle}>
-                        <img id='canvasIMG' className={this.parent.state.isMobile? mobileStyles.rawImg : styles.rawImg} src="/generator/will_smith_punching/raw.png" alt="meme" />
-                      </div>
+                    let ele = <Tappable 
+                                onTap={this.handleTap} 
+                                className={this.parent.state.isMobile? mobileStyles.tappable : styles.tappable}
+                                style={wrapperStyle}
+                              >
+                                <img key={'img-key-'+i} src={image.upload.data_url} 
+                                  className={this.parent.state.isMobile? mobileStyles.img : styles.img} 
+                                  style={imgStyle}  
+                                />
+                              </Tappable>
+
+                    return ele;
+                    }
+                  )}
+                    <div className={this.parent.state.isMobile? mobileStyles.rawImgWrapper : styles.rawImgWrapper}>
+ 
+                      <img 
+                        id='canvasIMG' 
+                        className={this.parent.state.isMobile? mobileStyles.rawImg : styles.rawImg} 
+                        src="/generator/will_smith_punching/raw.png" 
+                        alt="meme" 
+                      />
+                      
                     </div>
                   </div>
-                </Tappable>
+                </div>
               </div>
   }
 

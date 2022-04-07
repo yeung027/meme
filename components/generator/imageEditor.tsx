@@ -33,6 +33,9 @@ class ImageEditor extends Component<MyProps, MyStates>
     this.getRawImgSize              = this.getRawImgSize.bind(this);
     this.getb64ImgSize              = this.getb64ImgSize.bind(this);
     this.getResizeRate_compareWithRaw          = this.getResizeRate_compareWithRaw.bind(this);
+    this.getResizeRate_compareWithElement      = this.getResizeRate_compareWithElement.bind(this);
+    this.getResizeRate_compareWithCanvas       = this.getResizeRate_compareWithCanvas.bind(this);
+    
   }//END constructor
 
   getCanvas()
@@ -70,17 +73,20 @@ class ImageEditor extends Component<MyProps, MyStates>
       throw ('Cannot get image size!');
     }
 
-    let resizeRate:number = 0.5;
+    let resizeRate:number = 1;
     let finally_rate:any  = await this.getResizeRate_compareWithRaw(uploaded.data_url, resizeRate);
     
+    let rateWithCanvas:any  = await this.getResizeRate_compareWithCanvas(uploaded.data_url, resizeRate);
+
+    console.log('rateWithCanvas: '+rateWithCanvas);
     console.log('finally_rate: '+finally_rate);
-    console.log('image failly size: '+b64ImageSize[1] * finally_rate);
+    console.log('image finally size: '+b64ImageSize[1] * finally_rate);
     let obj = {
       upload: uploaded,
       x: 0,
       y: 0,
-      w: b64ImageSize[0] * finally_rate * resizeRate,
-      h: b64ImageSize[1] * finally_rate * resizeRate,
+      w: b64ImageSize[0] * rateWithCanvas * resizeRate,
+      h: b64ImageSize[1] * rateWithCanvas * resizeRate,
       scale: finally_rate
     };
     images  = images.concat(obj);
@@ -91,6 +97,18 @@ class ImageEditor extends Component<MyProps, MyStates>
     //console.log(images[0]);
   }//END addUploadedImage
 
+  async getResizeRate_compareWithCanvas(b64:any, rate:number)
+  {
+    let canvasSize:any  = this.getCanvasComputedSize();
+    console.log(canvasSize);
+    if(!canvasSize)
+    {
+      console.error('Cannot get canvas size!');
+      return false;
+    }
+    return this.getResizeRate_compareWithElement(b64, canvasSize, rate);
+  }//END getResizeRate_compareWithCanvas
+
   async getResizeRate_compareWithRaw(b64:any, rate:number)
   {
     let rawImageSize:any  = await this.getRawImgSize();
@@ -100,31 +118,50 @@ class ImageEditor extends Component<MyProps, MyStates>
       console.error('Cannot get image size!');
       return false;
     }
-    let w:number = rawImageSize[0]
-    , h:number = rawImageSize[1];
+    return this.getResizeRate_compareWithElement(b64, rawImageSize, rate);
+  }//END getResizeRate_compareWithRaw
+  
+  async getResizeRate_compareWithElement(b64:any, compareEleArr:number[], rate:number)
+  {
+    
+    let w:number = compareEleArr[0]
+    , h:number = compareEleArr[1];
     
     let b64Size:any = await this.getb64ImgSize(b64);
     let b64_w = b64Size[0], b64_h = b64Size[1];
     let w_rate  = b64_w / w;
     let h_rate  = b64_h / h;
-    let smaller_rate:number  = w_rate > h_rate ? h_rate : w_rate;
-    let x_15:number = Number((Math.abs(smaller_rate) * 100).toPrecision(15));
-    let rounded_smaller_rate = Math.round(x_15) / 100 * Math.sign(smaller_rate);
+    let larger_rate:number  = w_rate < h_rate ? h_rate : w_rate;
+    let x_15:number = Number((Math.abs(larger_rate) * 100).toPrecision(15));
+    let rounded_lager_rate = Math.round(x_15) / 100 * Math.sign(larger_rate);
 
     console.log('w_rate: '+w_rate);
     console.log('h_rate: '+h_rate);
     console.log('x_15: '+x_15);
-    console.log('rounded_smaller_rate: '+rounded_smaller_rate);
-    return rate * (1 / rounded_smaller_rate);
+    console.log('rounded_lager_rate: '+rounded_lager_rate);
+    return rate * (1 / rounded_lager_rate);
 
-    
-
-  }//END getResizeRate_compareWithRaw
+  }//END getResizeRate_compareWithElement
 
   getRawImgSize()
   {
     return this.getb64ImgSize(this.rawImgSrc);
   }//END getRawImgSize
+
+  getCanvasComputedSize()
+  {
+    if(!window) throw ('Window is null');
+    let canvas:any = document.querySelector('#canvas');
+    if(!canvas) throw ('canvas is null');
+    let canvascompStyles = window.getComputedStyle(canvas);
+    let w:number, h:number;
+    w = parseInt(canvascompStyles.width);
+    h = parseInt(canvascompStyles.height);
+    if (isNaN(w)) w = 0;
+    if (isNaN(h)) h = 0;
+
+    return [w, h];
+  }//END getCanvasComputedSize
 
   render() 
   {

@@ -82,24 +82,24 @@ class Canvas extends Component<MyProps, MyStates>
                   {
 
                     this.state.images.map((image, i) => {     
-
+                    
+                    let tappableId  = 'img-tappable-'+i;
                     let wrapperStyle = {
                       width: image.w,
                       height:image.h,
                       marginTop: image.y,
-                      marginLeft: image.x
+                      marginLeft: image.x,
+                      tappableId: tappableId
                     }  
 
-                    let imgStyle = {
-                      
-                    }    
+                     
                     let tapperClass = this.parent.state.isMobile? mobileStyles.tappable : styles.tappable;
                     
                     let imgEle= <img key={'img-key-'+i} src={image.upload.data_url} 
                                   className={this.parent.state.isMobile? mobileStyles.img : styles.img} 
-                                  style={imgStyle}  
+                                   
                                 />
-                    let ele = this.touchController.tappableElement(tapperClass, wrapperStyle, imgEle, 'tappable-key-'+i)
+                    let ele = this.touchController.tappableElement(tapperClass, wrapperStyle, imgEle, tappableId)
                     
 
                     return ele;

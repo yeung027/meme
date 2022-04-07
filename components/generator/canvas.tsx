@@ -1,9 +1,8 @@
 import React,{Component} from 'react';
 import styles from '../../styles/generator/canvas/desktop.module.css'
 import mobileStyles from '../../styles/generator/canvas/mobile.module.css'
-//import Tappable from 'react-tappable';
+import TouchController from './editor/touchController';
 
-const Tappable = require('react-tappable');
 
 type MyProps = {
     parent:any
@@ -17,6 +16,7 @@ type MyStates = {
 
 interface Canvas  {
   parent: any
+  touchController:TouchController
 }
 
 class Canvas extends Component<MyProps, MyStates>
@@ -26,6 +26,8 @@ class Canvas extends Component<MyProps, MyStates>
     super(props);
     this.parent = props.parent;
 
+    this.touchController = new TouchController({parent:this});
+
     this.state = {
       images: [],
       canvasWidth: 0,
@@ -33,13 +35,11 @@ class Canvas extends Component<MyProps, MyStates>
     }//END state
     
     this.updateCanvasComputedStyle                  = this.updateCanvasComputedStyle.bind(this);
-    this.handleTap                                  = this.handleTap.bind(this);
   }//END constructor
 
   componentDidMount() 
   {
     this.updateCanvasComputedStyle();
-    
   }//END componentDidMount
 
 
@@ -62,12 +62,7 @@ class Canvas extends Component<MyProps, MyStates>
 
   }//END updateCanvasComputedStyle
 
-  handleTap(e:any) 
-  {
-    console.log('handleTap');
-    console.log(Object.keys(e));
-    console.log(e.changedTouches[0] );
-  }//END handleTap
+
 
   render() 
   {
@@ -89,27 +84,23 @@ class Canvas extends Component<MyProps, MyStates>
                     this.state.images.map((image, i) => {     
 
                     let wrapperStyle = {
-                      width: this.state.canvasWidth,
-                      height:this.state.canvasHeight
-                    }  
-
-                    let imgStyle = {
                       width: image.w,
                       height:image.h,
                       marginTop: image.y,
                       marginLeft: image.x
-                    }    
+                    }  
 
-                    let ele = <Tappable 
-                                onTap={this.handleTap} 
-                                className={this.parent.state.isMobile? mobileStyles.tappable : styles.tappable}
-                                style={wrapperStyle}
-                              >
-                                <img key={'img-key-'+i} src={image.upload.data_url} 
+                    let imgStyle = {
+                      
+                    }    
+                    let tapperClass = this.parent.state.isMobile? mobileStyles.tappable : styles.tappable;
+                    
+                    let imgEle= <img key={'img-key-'+i} src={image.upload.data_url} 
                                   className={this.parent.state.isMobile? mobileStyles.img : styles.img} 
                                   style={imgStyle}  
                                 />
-                              </Tappable>
+                    let ele = this.touchController.tappableElement(tapperClass, wrapperStyle, imgEle, 'tappable-key-'+i)
+                    
 
                     return ele;
                     }

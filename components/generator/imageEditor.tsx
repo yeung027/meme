@@ -18,10 +18,12 @@ interface ImageEditor  {
 
 class ImageEditor extends Component<MyProps, MyStates>
 {
+  
   constructor(props:any)
   {
     super(props);
     this.parent = props.parent;
+
     this.rawImgSrc  = '/generator/will_smith_punching/raw.png';
     this.state = {
       imgSrc: this.rawImgSrc
@@ -73,7 +75,7 @@ class ImageEditor extends Component<MyProps, MyStates>
       throw ('Cannot get image size!');
     }
 
-    let resizeRate:number = 1;
+    let resizeRate:number = 0.5;
     let finally_rate:any  = await this.getResizeRate_compareWithRaw(uploaded.data_url, resizeRate);
     
     let rateWithCanvas:any  = await this.getResizeRate_compareWithCanvas(uploaded.data_url, resizeRate);
@@ -81,12 +83,16 @@ class ImageEditor extends Component<MyProps, MyStates>
     console.log('rateWithCanvas: '+rateWithCanvas);
     console.log('finally_rate: '+finally_rate);
     console.log('image finally size: '+b64ImageSize[1] * finally_rate);
+
+    let canvasSize:any  = this.getCanvasComputedSize();
+
+
     let obj = {
       upload: uploaded,
       x: 0,
       y: 0,
-      w: b64ImageSize[0] * rateWithCanvas * resizeRate,
-      h: b64ImageSize[1] * rateWithCanvas * resizeRate,
+      w: b64ImageSize[0] * rateWithCanvas ,
+      h: b64ImageSize[1] * rateWithCanvas ,
       scale: finally_rate
     };
     images  = images.concat(obj);
@@ -100,7 +106,7 @@ class ImageEditor extends Component<MyProps, MyStates>
   async getResizeRate_compareWithCanvas(b64:any, rate:number)
   {
     let canvasSize:any  = this.getCanvasComputedSize();
-    console.log(canvasSize);
+    //console.log(canvasSize);
     if(!canvasSize)
     {
       console.error('Cannot get canvas size!');

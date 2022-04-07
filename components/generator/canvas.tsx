@@ -1,6 +1,7 @@
 import React,{Component} from 'react';
 import styles from '../../styles/generator/canvas/desktop.module.css'
 import mobileStyles from '../../styles/generator/canvas/mobile.module.css'
+import Tappable from 'react-tappable';
 
 type MyProps = {
     parent:any
@@ -26,50 +27,20 @@ class Canvas extends Component<MyProps, MyStates>
 
     this.state = {
       images: [],
-      test: null,
       canvasWidth: 0,
       canvasHeight: 0
     }//END state
     
     this.updateCanvasComputedStyle                  = this.updateCanvasComputedStyle.bind(this);
-    this.getGestureController                       = this.getGestureController.bind(this);
-    this.getTest                       = this.getTest.bind(this);
+    this.handleTap                                  = this.handleTap.bind(this);
   }//END constructor
 
   componentDidMount() 
   {
     this.updateCanvasComputedStyle();
-  this.getTest();
     
   }//END componentDidMount
 
-  getTest()
-  {
-    try
-    {
-      let gestureController = this.getGestureController();
-      this.setState({ 
-        test: gestureController.getEle()
-      }); 
-
-    }
-    catch(error)
-    {
-        console.log(error);
-        /* setTimeout(
-          function() {
-              this.getTest();
-          }
-          .bind(this),
-          500
-      ); */
-    }
-  }
-
-  getGestureController()
-  {
-    return this.parent.cpuRef.current.imageEditorRef.current.gestureControllerRef.current;
-  }
 
 
   updateCanvasComputedStyle()
@@ -90,42 +61,50 @@ class Canvas extends Component<MyProps, MyStates>
 
   }//END updateCanvasComputedStyle
 
+  handleTap(e:any) 
+  {
+    console.log('handleTap');
+    console.log(Object.keys(e));
+    console.log(e.changedTouches[0] );
+  }//END handleTap
+
   render() 
   {
       let rawWrapperStyle = {
         width: this.state.canvasWidth,
         height:this.state.canvasHeight
       }
-      
 
       return  <div className={this.parent.state.isMobile? mobileStyles.container : styles.container}>
-                {this.state.test}
-                <div id='canvas' className={this.parent.state.isMobile? mobileStyles.canvas : styles.canvas}>
-                  
-                  {
+                <Tappable onTap={this.handleTap} className={this.parent.state.isMobile? mobileStyles.tappable : styles.tappable}>
+                  <div id='canvas' className={this.parent.state.isMobile? mobileStyles.canvas : styles.canvas}>
+                    
+                    {
 
-                    this.state.images.map((image, i) => {     
+                      this.state.images.map((image, i) => {     
 
-                    let wrapperStyle = {
-                      width: this.state.canvasWidth,
-                      height:this.state.canvasHeight
-                    }  
+                      let wrapperStyle = {
+                        width: this.state.canvasWidth,
+                        height:this.state.canvasHeight
+                      }  
 
-                    let imgStyle = {
-                      width: image.w,
-                      height:image.h,
-                      marginTop: image.y,
-                      marginLeft: image.x
-                    }    
-                    return <div className={this.parent.state.isMobile? mobileStyles.imgWrapper : styles.imgWrapper} style={wrapperStyle}><img src={image.upload.data_url} className={this.parent.state.isMobile? mobileStyles.img : styles.img} style={imgStyle}  /></div>
-                    }
-                  )}
-                  <div className={this.parent.state.isMobile? mobileStyles.rawImgOuter : styles.rawImgOuter}>
-                    <div className={this.parent.state.isMobile? mobileStyles.rawImgWrapper : styles.rawImgWrapper} style={rawWrapperStyle}>
-                      <img id='canvasIMG' className={this.parent.state.isMobile? mobileStyles.rawImg : styles.rawImg} src="/generator/will_smith_punching/raw.png" alt="meme" />
+                      let imgStyle = {
+                        width: image.w,
+                        height:image.h,
+                        marginTop: image.y,
+                        marginLeft: image.x
+                      }    
+
+                      return <div className={this.parent.state.isMobile? mobileStyles.imgWrapper : styles.imgWrapper} style={wrapperStyle}><img src={image.upload.data_url} className={this.parent.state.isMobile? mobileStyles.img : styles.img} style={imgStyle}  /></div>
+                      }
+                    )}
+                    <div className={this.parent.state.isMobile? mobileStyles.rawImgOuter : styles.rawImgOuter}>
+                      <div className={this.parent.state.isMobile? mobileStyles.rawImgWrapper : styles.rawImgWrapper} style={rawWrapperStyle}>
+                        <img id='canvasIMG' className={this.parent.state.isMobile? mobileStyles.rawImg : styles.rawImg} src="/generator/will_smith_punching/raw.png" alt="meme" />
+                      </div>
                     </div>
                   </div>
-                </div>
+                </Tappable>
               </div>
   }
 

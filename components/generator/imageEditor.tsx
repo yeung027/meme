@@ -1,8 +1,5 @@
 import React,{Component} from 'react';
 import ImageText from './imageText';
-import GestureController from './editor/gestureController';
-import mergeImages from 'merge-images';
-const convert = require('client-side-image-resize');
 
 type MyProps = {
     parent:any
@@ -17,7 +14,6 @@ interface ImageEditor  {
   parent: any
   rawImgSrc: string
   imageTextRef: any
-  gestureControllerRef: any
 }
 
 class ImageEditor extends Component<MyProps, MyStates>
@@ -31,7 +27,6 @@ class ImageEditor extends Component<MyProps, MyStates>
       imgSrc: this.rawImgSrc
     }//END state
     this.imageTextRef = React.createRef();
-    this.gestureControllerRef = React.createRef();
 
     this.getCanvas                  = this.getCanvas.bind(this);
     this.addUploadedImage           = this.addUploadedImage.bind(this);
@@ -75,7 +70,6 @@ class ImageEditor extends Component<MyProps, MyStates>
       throw ('Cannot get image size!');
     }
 
-    let resizedIMG:any;
     let resizeRate:number = 0.5;
     let finally_rate:any  = await this.getResizeRate_compareWithRaw(uploaded.data_url, resizeRate);
     
@@ -135,7 +129,6 @@ class ImageEditor extends Component<MyProps, MyStates>
   render() 
   {
       return  <>
-                <GestureController parent={this} ref={this.gestureControllerRef} />
                 <ImageText parent={this} ref={this.imageTextRef} />
               </>;
   }

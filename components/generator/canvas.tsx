@@ -1,7 +1,9 @@
 import React,{Component} from 'react';
 import styles from '../../styles/generator/canvas/desktop.module.css'
 import mobileStyles from '../../styles/generator/canvas/mobile.module.css'
-import Tappable from 'react-tappable';
+//import Tappable from 'react-tappable';
+
+const Tappable = require('react-tappable');
 
 type MyProps = {
     parent:any
@@ -9,9 +11,8 @@ type MyProps = {
 
 type MyStates = {
   images: any[]
-  canvasWidth: nubmer
-  canvasHeight: nubmer
-  test:any
+  canvasWidth: number
+  canvasHeight: number
 };
 
 interface Canvas  {
@@ -95,7 +96,7 @@ class Canvas extends Component<MyProps, MyStates>
                         marginLeft: image.x
                       }    
 
-                      return <div className={this.parent.state.isMobile? mobileStyles.imgWrapper : styles.imgWrapper} style={wrapperStyle}><img src={image.upload.data_url} className={this.parent.state.isMobile? mobileStyles.img : styles.img} style={imgStyle}  /></div>
+                      return <div key={'key-'+i} className={this.parent.state.isMobile? mobileStyles.imgWrapper : styles.imgWrapper} style={wrapperStyle}><img key={'img-key-'+i} src={image.upload.data_url} className={this.parent.state.isMobile? mobileStyles.img : styles.img} style={imgStyle}  /></div>
                       }
                     )}
                     <div className={this.parent.state.isMobile? mobileStyles.rawImgOuter : styles.rawImgOuter}>

@@ -100,6 +100,7 @@ class ImageEditor extends Component<MyProps, MyStates>
       images: images
     }); 
 
+    callback(true);
     //console.log(images[0]);
   }//END addUploadedImage
 

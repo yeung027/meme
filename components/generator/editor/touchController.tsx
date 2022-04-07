@@ -1,3 +1,4 @@
+import { RestoreOutlined } from '@material-ui/icons';
 import React,{Component} from 'react';
 const Tappable = require('react-tappable');
 
@@ -20,12 +21,38 @@ class TouchController extends Component<MyProps, MyStates>
     super(props);
     this.parent = props.parent;
     
-    
+    this.getbottomControlPanel = this.getbottomControlPanel.bind(this);
   }//END constructor
 
-
+  getbottomControlPanel()
+  {
+    let result;
+    try
+    {
+      //result = this.parent.parent.bottomControlPanelRef.current.state.currentUI;
+      result = this.parent.parent.bottomControlPanelRef.current;
+    }
+    catch(error)
+    {
+      console.error(error);
+    }
+    return result;
+  }//END getbottomControlPanel
+  
   handleTap(e:any) 
   {
+    let bottomControl = this.getbottomControlPanel();
+    if(!bottomControl)
+    { 
+      console.error('bottomControl not found');
+      return;
+    }
+    if(bottomControl.state.currentUI != bottomControl.stage.EDITIMG)
+    {
+      console.log('touch detected, but not in EDITIMG stage, so skipped, lol');
+      return;
+    }
+
     console.log('handleTap');
     console.log(Object.keys(e));
     console.log(e.changedTouches[0] );
@@ -33,8 +60,12 @@ class TouchController extends Component<MyProps, MyStates>
 
   tappableElement(tappableClass:any, wrapperStyle:any, children:any, key:string)
   {
+    var self = this;
     return <Tappable 
-      onTap={this.handleTap} 
+      onTap={function(e:any)
+      {
+        self.handleTap(e);
+      }} 
       className={tappableClass}
       style={wrapperStyle}
       key={key}

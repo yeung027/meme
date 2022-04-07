@@ -18,7 +18,7 @@ type MyStates = {
   isMobile: boolean,
 };
 
-interface IndexPage {
+interface WillSmithPunchingPage {
   headerRef: any
   stepsRef: any
   canvasRef: any
@@ -26,7 +26,7 @@ interface IndexPage {
   cpuRef: any
 }
 
-class IndexPage extends Component<MyProps & WithUserAgentProps, MyStates> 
+class WillSmithPunchingPage extends Component<MyProps & WithUserAgentProps, MyStates> 
 {
   constructor(props:any)
   {
@@ -79,7 +79,7 @@ class IndexPage extends Component<MyProps & WithUserAgentProps, MyStates>
             </>
   }
 
-  }//END class IndexPage
+  }//END class WillSmithPunchingPage
 
 
-export default withUserAgent(IndexPage);
+export default withUserAgent(WillSmithPunchingPage);

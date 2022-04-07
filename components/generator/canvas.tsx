@@ -10,6 +10,7 @@ type MyStates = {
   images: any[]
   canvasWidth: nubmer
   canvasHeight: nubmer
+  test:any
 };
 
 interface Canvas  {
@@ -25,17 +26,51 @@ class Canvas extends Component<MyProps, MyStates>
 
     this.state = {
       images: [],
+      test: null,
       canvasWidth: 0,
       canvasHeight: 0
     }//END state
     
     this.updateCanvasComputedStyle                  = this.updateCanvasComputedStyle.bind(this);
+    this.getGestureController                       = this.getGestureController.bind(this);
+    this.getTest                       = this.getTest.bind(this);
   }//END constructor
 
   componentDidMount() 
   {
     this.updateCanvasComputedStyle();
+  this.getTest();
+    
   }//END componentDidMount
+
+  getTest()
+  {
+    try
+    {
+      let gestureController = this.getGestureController();
+      this.setState({ 
+        test: gestureController.getEle()
+      }); 
+
+    }
+    catch(error)
+    {
+        console.log(error);
+        /* setTimeout(
+          function() {
+              this.getTest();
+          }
+          .bind(this),
+          500
+      ); */
+    }
+  }
+
+  getGestureController()
+  {
+    return this.parent.cpuRef.current.imageEditorRef.current.gestureControllerRef.current;
+  }
+
 
   updateCanvasComputedStyle()
   {
@@ -61,9 +96,10 @@ class Canvas extends Component<MyProps, MyStates>
         width: this.state.canvasWidth,
         height:this.state.canvasHeight
       }
+      
 
       return  <div className={this.parent.state.isMobile? mobileStyles.container : styles.container}>
-        
+                {this.state.test}
                 <div id='canvas' className={this.parent.state.isMobile? mobileStyles.canvas : styles.canvas}>
                   
                   {
@@ -82,7 +118,8 @@ class Canvas extends Component<MyProps, MyStates>
                       marginLeft: image.x
                     }    
                     return <div className={this.parent.state.isMobile? mobileStyles.imgWrapper : styles.imgWrapper} style={wrapperStyle}><img src={image.upload.data_url} className={this.parent.state.isMobile? mobileStyles.img : styles.img} style={imgStyle}  /></div>
-                  })}
+                    }
+                  )}
                   <div className={this.parent.state.isMobile? mobileStyles.rawImgOuter : styles.rawImgOuter}>
                     <div className={this.parent.state.isMobile? mobileStyles.rawImgWrapper : styles.rawImgWrapper} style={rawWrapperStyle}>
                       <img id='canvasIMG' className={this.parent.state.isMobile? mobileStyles.rawImg : styles.rawImg} src="/generator/will_smith_punching/raw.png" alt="meme" />

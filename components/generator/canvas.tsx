@@ -34,7 +34,7 @@ class Canvas extends Component<MyProps, MyStates>
 
   componentDidMount() 
   {
-    //this.updateCanvasComputedStyle();
+    this.updateCanvasComputedStyle();
   }//END componentDidMount
 
   updateCanvasComputedStyle()
@@ -49,26 +49,45 @@ class Canvas extends Component<MyProps, MyStates>
     if (isNaN(w)) w = 0;
     if (isNaN(h)) h = 0;
     this.setState({ 
-      canvasWidth: w,
-      canvasHeight: h
+      canvasWidth: w *0.94,
+      canvasHeight: h * 0.9952
     }); 
 
   }//END updateCanvasComputedStyle
 
   render() 
   {
-      let imagesEle = null;
-      let imgWrapperStyle = {width:100, height:100};
+      let rawWrapperStyle = {
+        width: this.state.canvasWidth,
+        height:this.state.canvasHeight
+      }
 
       return  <div className={this.parent.state.isMobile? mobileStyles.container : styles.container}>
         
                 <div id='canvas' className={this.parent.state.isMobile? mobileStyles.canvas : styles.canvas}>
-                  <img id='canvasIMG' className={this.parent.state.isMobile? mobileStyles.rawImg : styles.rawImg} src="/generator/will_smith_punching/raw.png" alt="meme" />
-                  {this.state.images.map((image, i) => {     
-                    //console.log("Entered");                 
-                    // Return the element. Also pass key     
-                    return <div className={this.parent.state.isMobile? mobileStyles.imgWrapper : styles.imgWrapper} style={imgWrapperStyle}><img src={image.data_url} className={this.parent.state.isMobile? mobileStyles.img : styles.img}  /></div>
+                  
+                  {
+
+                    this.state.images.map((image, i) => {     
+
+                    let wrapperStyle = {
+                      width: this.state.canvasWidth,
+                      height:this.state.canvasHeight
+                    }  
+
+                    let imgStyle = {
+                      width: image.w,
+                      height:image.h,
+                      marginTop: image.y,
+                      marginLeft: image.x
+                    }    
+                    return <div className={this.parent.state.isMobile? mobileStyles.imgWrapper : styles.imgWrapper} style={wrapperStyle}><img src={image.upload.data_url} className={this.parent.state.isMobile? mobileStyles.img : styles.img} style={imgStyle}  /></div>
                   })}
+                  <div className={this.parent.state.isMobile? mobileStyles.rawImgOuter : styles.rawImgOuter}>
+                    <div className={this.parent.state.isMobile? mobileStyles.rawImgWrapper : styles.rawImgWrapper} style={rawWrapperStyle}>
+                      <img id='canvasIMG' className={this.parent.state.isMobile? mobileStyles.rawImg : styles.rawImg} src="/generator/will_smith_punching/raw.png" alt="meme" />
+                    </div>
+                  </div>
                 </div>
               </div>
   }

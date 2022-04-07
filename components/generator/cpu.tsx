@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import CanvasDrawer from './canvasDrawer'
+import ImageEditor from './imageEditor'
 
 type MyProps = {
     parent:any
@@ -11,7 +11,7 @@ type MyStates = {
 
 interface CPU {
   parent: any
-  canvasDrawerRef: any
+  imageEditorRef: any
 }
 
 class CPU extends Component<MyProps, MyStates>
@@ -25,13 +25,13 @@ class CPU extends Component<MyProps, MyStates>
       
     }//END state
     
-    this.canvasDrawerRef = React.createRef();
+    this.imageEditorRef = React.createRef();
   }//END constructor
 
   render() 
   {
       return  <>
-                <CanvasDrawer parent={this} ref={this.canvasDrawerRef} rawImgSrc={''} />
+                <ImageEditor parent={this} ref={this.imageEditorRef} rawImgSrc={''} />
               </>;
   }
 

@@ -1,36 +1,20 @@
-import React,{Component, useState} from 'react';
+import React,{Component} from 'react';
 import styles from '../../styles/generator/canvas/desktop.module.css'
 import mobileStyles from '../../styles/generator/canvas/mobile.module.css'
-import Image from 'next/image'
-import { useSpring, animated } from '@react-spring/web'
-import { useDrag } from '@use-gesture/react'
 
 type MyProps = {
     parent:any
 };
 
 type MyStates = {
-
+  images: any[]
+  canvasWidth: nubmer
+  canvasHeight: nubmer
 };
 
-interface Canvas {
-parent: any
+interface Canvas  {
+  parent: any
 }
-// onMouseDown={(e) => setMousedown(true)} onPointerDown={(e) => setMousedown(true)} onPointerUp={(e) => setMousedown(false)}
-const IMG = ()=> {
-  const [{ x, y }, api] = useSpring(() => ({ x: 0, y: 0 }));
-  const bind = useDrag(({ down, movement: [mx, my] }) => {
-    api.start(i => {
-
-      return {x: mx * 10}
-
-
-    })
-  })
-  return <animated.div {...bind()} style={{ marginLeft:x }} className={mobileStyles.drag}>1111</animated.div>
-}
-
-
 
 class Canvas extends Component<MyProps, MyStates>
 {
@@ -40,20 +24,51 @@ class Canvas extends Component<MyProps, MyStates>
     this.parent = props.parent;
 
     this.state = {
-      
+      images: [],
+      canvasWidth: 0,
+      canvasHeight: 0
     }//END state
     
+    this.updateCanvasComputedStyle                  = this.updateCanvasComputedStyle.bind(this);
   }//END constructor
+
+  componentDidMount() 
+  {
+    //this.updateCanvasComputedStyle();
+  }//END componentDidMount
+
+  updateCanvasComputedStyle()
+  {
+    if(!window) return;
+    let canvas:any = document.querySelector('#canvas');
+    if(!canvas) return;
+    let canvascompStyles = window.getComputedStyle(canvas);
+    let w:number, h:number;
+    w = parseInt(canvascompStyles.width);
+    h = parseInt(canvascompStyles.height);
+    if (isNaN(w)) w = 0;
+    if (isNaN(h)) h = 0;
+    this.setState({ 
+      canvasWidth: w,
+      canvasHeight: h
+    }); 
+
+  }//END updateCanvasComputedStyle
 
   render() 
   {
-      
+      let imagesEle = null;
+      let imgWrapperStyle = {width:100, height:100};
+
       return  <div className={this.parent.state.isMobile? mobileStyles.container : styles.container}>
         
-                <div className={this.parent.state.isMobile? mobileStyles.canvas : styles.canvas}>
-                <IMG />
-                 {/*  <img id='canvasIMG' className={this.parent.state.isMobile? mobileStyles.img : styles.img} src="/generator/will_smith_punching/raw.png" alt="meme" />
-                   */}
+                <div id='canvas' className={this.parent.state.isMobile? mobileStyles.canvas : styles.canvas}>
+                  <img id='canvasIMG' className={this.parent.state.isMobile? mobileStyles.rawImg : styles.rawImg} src="/generator/will_smith_punching/raw.png" alt="meme" />
+                  {this.state.images.map((image, i) => {     
+                    //console.log("Entered");                 
+                    // Return the element. Also pass key     
+                    return <div className={this.parent.state.isMobile? mobileStyles.imgWrapper : styles.imgWrapper} style={imgWrapperStyle}><img src={image.data_url} className={this.parent.state.isMobile? mobileStyles.img : styles.img}  /></div>
+                  })}
                 </div>
               </div>
   }

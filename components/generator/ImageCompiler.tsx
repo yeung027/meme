@@ -1,7 +1,6 @@
 import React,{Component} from 'react';
 import ImageText from './imageText'
 import mergeImages from 'merge-images';
-//import Compress from 'compress.js';
 const convert = require('client-side-image-resize');
 
 type MyProps = {
@@ -13,13 +12,13 @@ type MyStates = {
   imgSrc:string
 };
 
-interface CanvasDrawer  {
+interface ImageCompiler  {
   parent: any
   imageTextRef: any
   rawImgSrc: string
 }
 
-class CanvasDrawer extends Component<MyProps, MyStates>
+class ImageCompiler extends Component<MyProps, MyStates>
 {
   constructor(props:any)
   {
@@ -178,7 +177,7 @@ class CanvasDrawer extends Component<MyProps, MyStates>
               </>;
   }
 
-}//END class CanvasDrawer
+}//END class ImageCompiler
 
 
-export default CanvasDrawer;
+export default ImageCompiler;

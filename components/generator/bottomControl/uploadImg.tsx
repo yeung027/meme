@@ -41,8 +41,8 @@ class ButtonControlUploadGUI extends Component<MyProps, MyStates>
       snackMsg: '',
     }//END state
     
-    this.getCanvasDrawer  = this.getCanvasDrawer.bind(this);
-    this.voidImgUpload    = this.voidImgUpload.bind(this);
+    this.getImageEditor           = this.getImageEditor.bind(this);
+    this.voidImgUpload            = this.voidImgUpload.bind(this);
     this.snackOnClick             = this.snackOnClick.bind(this);
     this.getSnackTransition       = this.getSnackTransition.bind(this);
     this.snackOnClose             = this.snackOnClose.bind(this);
@@ -94,40 +94,44 @@ class ButtonControlUploadGUI extends Component<MyProps, MyStates>
     
   }//END componentDidMount
 
-  getCanvasDrawer()
+  getImageEditor()
   {
-    if(!this.parent) return null;
-    if(!this.parent.parent) return null;
+    if(!this.parent) throw ('1');
+    if(!this.parent.parent) throw ('2');
     if(!this.parent.parent.cpuRef || !this.parent.parent.cpuRef.current) 
-      return null;
-    if(!this.parent.parent.cpuRef.current.canvasDrawerRef 
-      || !this.parent.parent.cpuRef.current.canvasDrawerRef.current)
-      return null;
-    return this.parent.parent.cpuRef.current.canvasDrawerRef.current
-  }//END getCanvasDrawer
+      throw ('3');
+    if(!this.parent.parent.cpuRef.current.imageEditorRef 
+      || !this.parent.parent.cpuRef.current.imageEditorRef.current)
+      throw ('4');
+    return this.parent.parent.cpuRef.current.imageEditorRef.current;
+  }//END getImageEditor
 
   async uploadOnChange(imageList:Array<any>, addUpdateIndex:any)
   {
     //console.log(this.getCanvasDrawer());
     //console.log(imageList.length);
-    if(this.getCanvasDrawer() && imageList && imageList.length>0)
+    if(this.getImageEditor() && imageList && imageList.length>0 && imageList[0].data_url && imageList[0].data_url != null)
+    {
       try
       {
-        await this.getCanvasDrawer().mergeImg(imageList[0], this.uploadOnChangeCallback);
+        let imageEditor = this.getImageEditor();
+        if(!imageEditor) throw ('5');
+        await imageEditor.addUploadedImage(imageList[0], this.uploadOnChangeCallback);
+        //console.log(imageEditor.addB64Image);
       }
       catch(error)
       {
-        //console.log(error);
+        console.log(error);
         this.setState({ 
           snackOpen: true,
           snackType: 'error',
           snackMsg: 'Something went wrong, please try again later, sorry for the inconvenience.'
         });
       }
-    
-    this.setState({ 
-      fileSelected: true
-     });
+      this.setState({ 
+        fileSelected: true
+       });
+    }
   }//END uploadOnChange
 
   uploadOnChangeCallback(success:boolean)

@@ -21,6 +21,8 @@ import CloseIcon from '@material-ui/icons/Close';
 import Slide from '@material-ui/core/Slide';
 import Button from '@material-ui/core/Button';
 
+import { green, purple } from '@material-ui/core/colors';
+
 type MyProps = {
     parent:any
 };
@@ -33,6 +35,8 @@ type MyStates = {
   pageHeight: number
   dialogCloseBtnWidth: number 
   dialogCloseBtnHeight: number
+  dialogAppbarWidth: number 
+  dialogAppbaHeight: number
 };
 
 interface ExportUI {
@@ -40,6 +44,8 @@ interface ExportUI {
   compilerRef: any
   dialogRef: any
   dialogOpen: boolean
+  dialogCloseBtnRef: any
+  dialogAppbarRef: any
 }
 
 class ExportUI extends Component<MyProps, MyStates>
@@ -57,11 +63,15 @@ class ExportUI extends Component<MyProps, MyStates>
       pageWidth: 0 ,
       pageHeight: 0,
       dialogCloseBtnWidth: 0,
-      dialogCloseBtnHeight: 0
+      dialogCloseBtnHeight: 0,
+      dialogAppbarWidth: 0,  
+      dialogAppbaHeight: 0
     }//END state
     
     this.compilerRef = React.createRef();
     this.dialogRef = React.createRef();
+    this.dialogCloseBtnRef = React.createRef();
+    this.dialogAppbarRef = React.createRef();
 
     this.snackOnClick             = this.snackOnClick.bind(this);
     this.getSnackTransition       = this.getSnackTransition.bind(this);
@@ -73,6 +83,7 @@ class ExportUI extends Component<MyProps, MyStates>
     this.dialogClose              = this.dialogClose.bind(this);
     this.updatePageComputedStyle            = this.updatePageComputedStyle.bind(this);
     this.updateDialogCloseBtnComputedStyle  = this.updateDialogCloseBtnComputedStyle.bind(this);
+    this.updateDialogAppBarComputedStyle  = this.updateDialogAppBarComputedStyle.bind(this);
     
   }//END constructor
 
@@ -158,27 +169,71 @@ class ExportUI extends Component<MyProps, MyStates>
 
   updateDialogCloseBtnComputedStyle()
   {
-    if(!window) return;
-     let closeBtn:any = document.querySelector('#dialog_closeBtn');
-     console.log(closeBtn);
-    if(!closeBtn) return;
-    let closeBtncompStyles = window.getComputedStyle(closeBtn);
+    if(!this.dialogCloseBtnRef || !this.dialogCloseBtnRef.current)
+    {
+      var self = this;
+      setTimeout(
+        function() {
+          self.updateDialogCloseBtnComputedStyle();
+        }
+        .bind(this),
+        200
+      );
+      return;
+    }
+
+    
+
+    let style = window.getComputedStyle(this.dialogCloseBtnRef.current);
     let w:number, h:number;
-    w = parseInt(closeBtncompStyles.width);
-    h = parseInt(closeBtncompStyles.height);
+    w = parseInt(style.width);
+    h = parseInt(style.height);
     if (isNaN(w)) w = 0;
     if (isNaN(h)) h = 0;
     this.setState({ 
-      dialogCloseBtnWidth: w ,
-      dialogCloseBtnHeight: h,
+      dialogCloseBtnWidth: w,
+      dialogCloseBtnHeight: h
     });  
 
+    //console.log('close w h : '+ w + ', ' + h); 
+
   }//END updateDialogCloseBtnComputedStyle
+
+  updateDialogAppBarComputedStyle()
+  {
+    if(!this.dialogAppbarRef || !this.dialogAppbarRef.current)
+    {
+      var self = this;
+      setTimeout(
+        function() {
+          self.updateDialogAppBarComputedStyle();
+        }
+        .bind(this),
+        200
+      );
+      return;
+    }
+
+    let style = window.getComputedStyle(this.dialogAppbarRef.current);
+    let w:number, h:number;
+    w = parseInt(style.width);
+    h = parseInt(style.height);
+    if (isNaN(w)) w = 0;
+    if (isNaN(h)) h = 0;
+    this.setState({ 
+      dialogAppbarWidth: w,
+      dialogAppbaHeight: h
+    });  
+
+    //console.log('w h : '+ w + ', ' + h);
+
+  }//END updateDialogAppBarComputedStyle
 
   componentDidMount() 
   {
     this.updatePageComputedStyle();
-    //this.updateDialogCloseBtnComputedStyle();
+    this.updateDialogAppBarComputedStyle();
+    this.updateDialogCloseBtnComputedStyle();
   }
 
   render() 
@@ -194,19 +249,20 @@ class ExportUI extends Component<MyProps, MyStates>
     let dialogCloseBtnClass   = this.parent.parent.state.isMobile? mobileStyles.dialogCloseBtn : styles.dialogCloseBtn;
 
     let closeBtnStyle = {
-      left: (this.state.pageWidth - 80)+'px'
+      left: (this.state.pageWidth - this.state.dialogCloseBtnWidth - 10)+'px',
+      lineHeight: this.state.dialogAppbaHeight+'px'
     }
 
     let dialogEle = <Dialog fullScreen open={this.state.dialogOpen} onClose={this.dialogClose} TransitionComponent={this.getDialogTransition}>
-                      <AppBar className={dialogAppbarClass}>
+                      <AppBar ref={this.dialogAppbarRef} className={dialogAppbarClass} style={{backgroundColor: '#5f00d2'}}>
                         <Toolbar>
                           <IconButton edge="start" color="inherit" onClick={this.dialogClose} aria-label="close">
                             <CloseIcon />
                           </IconButton>
                           <Typography variant="h6" className={dialogTitleClass}>
-                            Sound
+                            Export
                           </Typography>
-                          <div className={dialogCloseBtnClass} style={closeBtnStyle} id='dialog_closeBtn'>
+                          <div className={dialogCloseBtnClass} style={closeBtnStyle} ref={this.dialogCloseBtnRef}>
                           <Button color="inherit" onClick={this.dialogClose} >
                             save
                           </Button>

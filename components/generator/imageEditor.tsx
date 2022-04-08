@@ -86,14 +86,15 @@ class ImageEditor extends Component<MyProps, MyStates>
 
     let canvasSize:any  = this.getCanvasComputedSize();
 
-
+    let canvas_image_length = !canvas.state.images ? 0 : canvas.state.images.length;
     let obj = {
       upload: uploaded,
       x: 0,
       y: 0,
       w: b64ImageSize[0] * rateWithCanvas ,
       h: b64ImageSize[1] * rateWithCanvas ,
-      scale: finally_rate
+      scale: finally_rate , 
+      key_num: canvas_image_length
     };
     images  = images.concat(obj);
     canvas.setState({ 

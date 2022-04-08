@@ -10,7 +10,7 @@ type MyProps = {
 type MyStates = {
   touchStart:boolean
   lastEventType:string
-  lastEvent: Event
+  lastEvent: any
 };
 
 interface TouchController  {
@@ -42,6 +42,9 @@ class TouchController extends Component<MyProps, MyStates>
     this.getbottomControlPanel = this.getbottomControlPanel.bind(this);
     this.getCanvas  = this.getCanvas.bind(this);
     this.touchStart = this.touchStart.bind(this);
+    this.touchMove  = this.touchMove.bind(this);
+    this.getKeyNumByNode  = this.getKeyNumByNode.bind(this);
+    
   }//END constructor
 
   getCanvas()
@@ -74,14 +77,105 @@ class TouchController extends Component<MyProps, MyStates>
     return result;
   }//END getbottomControlPanel
   
-  touchStart(e:Event)
+  touchStart(e:TouchEvent)
   {
-    console.log(e.touches[0]);
+    if(!e || e.touches.length<=0)
+    {
+      console.error('touchStart error...');
+      return;
+    }
     this.setState({ 
       touchStart:true,
-      lastEventType: this.touchevent.TOUCH_START
+      lastEventType: this.touchevent.TOUCH_START,
+      lastEvent: e
      });
-  }
+  }//END touchStart
+
+  touchMove(e:TouchEvent)
+  {
+    if(!e || e.touches.length<=0)
+    {
+      console.error('touchStart error...');
+      return;
+    }
+
+
+
+
+
+
+
+    let lastEvent = this.state.lastEvent;
+    if(!lastEvent) 
+    {
+      console.error('touchmove received but no last move found...');
+      return;
+    }
+
+    let lastTouch = lastEvent.touches;
+    if(!lastTouch || lastTouch.length<=0) 
+    {
+      console.error('touchmove received but lastTouch is null or 0 length');
+      return;
+    }
+    let lastTouchClientX  = lastTouch[0].clientX;
+    let lastTouchClientY  = lastTouch[0].clientY;
+
+    let currentTouchClientX = e.touches[0].clientX;
+    let currentTouchClientY = e.touches[0].clientY;
+
+
+    let xMove = currentTouchClientX - lastTouchClientX;
+    let yMove = currentTouchClientY - lastTouchClientY;
+
+
+    let moveSpeed = 0.05;
+
+    xMove *= moveSpeed;
+    yMove *= moveSpeed;
+
+/* 
+    console.log('lastTouchClient:' + lastTouchClientX +', '+lastTouchClientY);
+    console.log('currentTouchClient:' + currentTouchClientX +', '+currentTouchClientY);
+    console.log('Move:' + xMove +', '+yMove);
+ */
+    
+    let eTarget:any = e.target;
+    let tappableNode:any  = eTarget.parentNode;
+    let keynum  = this.getKeyNumByNode(tappableNode);
+    if(isNaN(keynum))
+    {
+      console.error('touchmove received but target keynum is NAN');
+      return;
+    }
+    let imgObj:any  =  this.parent.state.images;
+    //console.log(this.parent.state.images[keynum]);
+    let x = imgObj[keynum].x;
+    let y = imgObj[keynum].y;
+
+   /*  x +=xMove;
+    y+=yMove;
+ */
+    imgObj[keynum].x +=xMove;
+    imgObj[keynum].y +=yMove;
+    //this.parent.state.images[keynum] = imgObj;
+    
+
+    this.parent.setState({ 
+      images: imgObj
+     });
+
+    console.log('xy:' + x +', '+y);
+
+  }//END touchMove
+
+  getKeyNumByNode(node:any)
+  {
+    let id:any = node.id;
+    let num = id.substring(13);
+    let target_key_num = parseInt(num);
+    return target_key_num;
+  }//END getKeyNumByNode
 
   handleTap(e:any) 
   {
@@ -120,7 +214,8 @@ class TouchController extends Component<MyProps, MyStates>
       w: images[0].w ,
       h: images[0].h ,
       scale: images[0].scale,
-      tappableId: images[0].tappableId
+      tappableId: images[0].tappableId,
+      key_num: images[0].key_num
     };
     
     canvas.setState({ 
@@ -147,6 +242,12 @@ class TouchController extends Component<MyProps, MyStates>
       {
         self.touchStart(e);
       }}
+
+      onTouchMove={function(e:any)
+      {
+        self.touchMove(e);
+      }}
+
       className={tappableClass}
       style={wrapperStyle}
       key={key}

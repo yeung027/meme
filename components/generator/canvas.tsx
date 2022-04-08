@@ -112,13 +112,12 @@ class Canvas extends Component<MyProps, MyStates>
 
                     this.state.images.map((image, i) => {     
                     
-                    let tappableId  = 'img-tappable-'+i;
+                    let tappableId  = 'img-tappable-'+image.key_num;
                     let wrapperStyle = {
                       width: image.w,
                       height:image.h,
                       marginTop: image.y,
                       marginLeft: image.x,
-                      tappableId: tappableId
                     }  
 
                      

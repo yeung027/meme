@@ -10,6 +10,8 @@ type MyProps = {
 
 type MyStates = {
   imgSrc:string
+  output_image_index:number
+  output_requester_callback: any
 };
 
 interface ImageCompiler  {
@@ -26,7 +28,9 @@ class ImageCompiler extends Component<MyProps, MyStates>
     this.parent = props.parent;
     this.rawImgSrc  = '/generator/will_smith_punching/raw.png';
     this.state = {
-      imgSrc: this.rawImgSrc
+      imgSrc: this.rawImgSrc,
+      output_image_index: -1,
+      output_requester_callback: null
     }//END state
     
     this.imageTextRef = React.createRef();
@@ -37,8 +41,96 @@ class ImageCompiler extends Component<MyProps, MyStates>
     this.getb64ImgSize      = this.getb64ImgSize.bind(this);
     this.getResizeRate_compareWithRaw          = this.getResizeRate_compareWithRaw.bind(this);
     this.b64ToImgFile       = this.b64ToImgFile.bind(this);
-    
+    this.getOutPut          = this.getOutPut.bind(this);
+    this.doOutput           = this.doOutput.bind(this);
   }//END constructor
+
+
+  getOutPut(callback: any)
+  {
+
+    if(!this.parent.parent.parent.canvasRef.current.state.images) throw ('uploaded images not found!');
+    var self  = this;
+    
+    if(this.parent.parent.parent.canvasRef.current.state.images.length<=0) throw ('no photo uploaded or images data wrong');
+
+    this.setState({ 
+      output_image_index: 0,
+    });
+
+    this.setState({ 
+      output_image_index:0,
+      output_requester_callback: callback
+     }, function(){
+      self.doOutput(this.rawImgSrc);
+    });
+    
+  }//END getOutPut
+
+
+  async doOutput(previous_src:any)
+  {
+    var self  = this;
+    let image = this.parent.parent.parent.canvasRef.current.state.images[this.state.output_image_index];
+
+    let b64:any = image.upload;
+    let b64ImageSize:any  = await self.getb64ImgSize(b64.data_url);
+
+    if(!b64ImageSize)
+    {
+      callback(false);
+      throw ('Cannot get image size!');
+    }
+
+    let resizedIMG:any;
+    let finally_rate:any  = image.scale;
+
+    try
+    {
+      resizedIMG  = await self.resizeIMG(b64, b64ImageSize[0] * finally_rate, b64ImageSize[1] * finally_rate);
+    }
+    catch(error)
+    {
+      console.error(error);
+      throw (error);
+    }
+
+    let resizedIMG_URL = URL.createObjectURL(resizedIMG);
+
+    let rawImageSize:any  = await self.getRawImgSize();
+
+    if(!rawImageSize)
+    {
+      throw ('Cannot get raw image size!');
+    }
+
+    let merge = await new Promise((resolve, reject) => 
+    {
+      mergeImages([resizedIMG_URL, previous_src], {
+        width: rawImageSize[0],
+        height: rawImageSize[1]
+      })
+      .then(function (b64) 
+      {
+        resolve(b64);
+      })
+      .catch(function (error:any) 
+      {
+        reject('mergeImages fail!');
+      });
+    });//END Promise
+
+
+    if(this.parent.parent.parent.canvasRef.current.state.images.length >= this.state.output_image_index+2)
+    {
+      this.setState({ output_image_index:(this.state.output_image_index+1) }, function(){
+        self.doOutput(merge);
+      });
+    }
+    else this.state.output_requester_callback(merge);
+
+  }//END doOutput
+
 
   async mergeImg(b64:any, callback:any)
   {

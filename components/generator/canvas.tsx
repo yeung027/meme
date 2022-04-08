@@ -118,7 +118,7 @@ class Canvas extends Component<MyProps, MyStates>
                      
                     let tapperClass = this.parent.state.isMobile? mobileStyles.tappable : styles.tappable;
                     
-                    let imgEle= <img key={'img-key-'+i} src={image.upload.data_url} 
+                    let imgEle= <img key={'img-key-'+i} id={'img-key-'+i} src={image.upload.data_url} 
                                   className={this.parent.state.isMobile? mobileStyles.img : styles.img} 
                                    
                                 />

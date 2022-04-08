@@ -11,6 +11,8 @@ import GetAppIcon from '@material-ui/icons/GetApp';
 import TextFieldsIcon from '@material-ui/icons/TextFields';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 
+import ImageCompiler from '../ImageCompiler';
+
 type MyProps = {
     parent:any
 };
@@ -22,7 +24,8 @@ type MyStates = {
 };
 
 interface ExportUI {
-parent: any
+  parent: any
+  compilerRef: any
 }
 
 class ExportUI extends Component<MyProps, MyStates>
@@ -38,11 +41,14 @@ class ExportUI extends Component<MyProps, MyStates>
       snackMsg: '',
     }//END state
     
+    this.compilerRef = React.createRef();
+
     this.snackOnClick             = this.snackOnClick.bind(this);
     this.getSnackTransition       = this.getSnackTransition.bind(this);
     this.snackOnClose             = this.snackOnClose.bind(this);
     this.nextBtnOnclick           = this.nextBtnOnclick.bind(this);
-    this.exportBtnOnclick          = this.exportBtnOnclick.bind(this);
+    this.exportBtnOnclick         = this.exportBtnOnclick.bind(this);
+    this.exportCallback           = this.exportCallback.bind(this);
     
   }//END constructor
 
@@ -75,8 +81,14 @@ class ExportUI extends Component<MyProps, MyStates>
 
   exportBtnOnclick()
   {
-console.log('export')
+    this.compilerRef.current.getOutPut(this.exportCallback);
   }//END exportBtnOnclick
+
+  exportCallback(output: any)
+  {
+    console.log('i am callback');
+    console.log(output);
+  }//END exportCallback
 
   render() 
   {
@@ -88,6 +100,7 @@ console.log('export')
     let nextBtnClass       = utilStyles.purple_iconRight_btn_l;
 
     return  <div className={containerClass}>
+              <ImageCompiler parent={this} ref={this.compilerRef} />
               <Snackbar 
                 open={this.state.snackOpen} 
                 autoHideDuration={6000} 

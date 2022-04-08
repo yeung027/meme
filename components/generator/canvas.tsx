@@ -12,11 +12,13 @@ type MyStates = {
   images: any[]
   canvasWidth: number
   canvasHeight: number
+  touchController:any
 };
 
 interface Canvas  {
   parent: any
   touchController:TouchController
+  touchControllerRef: any
 }
 
 class Canvas extends Component<MyProps, MyStates>
@@ -26,20 +28,23 @@ class Canvas extends Component<MyProps, MyStates>
     super(props);
     this.parent = props.parent;
 
-    this.touchController = new TouchController({parent:this});
-
     this.state = {
       images: [],
       canvasWidth: 0,
-      canvasHeight: 0
+      canvasHeight: 0,
+      touchController: null
     }//END state
+
+    this.touchControllerRef = React.createRef();
     
     this.updateCanvasComputedStyle                  = this.updateCanvasComputedStyle.bind(this);
+    this.loadTouchController                        = this.loadTouchController.bind(this);
   }//END constructor
 
   componentDidMount() 
   {
     this.updateCanvasComputedStyle();
+    this.loadTouchController();
   }//END componentDidMount
 
 
@@ -63,6 +68,29 @@ class Canvas extends Component<MyProps, MyStates>
   }//END updateCanvasComputedStyle
 
 
+  loadTouchController()
+  {
+    var self = this;
+    try
+    {
+      let v = this.touchControllerRef.current;
+
+      this.setState({ 
+        touchController: v
+       });
+    }
+    catch(error)
+    {
+      console.error(error);
+      setTimeout(
+        function() {
+          self.loadTouchController();
+        }
+        .bind(this),
+        200
+    );
+    }
+  }//END loadTouchController
 
   render() 
   {
@@ -77,6 +105,7 @@ class Canvas extends Component<MyProps, MyStates>
       }
 
       return  <div className={this.parent.state.isMobile? mobileStyles.container : styles.container}>
+                <TouchController parent={this} ref={this.touchControllerRef} />
                 <div className={this.parent.state.isMobile? mobileStyles.canvasOutter : styles.canvasOutter}>
                 <div id='canvas' className={this.parent.state.isMobile? mobileStyles.canvas : styles.canvas}>
                   {
@@ -99,7 +128,9 @@ class Canvas extends Component<MyProps, MyStates>
                                   className={this.parent.state.isMobile? mobileStyles.img : styles.img} 
                                    
                                 />
-                    let ele = this.touchController.tappableElement(tapperClass, wrapperStyle, imgEle, tappableId)
+                    let ele = imgEle;
+                    if(this.state.touchController)
+                      ele = this.state.touchController.tappableElement(tapperClass, wrapperStyle, imgEle, tappableId);
                     
 
                     return ele;

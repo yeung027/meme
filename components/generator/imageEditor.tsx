@@ -80,9 +80,9 @@ class ImageEditor extends Component<MyProps, MyStates>
     
     let rateWithCanvas:any  = await this.getResizeRate_compareWithCanvas(uploaded.data_url, resizeRate);
 
-    console.log('rateWithCanvas: '+rateWithCanvas);
+    /* console.log('rateWithCanvas: '+rateWithCanvas);
     console.log('finally_rate: '+finally_rate);
-    console.log('image finally size: '+b64ImageSize[1] * finally_rate);
+    console.log('image finally size: '+b64ImageSize[1] * finally_rate); */
 
     let canvasSize:any  = this.getCanvasComputedSize();
 
@@ -142,10 +142,10 @@ class ImageEditor extends Component<MyProps, MyStates>
     let x_15:number = Number((Math.abs(larger_rate) * 100).toPrecision(15));
     let rounded_lager_rate = Math.round(x_15) / 100 * Math.sign(larger_rate);
 
-    console.log('w_rate: '+w_rate);
+    /* console.log('w_rate: '+w_rate);
     console.log('h_rate: '+h_rate);
     console.log('x_15: '+x_15);
-    console.log('rounded_lager_rate: '+rounded_lager_rate);
+    console.log('rounded_lager_rate: '+rounded_lager_rate); */
     return rate * (1 / rounded_lager_rate);
 
   }//END getResizeRate_compareWithElement

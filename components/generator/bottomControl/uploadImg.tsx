@@ -136,7 +136,7 @@ class ButtonControlUploadGUI extends Component<MyProps, MyStates>
 
   uploadOnChangeCallback(success:boolean)
   {
-    console.log('callback~' + success);
+    //console.log('callback~' + success);
     this.parent.stageChange(this.parent.stage.EDITIMG);
 
   }//END uploadOnChangeCallback

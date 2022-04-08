@@ -4,14 +4,18 @@ const Tappable = require('react-tappable');
 
 type MyProps = {
   parent:any
+  touchevent:any
 };
 
 type MyStates = {
-
+  touchStart:boolean
+  lastEventType:string
+  lastEvent: Event
 };
 
 interface TouchController  {
-parent: any
+  parent: any
+  touchevent: any
 }
 
 class TouchController extends Component<MyProps, MyStates>
@@ -21,8 +25,23 @@ class TouchController extends Component<MyProps, MyStates>
     super(props);
     this.parent = props.parent;
     
+    enum TOUCHEVENT {
+      TOUCH_START = 'touch_start',
+      TOUCH_MOVE = 'touch_move',
+      NULL = 'null'
+    }
+
+    this.touchevent = TOUCHEVENT;
+
+    this.state = {
+      touchStart: false,
+      lastEventType: this.touchevent.NULL,
+      lastEvent: null
+    }//END state
+
     this.getbottomControlPanel = this.getbottomControlPanel.bind(this);
-    this.getCanvas = this.getCanvas.bind(this);
+    this.getCanvas  = this.getCanvas.bind(this);
+    this.touchStart = this.touchStart.bind(this);
   }//END constructor
 
   getCanvas()
@@ -55,6 +74,15 @@ class TouchController extends Component<MyProps, MyStates>
     return result;
   }//END getbottomControlPanel
   
+  touchStart(e:Event)
+  {
+    console.log(e.touches[0]);
+    this.setState({ 
+      touchStart:true,
+      lastEventType: this.touchevent.TOUCH_START
+     });
+  }
+
   handleTap(e:any) 
   {
     let bottomControl = this.getbottomControlPanel();
@@ -110,10 +138,15 @@ class TouchController extends Component<MyProps, MyStates>
     var self = this;
     return <Tappable 
       id={key}
-      onTap={function(e:any)
+      /* onTap={function(e:any)
       {
         self.handleTap(e);
-      }} 
+      }}  */
+
+      onTouchStart={function(e:any)
+      {
+        self.touchStart(e);
+      }}
       className={tappableClass}
       style={wrapperStyle}
       key={key}
@@ -122,6 +155,10 @@ class TouchController extends Component<MyProps, MyStates>
     </Tappable>
   }//END tappableElement
 
+  render() 
+  {
+    return null;
+  }
 
 }//END class TouchController
 

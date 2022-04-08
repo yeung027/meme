@@ -102,9 +102,6 @@ class TouchController extends Component<MyProps, MyStates>
 
 
 
-
-
-
     let lastEvent = this.state.lastEvent;
     if(!lastEvent) 
     {
@@ -143,29 +140,44 @@ class TouchController extends Component<MyProps, MyStates>
     let eTarget:any = e.target;
     let tappableNode:any  = eTarget.parentNode;
     let keynum  = this.getKeyNumByNode(tappableNode);
+
+
+    //let rect = tappableNode.getBoundingClientRect();
+    /* console.log(rect.left);
+    console.log(currentTouchClientX);
+    console.log(tappableNode.style.left); */
+    
+    //document.getElementById("img-tappable-0").style.left = currentTouchClientX+'px';
+
+    
+    let tappableNode_w_half  = parseInt(tappableNode.style.width);
+    let tappableNode_h_half  = parseInt(tappableNode.style.height);
+    if(!isNaN(tappableNode_w_half)) tappableNode_w_half /= 2;
+    if(!isNaN(tappableNode_h_half)) tappableNode_h_half /= 2;
+
+    //console.log(tappableNode_w_half);
+
+    let new_post_left = currentTouchClientX - tappableNode_w_half;
+    let new_post_top  = currentTouchClientY - tappableNode_h_half;
+
+    //tappableNode.style.left = new_post_left+'px';
+    //tappableNode.style.top  = new_post_top+'px';
+
     if(isNaN(keynum))
     {
       console.error('touchmove received but target keynum is NAN');
       return;
     }
     let imgObj:any  =  this.parent.state.images;
-    //console.log(this.parent.state.images[keynum]);
-    let x = imgObj[keynum].x;
-    let y = imgObj[keynum].y;
 
-   /*  x +=xMove;
-    y+=yMove;
- */
-    imgObj[keynum].x +=xMove;
-    imgObj[keynum].y +=yMove;
-    //this.parent.state.images[keynum] = imgObj;
-    
+    imgObj[keynum].x = new_post_left+'px'
+    imgObj[keynum].y = new_post_top+'px';
 
     this.parent.setState({ 
       images: imgObj
      });
 
-    console.log('xy:' + x +', '+y);
+    //console.log('xy:' + x +', '+y);
 
   }//END touchMove
 
@@ -177,56 +189,7 @@ class TouchController extends Component<MyProps, MyStates>
     return target_key_num;
   }//END getKeyNumByNode
 
-  handleTap(e:any) 
-  {
-    let bottomControl = this.getbottomControlPanel();
-    if(!bottomControl)
-    { 
-      console.error('bottomControl not found');
-      return;
-    }
-    if(bottomControl.state.currentUI != bottomControl.stage.EDITIMG)
-    {
-      console.log('touch detected, but not in EDITIMG stage, so skipped, lol');
-      return;
-    }
-
-    let canvas  = this.getCanvas();
-    if(!canvas)
-    { 
-      console.error('canvas not found');
-      return;
-    }
-    console.log(e.changedTouches[0] );
-
-    //console.log(e.target.parentNode);
-    let target = e.target.parentNode;
-    let clientRect = target.getBoundingClientRect();
-    var clientX = target.offsetTop;
-
-    console.log('clientX: '+clientX);
-
-    let images= canvas.state.images;
-    images[0] = {
-      upload: images[0].upload,
-      x: images[0].x,
-      y: 100,
-      w: images[0].w ,
-      h: images[0].h ,
-      scale: images[0].scale,
-      tappableId: images[0].tappableId,
-      key_num: images[0].key_num
-    };
-    
-    canvas.setState({ 
-      images: images
-    }); 
-    //console.log(images[0]);
-
-    /* console.log('handleTap');
-    console.log(Object.keys(e));
-    console.log(e.changedTouches[0] ); */
-  }//END handleTap
+  
 
   tappableElement(tappableClass:any, wrapperStyle:any, children:any, key:string)
   {

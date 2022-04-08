@@ -105,7 +105,7 @@ class Canvas extends Component<MyProps, MyStates>
       }
 
       return  <div className={this.parent.state.isMobile? mobileStyles.container : styles.container}>
-                <TouchController parent={this} ref={this.touchControllerRef} />
+                <TouchController parent={this} ref={this.touchControllerRef} touchevent={undefined} />
                 <div className={this.parent.state.isMobile? mobileStyles.canvasOutter : styles.canvasOutter}>
                 <div id='canvas' className={this.parent.state.isMobile? mobileStyles.canvas : styles.canvas}>
                   {
@@ -116,8 +116,8 @@ class Canvas extends Component<MyProps, MyStates>
                     let wrapperStyle = {
                       width: image.w,
                       height:image.h,
-                      marginTop: image.y,
-                      marginLeft: image.x,
+                      top: image.y,
+                      left: image.x,
                     }  
 
                      

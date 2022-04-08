@@ -26,6 +26,7 @@ type MyStates = {
 interface ExportUI {
   parent: any
   compilerRef: any
+  aRef: any
 }
 
 class ExportUI extends Component<MyProps, MyStates>
@@ -42,6 +43,7 @@ class ExportUI extends Component<MyProps, MyStates>
     }//END state
     
     this.compilerRef = React.createRef();
+    this.aRef = React.createRef();
 
     this.snackOnClick             = this.snackOnClick.bind(this);
     this.getSnackTransition       = this.getSnackTransition.bind(this);
@@ -84,10 +86,17 @@ class ExportUI extends Component<MyProps, MyStates>
     this.compilerRef.current.getOutPut(this.exportCallback);
   }//END exportBtnOnclick
 
-  exportCallback(output: any)
+  async exportCallback(output: any)
   {
     console.log('i am callback');
-    console.log(output);
+    //console.log(output);
+
+    const link = document.createElement("a");
+    this.aRef.current.href = output;
+    this.aRef.current.download = 'okok.png';
+  //console.log(this.aRef.current.download)
+
+
   }//END exportCallback
 
   render() 
@@ -100,6 +109,7 @@ class ExportUI extends Component<MyProps, MyStates>
     let nextBtnClass       = utilStyles.purple_iconRight_btn_l;
 
     return  <div className={containerClass}>
+              <a ref={this.aRef}>aasadsadsadsdsds</a>
               <ImageCompiler parent={this} ref={this.compilerRef} />
               <Snackbar 
                 open={this.state.snackOpen} 

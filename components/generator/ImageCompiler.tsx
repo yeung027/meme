@@ -53,11 +53,7 @@ class ImageCompiler extends Component<MyProps, MyStates>
     var self  = this;
     
     if(this.parent.parent.parent.canvasRef.current.state.images.length<=0) throw ('no photo uploaded or images data wrong');
-
-    this.setState({ 
-      output_image_index: 0,
-    });
-
+    
     this.setState({ 
       output_image_index:0,
       output_requester_callback: callback

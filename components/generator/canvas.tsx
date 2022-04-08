@@ -94,14 +94,9 @@ class Canvas extends Component<MyProps, MyStates>
 
   render() 
   {
-      let rawBGStyle = {
+      let canvasBGStyle = {
         width: this.state.canvasWidth,
-        height:this.state.canvasHeight,
-      }
-
-      let rawImgStyle = {
-        width: this.state.canvasWidth,
-        height:this.state.canvasHeight,
+        height:this.state.canvasHeight-1,
       }
 
       return  <div className={this.parent.state.isMobile? mobileStyles.container : styles.container}>
@@ -145,6 +140,7 @@ class Canvas extends Component<MyProps, MyStates>
                       />
                       
                     </div>
+                    <div className={this.parent.state.isMobile? mobileStyles.canvasBG : styles.canvasBG} style={canvasBGStyle}></div>
                   </div>
                 </div>
               </div>

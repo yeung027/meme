@@ -44,6 +44,8 @@ class TouchController extends Component<MyProps, MyStates>
     this.touchStart = this.touchStart.bind(this);
     this.touchMove  = this.touchMove.bind(this);
     this.getKeyNumByNode  = this.getKeyNumByNode.bind(this);
+    this.checkPositionIsOverflowAndFix  = this.checkPositionIsOverflowAndFix.bind(this);
+    
     
   }//END constructor
 
@@ -99,37 +101,8 @@ class TouchController extends Component<MyProps, MyStates>
       return;
     }
 
-
-
-
-    let lastEvent = this.state.lastEvent;
-    if(!lastEvent) 
-    {
-      console.error('touchmove received but no last move found...');
-      return;
-    }
-
-    let lastTouch = lastEvent.touches;
-    if(!lastTouch || lastTouch.length<=0) 
-    {
-      console.error('touchmove received but lastTouch is null or 0 length');
-      return;
-    }
-    let lastTouchClientX  = lastTouch[0].clientX;
-    let lastTouchClientY  = lastTouch[0].clientY;
-
     let currentTouchClientX = e.touches[0].clientX;
     let currentTouchClientY = e.touches[0].clientY;
-
-
-    let xMove = currentTouchClientX - lastTouchClientX;
-    let yMove = currentTouchClientY - lastTouchClientY;
-
-
-    let moveSpeed = 0.05;
-
-    xMove *= moveSpeed;
-    yMove *= moveSpeed;
 
 /* 
     console.log('lastTouchClient:' + lastTouchClientX +', '+lastTouchClientY);
@@ -140,18 +113,10 @@ class TouchController extends Component<MyProps, MyStates>
     let eTarget:any = e.target;
     let tappableNode:any  = eTarget.parentNode;
     let keynum  = this.getKeyNumByNode(tappableNode);
-
-
-    //let rect = tappableNode.getBoundingClientRect();
-    /* console.log(rect.left);
-    console.log(currentTouchClientX);
-    console.log(tappableNode.style.left); */
-    
-    //document.getElementById("img-tappable-0").style.left = currentTouchClientX+'px';
-
     
     let tappableNode_w_half  = parseInt(tappableNode.style.width);
     let tappableNode_h_half  = parseInt(tappableNode.style.height);
+
     if(!isNaN(tappableNode_w_half)) tappableNode_w_half /= 2;
     if(!isNaN(tappableNode_h_half)) tappableNode_h_half /= 2;
 
@@ -160,18 +125,17 @@ class TouchController extends Component<MyProps, MyStates>
     let new_post_left = currentTouchClientX - tappableNode_w_half;
     let new_post_top  = currentTouchClientY - tappableNode_h_half;
 
-    //tappableNode.style.left = new_post_left+'px';
-    //tappableNode.style.top  = new_post_top+'px';
+    let fixXY:any[] = this.checkPositionIsOverflowAndFix(new_post_left, new_post_top, [parseInt(tappableNode.style.width), parseInt(tappableNode.style.height)]);
 
     if(isNaN(keynum))
     {
-      console.error('touchmove received but target keynum is NAN');
+      console.error('touchmove received but target keynum is NaN');
       return;
     }
     let imgObj:any  =  this.parent.state.images;
 
-    imgObj[keynum].x = new_post_left+'px'
-    imgObj[keynum].y = new_post_top+'px';
+    imgObj[keynum].x = fixXY[0]+'px'
+    imgObj[keynum].y = fixXY[1]+'px';
 
     this.parent.setState({ 
       images: imgObj
@@ -180,6 +144,37 @@ class TouchController extends Component<MyProps, MyStates>
     //console.log('xy:' + x +', '+y);
 
   }//END touchMove
+
+  checkPositionIsOverflowAndFix(x:number, y:number, targetWidthHeight:any[])
+  {
+    
+    let canvasDom:any = document.querySelector('#canvas');
+    let convasRect = canvasDom.getBoundingClientRect();
+    
+    let maxX  = convasRect.left + convasRect.width;
+    let maxY  = convasRect.top + convasRect.height;
+
+    let resultX = x;
+    let resultY = y;
+
+
+    if((x + targetWidthHeight[0]) > maxX)
+      resultX = maxX - (targetWidthHeight[0] );
+    else if(x < convasRect.left)
+      resultX = convasRect.left;
+
+    if((y + targetWidthHeight[1]) > maxY)
+      resultY = maxY - (targetWidthHeight[1] );
+    else if(y < convasRect.top)
+      resultY = convasRect.top;
+
+
+    return [resultX, resultY];
+
+
+
+
+  }//END checkPositionIsOverflowAndFix
 
   getKeyNumByNode(node:any)
   {

@@ -7,7 +7,7 @@ import Grow from '@material-ui/core/Grow';
 import MuiAlert from '@material-ui/lab/Alert';
 import NotificationImportantIcon from '@material-ui/icons/NotificationImportant';
 
-import ImageIcon from '@material-ui/icons/Image';
+import GetAppIcon from '@material-ui/icons/GetApp';
 import TextFieldsIcon from '@material-ui/icons/TextFields';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 
@@ -21,11 +21,11 @@ type MyStates = {
   snackMsg: string
 };
 
-interface EditImgUI {
+interface ExportUI {
 parent: any
 }
 
-class EditImgUI extends Component<MyProps, MyStates>
+class ExportUI extends Component<MyProps, MyStates>
 {
   constructor(props:any)
   {
@@ -42,6 +42,7 @@ class EditImgUI extends Component<MyProps, MyStates>
     this.getSnackTransition       = this.getSnackTransition.bind(this);
     this.snackOnClose             = this.snackOnClose.bind(this);
     this.nextBtnOnclick           = this.nextBtnOnclick.bind(this);
+    this.exportBtnOnclick          = this.exportBtnOnclick.bind(this);
     
   }//END constructor
 
@@ -71,6 +72,11 @@ class EditImgUI extends Component<MyProps, MyStates>
     this.parent.stageChange(this.parent.stage.EXPORT);
 
   }//END nextBtnOnclick
+
+  exportBtnOnclick()
+  {
+console.log('export')
+  }//END exportBtnOnclick
 
   render() 
   {
@@ -106,17 +112,17 @@ class EditImgUI extends Component<MyProps, MyStates>
               <div className={this.parent.parent.state.isMobile? mobileStyles.header : styles.header}>
                 <div className={this.parent.parent.state.isMobile? mobileStyles.title : styles.title}>
                   <NotificationImportantIcon className={this.parent.parent.state.isMobile? mobileStyles.titleIcon : styles.titleIcon} />
-                  <span>Edit Image</span>
+                  <span>Export Image</span>
                 </div>
                 <div className={this.parent.parent.state.isMobile? mobileStyles.header_r : styles.header_r}>
-                  <span className={this.parent.parent.state.isMobile? mobileStyles.textBtn : styles.textBtn}>skip</span>
+                  
                 </div>
               </div>
               <div className={this.parent.parent.state.isMobile? mobileStyles.main : styles.main}>
                 <div className={this.parent.parent.state.isMobile? mobileStyles.mainInner : styles.mainInner}>
-                  <div className={buttonClass}>
-                    <ImageIcon className={this.parent.parent.state.isMobile? mobileStyles.icon : styles.icon} />
-                    <span>Image</span>
+                  <div className={buttonActiveClass} onClick={this.exportBtnOnclick}>
+                    <GetAppIcon className={this.parent.parent.state.isMobile? mobileStyles.icon : styles.icon} />
+                    <span>Export</span>
                   </div>
                   <div className={buttonActiveClass}>
                     <TextFieldsIcon className={this.parent.parent.state.isMobile? mobileStyles.icon : styles.icon} />
@@ -133,7 +139,7 @@ class EditImgUI extends Component<MyProps, MyStates>
 
   }
 
-}//END class EditImgUI
+}//END class ExportUI
 
 
-export default EditImgUI;
+export default ExportUI;

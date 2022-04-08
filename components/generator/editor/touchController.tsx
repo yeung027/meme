@@ -44,8 +44,8 @@ class TouchController extends Component<MyProps, MyStates>
     this.touchStart = this.touchStart.bind(this);
     this.touchMove  = this.touchMove.bind(this);
     this.getKeyNumByNode  = this.getKeyNumByNode.bind(this);
-    this.checkPositionIsOverflowAndFix  = this.checkPositionIsOverflowAndFix.bind(this);
-    
+    this.checkPositionIsOverflowAndFix      = this.checkPositionIsOverflowAndFix.bind(this);
+    this.checkBottomControlIsStageEditimg   = this.checkBottomControlIsStageEditimg.bind(this);
     
   }//END constructor
 
@@ -93,6 +93,11 @@ class TouchController extends Component<MyProps, MyStates>
      });
   }//END touchStart
 
+  checkBottomControlIsStageEditimg()
+  {
+    return this.parent.parent.bottomControlPanelRef.current.state.currentUI === this.parent.parent.bottomControlPanelRef.current.stage.EDITIMG;
+  }//END checkBottomControlIsStageEditimg
+
   touchMove(e:TouchEvent)
   {
     if(!e || e.touches.length<=0)
@@ -100,6 +105,8 @@ class TouchController extends Component<MyProps, MyStates>
       console.error('touchStart error...');
       return;
     }
+    
+    if(!this.checkBottomControlIsStageEditimg()) return;
 
     let currentTouchClientX = e.touches[0].clientX;
     let currentTouchClientY = e.touches[0].clientY;

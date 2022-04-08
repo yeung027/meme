@@ -55,4 +55,28 @@
     50% {
       opacity: 0.5;
     }
-  }
+}
+
+.purple_iconRight_btn_l
+{
+     -webkit-border-radius: 7px;
+    -moz-border-radius: 7px; 
+    border-radius: 7px;
+    background-color: #7900d2;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    color: #CAD2DD;
+    font-size: 12px;
+    font-family: 'Roboto';
+    height: 37px;
+}
+
+.purple_iconRight_btn_l span
+{
+    padding-left: 10px;
+    color: #fff;
+    font-size: 12px;
+    font-family: 'Roboto';
+}

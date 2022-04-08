@@ -7,7 +7,7 @@ import InsertEmoticonIcon from '@material-ui/icons/InsertEmoticon';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import UploadImgUI from './bottomControl/uploadImg';
 import EditImgUI from './bottomControl/editImg';
-
+import ExportUI from './bottomControl/export';
 
 type MyProps = {
     parent:any
@@ -36,7 +36,8 @@ class BottomControlPanel extends Component<MyProps, MyStates>
 
     enum STAGE {
       UPLOADIMG = 'uploadimg',
-      EDITIMG = 'editimg'
+      EDITIMG = 'editimg',
+      EXPORT = 'export'
     }
 
     this.stage  = STAGE;
@@ -93,6 +94,15 @@ class BottomControlPanel extends Component<MyProps, MyStates>
         animationInout: false
        });
     }
+    else if(ui === this.stage.EXPORT)
+    {
+      this.setState({ 
+        isAnimation: true,
+        pendingUIChange: true,
+        pendingUI: this.stage.EXPORT,
+        animationInout: false
+       });
+    }
 
   }//END stageChange
 
@@ -113,6 +123,8 @@ class BottomControlPanel extends Component<MyProps, MyStates>
       ui  = <UploadImgUI parent={this} />
     else if(this.state.currentUI === this.stage.EDITIMG)
       ui  = <EditImgUI parent={this} />
+    else if(this.state.currentUI === this.stage.EXPORT)
+      ui  = <ExportUI parent={this} />
 
     return  <div className={containerClass} onAnimationEnd={this.animationEnd}>
               <div className={innerClass}>

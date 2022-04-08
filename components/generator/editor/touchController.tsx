@@ -219,6 +219,15 @@ class TouchController extends Component<MyProps, MyStates>
     </Tappable>
   }//END tappableElement
 
+  componentDidMount() 
+  {
+    document.addEventListener('touchmove', function(e){
+      e.preventDefault();
+    }, {
+      passive: false,
+    })
+  }//END componentDidMount
+
   render() 
   {
     return null;

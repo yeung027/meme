@@ -66,7 +66,7 @@ class WillSmithPunchingPage extends Component<MyProps & WithUserAgentProps, MySt
   {
     return  <>
               <CPU parent={this} ref={this.cpuRef} />
-              <div className={this.state.isMobile? mobileStyles.container : styles.container}>
+              <div className={this.state.isMobile? mobileStyles.container : styles.container} id ='page-root'>
                 <Header parent={this} ref={this.headerRef} />
                 <div className={this.state.isMobile? mobileStyles.whiteContainer : styles.whiteContainer}>
                   <Steps parent={this} ref={this.stepsRef} />

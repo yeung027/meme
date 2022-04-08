@@ -1,6 +1,6 @@
 import React,{Component} from 'react';
-import styles from '../../../styles/generator/bottomControl/editImg/desktop.module.css'
-import mobileStyles from '../../../styles/generator/bottomControl/editImg/mobile.module.css'
+import styles from '../../../styles/generator/bottomControl/export/desktop.module.css'
+import mobileStyles from '../../../styles/generator/bottomControl/export/mobile.module.css'
 import utilStyles from '../../../styles/generator/bottomControl/util.module.css'
 import Snackbar from '@material-ui/core/Snackbar';
 import Grow from '@material-ui/core/Grow';
@@ -12,6 +12,14 @@ import TextFieldsIcon from '@material-ui/icons/TextFields';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 
 import ImageCompiler from '../ImageCompiler';
+import Dialog from '@material-ui/core/Dialog';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import IconButton from '@material-ui/core/IconButton';
+import Typography from '@material-ui/core/Typography';
+import CloseIcon from '@material-ui/icons/Close';
+import Slide from '@material-ui/core/Slide';
+import Button from '@material-ui/core/Button';
 
 type MyProps = {
     parent:any
@@ -21,12 +29,17 @@ type MyStates = {
   snackOpen: boolean
   snackType: any
   snackMsg: string
+  pageWidth: number 
+  pageHeight: number
+  dialogCloseBtnWidth: number 
+  dialogCloseBtnHeight: number
 };
 
 interface ExportUI {
   parent: any
   compilerRef: any
-  aRef: any
+  dialogRef: any
+  dialogOpen: boolean
 }
 
 class ExportUI extends Component<MyProps, MyStates>
@@ -40,10 +53,15 @@ class ExportUI extends Component<MyProps, MyStates>
       snackOpen: false,
       snackType: 'error',
       snackMsg: '',
+      dialogOpen: false,
+      pageWidth: 0 ,
+      pageHeight: 0,
+      dialogCloseBtnWidth: 0,
+      dialogCloseBtnHeight: 0
     }//END state
     
     this.compilerRef = React.createRef();
-    this.aRef = React.createRef();
+    this.dialogRef = React.createRef();
 
     this.snackOnClick             = this.snackOnClick.bind(this);
     this.getSnackTransition       = this.getSnackTransition.bind(this);
@@ -51,8 +69,25 @@ class ExportUI extends Component<MyProps, MyStates>
     this.nextBtnOnclick           = this.nextBtnOnclick.bind(this);
     this.exportBtnOnclick         = this.exportBtnOnclick.bind(this);
     this.exportCallback           = this.exportCallback.bind(this);
+    this.getDialogTransition           = this.getDialogTransition.bind(this);
+    this.dialogClose              = this.dialogClose.bind(this);
+    this.updatePageComputedStyle            = this.updatePageComputedStyle.bind(this);
+    this.updateDialogCloseBtnComputedStyle  = this.updateDialogCloseBtnComputedStyle.bind(this);
     
   }//END constructor
+
+
+  getDialogTransition(props:any) 
+  {
+    return <Slide direction="up" ref={this.dialogRef} {...props} />;
+  }//END getDialogTransition
+
+  dialogClose()
+  {
+    this.setState({ 
+      dialogOpen: false,
+    });
+  }//END dialogClose
 
   snackOnClose()
   {
@@ -83,7 +118,10 @@ class ExportUI extends Component<MyProps, MyStates>
 
   exportBtnOnclick()
   {
-    this.compilerRef.current.getOutPut(this.exportCallback);
+    this.setState({ 
+      dialogOpen: true,
+    });
+    //this.compilerRef.current.getOutPut(this.exportCallback);
   }//END exportBtnOnclick
 
   async exportCallback(output: any)
@@ -99,6 +137,50 @@ class ExportUI extends Component<MyProps, MyStates>
 
   }//END exportCallback
 
+  updatePageComputedStyle()
+  {
+    if(!window) return;
+     let page:any = document.querySelector('#page-root');
+     
+    if(!page) return;
+    let pagecompStyles = window.getComputedStyle(page);
+    let w:number, h:number;
+    w = parseInt(pagecompStyles.width);
+    h = parseInt(pagecompStyles.height);
+    if (isNaN(w)) w = 0;
+    if (isNaN(h)) h = 0;
+    this.setState({ 
+      pageWidth: w ,
+      pageHeight: h,
+    });  
+
+  }//END updatePageComputedStyle
+
+  updateDialogCloseBtnComputedStyle()
+  {
+    if(!window) return;
+     let closeBtn:any = document.querySelector('#dialog_closeBtn');
+     console.log(closeBtn);
+    if(!closeBtn) return;
+    let closeBtncompStyles = window.getComputedStyle(closeBtn);
+    let w:number, h:number;
+    w = parseInt(closeBtncompStyles.width);
+    h = parseInt(closeBtncompStyles.height);
+    if (isNaN(w)) w = 0;
+    if (isNaN(h)) h = 0;
+    this.setState({ 
+      dialogCloseBtnWidth: w ,
+      dialogCloseBtnHeight: h,
+    });  
+
+  }//END updateDialogCloseBtnComputedStyle
+
+  componentDidMount() 
+  {
+    this.updatePageComputedStyle();
+    //this.updateDialogCloseBtnComputedStyle();
+  }
+
   render() 
   {
     let containerClass    = this.parent.parent.state.isMobile? mobileStyles.container : styles.container;
@@ -107,9 +189,36 @@ class ExportUI extends Component<MyProps, MyStates>
     let buttonActiveClass = [buttonClass, this.parent.parent.state.isMobile? mobileStyles.active : styles.active].join(' ');
 
     let nextBtnClass       = utilStyles.purple_iconRight_btn_l;
+    let dialogAppbarClass   = this.parent.parent.state.isMobile? mobileStyles.appBar : styles.appBar;
+    let dialogTitleClass   = this.parent.parent.state.isMobile? mobileStyles.dialogTitle : styles.dialogTitle;
+    let dialogCloseBtnClass   = this.parent.parent.state.isMobile? mobileStyles.dialogCloseBtn : styles.dialogCloseBtn;
+
+    let closeBtnStyle = {
+      left: (this.state.pageWidth - 80)+'px'
+    }
+
+    let dialogEle = <Dialog fullScreen open={this.state.dialogOpen} onClose={this.dialogClose} TransitionComponent={this.getDialogTransition}>
+                      <AppBar className={dialogAppbarClass}>
+                        <Toolbar>
+                          <IconButton edge="start" color="inherit" onClick={this.dialogClose} aria-label="close">
+                            <CloseIcon />
+                          </IconButton>
+                          <Typography variant="h6" className={dialogTitleClass}>
+                            Sound
+                          </Typography>
+                          <div className={dialogCloseBtnClass} style={closeBtnStyle} id='dialog_closeBtn'>
+                          <Button color="inherit" onClick={this.dialogClose} >
+                            save
+                          </Button>
+                          </div>
+                        </Toolbar>
+                      </AppBar>
+                      ........
+                    </Dialog>
+
 
     return  <div className={containerClass}>
-              <a ref={this.aRef}>aasadsadsadsdsds</a>
+              {dialogEle}
               <ImageCompiler parent={this} ref={this.compilerRef} />
               <Snackbar 
                 open={this.state.snackOpen} 

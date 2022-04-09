@@ -10,12 +10,14 @@ type MyProps = {
 type MyStates = {
   touchStart:boolean
   lastEventType:string
-  lastEvent: any
+  lastEvent: any,
+  debugLog: any[]
 };
 
 interface TouchController  {
   parent: any
   touchevent: any
+  debugRef: any
 }
 
 class TouchController extends Component<MyProps, MyStates>
@@ -36,8 +38,11 @@ class TouchController extends Component<MyProps, MyStates>
     this.state = {
       touchStart: false,
       lastEventType: this.touchevent.NULL,
-      lastEvent: null
+      lastEvent: null,
+      debugLog: ['Debug:']
     }//END state
+
+    this.debugRef = React.createRef();
 
     this.getbottomControlPanel = this.getbottomControlPanel.bind(this);
     this.getCanvas  = this.getCanvas.bind(this);
@@ -46,8 +51,30 @@ class TouchController extends Component<MyProps, MyStates>
     this.getKeyNumByNode  = this.getKeyNumByNode.bind(this);
     this.checkPositionIsOverflowAndFix      = this.checkPositionIsOverflowAndFix.bind(this);
     this.checkBottomControlIsStageEditimg   = this.checkBottomControlIsStageEditimg.bind(this);
-    
+    this.onPinchStart   = this.onPinchStart.bind(this);
+    this.debugLog       = this.debugLog.bind(this);
   }//END constructor
+
+  onPinchStart(e: any)
+  {
+    this.debugLog('yoyo');
+
+
+  }//END onPinchStart
+
+  debugLog(str:string)
+  {
+    if(!this.debugRef || !this.debugRef.current) return;
+
+    let debug = this.state.debugLog;
+    debug = debug.concat(str);
+
+    this.setState({ 
+      debugLog: debug
+    });
+   
+
+  }//END debugLog
 
   getCanvas()
   {
@@ -154,7 +181,6 @@ class TouchController extends Component<MyProps, MyStates>
 
   checkPositionIsOverflowAndFix(x:number, y:number, targetWidthHeight:any[])
   {
-    
     let canvasDom:any = document.querySelector('#canvas');
     let convasRect = canvasDom.getBoundingClientRect();
     
@@ -177,10 +203,6 @@ class TouchController extends Component<MyProps, MyStates>
 
 
     return [resultX, resultY];
-
-
-
-
   }//END checkPositionIsOverflowAndFix
 
   getKeyNumByNode(node:any)
@@ -203,9 +225,14 @@ class TouchController extends Component<MyProps, MyStates>
         self.handleTap(e);
       }}  */
 
-      onTouchStart={function(e:any)
+      /* onTouchStart={function(e:any)
       {
         self.touchStart(e);
+      }} */
+
+      onPinchStart={function(e:any)
+      {
+        self.onPinchStart(e);
       }}
 
       onTouchMove={function(e:any)
@@ -232,7 +259,32 @@ class TouchController extends Component<MyProps, MyStates>
 
   render() 
   {
-    return null;
+      let debugStyle: any={
+          width:'340px',
+          height:'120px',
+          position: 'absolute',
+          backgroundColor: '#ededed',
+          border: '#ff952b 2px solid',
+          zIndex:25,
+          top:10,
+          left:10,
+          padding:'5px',
+          color: '#363636',
+          fontFamily: 'Roboto',
+          fontWeight: 400,
+          lineHeight:'20px',
+      }
+      
+    return  <div style={debugStyle} ref={this.debugRef}>
+              {
+                this.state.debugLog.map((log) => {    
+                  
+                 return   <p>
+                            {log}
+                          </p>
+                } )
+              }
+            </div>;
   }
 
 }//END class TouchController

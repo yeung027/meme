@@ -11,7 +11,9 @@ type MyStates = {
   touchStart:boolean
   lastEventType:string
   lastEvent: any,
-  debugLog: any[]
+  debugLog: any[],
+  pinchStarted: boolean
+  pinchMoveCount: number
 };
 
 interface TouchController  {
@@ -40,6 +42,8 @@ class TouchController extends Component<MyProps, MyStates>
       touchStart: false,
       lastEventType: this.touchevent.NULL,
       lastEvent: null,
+      pinchStarted: false,
+      pinchMoveCount:0,
       debugLog: ['Debug:']
     }//END state
 
@@ -51,6 +55,7 @@ class TouchController extends Component<MyProps, MyStates>
     this.getCanvas  = this.getCanvas.bind(this);
     this.touchStart = this.touchStart.bind(this);
     this.touchMove  = this.touchMove.bind(this);
+    this.onPinchEnd = this.onPinchEnd.bind(this);
     this.getKeyNumByNode  = this.getKeyNumByNode.bind(this);
     this.getKeyNumByID     = this.getKeyNumByID.bind(this);
     this.checkPositionIsOverflowAndFix      = this.checkPositionIsOverflowAndFix.bind(this);
@@ -59,23 +64,61 @@ class TouchController extends Component<MyProps, MyStates>
     this.onPinchMove   = this.onPinchMove.bind(this);
     this.handleTap       = this.handleTap.bind(this);
     this.debugLog       = this.debugLog.bind(this);
+    this.getCanvasSize       = this.getCanvasSize.bind(this);
+    this.fixImgSizeWhileZoomOverflow       = this.fixImgSizeWhileZoomOverflow.bind(this);
+    
   }//END constructor
 
 
   onPinchStart(e: any)
   {
-    //this.debugLog(Object.keys(e).toString());
-
-
+    if(this.state.pinchStarted) return;
+    this.setState({ 
+      pinchStarted: true,
+      pinchMoveCount:0
+     });
   }//END onPinchStart
+
+  onPinchEnd(e: any)
+  {
+    this.setState({ 
+      pinchStarted: false,
+      pinchMoveCount:0
+     });
+  }//END onPinchEnd
 
   handleTap(e:any)
   {
     //this.debugLog(e.target.toString());
   }//END handleTap
 
+
+  getCanvasSize()
+  {
+    let canvas:any = document.querySelector('#canvas');
+    let style = window.getComputedStyle(canvas);
+    let w:number, h:number;
+    w = parseInt(style.width);
+    h = parseInt(style.height);
+    if (isNaN(w)) w = 0;
+    if (isNaN(h)) h = 0;
+
+    return [w, h];
+  }
   onPinchMove(e: any, key: any)
   {
+    if(this.state.pinchMoveCount >5) return;
+    
+    let pinchMoveCount = this.state.pinchMoveCount + 1;
+    this.setState({ 
+      pinchStarted: false,
+      pinchMoveCount: pinchMoveCount
+     });
+    
+     
+
+
+
     if(!this.checkBottomControlIsStageEditimg()) return;
     let keynum= this.getKeyNumByID(key);
     //this.debugLog(keyNum);
@@ -92,8 +135,44 @@ class TouchController extends Component<MyProps, MyStates>
       return;
     }
 
-    this.debugLog(tappableNode);
+    let imgObj:any  =  this.parent.state.images;
+
+    if(!imgObj || imgObj.length<(keynum+1)) return this.debugLog('error! imgObj');
+
+
+    let zoom = e.zoom;
+
+    let new_scale = imgObj[keynum].scale * zoom;
+    let new_w = imgObj[keynum].w * zoom;
+    let new_h = imgObj[keynum].h * zoom;
+
+
+    let finally_size  = this.fixImgSizeWhileZoomOverflow(new_w, new_h, new_scale);
+
+    imgObj[keynum].scale = finally_size[2];
+    imgObj[keynum].w = finally_size[0];
+    imgObj[keynum].h = finally_size[1];
+
+    this.parent.setState({ 
+      images: imgObj
+     });
+
+    //this.debugLog(imgObj[keynum].scale);
+    this.debugLog(finally_size);
   }//END onPinchMove
+
+  fixImgSizeWhileZoomOverflow(w:number, h:number, new_scale:number)
+  {
+    let canvasSize: any[] = this.getCanvasSize();
+    let fix_w:number = w, fix_h:number = h;
+
+    if(fix_w > canvasSize[0]) fix_w = canvasSize[0];
+    if(fix_h > canvasSize[1]) fix_h = canvasSize[1];
+
+
+    return [fix_w, fix_h, new_scale];
+  }//END fixImgSizeWhileZoomOverflow
+
 
   debugLog(str:any)
   {
@@ -282,9 +361,14 @@ class TouchController extends Component<MyProps, MyStates>
       }}
 
       onPinchMove={function(e:any)
-        {
-          self.onPinchMove(e, key);
-        }}
+      {
+        self.onPinchMove(e, key);
+      }}
+
+      onPinchEnd={function(e:any)
+      {
+        self.onPinchEnd(e);
+      }}
 
       onTouchMove={function(e:any)
       {

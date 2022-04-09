@@ -1,6 +1,6 @@
 import { RestoreOutlined } from '@material-ui/icons';
 import React,{Component} from 'react';
-const Tappable = require('react-tappable');
+const Pinchable  = require('react-tappable');
 
 type MyProps = {
   parent:any
@@ -18,6 +18,7 @@ interface TouchController  {
   parent: any
   touchevent: any
   debugRef: any
+  tappableRef: any
 }
 
 class TouchController extends Component<MyProps, MyStates>
@@ -43,31 +44,70 @@ class TouchController extends Component<MyProps, MyStates>
     }//END state
 
     this.debugRef = React.createRef();
+    this.tappableRef = React.createRef();
+
 
     this.getbottomControlPanel = this.getbottomControlPanel.bind(this);
     this.getCanvas  = this.getCanvas.bind(this);
     this.touchStart = this.touchStart.bind(this);
     this.touchMove  = this.touchMove.bind(this);
     this.getKeyNumByNode  = this.getKeyNumByNode.bind(this);
+    this.getKeyNumByID     = this.getKeyNumByID.bind(this);
     this.checkPositionIsOverflowAndFix      = this.checkPositionIsOverflowAndFix.bind(this);
     this.checkBottomControlIsStageEditimg   = this.checkBottomControlIsStageEditimg.bind(this);
     this.onPinchStart   = this.onPinchStart.bind(this);
+    this.onPinchMove   = this.onPinchMove.bind(this);
+    this.handleTap       = this.handleTap.bind(this);
     this.debugLog       = this.debugLog.bind(this);
   }//END constructor
 
+
   onPinchStart(e: any)
   {
-    this.debugLog('yoyo');
+    //this.debugLog(Object.keys(e).toString());
 
 
   }//END onPinchStart
 
-  debugLog(str:string)
+  handleTap(e:any)
+  {
+    //this.debugLog(e.target.toString());
+  }//END handleTap
+
+  onPinchMove(e: any, key: any)
+  {
+    if(!this.checkBottomControlIsStageEditimg()) return;
+    let keynum= this.getKeyNumByID(key);
+    //this.debugLog(keyNum);
+    //let eTarget:any = e.target;
+    //this.debugLog(Object.keys(e.touches[0].identifier).toString());
+    //this.debugLog(e.touches[0].identifier);
+    //let tappableNode:any  = eTarget.parentNode;
+    //let keynum  = this.getKeyNumByNode(tappableNode);
+    let tappableNode:any  = document.querySelector('#'+key);
+
+    if(isNaN(keynum))
+    {
+      console.error('touchmove received but target keynum is NaN');
+      return;
+    }
+
+    this.debugLog(tappableNode);
+  }//END onPinchMove
+
+  debugLog(str:any)
   {
     if(!this.debugRef || !this.debugRef.current) return;
+    let show: string;
+
+
+    if (typeof str === 'string') show = str;
+    else  show = str.toString();
 
     let debug = this.state.debugLog;
-    debug = debug.concat(str);
+    debug = debug.concat(show);
+
+    if(debug.length >5) debug = debug.splice(0,1);
 
     this.setState({ 
       debugLog: debug
@@ -208,23 +248,29 @@ class TouchController extends Component<MyProps, MyStates>
   getKeyNumByNode(node:any)
   {
     let id:any = node.id;
+    return this.getKeyNumByID(id);
+  }//END getKeyNumByNode
+
+  getKeyNumByID(id:any)
+  {
     let num = id.substring(13);
     let target_key_num = parseInt(num);
     return target_key_num;
-  }//END getKeyNumByNode
+  }//END getKeyNumByID
 
   
 
   tappableElement(tappableClass:any, wrapperStyle:any, children:any, key:string)
   {
     var self = this;
-    return <Tappable 
+    return <Pinchable  
+
       id={key}
-      /* onTap={function(e:any)
+      ref={this.tappableRef}
+      onTap={function(e:any)
       {
         self.handleTap(e);
-      }}  */
-
+      }} 
       /* onTouchStart={function(e:any)
       {
         self.touchStart(e);
@@ -234,6 +280,11 @@ class TouchController extends Component<MyProps, MyStates>
       {
         self.onPinchStart(e);
       }}
+
+      onPinchMove={function(e:any)
+        {
+          self.onPinchMove(e, key);
+        }}
 
       onTouchMove={function(e:any)
       {
@@ -245,7 +296,7 @@ class TouchController extends Component<MyProps, MyStates>
       key={key}
     >
       {children}
-    </Tappable>
+    </Pinchable >
   }//END tappableElement
 
   componentDidMount() 
@@ -273,6 +324,7 @@ class TouchController extends Component<MyProps, MyStates>
           fontFamily: 'Roboto',
           fontWeight: 400,
           lineHeight:'20px',
+          wordWrap: 'break-word'
       }
       
     return  <div style={debugStyle} ref={this.debugRef}>

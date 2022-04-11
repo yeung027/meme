@@ -98,27 +98,13 @@ class ImageCompiler extends Component<MyProps, MyStates>
       throw ('Cannot get image size!');
     }
 
-    let resizedIMG:any;
-    let finally_rate:any  = image.scale;
-
-    try
-    {
-      resizedIMG  = await self.resizeIMG(b64, b64ImageSize[0] * finally_rate, b64ImageSize[1] * finally_rate);
-    }
-    catch(error)
-    {
-      console.error(error);
-      throw (error);
-    }
-
-    let resizedIMG_URL = URL.createObjectURL(resizedIMG);
-
     let rawImageSize:any  = await self.getRawImgSize();
 
     if(!rawImageSize)
     {
       throw ('Cannot get raw image size!');
     }
+    
 
     let canvasDetails:any = this.getCanvasSize();
     let canvasXY_rate:number = canvasDetails.h / canvasDetails.w;
@@ -129,13 +115,36 @@ class ImageCompiler extends Component<MyProps, MyStates>
     console.log('canvasDetails: '+canvasDetails.w+', '+canvasDetails.h);
     console.log('canvasOuputRate: '+canvasOuputRate);
     console.log('canvasOuputRate2: '+canvasOuputRate2); */
-    let finally_output_x_rate =  (canvasXY_rate/(canvasOuputRate_y/ canvasOuputRate_x));
-    let finally_output_y_rate =  (canvasXY_rate/(canvasOuputRate_x/ canvasOuputRate_y));
-    console.log('canvasXY_rate: '+ (canvasXY_rate*(canvasOuputRate_y/ canvasOuputRate_x)));
+    let finally_output_x_rate =  ((canvasOuputRate_y/ canvasOuputRate_x));
+    let finally_output_y_rate =  ((canvasOuputRate_x/ canvasOuputRate_y));
+    //console.log('canvasXY_rate: '+ (canvasXY_rate*(canvasOuputRate_y/ canvasOuputRate_x)));
     let image_org_x = parseInt(image.x) - canvasDetails.left;
     let image_org_y = parseInt(image.y) - canvasDetails.top;
-    let output_x  =  image_org_x * (canvasOuputRate_x * finally_output_x_rate);
+    let output_x  =  image_org_x * (canvasOuputRate_x );
     let output_y  =  image_org_y * (canvasOuputRate_y * finally_output_y_rate);
+
+
+    let resizedIMG:any;
+    let image_w:number = image.w * (canvasOuputRate_x );
+    let image_h:number = image.h * (canvasOuputRate_y );
+
+    console.log('image_w: '+image_w);
+    console.log('image_h: '+image_h);
+    console.log('canvasOuputRate_x: '+canvasOuputRate_x);
+
+    try
+    {
+      resizedIMG  = await self.resizeIMG(b64, image_w, image_h);
+    }
+    catch(error)
+    {
+      console.error(error);
+      throw (error);
+    }
+
+    let resizedIMG_URL = URL.createObjectURL(resizedIMG);
+
+    
 
     /* console.log(rawImageSize[0]);
     console.log(canvasDetails.w);

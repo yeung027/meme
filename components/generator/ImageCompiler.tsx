@@ -58,7 +58,7 @@ class ImageCompiler extends Component<MyProps, MyStates>
       output_image_index:0,
       output_requester_callback: callback
      }, function(){
-      self.doOutput(this.rawImgSrc);
+      self.doOutput(self.rawImgSrc);
     });
     
   }//END getOutPut
@@ -74,7 +74,6 @@ class ImageCompiler extends Component<MyProps, MyStates>
 
     if(!b64ImageSize)
     {
-      callback(false);
       throw ('Cannot get image size!');
     }
 

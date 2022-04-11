@@ -33,6 +33,7 @@ type MyStates = {
   snackMsg: string
   pageWidth: number 
   pageHeight: number
+  dialogOpen: boolean
   dialogCloseBtnWidth: number 
   dialogCloseBtnHeight: number
   dialogAppbarWidth: number 
@@ -43,7 +44,6 @@ interface ExportUI {
   parent: any
   compilerRef: any
   dialogRef: any
-  dialogOpen: boolean
   dialogCloseBtnRef: any
   dialogAppbarRef: any
 }
@@ -140,9 +140,9 @@ class ExportUI extends Component<MyProps, MyStates>
     console.log('i am callback');
     //console.log(output);
 
-    const link = document.createElement("a");
-    this.aRef.current.href = output;
-    this.aRef.current.download = 'okok.png';
+    //const link = document.createElement("a");
+    //this.aRef.current.href = output;
+    //this.aRef.current.download = 'okok.png';
   //console.log(this.aRef.current.download)
 
 
@@ -275,7 +275,7 @@ class ExportUI extends Component<MyProps, MyStates>
 
     return  <div className={containerClass}>
               {dialogEle}
-              <ImageCompiler parent={this} ref={this.compilerRef} />
+              <ImageCompiler parent={this} ref={this.compilerRef} rawImgSrc={''} />
               <Snackbar 
                 open={this.state.snackOpen} 
                 autoHideDuration={6000} 

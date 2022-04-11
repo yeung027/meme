@@ -13,7 +13,6 @@ type MyStates = {
   lastEvent: any,
   debugLog: any[],
   pinchStarted: boolean
-  pinchMoveCount: number
 };
 
 interface TouchController  {
@@ -43,7 +42,6 @@ class TouchController extends Component<MyProps, MyStates>
       lastEventType: this.touchevent.NULL,
       lastEvent: null,
       pinchStarted: false,
-      pinchMoveCount:0,
       debugLog: ['Debug:']
     }//END state
 
@@ -66,6 +64,8 @@ class TouchController extends Component<MyProps, MyStates>
     this.debugLog       = this.debugLog.bind(this);
     this.getCanvasSize       = this.getCanvasSize.bind(this);
     this.fixImgSizeWhileZoomOverflow       = this.fixImgSizeWhileZoomOverflow.bind(this);
+    this.zoomByPinchMove                      = this.zoomByPinchMove.bind(this);
+    this.getImageCoorByPinchEventCenter       = this.getImageCoorByPinchEventCenter.bind(this);
     
   }//END constructor
 
@@ -75,7 +75,6 @@ class TouchController extends Component<MyProps, MyStates>
     if(this.state.pinchStarted) return;
     this.setState({ 
       pinchStarted: true,
-      pinchMoveCount:0
      });
   }//END onPinchStart
 
@@ -83,7 +82,6 @@ class TouchController extends Component<MyProps, MyStates>
   {
     this.setState({ 
       pinchStarted: false,
-      pinchMoveCount:0
      });
   }//END onPinchEnd
 
@@ -107,14 +105,12 @@ class TouchController extends Component<MyProps, MyStates>
   }
   onPinchMove(e: any, key: any)
   {
-    if(this.state.pinchMoveCount >5) return;
-    
-    let pinchMoveCount = this.state.pinchMoveCount + 1;
-    this.setState({ 
-      pinchStarted: false,
-      pinchMoveCount: pinchMoveCount
-     });
-    
+    this.zoomByPinchMove(e, key);
+  }//END onPinchMove
+
+  zoomByPinchMove(e: any, key: any)
+  {
+
      
 
 
@@ -142,32 +138,54 @@ class TouchController extends Component<MyProps, MyStates>
 
     let zoom = e.zoom;
 
+    if(e.zoom < 1) zoom *= 1.43;
+    else zoom *= 0.8;
+
     let new_scale = imgObj[keynum].scale * zoom;
     let new_w = imgObj[keynum].w * zoom;
     let new_h = imgObj[keynum].h * zoom;
 
 
     let finally_size  = this.fixImgSizeWhileZoomOverflow(new_w, new_h, new_scale);
+    let fied_xy_by_event_center:any[]  = this.getImageCoorByPinchEventCenter(e, imgObj[keynum]);
 
     imgObj[keynum].scale = finally_size[2];
     imgObj[keynum].w = finally_size[0];
     imgObj[keynum].h = finally_size[1];
+    imgObj[keynum].x = fied_xy_by_event_center[0];
+    imgObj[keynum].y = fied_xy_by_event_center[1];
 
     this.parent.setState({ 
       images: imgObj
      });
 
     //this.debugLog(imgObj[keynum].scale);
-    this.debugLog(finally_size);
-  }//END onPinchMove
+    //this.debugLog(e.center.x + ', ' + e.center.y);
+  }//END zoomByPinchMove
+
+  getImageCoorByPinchEventCenter(e:any, imageObj: any)
+  {
+    let center_x:number = e.center.x;
+    let center_y:number = e.center.y;
+    let half_image_w = imageObj.w / 2;
+    let half_image_h = imageObj.h / 2;
+    let result_x  = center_x - half_image_w;
+    let result_y  = center_y - half_image_h;
+
+    //this.debugLog(result_x);
+    return [result_x, result_y];
+  }//END zoomByPinchMove
 
   fixImgSizeWhileZoomOverflow(w:number, h:number, new_scale:number)
   {
     let canvasSize: any[] = this.getCanvasSize();
     let fix_w:number = w, fix_h:number = h;
-
+    const min_percentage:number = 0.3;
     if(fix_w > canvasSize[0]) fix_w = canvasSize[0];
     if(fix_h > canvasSize[1]) fix_h = canvasSize[1];
+
+    if(fix_w < (canvasSize[0] * min_percentage)) fix_w = (canvasSize[0] * min_percentage);
+    if(fix_h < (canvasSize[1] * min_percentage)) fix_h = (canvasSize[1] * min_percentage);
 
 
     return [fix_w, fix_h, new_scale];
@@ -413,9 +431,9 @@ class TouchController extends Component<MyProps, MyStates>
       
     return  <div style={debugStyle} ref={this.debugRef}>
               {
-                this.state.debugLog.map((log) => {    
+                this.state.debugLog.map((log, i ) => {    
                   
-                 return   <p>
+                 return   <p key={'debug-p-'+i}>
                             {log}
                           </p>
                 } )

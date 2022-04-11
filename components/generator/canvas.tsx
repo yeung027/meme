@@ -12,6 +12,8 @@ type MyStates = {
   images: any[]
   canvasWidth: number
   canvasHeight: number
+  canvasLeft: number
+  canvasTop: number
   touchController:any
 };
 
@@ -32,6 +34,8 @@ class Canvas extends Component<MyProps, MyStates>
       images: [],
       canvasWidth: 0,
       canvasHeight: 0,
+      canvasLeft: 0,
+      canvasTop: 0,
       touchController: null
     }//END state
 
@@ -54,7 +58,8 @@ class Canvas extends Component<MyProps, MyStates>
     if(!window) return;
     let canvas:any = document.querySelector('#canvas');
     if(!canvas) return;
-    let canvascompStyles = window.getComputedStyle(canvas);
+    let canvascompStyles  = window.getComputedStyle(canvas);
+    let canvasRect        = canvas.getBoundingClientRect();
     let w:number, h:number;
     w = parseInt(canvascompStyles.width);
     h = parseInt(canvascompStyles.height);
@@ -63,8 +68,10 @@ class Canvas extends Component<MyProps, MyStates>
     this.setState({ 
       canvasWidth: w ,
       canvasHeight: h,
+      canvasLeft: canvasRect.left,
+      canvasTop: canvasRect.top
     }); 
-
+    //console.log(canvasRect.left)
   }//END updateCanvasComputedStyle
 
 
@@ -108,14 +115,22 @@ class Canvas extends Component<MyProps, MyStates>
                     this.state.images.map((image, i) => {     
                     
                     let tappableId  = 'img-tappable-'+image.key_num;
+                    let clipLeft =  this.state.canvasLeft - parseInt(image.x) + 1;
+                    let clipTop =  this.state.canvasTop - parseInt(image.y) + 1;
+                    let clipRight =  (parseInt(image.x) +  parseInt(image.w)) - (this.state.canvasLeft + this.state.canvasWidth) - 1;
+                    let clipBottom =(parseInt(image.y) +  parseInt(image.h)) - (this.state.canvasTop + this.state.canvasHeight) - 1;
+
+
+                    console.log((this.state.canvasLeft + this.state.canvasWidth));
+                    console.log((this.state.canvasLeft+ parseInt(image.x) +  parseInt(image.w)));
                     let wrapperStyle = {
                       width: image.w,
                       height:image.h,
                       top: image.y,
                       left: image.x,
+                      clipPath: 'inset('+clipTop+'px '+clipRight+'px '+clipBottom+'px '+clipLeft+'px)'
                     }  
 
-                     
                     let tapperClass = this.parent.state.isMobile? mobileStyles.tappable : styles.tappable;
                     
                     let imgEle= <img key={'img-key-'+i} id={'img-key-'+i} src={image.upload.data_url} 

@@ -296,7 +296,7 @@ class TouchController extends Component<MyProps, MyStates>
     let new_post_left = currentTouchClientX - tappableNode_w_half;
     let new_post_top  = currentTouchClientY - tappableNode_h_half;
 
-    let fixXY:any[] = this.checkPositionIsOverflowAndFix(new_post_left, new_post_top, [parseInt(tappableNode.style.width), parseInt(tappableNode.style.height)]);
+   //let fixXY:any[] = this.checkPositionIsOverflowAndFix(new_post_left, new_post_top, [parseInt(tappableNode.style.width), parseInt(tappableNode.style.height)]);
 
     if(isNaN(keynum))
     {
@@ -305,8 +305,8 @@ class TouchController extends Component<MyProps, MyStates>
     }
     let imgObj:any  =  this.parent.state.images;
 
-    imgObj[keynum].x = fixXY[0]+'px'
-    imgObj[keynum].y = fixXY[1]+'px';
+    imgObj[keynum].x = new_post_left+'px'
+    imgObj[keynum].y = new_post_top+'px';
 
     this.parent.setState({ 
       images: imgObj
@@ -360,6 +360,7 @@ class TouchController extends Component<MyProps, MyStates>
   tappableElement(tappableClass:any, wrapperStyle:any, children:any, key:string)
   {
     var self = this;
+    
     return <Pinchable  
 
       id={key}

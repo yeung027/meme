@@ -141,3 +141,66 @@
     /* border:cyan 3px solid; */
     position: absolute;
 }
+
+.dialogContent
+{
+    width:100%;
+    height:100%;
+    background-color: #F5F5F5;
+    display: flex;
+    flex-direction: column;
+}
+
+.dialogMain
+{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: calc(100% - 100px);
+    background-color: #F5F5F5;
+    justify-content: center;
+    align-items: center;
+    margin-top: 70px;
+}
+
+.prograssSpan
+{
+    font-size: 12px;
+    font-family: 'Roboto';
+    font-weight: 400;
+    color: #4f4f4f;
+    margin-top: 3px;
+}
+
+.dialogBottom
+{
+    display: flex;
+    width: 100%;
+    height: 100px;
+    background-color: #FFF;
+    justify-content: center;
+    align-items: center;
+}
+
+.dialogBottomIcon
+{
+    font-size: 'large';
+    color: #7A56DF;
+}
+
+.dialogImageWrapper
+{
+    display: flex;
+    width:90%;
+    height:90%;
+    -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+    box-sizing: border-box;         /* Opera/IE 8+ */
+    border: #BCA9F1 1px solid;
+}
+
+.dialogImage
+{
+    width:100%;
+    height: 100%;
+}

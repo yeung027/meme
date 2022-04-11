@@ -36,7 +36,7 @@ class Canvas extends Component<MyProps, MyStates>
       canvasHeight: 0,
       canvasLeft: 0,
       canvasTop: 0,
-      touchController: null
+      touchController: null,
     }//END state
 
     this.touchControllerRef = React.createRef();
@@ -121,8 +121,8 @@ class Canvas extends Component<MyProps, MyStates>
                     let clipBottom =(parseInt(image.y) +  parseInt(image.h)) - (this.state.canvasTop + this.state.canvasHeight) - 1;
 
 
-                    console.log((this.state.canvasLeft + this.state.canvasWidth));
-                    console.log((this.state.canvasLeft+ parseInt(image.x) +  parseInt(image.w)));
+                    //console.log((this.state.canvasLeft + this.state.canvasWidth));
+                    //console.log((this.state.canvasLeft+ parseInt(image.x) +  parseInt(image.w)));
                     let wrapperStyle = {
                       width: image.w,
                       height:image.h,

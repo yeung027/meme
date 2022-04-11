@@ -20,8 +20,7 @@ import Typography from '@material-ui/core/Typography';
 import CloseIcon from '@material-ui/icons/Close';
 import Slide from '@material-ui/core/Slide';
 import Button from '@material-ui/core/Button';
-
-import { green, purple } from '@material-ui/core/colors';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 type MyProps = {
     parent:any
@@ -38,6 +37,7 @@ type MyStates = {
   dialogCloseBtnHeight: number
   dialogAppbarWidth: number 
   dialogAppbaHeight: number
+  exportSrc: string
 };
 
 interface ExportUI {
@@ -65,7 +65,8 @@ class ExportUI extends Component<MyProps, MyStates>
       dialogCloseBtnWidth: 0,
       dialogCloseBtnHeight: 0,
       dialogAppbarWidth: 0,  
-      dialogAppbaHeight: 0
+      dialogAppbaHeight: 0,
+      exportSrc: ''
     }//END state
     
     this.compilerRef = React.createRef();
@@ -132,14 +133,16 @@ class ExportUI extends Component<MyProps, MyStates>
     this.setState({ 
       dialogOpen: true,
     });
-    //this.compilerRef.current.getOutPut(this.exportCallback);
+    this.compilerRef.current.getOutPut(this.exportCallback);
   }//END exportBtnOnclick
 
   async exportCallback(output: any)
   {
-    console.log('i am callback');
+    //console.log('i am callback');
     //console.log(output);
-
+    this.setState({ 
+      exportSrc: output
+    });  
     //const link = document.createElement("a");
     //this.aRef.current.href = output;
     //this.aRef.current.download = 'okok.png';
@@ -253,6 +256,20 @@ class ExportUI extends Component<MyProps, MyStates>
       lineHeight: this.state.dialogAppbaHeight+'px'
     }
 
+    let dialogMainEle =   <>
+                            <CircularProgress color="secondary" />
+                            <span className={this.parent.parent.state.isMobile? mobileStyles.prograssSpan : styles.prograssSpan}>Gerenating Image...</span>
+                          </>
+
+    if(this.state.exportSrc != '')
+    {
+      dialogMainEle =   <div className={this.parent.parent.state.isMobile? mobileStyles.dialogImageWrapper : styles.dialogImageWrapper}>
+                          {<img src={this.state.exportSrc} 
+                            className={this.parent.parent.state.isMobile? mobileStyles.dialogImage : styles.dialogImage} 
+                          />}
+                        </div>
+    }
+
     let dialogEle = <Dialog fullScreen open={this.state.dialogOpen} onClose={this.dialogClose} TransitionComponent={this.getDialogTransition}>
                       <AppBar ref={this.dialogAppbarRef} className={dialogAppbarClass} style={{backgroundColor: '#5f00d2'}}>
                         <Toolbar>
@@ -269,7 +286,16 @@ class ExportUI extends Component<MyProps, MyStates>
                           </div>
                         </Toolbar>
                       </AppBar>
-                      ........
+                      <div className={this.parent.parent.state.isMobile? mobileStyles.dialogContent : styles.dialogContent}>
+                      <div className={this.parent.parent.state.isMobile? mobileStyles.dialogMain : styles.dialogMain}>
+                          {dialogMainEle}
+                      </div>
+                      <div className={this.parent.parent.state.isMobile? mobileStyles.dialogBottom : styles.dialogBottom}>
+                        <IconButton color="primary" component="span">
+                          <GetAppIcon className={this.parent.parent.state.isMobile? mobileStyles.dialogBottomIcon : styles.dialogBottomIcon} fontSize="large" />
+                        </IconButton>
+                      </div>
+                      </div>
                     </Dialog>
 
 

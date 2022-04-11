@@ -85,9 +85,22 @@ class ExportUI extends Component<MyProps, MyStates>
     this.updatePageComputedStyle            = this.updatePageComputedStyle.bind(this);
     this.updateDialogCloseBtnComputedStyle  = this.updateDialogCloseBtnComputedStyle.bind(this);
     this.updateDialogAppBarComputedStyle  = this.updateDialogAppBarComputedStyle.bind(this);
-    
+    this.bottomDownloadBtnClick  = this.bottomDownloadBtnClick.bind(this);
   }//END constructor
 
+  async bottomDownloadBtnClick()
+  {
+    if (navigator.share) {
+      await navigator.share({
+        title: 'Meme',
+        text: 'Will Smith Punching',
+        url: this.state.exportSrc,
+      })
+        .then(() => console.log('成功'))
+        .catch((error) => console.log('發生錯誤', error));
+    }
+
+  }//END bottomDownloadBtnClick
 
   getDialogTransition(props:any) 
   {
@@ -291,7 +304,7 @@ class ExportUI extends Component<MyProps, MyStates>
                           {dialogMainEle}
                       </div>
                       <div className={this.parent.parent.state.isMobile? mobileStyles.dialogBottom : styles.dialogBottom}>
-                        <IconButton color="primary" component="span">
+                        <IconButton color="primary" component="span" onClick={this.bottomDownloadBtnClick}>
                           <GetAppIcon className={this.parent.parent.state.isMobile? mobileStyles.dialogBottomIcon : styles.dialogBottomIcon} fontSize="large" />
                         </IconButton>
                       </div>

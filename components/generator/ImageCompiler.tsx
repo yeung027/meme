@@ -43,6 +43,7 @@ class ImageCompiler extends Component<MyProps, MyStates>
     this.b64ToImgFile       = this.b64ToImgFile.bind(this);
     this.getOutPut          = this.getOutPut.bind(this);
     this.doOutput           = this.doOutput.bind(this);
+    this.getCanvasSize      = this.getCanvasSize.bind(this);
   }//END constructor
 
 
@@ -63,6 +64,26 @@ class ImageCompiler extends Component<MyProps, MyStates>
     
   }//END getOutPut
 
+  getCanvasSize()
+  {
+    if(!window) return;
+    let canvas:any = document.querySelector('#canvas');
+    if(!canvas) return;
+    let canvascompStyles  = window.getComputedStyle(canvas);
+    let canvasRect        = canvas.getBoundingClientRect();
+    let w:number, h:number;
+    w = parseInt(canvascompStyles.width);
+    h = parseInt(canvascompStyles.height);
+    if (isNaN(w)) w = 0;
+    if (isNaN(h)) h = 0;
+    
+    return {
+      w:canvasRect.width,
+      h:canvasRect.height,
+      left: canvasRect.left,
+      top: canvasRect.top,
+    };
+  }//END getCanvasSize
 
   async doOutput(previous_src:any)
   {
@@ -99,9 +120,39 @@ class ImageCompiler extends Component<MyProps, MyStates>
       throw ('Cannot get raw image size!');
     }
 
+    let canvasDetails:any = this.getCanvasSize();
+    let canvasXY_rate:number = canvasDetails.h / canvasDetails.w;
+    let canvasOuputRate_x = rawImageSize[0] / canvasDetails.w;
+    let canvasOuputRate_y = rawImageSize[1] / canvasDetails.h;
+    //let canvasOuputRate2 = canvasDetails.h / rawImageSize[1];
+    /* console.log('rawImageSize: '+rawImageSize[0]+', '+rawImageSize[1]);
+    console.log('canvasDetails: '+canvasDetails.w+', '+canvasDetails.h);
+    console.log('canvasOuputRate: '+canvasOuputRate);
+    console.log('canvasOuputRate2: '+canvasOuputRate2); */
+    let finally_output_x_rate =  (canvasXY_rate/(canvasOuputRate_y/ canvasOuputRate_x));
+    let finally_output_y_rate =  (canvasXY_rate/(canvasOuputRate_x/ canvasOuputRate_y));
+    console.log('canvasXY_rate: '+ (canvasXY_rate*(canvasOuputRate_y/ canvasOuputRate_x)));
+    let image_org_x = parseInt(image.x) - canvasDetails.left;
+    let image_org_y = parseInt(image.y) - canvasDetails.top;
+    let output_x  =  image_org_x * (canvasOuputRate_x * finally_output_x_rate);
+    let output_y  =  image_org_y * (canvasOuputRate_y * finally_output_y_rate);
+
+    /* console.log(rawImageSize[0]);
+    console.log(canvasDetails.w);
+    console.log(canvasOuputRate);
+    console.log(image.x);
+    console.log(image_org_x);
+    console.log(canvasDetails.left);
+    this.parent.parent.parent.canvasRef.current.touchControllerRef.current.debugLog(rawImageSize[0]);
+    this.parent.parent.parent.canvasRef.current.touchControllerRef.current.debugLog(image.x+', '+output_x); */
+
     let merge = await new Promise((resolve, reject) => 
     {
-      mergeImages([resizedIMG_URL, previous_src], {
+      mergeImages([{ 
+        src: resizedIMG_URL, 
+        x: output_x, 
+        y: output_y 
+      }, previous_src], {
         width: rawImageSize[0],
         height: rawImageSize[1]
       })

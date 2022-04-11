@@ -42,7 +42,7 @@
 .fadeOut .inner
 {
     animation-delay: 0s;
-    animation: toFadeOut 0.7s;
+    animation: toFadeOut 0.3s;
     animation-fill-mode: forwards;
 }
 
@@ -62,7 +62,7 @@
 .fadeIn .inner
 {
     animation-delay: 0s;
-    animation: toFadeIn 0.7s;
+    animation: toFadeIn 0.3s;
     animation-fill-mode: forwards;
 }
 

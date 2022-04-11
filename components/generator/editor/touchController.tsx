@@ -427,7 +427,8 @@ class TouchController extends Component<MyProps, MyStates>
           fontFamily: 'Roboto',
           fontWeight: 400,
           lineHeight:'20px',
-          wordWrap: 'break-word'
+          wordWrap: 'break-word',
+          /* display:'none' */
       }
       
     return  <div style={debugStyle} ref={this.debugRef}>

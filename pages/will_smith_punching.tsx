@@ -7,7 +7,7 @@ import Steps from '../components/generator/steps'
 import Canvas from '../components/generator/canvas'
 import CPU from '../components/generator/cpu'
 import BottomControlPanel from '../components/generator/bottomControlPanel'
-
+import ExportDialog from '../components/generator/exportDialog'
 
 type MyProps = {
   ua: any,
@@ -24,6 +24,7 @@ interface WillSmithPunchingPage {
   canvasRef: any
   bottomControlPanelRef: any
   cpuRef: any
+  exportDialogRef: any
 }
 
 class WillSmithPunchingPage extends Component<MyProps & WithUserAgentProps, MyStates> 
@@ -45,6 +46,7 @@ class WillSmithPunchingPage extends Component<MyProps & WithUserAgentProps, MySt
     this.canvasRef = React.createRef();
     this.bottomControlPanelRef = React.createRef();
     this.cpuRef = React.createRef();
+    this.exportDialogRef = React.createRef();
 
   }//END constructor  
 
@@ -65,6 +67,7 @@ class WillSmithPunchingPage extends Component<MyProps & WithUserAgentProps, MySt
   render() 
   {
     return  <>
+              <ExportDialog parent={this} ref={this.exportDialogRef} />
               <CPU parent={this} ref={this.cpuRef} />
               <div className={this.state.isMobile? mobileStyles.container : styles.container} id ='page-root'>
                 <Header parent={this} ref={this.headerRef} />

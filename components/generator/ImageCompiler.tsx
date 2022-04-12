@@ -53,7 +53,7 @@ class ImageCompiler extends Component<MyProps, MyStates>
     if(!this.parent.parent.canvasRef.current.state.images) throw ('uploaded images not found!');
     var self  = this;
     
-    if(this.parent.parent.canvasRef.current.state.images.length<=0) throw ('no photo uploaded or images data wrong');
+    //if(this.parent.parent.canvasRef.current.state.images.length<=0) throw ('no photo uploaded or images data wrong');
     
     this.setState({ 
       output_image_index:0,
@@ -88,6 +88,32 @@ class ImageCompiler extends Component<MyProps, MyStates>
   async doOutput(previous_src:any)
   {
     var self  = this;
+
+    if(!this.parent.parent.canvasRef.current.state.images || this.parent.parent.canvasRef.current.state.images.length<=0)
+    {
+      let rawImageSize:any  = await self.getRawImgSize();
+      let merge = await new Promise((resolve, reject) => 
+      {
+        mergeImages([previous_src], {
+          width: rawImageSize[0],
+          height: rawImageSize[1]
+        })
+        .then(function (b64) 
+        {
+          resolve(b64);
+        })
+        .catch(function (error:any) 
+        {
+          reject('mergeImages fail!');
+        });
+      });//END Promise
+
+      this.state.output_requester_callback(merge);
+
+      return;
+
+    }//end no image
+
     let image = this.parent.parent.canvasRef.current.state.images[this.state.output_image_index];
 
     let b64:any = image.upload;

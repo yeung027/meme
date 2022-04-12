@@ -33,7 +33,7 @@ class Header extends Component<MyProps, MyStates>
 
   exportBtnClick()
   {
-    console.log(this.parent.cpuRef.current.compilerRef.current);
+    this.parent.exportDialogRef.current.export();
   }//END exportBtnClick
 
   render() 

@@ -35,7 +35,6 @@ class ImageCompiler extends Component<MyProps, MyStates>
     
     this.imageTextRef = React.createRef();
 
-    this.mergeImg           = this.mergeImg.bind(this);
     this.resizeIMG          = this.resizeIMG.bind(this);
     this.getRawImgSize      = this.getRawImgSize.bind(this);
     this.getb64ImgSize      = this.getb64ImgSize.bind(this);
@@ -110,7 +109,7 @@ class ImageCompiler extends Component<MyProps, MyStates>
 
       let output = await this.b64ToImgFile(merge);
       //console.log(output);
-      this.state.output_requester_callback(output);
+      this.state.output_requester_callback(merge, output);
 
       return;
 
@@ -135,8 +134,6 @@ class ImageCompiler extends Component<MyProps, MyStates>
     
 
     let canvasDetails:any = this.getCanvasSize();
-    let canvasXY_rate:number = canvasDetails.h / canvasDetails.w;
-    let rawXY_rate:number = rawImageSize[1] /rawImageSize[0];
 
     let compare_output_x = rawImageSize[0] / canvasDetails.w;
     let compare_output_y = rawImageSize[1] / canvasDetails.h;
@@ -149,22 +146,7 @@ class ImageCompiler extends Component<MyProps, MyStates>
     let output_w = parseInt(image.w)* (compare_output_x);
     let output_h = parseInt(image.h)* (compare_output_y);
 
-    /* console.log('canvasXY_rate: '+canvasXY_rate);
-    console.log('rawXY_rate: '+rawXY_rate);
-    this.parent.parent.canvasRef.current.touchControllerRef.current.debugLog('canvasXY_rate: '+canvasXY_rate); */
-
-
-
-
-
     let resizedIMG:any;
-
-
-
-
-
-
-
 
 
     try
@@ -178,17 +160,6 @@ class ImageCompiler extends Component<MyProps, MyStates>
     }
 
     let resizedIMG_URL = URL.createObjectURL(resizedIMG);
-
-    
-
-    /* console.log(rawImageSize[0]);
-    console.log(canvasDetails.w);
-    console.log(canvasOuputRate);
-    console.log(image.x);
-    console.log(image_org_x);
-    console.log(canvasDetails.left);
-    this.parent.parent.canvasRef.current.touchControllerRef.current.debugLog(rawImageSize[0]);
-    this.parent.parent.canvasRef.current.touchControllerRef.current.debugLog(image.x+', '+output_x); */
 
     let merge = await new Promise((resolve, reject) => 
     {
@@ -220,71 +191,11 @@ class ImageCompiler extends Component<MyProps, MyStates>
     else 
     {
       let output = await this.b64ToImgFile(merge);
-      //console.log(output);
-      this.state.output_requester_callback(output);
+      this.state.output_requester_callback(merge, output);
     }
 
   }//END doOutput
 
-
-  async mergeImg(b64:any, callback:any)
-  {
-    var self = this;
-    let imgEle: any  = document.querySelector('#canvasIMG');
-    if(!imgEle)
-    {
-      console.error('IMG element not found!');
-      callback(false);
-      throw ('IMG element not found!');
-    }
-    //console.log(b64);
-
-    let rawImageSize:any  = await this.getRawImgSize();
-    let b64ImageSize:any  = await this.getb64ImgSize(b64.data_url);
-    if(!rawImageSize || !b64ImageSize)
-    {
-      console.error('Cannot get image size!');
-      callback(false);
-      throw ('Cannot get image size!');
-    }
-
-    let resizedIMG:any;
-    let resizeRate:number = 0.5;
-    let finally_rate:any  = await this.getResizeRate_compareWithRaw(b64.data_url, resizeRate);
-    //console.log(b64ImageSize);
-    
-
-    try
-    {
-      resizedIMG  = await this.resizeIMG(b64, b64ImageSize[0] * finally_rate, b64ImageSize[1] * finally_rate).catch();
-    }
-    catch(error)
-    {
-      console.error(error);
-      callback(false);
-      throw (error);
-    }
-
-    let resizedIMG_URL = URL.createObjectURL(resizedIMG);
-
-    mergeImages([resizedIMG_URL, this.rawImgSrc], {
-      width: rawImageSize[0],
-      height: rawImageSize[1]
-    })
-    .then(function (b64) 
-    {
-      //console.log(b64);
-      imgEle.src = b64;
-      //self.drawImageToCanvas(b64);
-      callback(true);
-    })
-    .catch(function (error:any) 
-    {
-      console.error(error);
-      callback(false);
-      throw (error);
-    });
-  }//END mergeImg
 
   async getResizeRate_compareWithRaw(b64:any, rate:number)
   {
@@ -324,22 +235,11 @@ class ImageCompiler extends Component<MyProps, MyStates>
     })
   }//END resizeIMG
 
-  b64ToImgFile(b64:any)
+  async b64ToImgFile(b64:any)
   {
-    return new Promise((resolve, reject) => 
-    {
-      var image = new Image();
-      image.onload = function() {
-        resolve(image);
-      };
-
-      image.onerror = function() {
-        console.error('Error occurred while converting b64 to file');
-        reject('Error occurred while converting b64 to file');
-      };
-
-      image.src = b64;
-    });
+    let blob = await (await fetch(b64)).blob();
+    let file = new File([blob], 'willsmith.png', { type: blob.type });
+    return file;
   }//END b64ToImgFile
 
   getb64ImgSize(b64:any)

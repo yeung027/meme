@@ -25,6 +25,7 @@ type MyStates = {
   appbarWidth: number 
   appbarHeight: number
   exportFile: any
+  exportSrc: string
 };
 
 interface ExportDialog {
@@ -49,7 +50,8 @@ class ExportDialog extends Component<MyProps, MyStates>
       closeBtnHeight: 0,
       appbarWidth: 0,  
       appbarHeight: 0,
-      exportFile: null
+      exportFile: null,
+      exportSrc: ''
     }//END state
     
     this.getTransition      = this.getTransition.bind(this);
@@ -85,17 +87,17 @@ class ExportDialog extends Component<MyProps, MyStates>
     this.parent.cpuRef.current.compilerRef.current.getOutPut(this.exportCallback);
   }//END export
 
-  async exportCallback(output: any)
+  async exportCallback(b64: any, file: any)
   {
     //console.log('i am callback');
     //console.log(output);
     this.setState({ 
-      exportFile: output
+      exportSrc: b64,
+      exportFile: file
     });  
     //const link = document.createElement("a");
     //this.aRef.current.href = output;
     //this.aRef.current.download = 'okok.png';
-  //console.log(this.aRef.current.download)
 
 
   }//END exportCallback

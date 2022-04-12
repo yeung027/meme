@@ -72,8 +72,8 @@ class ImageCompiler extends Component<MyProps, MyStates>
     let canvascompStyles  = window.getComputedStyle(canvas);
     let canvasRect        = canvas.getBoundingClientRect();
     let w:number, h:number;
-    w = parseInt(canvascompStyles.width);
-    h = parseInt(canvascompStyles.height);
+    w = parseInt(canvasRect.width);
+    h = parseInt(canvasRect.height);
     if (isNaN(w)) w = 0;
     if (isNaN(h)) h = 0;
     
@@ -108,33 +108,40 @@ class ImageCompiler extends Component<MyProps, MyStates>
 
     let canvasDetails:any = this.getCanvasSize();
     let canvasXY_rate:number = canvasDetails.h / canvasDetails.w;
-    let canvasOuputRate_x = rawImageSize[0] / canvasDetails.w;
-    let canvasOuputRate_y = rawImageSize[1] / canvasDetails.h;
-    //let canvasOuputRate2 = canvasDetails.h / rawImageSize[1];
-    /* console.log('rawImageSize: '+rawImageSize[0]+', '+rawImageSize[1]);
-    console.log('canvasDetails: '+canvasDetails.w+', '+canvasDetails.h);
-    console.log('canvasOuputRate: '+canvasOuputRate);
-    console.log('canvasOuputRate2: '+canvasOuputRate2); */
-    let finally_output_x_rate =  ((canvasOuputRate_y/ canvasOuputRate_x));
-    let finally_output_y_rate =  ((canvasOuputRate_x/ canvasOuputRate_y));
-    //console.log('canvasXY_rate: '+ (canvasXY_rate*(canvasOuputRate_y/ canvasOuputRate_x)));
+    let rawXY_rate:number = rawImageSize[1] /rawImageSize[0];
+
+    let compare_output_x = rawImageSize[0] / canvasDetails.w;
+    let compare_output_y = rawImageSize[1] / canvasDetails.h;
+
     let image_org_x = parseInt(image.x) - canvasDetails.left;
     let image_org_y = parseInt(image.y) - canvasDetails.top;
-    let output_x  =  image_org_x * (canvasOuputRate_x );
-    let output_y  =  image_org_y * (canvasOuputRate_y * finally_output_y_rate);
+    let output_x  =  image_org_x * (compare_output_x);
+    let output_y  =  image_org_y * (compare_output_y);
+
+    let output_w = parseInt(image.w)* (compare_output_x);
+    let output_h = parseInt(image.h)* (compare_output_y);
+
+    /* console.log('canvasXY_rate: '+canvasXY_rate);
+    console.log('rawXY_rate: '+rawXY_rate);
+    this.parent.parent.parent.canvasRef.current.touchControllerRef.current.debugLog('canvasXY_rate: '+canvasXY_rate); */
+
+
+
 
 
     let resizedIMG:any;
-    let image_w:number = image.w * (canvasOuputRate_x );
-    let image_h:number = image.h * (canvasOuputRate_y );
 
-    console.log('image_w: '+image_w);
-    console.log('image_h: '+image_h);
-    console.log('canvasOuputRate_x: '+canvasOuputRate_x);
+
+
+
+
+
+
+
 
     try
     {
-      resizedIMG  = await self.resizeIMG(b64, image_w, image_h);
+      resizedIMG  = await self.resizeIMG(b64, output_w, output_h);
     }
     catch(error)
     {

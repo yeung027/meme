@@ -69,7 +69,6 @@ class ExportDialog extends Component<MyProps, MyStates>
     //console.log(this.parent.exportDialogRef.current.state.exportSrc);
     if (navigator.share) {
       await navigator.share({
-        title: 'Meme',
         files: [this.state.exportFile]
       })
         .then(() => console.log('成功'))

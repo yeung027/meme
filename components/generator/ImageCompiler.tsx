@@ -238,7 +238,7 @@ class ImageCompiler extends Component<MyProps, MyStates>
   async b64ToImgFile(b64:any)
   {
     let blob = await (await fetch(b64)).blob();
-    let file = new File([blob], 'willsmith.png', { type: blob.type });
+    let file = new File([blob], 'willsmith.png', { type: "image/jpeg" });
     return file;
   }//END b64ToImgFile
 

@@ -42,9 +42,6 @@ class ExportDialog extends Component<MyProps, MyStates>
     this.parent = props.parent;
 
     this.state = {
-      snackOpen: false,
-      snackType: 'error',
-      snackMsg: '',
       open: false,
       pageWidth: 0 ,
       pageHeight: 0,
@@ -62,7 +59,22 @@ class ExportDialog extends Component<MyProps, MyStates>
     this.updateAppBarComputedStyle    = this.updateAppBarComputedStyle.bind(this);
     this.exportCallback           = this.exportCallback.bind(this);
     this.export           = this.export.bind(this);
+    this.bottomDownloadBtnClick           = this.bottomDownloadBtnClick.bind(this);
   }//END constructor
+
+  async bottomDownloadBtnClick()
+  {
+    if (navigator.share) {
+      await navigator.share({
+        title: 'Meme',
+        text: 'Will Smith Punching',
+        url: this.parent.parent.exportDialogRef.current.state.exportSrc,
+      })
+        .then(() => console.log('成功'))
+        .catch((error) => console.log('發生錯誤', error));
+    }
+
+  }//END bottomDownloadBtnClick
 
   export()
   {

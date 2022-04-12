@@ -37,12 +37,10 @@ class ExportUI extends Component<MyProps, MyStates>
     this.parent = props.parent;
 
     this.state = {
-      
+      snackOpen: false,
+      snackType: 'error',
+      snackMsg: '',
     }//END state
-    
-    this.dialogRef = React.createRef();
-    this.dialogCloseBtnRef = React.createRef();
-    this.dialogAppbarRef = React.createRef();
 
     this.snackOnClick             = this.snackOnClick.bind(this);
     this.getSnackTransition       = this.getSnackTransition.bind(this);
@@ -60,7 +58,7 @@ class ExportUI extends Component<MyProps, MyStates>
       await navigator.share({
         title: 'Meme',
         text: 'Will Smith Punching',
-        url: this.state.exportSrc,
+        url: this.parent.parent.exportDialogRef.current.state.exportSrc,
       })
         .then(() => console.log('成功'))
         .catch((error) => console.log('發生錯誤', error));

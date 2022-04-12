@@ -72,7 +72,7 @@ class WillSmithPunchingPage extends Component<MyProps & WithUserAgentProps, MySt
               <div className={this.state.isMobile? mobileStyles.container : styles.container} id ='page-root'>
                 <Header parent={this} ref={this.headerRef} />
                 <div className={this.state.isMobile? mobileStyles.whiteContainer : styles.whiteContainer}>
-                  <Steps parent={this} ref={this.stepsRef} />
+                  <Steps parent={this} ref={this.stepsRef} step={''} />
                   <Canvas parent={this} ref={this.canvasRef} />
                 </div>
                 <div className={this.state.isMobile? mobileStyles.bottomControlPanelContainer : styles.bottomControlPanelContainer}>

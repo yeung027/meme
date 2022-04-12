@@ -64,11 +64,12 @@ class ExportDialog extends Component<MyProps, MyStates>
 
   async bottomDownloadBtnClick()
   {
+    //console.log(this.parent.exportDialogRef.current.state.exportSrc);
     if (navigator.share) {
       await navigator.share({
         title: 'Meme',
         text: 'Will Smith Punching',
-        url: this.parent.parent.exportDialogRef.current.state.exportSrc,
+        url: this.parent.exportDialogRef.current.state.exportSrc,
       })
         .then(() => console.log('成功'))
         .catch((error) => console.log('發生錯誤', error));

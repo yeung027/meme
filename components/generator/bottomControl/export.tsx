@@ -47,7 +47,6 @@ class ExportUI extends Component<MyProps, MyStates>
     this.snackOnClick             = this.snackOnClick.bind(this);
     this.getSnackTransition       = this.getSnackTransition.bind(this);
     this.snackOnClose             = this.snackOnClose.bind(this);
-    this.nextBtnOnclick           = this.nextBtnOnclick.bind(this);
     this.exportBtnOnclick         = this.exportBtnOnclick.bind(this);
     this.bottomDownloadBtnClick   = this.bottomDownloadBtnClick.bind(this);
     this.backBtnOnclick           = this.backBtnOnclick.bind(this);
@@ -90,17 +89,10 @@ class ExportUI extends Component<MyProps, MyStates>
     });
   }//END snackOnClick
 
-  nextBtnOnclick()
-  {
-   // console.log(this.parent);
-
-    this.parent.stageChange(this.parent.stage.EXPORT);
-
-  }//END nextBtnOnclick
-
   backBtnOnclick()
   {
     this.parent.stageChange(this.parent.stage.EDITIMG);
+    this.parent.parent.stepsRef.current.stepChange(this.parent.parent.stepsRef.current.step.EDITIMG);
   }//END backBtnOnclick
 
   exportBtnOnclick()

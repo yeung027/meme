@@ -42,7 +42,7 @@ class EditImgUI extends Component<MyProps, MyStates>
     this.getSnackTransition       = this.getSnackTransition.bind(this);
     this.snackOnClose             = this.snackOnClose.bind(this);
     this.nextBtnOnclick           = this.nextBtnOnclick.bind(this);
-    
+    this.skipBtnOnclick           = this.skipBtnOnclick.bind(this);
   }//END constructor
 
   snackOnClose()
@@ -64,11 +64,21 @@ class EditImgUI extends Component<MyProps, MyStates>
     });
   }//END snackOnClick
 
-  nextBtnOnclick()
+  skipBtnOnclick()
   {
-   // console.log(this.parent);
+    //console.log(this.parent);
 
     this.parent.stageChange(this.parent.stage.EXPORT);
+    this.parent.parent.stepsRef.current.stepChange(this.parent.parent.stepsRef.current.step.EXPORT);
+
+  }//END skipBtnOnclick
+
+  nextBtnOnclick()
+  {
+    //console.log(this.parent);
+
+    this.parent.stageChange(this.parent.stage.EXPORT);
+    this.parent.parent.stepsRef.current.stepChange(this.parent.parent.stepsRef.current.step.EXPORT);
 
   }//END nextBtnOnclick
 
@@ -109,7 +119,7 @@ class EditImgUI extends Component<MyProps, MyStates>
                   <span>Edit Image</span>
                 </div>
                 <div className={this.parent.parent.state.isMobile? mobileStyles.header_r : styles.header_r}>
-                  <span className={this.parent.parent.state.isMobile? mobileStyles.textBtn : styles.textBtn}>skip</span>
+                  <span className={this.parent.parent.state.isMobile? mobileStyles.textBtn : styles.textBtn} onClick={this.skipBtnOnclick}>skip</span>
                 </div>
               </div>
               <div className={this.parent.parent.state.isMobile? mobileStyles.main : styles.main}>

@@ -136,9 +136,9 @@ class ButtonControlUploadGUI extends Component<MyProps, MyStates>
 
   uploadOnChangeCallback(success:boolean)
   {
-    //console.log('callback~' + success);
+    //console.log(this.parent.parent.stepsRef.current.stepChange);
     this.parent.stageChange(this.parent.stage.EDITIMG);
-
+    this.parent.parent.stepsRef.current.stepChange(this.parent.parent.stepsRef.current.step.EDITIMG);
   }//END uploadOnChangeCallback
 
   render() 
@@ -182,7 +182,7 @@ class ButtonControlUploadGUI extends Component<MyProps, MyStates>
                   <span>Add image & merge</span>
                 </div>
                 <div className={this.parent.parent.state.isMobile? mobileStyles.header_r : styles.header_r}>
-                  <span className={this.parent.parent.state.isMobile? mobileStyles.textBtn : styles.textBtn}>skip</span>
+                  {/* <span className={this.parent.parent.state.isMobile? mobileStyles.textBtn : styles.textBtn}>skip</span> */}
                 </div>
               </div>
               <div className={this.parent.parent.state.isMobile? mobileStyles.main : styles.main}>

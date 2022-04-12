@@ -9,9 +9,8 @@ import NotificationImportantIcon from '@material-ui/icons/NotificationImportant'
 
 import GetAppIcon from '@material-ui/icons/GetApp';
 import TextFieldsIcon from '@material-ui/icons/TextFields';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
-import ImageCompiler from '../ImageCompiler';
 import Dialog from '@material-ui/core/Dialog';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -42,7 +41,6 @@ type MyStates = {
 
 interface ExportUI {
   parent: any
-  compilerRef: any
   dialogRef: any
   dialogCloseBtnRef: any
   dialogAppbarRef: any
@@ -69,7 +67,6 @@ class ExportUI extends Component<MyProps, MyStates>
       exportSrc: ''
     }//END state
     
-    this.compilerRef = React.createRef();
     this.dialogRef = React.createRef();
     this.dialogCloseBtnRef = React.createRef();
     this.dialogAppbarRef = React.createRef();
@@ -80,12 +77,15 @@ class ExportUI extends Component<MyProps, MyStates>
     this.nextBtnOnclick           = this.nextBtnOnclick.bind(this);
     this.exportBtnOnclick         = this.exportBtnOnclick.bind(this);
     this.exportCallback           = this.exportCallback.bind(this);
-    this.getDialogTransition           = this.getDialogTransition.bind(this);
+    this.getDialogTransition      = this.getDialogTransition.bind(this);
     this.dialogClose              = this.dialogClose.bind(this);
     this.updatePageComputedStyle            = this.updatePageComputedStyle.bind(this);
     this.updateDialogCloseBtnComputedStyle  = this.updateDialogCloseBtnComputedStyle.bind(this);
-    this.updateDialogAppBarComputedStyle  = this.updateDialogAppBarComputedStyle.bind(this);
-    this.bottomDownloadBtnClick  = this.bottomDownloadBtnClick.bind(this);
+    this.updateDialogAppBarComputedStyle    = this.updateDialogAppBarComputedStyle.bind(this);
+    this.bottomDownloadBtnClick   = this.bottomDownloadBtnClick.bind(this);
+    this.backBtnOnclick           = this.backBtnOnclick.bind(this);
+
+    
   }//END constructor
 
   async bottomDownloadBtnClick()
@@ -141,12 +141,19 @@ class ExportUI extends Component<MyProps, MyStates>
 
   }//END nextBtnOnclick
 
+  backBtnOnclick()
+  {
+    this.parent.stageChange(this.parent.stage.EDITIMG);
+  }//END backBtnOnclick
+
   exportBtnOnclick()
   {
     this.setState({ 
       dialogOpen: true,
     });
-    this.compilerRef.current.getOutPut(this.exportCallback);
+    
+    //console.log(this.parent.parent.cpuRef.current.compilerRef.current.getOutPut);
+    this.parent.parent.cpuRef.current.compilerRef.current.getOutPut(this.exportCallback);
   }//END exportBtnOnclick
 
   async exportCallback(output: any)
@@ -314,7 +321,6 @@ class ExportUI extends Component<MyProps, MyStates>
 
     return  <div className={containerClass}>
               {dialogEle}
-              <ImageCompiler parent={this} ref={this.compilerRef} rawImgSrc={''} />
               <Snackbar 
                 open={this.state.snackOpen} 
                 autoHideDuration={6000} 
@@ -347,19 +353,17 @@ class ExportUI extends Component<MyProps, MyStates>
               </div>
               <div className={this.parent.parent.state.isMobile? mobileStyles.main : styles.main}>
                 <div className={this.parent.parent.state.isMobile? mobileStyles.mainInner : styles.mainInner}>
+                  
+                  <div className={buttonActiveClass} onClick={this.backBtnOnclick}>
+                    <ArrowBackIcon className={this.parent.parent.state.isMobile? mobileStyles.icon : styles.icon} />
+                    <span>Back</span>
+                  </div>
+
                   <div className={buttonActiveClass} onClick={this.exportBtnOnclick}>
                     <GetAppIcon className={this.parent.parent.state.isMobile? mobileStyles.icon : styles.icon} />
                     <span>Export</span>
                   </div>
-                  <div className={buttonActiveClass}>
-                    <TextFieldsIcon className={this.parent.parent.state.isMobile? mobileStyles.icon : styles.icon} />
-                    <span>Text</span>
-                  </div>
-
-                  <div className={nextBtnClass} onClick={this.nextBtnOnclick}>
-                    <span>Next</span>
-                    <ChevronRightIcon className={utilStyles.icon} />  
-                  </div>
+                  
                 </div>
               </div>
             </div>

@@ -12,7 +12,9 @@ type MyStates = {
   lastEventType:string
   lastEvent: any,
   debugLog: any[],
-  pinchStarted: boolean
+  pinchStarted: boolean,
+  //touch_x_percent: number
+  //touch_y_percent: number
 };
 
 interface TouchController  {
@@ -42,6 +44,8 @@ class TouchController extends Component<MyProps, MyStates>
       lastEventType: this.touchevent.NULL,
       lastEvent: null,
       pinchStarted: false,
+      //touch_x_percent: 50,
+      //touch_y_percent: 50,
       debugLog: ['Debug:']
     }//END state
 
@@ -70,11 +74,40 @@ class TouchController extends Component<MyProps, MyStates>
   }//END constructor
 
 
-  onPinchStart(e: any)
+  onPinchStart(e: any, key: any)
   {
-    if(this.state.pinchStarted) return;
+    /* if(this.state.pinchStarted) return;
+    if(!this.checkBottomControlIsStageEditimg()) return;
+    let keynum= this.getKeyNumByID(key);
+    let tappableNode:any  = document.querySelector('#'+key);
+
+    if(isNaN(keynum))
+    {
+      console.error('touchmove received but target keynum is NaN');
+      return;
+    }
+
+    let imgObj:any  =  this.parent.state.images;
+
+    if(!imgObj || imgObj.length<(keynum+1)) return this.debugLog('error! imgObj');
+    let x = parseInt(imgObj[keynum].x);
+    let y = parseInt(imgObj[keynum].y);
+    let w = parseInt(imgObj[keynum].w);
+    let h = parseInt(imgObj[keynum].h);
+
+    let percent_w = (x + w) / 100;
+    let touch_x_percent  = (e.center.x - x) / percent_w;
+
+    let percent_h = (y + h) / 100;
+    let touch_y_percent  = (e.center.y - y) / percent_h; */
+
+
+    //this.debugLog('touch_y_percent: ' + touch_y_percent);
+
     this.setState({ 
       pinchStarted: true,
+      //touch_x_percent: touch_x_percent,
+      //touch_y_percent: touch_y_percent
      });
   }//END onPinchStart
 
@@ -147,13 +180,13 @@ class TouchController extends Component<MyProps, MyStates>
 
 
     let finally_size  = this.fixImgSizeWhileZoomOverflow(new_w, new_h, new_scale);
-    let fied_xy_by_event_center:any[]  = this.getImageCoorByPinchEventCenter(e, imgObj[keynum]);
+    let fixed_xy_by_event_center:any[]  = this.getImageCoorByPinchEventCenter(e, imgObj[keynum]);
 
     imgObj[keynum].scale = finally_size[2];
     imgObj[keynum].w = finally_size[0];
     imgObj[keynum].h = finally_size[1];
-    imgObj[keynum].x = fied_xy_by_event_center[0];
-    imgObj[keynum].y = fied_xy_by_event_center[1];
+    imgObj[keynum].x = fixed_xy_by_event_center[0];
+    imgObj[keynum].y = fixed_xy_by_event_center[1];
 
     this.parent.setState({ 
       images: imgObj
@@ -165,14 +198,26 @@ class TouchController extends Component<MyProps, MyStates>
 
   getImageCoorByPinchEventCenter(e:any, imageObj: any)
   {
+    //let touch_x_percent = this.state.touch_x_percent;
+    //let touch_y_percent = this.state.touch_y_percent;
+
+    /* let x = parseInt(imageObj.x);
+    let y = parseInt(imageObj.y);
+    let w = parseInt(imageObj.w);
+    let h = parseInt(imageObj.h); */
+
     let center_x:number = e.center.x;
     let center_y:number = e.center.y;
+
+    
+
     let half_image_w = imageObj.w / 2;
     let half_image_h = imageObj.h / 2;
     let result_x  = center_x - half_image_w;
     let result_y  = center_y - half_image_h;
 
-    //this.debugLog(result_x);
+
+    //this.debugLog('(touch_x_percent * ((x+w)/100)): ' +((touch_x_percent * ((x+w)/100))+(x)));
     return [result_x, result_y];
   }//END zoomByPinchMove
 
@@ -180,12 +225,21 @@ class TouchController extends Component<MyProps, MyStates>
   {
     let canvasSize: any[] = this.getCanvasSize();
     let fix_w:number = w, fix_h:number = h;
+    let wh_rate = h / w;
     const min_percentage:number = 0.3;
-    if(fix_w > canvasSize[0]) fix_w = canvasSize[0];
-    if(fix_h > canvasSize[1]) fix_h = canvasSize[1];
+    /* if(fix_w > canvasSize[0]) fix_w = canvasSize[0];
+    if(fix_h > canvasSize[1]) fix_h = canvasSize[1]; */
 
-    if(fix_w < (canvasSize[0] * min_percentage)) fix_w = (canvasSize[0] * min_percentage);
-    if(fix_h < (canvasSize[1] * min_percentage)) fix_h = (canvasSize[1] * min_percentage);
+    if(fix_w < (canvasSize[0] * min_percentage))
+    {
+      fix_w = (canvasSize[0] * min_percentage);
+      fix_h = fix_w * wh_rate;
+    }
+    if(fix_h < (canvasSize[1] * min_percentage)) 
+    {
+      fix_h = (canvasSize[1] * min_percentage);
+      fix_w = fix_h / wh_rate;
+    }
 
 
     return [fix_w, fix_h, new_scale];
@@ -376,7 +430,7 @@ class TouchController extends Component<MyProps, MyStates>
 
       onPinchStart={function(e:any)
       {
-        self.onPinchStart(e);
+        self.onPinchStart(e, key);
       }}
 
       onPinchMove={function(e:any)
@@ -428,7 +482,7 @@ class TouchController extends Component<MyProps, MyStates>
           fontWeight: 400,
           lineHeight:'20px',
           wordWrap: 'break-word',
-          /* display:'none' */
+          display:'none' 
       }
       
     return  <div style={debugStyle} ref={this.debugRef}>

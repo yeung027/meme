@@ -1,5 +1,6 @@
 import React,{Component} from 'react';
 import ImageEditor from './imageEditor'
+import ImageCompiler from './ImageCompiler';
 
 type MyProps = {
     parent:any
@@ -11,6 +12,7 @@ type MyStates = {
 
 interface CPU {
   parent: any
+  compilerRef: any
   imageEditorRef: any
 }
 
@@ -24,7 +26,8 @@ class CPU extends Component<MyProps, MyStates>
     this.state = {
       
     }//END state
-    
+
+    this.compilerRef = React.createRef();
     this.imageEditorRef = React.createRef();
   }//END constructor
 
@@ -32,6 +35,7 @@ class CPU extends Component<MyProps, MyStates>
   {
       return  <>
                 <ImageEditor parent={this} ref={this.imageEditorRef} rawImgSrc={''} />
+                <ImageCompiler parent={this} ref={this.compilerRef} rawImgSrc={''} />
               </>;
   }
 

@@ -28,7 +28,13 @@ class Header extends Component<MyProps, MyStates>
       
     }//END state
     
+    this.exportBtnClick           = this.exportBtnClick.bind(this);
   }//END constructor
+
+  exportBtnClick()
+  {
+    console.log(this.parent.cpuRef.current.compilerRef.current);
+  }//END exportBtnClick
 
   render() 
   {
@@ -42,7 +48,7 @@ class Header extends Component<MyProps, MyStates>
                                 <MoreVertIcon className={this.parent.state.isMobile? mobileStyles.btn : styles.btn} />
                             </IconButton>
                             <IconButton color="primary" component="span">
-                                <GetAppIcon className={this.parent.state.isMobile? mobileStyles.btn : styles.btn} />
+                                <GetAppIcon className={this.parent.state.isMobile? mobileStyles.btn : styles.btn} onClick={this.exportBtnClick} />
                             </IconButton>
                         </div>
                     </div>

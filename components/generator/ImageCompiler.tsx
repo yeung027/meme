@@ -50,10 +50,10 @@ class ImageCompiler extends Component<MyProps, MyStates>
   getOutPut(callback: any)
   {
 
-    if(!this.parent.parent.parent.canvasRef.current.state.images) throw ('uploaded images not found!');
+    if(!this.parent.parent.canvasRef.current.state.images) throw ('uploaded images not found!');
     var self  = this;
     
-    if(this.parent.parent.parent.canvasRef.current.state.images.length<=0) throw ('no photo uploaded or images data wrong');
+    if(this.parent.parent.canvasRef.current.state.images.length<=0) throw ('no photo uploaded or images data wrong');
     
     this.setState({ 
       output_image_index:0,
@@ -88,7 +88,7 @@ class ImageCompiler extends Component<MyProps, MyStates>
   async doOutput(previous_src:any)
   {
     var self  = this;
-    let image = this.parent.parent.parent.canvasRef.current.state.images[this.state.output_image_index];
+    let image = this.parent.parent.canvasRef.current.state.images[this.state.output_image_index];
 
     let b64:any = image.upload;
     let b64ImageSize:any  = await self.getb64ImgSize(b64.data_url);
@@ -123,7 +123,7 @@ class ImageCompiler extends Component<MyProps, MyStates>
 
     /* console.log('canvasXY_rate: '+canvasXY_rate);
     console.log('rawXY_rate: '+rawXY_rate);
-    this.parent.parent.parent.canvasRef.current.touchControllerRef.current.debugLog('canvasXY_rate: '+canvasXY_rate); */
+    this.parent.parent.canvasRef.current.touchControllerRef.current.debugLog('canvasXY_rate: '+canvasXY_rate); */
 
 
 
@@ -159,8 +159,8 @@ class ImageCompiler extends Component<MyProps, MyStates>
     console.log(image.x);
     console.log(image_org_x);
     console.log(canvasDetails.left);
-    this.parent.parent.parent.canvasRef.current.touchControllerRef.current.debugLog(rawImageSize[0]);
-    this.parent.parent.parent.canvasRef.current.touchControllerRef.current.debugLog(image.x+', '+output_x); */
+    this.parent.parent.canvasRef.current.touchControllerRef.current.debugLog(rawImageSize[0]);
+    this.parent.parent.canvasRef.current.touchControllerRef.current.debugLog(image.x+', '+output_x); */
 
     let merge = await new Promise((resolve, reject) => 
     {
@@ -183,7 +183,7 @@ class ImageCompiler extends Component<MyProps, MyStates>
     });//END Promise
 
 
-    if(this.parent.parent.parent.canvasRef.current.state.images.length >= this.state.output_image_index+2)
+    if(this.parent.parent.canvasRef.current.state.images.length >= this.state.output_image_index+2)
     {
       this.setState({ output_image_index:(this.state.output_image_index+1) }, function(){
         self.doOutput(merge);

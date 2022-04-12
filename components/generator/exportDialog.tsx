@@ -68,7 +68,6 @@ class ExportDialog extends Component<MyProps, MyStates>
     if (navigator.share) {
       await navigator.share({
         title: 'Meme',
-        text: 'Will Smith Punching',
         url: this.parent.exportDialogRef.current.state.exportSrc,
       })
         .then(() => console.log('成功'))

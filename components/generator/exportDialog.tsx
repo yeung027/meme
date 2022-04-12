@@ -23,8 +23,8 @@ type MyStates = {
   closeBtnWidth: number 
   closeBtnHeight: number
   appbarWidth: number 
-  appbaHeight: number
-  exportSrc: string
+  appbarHeight: number
+  exportFile: any
 };
 
 interface ExportDialog {
@@ -48,8 +48,8 @@ class ExportDialog extends Component<MyProps, MyStates>
       closeBtnWidth: 0,
       closeBtnHeight: 0,
       appbarWidth: 0,  
-      appbaHeight: 0,
-      exportSrc: ''
+      appbarHeight: 0,
+      exportFile: null
     }//END state
     
     this.getTransition      = this.getTransition.bind(this);
@@ -68,7 +68,7 @@ class ExportDialog extends Component<MyProps, MyStates>
     if (navigator.share) {
       await navigator.share({
         title: 'Meme',
-        url: this.parent.exportDialogRef.current.state.exportSrc,
+        files: [this.state.exportFile]
       })
         .then(() => console.log('成功'))
         .catch((error) => console.log('發生錯誤', error));
@@ -90,7 +90,7 @@ class ExportDialog extends Component<MyProps, MyStates>
     //console.log('i am callback');
     //console.log(output);
     this.setState({ 
-      exportSrc: output
+      exportFile: output
     });  
     //const link = document.createElement("a");
     //this.aRef.current.href = output;
@@ -186,7 +186,7 @@ class ExportDialog extends Component<MyProps, MyStates>
     if (isNaN(h)) h = 0;
     this.setState({ 
       appbarWidth: w,
-      appbaHeight: h
+      appbarHeight: h
     });  
 
     //console.log('w h : '+ w + ', ' + h);
@@ -208,7 +208,7 @@ class ExportDialog extends Component<MyProps, MyStates>
 
     let closeBtnStyle = {
       left: (this.state.pageWidth - this.state.closeBtnWidth - 10)+'px',
-      lineHeight: this.state.appbaHeight+'px'
+      lineHeight: this.state.appbarHeight+'px'
     }
 
     let dialogMainEle =   <>

@@ -108,7 +108,9 @@ class ImageCompiler extends Component<MyProps, MyStates>
         });
       });//END Promise
 
-      this.state.output_requester_callback(merge);
+      let output = await this.b64ToImgFile(merge);
+      //console.log(output);
+      this.state.output_requester_callback(output);
 
       return;
 
@@ -215,7 +217,12 @@ class ImageCompiler extends Component<MyProps, MyStates>
         self.doOutput(merge);
       });
     }
-    else this.state.output_requester_callback(merge);
+    else 
+    {
+      let output = await this.b64ToImgFile(merge);
+      //console.log(output);
+      this.state.output_requester_callback(output);
+    }
 
   }//END doOutput
 

@@ -13,30 +13,31 @@
     position: absolute;
     z-index: 5;
     overflow: hidden;
-    /* border: red 1px solid; */
+    top: 0;
+    left: 0;
 }
 
 .canvasOutter
 {
-    width: 100%;
-    height: 100%;
+    width: 90%;
+    height: 90%;
     overflow: hidden;
     display: flex;
     justify-content: center;
     align-items:center;
     padding:0;
-    /* border: blue 1px solid; */
+    border: #BCA9F1 1px solid;
 }
 
 .canvas
 {
-    width: 90%;
-    height: 90%;
+    width: 100%;
+    height: 100%;
     display: flex;
     justify-content: left;
     align-items:flex-start;
-    border: #BCA9F1 2px solid;
     padding:0;
+    position: relative;
 }
 
 .rawImgWrapper
@@ -66,4 +67,6 @@
     position: absolute;
     background-color: #fff;
     z-index: 4;
+    top:0;
+    left:0;
 }

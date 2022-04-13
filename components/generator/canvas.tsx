@@ -57,16 +57,6 @@ class Canvas extends Component<MyProps, MyStates>
   {
     if(!window) return;
 
-    var body = document.body || document.getElementsByTagName("body")[0],
-            clientTop = document.documentElement.clientTop || body.clientTop || 0,
-            clientLeft = document.documentElement.clientLeft || body.clientLeft || 0,
-            scrollTop = (window.pageYOffset || document.documentElement.scrollTop || body.scrollTop),
-            scrollLeft = (window.pageXOffset || document.documentElement.scrollLeft || body.scrollLeft);
-
-
-
-
-
     let canvas:any = document.querySelector('#canvas');
     if(!canvas) return;
     let canvascompStyles  = window.getComputedStyle(canvas);
@@ -79,14 +69,14 @@ class Canvas extends Component<MyProps, MyStates>
     this.setState({ 
       canvasWidth: w ,
       canvasHeight: h,
-      canvasLeft: canvasRect.left + scrollLeft - clientLeft,
-      canvasTop: canvasRect.top + scrollTop - clientTop
+      canvasLeft: canvasRect.left,
+      canvasTop: canvasRect.top
     }); 
     //console.log(canvasRect.left)
 
-    this.touchControllerRef.current.debugLog('clientTop: ' + clientTop);
+/*     this.touchControllerRef.current.debugLog('clientTop: ' + clientTop);
     this.touchControllerRef.current.debugLog('scrollTop: ' + scrollTop);
-
+ */
   }//END updateCanvasComputedStyle
 
 
@@ -130,8 +120,8 @@ class Canvas extends Component<MyProps, MyStates>
                     this.state.images.map((image, i) => {     
                     
                     let tappableId  = 'img-tappable-'+image.key_num;
-                    let clipLeft =  this.state.canvasLeft - parseInt(image.x) + 1;
-                    let clipTop =  this.state.canvasTop - parseInt(image.y) + 1;
+                    let clipLeft =  0 ;
+                    let clipTop =  0;
                     let clipRight =  (parseInt(image.x) +  parseInt(image.w)) - (this.state.canvasLeft + this.state.canvasWidth) - 1;
                     let clipBottom =(parseInt(image.y) +  parseInt(image.h)) - (this.state.canvasTop + this.state.canvasHeight) - 1;
 

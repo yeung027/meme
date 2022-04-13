@@ -13,8 +13,7 @@ type MyStates = {
   lastEvent: any,
   debugLog: any[],
   pinchStarted: boolean,
-  //touch_x_percent: number
-  //touch_y_percent: number
+  pinchStartObj: object
 };
 
 interface TouchController  {
@@ -44,8 +43,7 @@ class TouchController extends Component<MyProps, MyStates>
       lastEventType: this.touchevent.NULL,
       lastEvent: null,
       pinchStarted: false,
-      //touch_x_percent: 50,
-      //touch_y_percent: 50,
+      pinchStartObj: null,
       debugLog: ['Debug:']
     }//END state
 
@@ -76,38 +74,19 @@ class TouchController extends Component<MyProps, MyStates>
 
   onPinchStart(e: any, key: any)
   {
-    /* if(this.state.pinchStarted) return;
-    if(!this.checkBottomControlIsStageEditimg()) return;
     let keynum= this.getKeyNumByID(key);
-    let tappableNode:any  = document.querySelector('#'+key);
+    let imgObj:any  =  this.parent.state.images.length > keynum ? this.parent.state.images[keynum] : null;
 
-    if(isNaN(keynum))
-    {
-      console.error('touchmove received but target keynum is NaN');
-      return;
-    }
-
-    let imgObj:any  =  this.parent.state.images;
-
-    if(!imgObj || imgObj.length<(keynum+1)) return this.debugLog('error! imgObj');
-    let x = parseInt(imgObj[keynum].x);
-    let y = parseInt(imgObj[keynum].y);
-    let w = parseInt(imgObj[keynum].w);
-    let h = parseInt(imgObj[keynum].h);
-
-    let percent_w = (x + w) / 100;
-    let touch_x_percent  = (e.center.x - x) / percent_w;
-
-    let percent_h = (y + h) / 100;
-    let touch_y_percent  = (e.center.y - y) / percent_h; */
-
-
-    //this.debugLog('touch_y_percent: ' + touch_y_percent);
+    if(!imgObj) return this.debugLog('error! imgObj');
 
     this.setState({ 
       pinchStarted: true,
-      //touch_x_percent: touch_x_percent,
-      //touch_y_percent: touch_y_percent
+      pinchStartObj:{
+        key: key,
+        keynum: keynum,
+        e: e,
+        imgObj: imgObj
+      }
      });
   }//END onPinchStart
 
@@ -115,6 +94,7 @@ class TouchController extends Component<MyProps, MyStates>
   {
     this.setState({ 
       pinchStarted: false,
+      pinchStartObj: null
      });
   }//END onPinchEnd
 
@@ -144,10 +124,6 @@ class TouchController extends Component<MyProps, MyStates>
   zoomByPinchMove(e: any, key: any)
   {
 
-     
-
-
-
     if(!this.checkBottomControlIsStageEditimg()) return;
     let keynum= this.getKeyNumByID(key);
     //this.debugLog(keyNum);
@@ -171,16 +147,17 @@ class TouchController extends Component<MyProps, MyStates>
 
     let zoom = e.zoom;
 
-    if(e.zoom < 1) zoom *= 1.43;
-    else zoom *= 0.8;
-
-    let new_scale = imgObj[keynum].scale * zoom;
-    let new_w = imgObj[keynum].w * zoom;
-    let new_h = imgObj[keynum].h * zoom;
+    //this.debugLog(this.state.pinchStartObj.keynum == keynum);
+    this.debugLog(e.zoom);
+    if(this.state.pinchStartObj.keynum != keynum) return this.debugLog('error! cannot find pinchStartObj');
+    
+    let new_scale = this.state.pinchStartObj.imgObj.scale * zoom;
+    let new_w = this.state.pinchStartObj.imgObj.w * zoom;
+    let new_h = this.state.pinchStartObj.imgObj.h * zoom;
 
 
     let finally_size  = this.fixImgSizeWhileZoomOverflow(new_w, new_h, new_scale);
-    let fixed_xy_by_event_center:any[]  = this.getImageCoorByPinchEventCenter(e, imgObj[keynum]);
+    let fixed_xy_by_event_center:any[]  = this.getImageCoorByPinchEventCenter(e, this.state.pinchStartObj.imgObj);
 
     imgObj[keynum].scale = finally_size[2];
     imgObj[keynum].w = finally_size[0];
@@ -482,7 +459,7 @@ class TouchController extends Component<MyProps, MyStates>
           fontWeight: 400,
           lineHeight:'20px',
           wordWrap: 'break-word',
-          display:'none' 
+          display:'block' 
       }
       
     return  <div style={debugStyle} ref={this.debugRef}>

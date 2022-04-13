@@ -110,6 +110,8 @@ class ExportDialog extends Component<MyProps, MyStates>
   {
     this.setState({ 
       open: false,
+      exportFile: null,
+      exportSrc: ''
     });
   }//END dialogClose
 

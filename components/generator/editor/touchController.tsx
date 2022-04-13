@@ -10,7 +10,8 @@ type MyStates = {
   touchStart:boolean
   debugLog: any[],
   pinchStarted: boolean,
-  pinchStartObj: any
+  pinchStartObj: any,
+  touchStartObj: any
 };
 
 interface TouchController  {
@@ -31,6 +32,7 @@ class TouchController extends Component<MyProps, MyStates>
       touchStart: false,
       pinchStarted: false,
       pinchStartObj: null,
+      touchStartObj:null,
       debugLog: ['Debug:']
     }//END state
 
@@ -264,20 +266,40 @@ class TouchController extends Component<MyProps, MyStates>
   
   onTouchStart(e: any, key: any)
   {
+    if(this.state.touchStart) return;
     if(!e || e.touches.length<=0)
     {
       console.error('touchStart error...');
       return;
     }
+
+    let keynum= this.getKeyNumByID(key);
+    let imgObj:any  =  this.parent.state.images.length > keynum ? this.parent.state.images[keynum] : null;
+
+    if(!imgObj) return this.debugLog('error! imgObj');
+
     this.setState({ 
-      touchStart:true,
+      touchStart: true,
+      touchStartObj:{
+        key: key,
+        keynum: keynum,
+        e: e,
+        imgObj: {
+          x: imgObj.x,
+          y:imgObj.y,
+          w: imgObj.w,
+          h: imgObj.h
+        }
+      }
      });
+
   }//END onTouchStart
 
   onTouchEnd(e: any, key: any)
   {
     this.setState({ 
       touchStart:false,
+      touchStartObj: null
      });
   }//END onTouchEnd
   
@@ -297,6 +319,16 @@ class TouchController extends Component<MyProps, MyStates>
     
     if(!this.checkBottomControlIsStageEditimg()) return;
 
+    let touchStartImgX    = parseInt(this.state.touchStartObj.imgObj.x);
+    let touchStartTouchX  = this.state.touchStartObj.e.touches[0].clientX - touchStartImgX;
+
+    let touchStartImgY    = parseInt(this.state.touchStartObj.imgObj.y);
+    let touchStartTouchY  = this.state.touchStartObj.e.touches[0].clientY - touchStartImgY;
+
+    /* console.log('touches[0].clientX: ' + this.state.touchStartObj.e.touches[0].clientX);
+    console.log('touchStartImgX: ' + touchStartImgX);
+    console.log('touchStartTouchY: ' + touchStartTouchY);
+ */
     let currentTouchClientX = e.touches[0].clientX;
     let currentTouchClientY = e.touches[0].clientY;
 
@@ -309,17 +341,17 @@ class TouchController extends Component<MyProps, MyStates>
     let eTarget:any = e.target;
     let tappableNode:any  = eTarget.parentNode;
     let keynum  = this.getKeyNumByNode(tappableNode);
-    
+/*     
     let tappableNode_w_half  = parseInt(tappableNode.style.width);
     let tappableNode_h_half  = parseInt(tappableNode.style.height);
 
     if(!isNaN(tappableNode_w_half)) tappableNode_w_half /= 2;
-    if(!isNaN(tappableNode_h_half)) tappableNode_h_half /= 2;
+    if(!isNaN(tappableNode_h_half)) tappableNode_h_half /= 2; */
 
     //console.log(tappableNode_w_half);
 
-    let new_post_left = currentTouchClientX - tappableNode_w_half;
-    let new_post_top  = currentTouchClientY - tappableNode_h_half;
+    let new_post_left = currentTouchClientX - touchStartTouchX;
+    let new_post_top  = currentTouchClientY - touchStartTouchY;
 
    //let fixXY:any[] = this.checkPositionIsOverflowAndFix(new_post_left, new_post_top, [parseInt(tappableNode.style.width), parseInt(tappableNode.style.height)]);
 

@@ -106,10 +106,6 @@ class Canvas extends Component<MyProps, MyStates>
 
   render() 
   {
-      let canvasBGStyle = {
-        width: this.state.canvasWidth,
-        height:this.state.canvasHeight-1,
-      }
 
       return  <div className={this.parent.state.isMobile? mobileStyles.container : styles.container}>
                 <TouchController parent={this} ref={this.touchControllerRef} />
@@ -160,7 +156,7 @@ class Canvas extends Component<MyProps, MyStates>
                       />
                       
                     </div>
-                    <div className={this.parent.state.isMobile? mobileStyles.canvasBG : styles.canvasBG} style={canvasBGStyle}></div>
+                    <div className={this.parent.state.isMobile? mobileStyles.canvasBG : styles.canvasBG}></div>
                   </div>
                 </div>
               </div>

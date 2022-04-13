@@ -23,7 +23,7 @@
     align-items: center;
     justify-content: center;
     height: 40px;
-    min-width: 90px;
+    width: 90px;
     color: #C1CAD7;
     row-gap: 2px;
     padding: 5px 8px 0 8px;
@@ -71,7 +71,7 @@
 
 .line
 {
-    width: 9%;
+    width: 85px;
     height: 1px;
     background-color: #C1CAD7;
     position: absolute;

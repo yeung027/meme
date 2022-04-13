@@ -83,6 +83,10 @@ class Canvas extends Component<MyProps, MyStates>
       canvasTop: canvasRect.top + scrollTop - clientTop
     }); 
     //console.log(canvasRect.left)
+
+    this.touchControllerRef.current.debugLog('clientTop: ' + clientTop);
+    this.touchControllerRef.current.debugLog('scrollTop: ' + scrollTop);
+
   }//END updateCanvasComputedStyle
 
 

@@ -223,7 +223,7 @@ class TouchController extends Component<MyProps, MyStates>
     else  show = str.toString();
 
     let debug = this.state.debugLog;
-    debug = debug.concat(show);
+    debug[debug.length] = show;
 
     if(debug.length >5) debug = debug.splice(0,1);
 

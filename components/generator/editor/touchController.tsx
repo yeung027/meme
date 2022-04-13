@@ -159,6 +159,10 @@ class TouchController extends Component<MyProps, MyStates>
       images: imgObj
      });
 
+
+     this.setState({ 
+      touchStartObj:{}
+     });
     //this.debugLog(imgObj[keynum].scale);
     //this.debugLog(e.center.x + ', ' + e.center.y);
   }//END zoomByPinchMove
@@ -318,41 +322,58 @@ class TouchController extends Component<MyProps, MyStates>
     }
     
     if(!this.checkBottomControlIsStageEditimg()) return;
+    let touchStartTouchX = 0 , 
+      touchStartTouchY = 0, 
+      touchStartImgX = 0, 
+      touchStartImgY = 0,
+      noTouchStartObj = false;
+    
+      let new_post_left = 0,
+      new_post_top = 0;
 
-    let touchStartImgX    = parseInt(this.state.touchStartObj.imgObj.x);
-    let touchStartTouchX  = this.state.touchStartObj.e.touches[0].clientX - touchStartImgX;
+    let imgObj:any  =  this.parent.state.images;
+    let keynum= this.getKeyNumByID(key);
+    if(this.state.touchStartObj && this.state.touchStartObj.e && this.state.touchStartObj.e.touches 
+      && this.state.touchStartObj.imgObj && this.state.touchStartObj.imgObj.x && this.state.touchStartObj.imgObj.y)
+    {
+      touchStartImgX    = parseInt(this.state.touchStartObj.imgObj.x);
+      touchStartImgY    = parseInt(this.state.touchStartObj.imgObj.y);
+      touchStartTouchX  = this.state.touchStartObj.e.touches[0].clientX - touchStartImgX;
+      touchStartTouchY  = this.state.touchStartObj.e.touches[0].clientY - touchStartImgY;
+    }
+    else
+    {
+      noTouchStartObj = true;
+      /* touchStartTouchX = e.touches[0].clientX - (imgObj[keynum].w );
+      touchStartTouchY = e.touches[0].clientY - (imgObj[keynum].h ); */
+    }
 
-    let touchStartImgY    = parseInt(this.state.touchStartObj.imgObj.y);
-    let touchStartTouchY  = this.state.touchStartObj.e.touches[0].clientY - touchStartImgY;
+    //this.debugLog('touchStartTouchX: ' + touchStartTouchX);
 
-    /* console.log('touches[0].clientX: ' + this.state.touchStartObj.e.touches[0].clientX);
-    console.log('touchStartImgX: ' + touchStartImgX);
-    console.log('touchStartTouchY: ' + touchStartTouchY);
- */
     let currentTouchClientX = e.touches[0].clientX;
     let currentTouchClientY = e.touches[0].clientY;
+    console.log('touchStartImgX: ' + touchStartImgX);
 
-/* 
-    console.log('lastTouchClient:' + lastTouchClientX +', '+lastTouchClientY);
-    console.log('currentTouchClient:' + currentTouchClientX +', '+currentTouchClientY);
-    console.log('Move:' + xMove +', '+yMove);
- */
+    if(noTouchStartObj)
+    {
+      let canvasDom:any = document.querySelector('#canvas');
+      let convasRect = canvasDom.getBoundingClientRect();
+      new_post_left = currentTouchClientX - convasRect.left - (imgObj[keynum].w / 2);
+      new_post_top  = currentTouchClientY - convasRect.top - (imgObj[keynum].h / 2);
+    }
+    else
+    {
+      new_post_left = currentTouchClientX - touchStartTouchX;
+      new_post_top  = currentTouchClientY - touchStartTouchY;
+    }
     
-    let eTarget:any = e.target;
-    let tappableNode:any  = eTarget.parentNode;
-    let keynum  = this.getKeyNumByNode(tappableNode);
-
-    let new_post_left = currentTouchClientX - touchStartTouchX;
-    let new_post_top  = currentTouchClientY - touchStartTouchY;
-
-   //let fixXY:any[] = this.checkPositionIsOverflowAndFix(new_post_left, new_post_top, [parseInt(tappableNode.style.width), parseInt(tappableNode.style.height)]);
 
     if(isNaN(keynum))
     {
       console.error('touchmove received but target keynum is NaN');
       return;
     }
-    let imgObj:any  =  this.parent.state.images;
+    
 
     imgObj[keynum].x = new_post_left+'px'
     imgObj[keynum].y = new_post_top+'px';
@@ -361,7 +382,6 @@ class TouchController extends Component<MyProps, MyStates>
       images: imgObj
      });
 
-    //console.log('xy:' + x +', '+y);
 
   }//END onTouchMove
 

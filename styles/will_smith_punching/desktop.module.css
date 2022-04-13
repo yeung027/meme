@@ -1,63 +1,68 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap');
 .container
 {
-    background-color: #7900D2;;
+    background-image: linear-gradient(to bottom, #c100e0, #8e13e8, #8e1be3, #B866F4);
+    background-attachment: fixed;
     display:flex;
     flex-direction: column;
-    width:100vw !important;
+    width:100vw;
     height:100%;
-    justify-content:flex-start;
-    align-items:flex-start;
-}
-.header
-{
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-    height: 12vh;
-    justify-content: left;
-    align-items:flex-end;
-    padding-bottom: 4vh;
+    justify-content:center;
+    align-items:center;
 }
 
-.header_r
+.inner
 {
-    line-height: 30px;
-    height: 30px;
-    width:25vw;
-    display: flex;
-    flex-direction: row-reverse;
-    padding:0 5vw 0 0;
-    column-gap: 5vw;
-}
-
-.title
-{
-    padding:0 0 0 5vw;
-    width:75vw;
-    height: 30px;
-    line-height: 25px;
-    font-family: 'Roboto';
-    font-weight: 500;
-    font-size: 16px;
-    color: #fff;
-}
-
-.header_btn
-{
-    color:#fff;
-    cursor: pointer;
+    display:flex;
+    flex-direction: column;
+    width: 90%;
+    height: 90%;
 }
 
 .whiteContainer
 {
     background-color: #F5F5F5;
     width: 100%;
-    height: 90vh;
-    -webkit-border-top-left-radius: 25px;
-    -webkit-border-top-right-radius: 25px;
-    -moz-border-radius-topleft: 25px;
-    -moz-border-radius-topright: 25px;
-    border-top-left-radius: 25px;
-    border-top-right-radius: 25px;
+    height: 100%;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    border-radius: 20px;
+    -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+    box-sizing: border-box;         /* Opera/IE 8+ */
+    display: flex;
+    flex-direction: row;
+}
+
+.main
+{
+    width: 58%;
+    height:100%;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+    box-sizing: border-box;         /* Opera/IE 8+ */
+    background-color: #F5F5F5;
+    -webkit-border-top-left-radius: 20px;
+    -webkit-border-bottom-left-radius: 20px;
+    -moz-border-radius-topleft: 20px;
+    -moz-border-radius-bottomleft: 20px;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+}
+
+.controlPanelContainer
+{
+    width: 42%;
+    height:100%;
+    background-color: #FFF;
+    -webkit-border-top-right-radius: 20px;
+    -webkit-border-bottom-right-radius: 20px;
+    -moz-border-radius-topright: 20px;
+    -moz-border-radius-bottomright: 20px;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
 }

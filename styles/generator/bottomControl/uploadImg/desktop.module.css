@@ -1,63 +1,84 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap');
+
 .container
 {
-    background-color: #7900D2;;
-    display:flex;
+    display: flex;
     flex-direction: column;
-    width:100vw !important;
-    height:100%;
     justify-content:flex-start;
-    align-items:flex-start;
+    align-items:center;
+    width: 100%;
+    height:100%;
 }
+
 .header
 {
+    width: 100%;
+    height: 46px;
+    display: flex;
+    justify-items: center;
+    align-items:flex-start;
+    line-height: 46px;
+    /* border:red 1px solid; */
+}
+.title
+{
+    width: 80%;
+    height: 46px;
     display: flex;
     flex-direction: row;
-    width: 100%;
-    height: 12vh;
-    justify-content: left;
-    align-items:flex-end;
-    padding-bottom: 4vh;
+    justify-items: center;
+    align-items: center;
+    line-height: 46px;
+    padding: 0 0 0 17px;
+    -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+    box-sizing: border-box;         /* Opera/IE 8+ */
+}
+
+.title span
+{
+    padding-left: 5px;
+    color: #000;
+    font-size: 14px;
+    font-family: 'Roboto';
+    font-weight: 500;
+}
+
+.titleIcon
+{
+    line-height: 46px;
+    color: #7900D2;
 }
 
 .header_r
 {
-    line-height: 30px;
-    height: 30px;
-    width:25vw;
+    width: 20%;
+    height: 46px;
     display: flex;
-    flex-direction: row-reverse;
-    padding:0 5vw 0 0;
-    column-gap: 5vw;
+    flex-direction: column;
+    justify-items:center;
+    align-items:flex-end;
+    padding:0 17px 0 0;
+    -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+    box-sizing: border-box;         /* Opera/IE 8+ */
+    /* border:red 1px solid; */
 }
 
-.title
+.main
 {
-    padding:0 0 0 5vw;
-    width:75vw;
-    height: 30px;
-    line-height: 25px;
-    font-family: 'Roboto';
-    font-weight: 500;
-    font-size: 16px;
-    color: #fff;
-}
-
-.header_btn
-{
-    color:#fff;
-    cursor: pointer;
-}
-
-.whiteContainer
-{
-    background-color: #F5F5F5;
+    height: calc(100% - 46px);
     width: 100%;
-    height: 90vh;
-    -webkit-border-top-left-radius: 25px;
-    -webkit-border-top-right-radius: 25px;
-    -moz-border-radius-topleft: 25px;
-    -moz-border-radius-topright: 25px;
-    border-top-left-radius: 25px;
-    border-top-right-radius: 25px;
+    -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+    box-sizing: border-box;         /* Opera/IE 8+ */
+    padding:37px 17px;
+    display: flex;
+    flex-direction: column;
+    justify-content:flex-start;
+    align-items:center;
+    /* border:red 1px solid; */
+    -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+    box-sizing: border-box;         /* Opera/IE 8+ */
 }

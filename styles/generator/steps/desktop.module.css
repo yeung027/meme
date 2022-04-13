@@ -1,63 +1,85 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap');
+
 .container
 {
-    background-color: #7900D2;;
+    background-color: #fff;
     display:flex;
-    flex-direction: column;
-    width:100vw !important;
-    height:100%;
-    justify-content:flex-start;
-    align-items:flex-start;
-}
-.header
-{
-    display: flex;
     flex-direction: row;
-    width: 100%;
-    height: 12vh;
-    justify-content: left;
-    align-items:flex-end;
-    padding-bottom: 4vh;
+    align-items: center;
+    justify-content: center;
+    margin: 40px 62px 0 62px;
+    padding:0 26px;
+    -webkit-border-radius: 12px;
+    -moz-border-radius: 12px;
+    border-radius: 12px;
+    box-shadow: 2px 2px 4px 0px rgba(0,0,0,0.1);
+    height: 50px;
 }
 
-.header_r
+.item
 {
-    line-height: 30px;
-    height: 30px;
-    width:25vw;
     display: flex;
-    flex-direction: row-reverse;
-    padding:0 5vw 0 0;
-    column-gap: 5vw;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    min-width: 90px;
+    color: #C1CAD7;
+    row-gap: 2px;
+    padding: 5px 8px 0 8px;
+    -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+    box-sizing: border-box;         /* Opera/IE 8+ */
 }
 
-.title
+.dot
 {
-    padding:0 0 0 5vw;
-    width:75vw;
-    height: 30px;
-    line-height: 25px;
+    display:flex;
+    height: 8px !important;
+    width: 8px;
+}
+
+.circle
+{
+    height: 8px !important;
+    width: 8px;
+    background-color: #C1CAD7;
+    border-radius: 50%;
+    z-index: 10;
+}
+
+.item.active .circle
+{
+    background-color: #7900D2;
+}
+
+.item.active
+{
+    color: #000;
+}
+
+.item span
+{
     font-family: 'Roboto';
-    font-weight: 500;
-    font-size: 16px;
-    color: #fff;
-}
-
-.header_btn
-{
-    color:#fff;
-    cursor: pointer;
-}
-
-.whiteContainer
-{
-    background-color: #F5F5F5;
+    height:19px;
     width: 100%;
-    height: 90vh;
-    -webkit-border-top-left-radius: 25px;
-    -webkit-border-top-right-radius: 25px;
-    -moz-border-radius-topleft: 25px;
-    -moz-border-radius-topright: 25px;
-    border-top-left-radius: 25px;
-    border-top-right-radius: 25px;
+    line-height: 19px;
+    font-size: 14px;
+    white-space: nowrap;
+    text-align: center;
+}
+
+.line
+{
+    width: 9%;
+    height: 1px;
+    background-color: #C1CAD7;
+    position: absolute;
+    margin:4px 0 0 8px;
+    z-index: 9;
+}
+
+.active .line
+{
+    background-color: #FFC531;
 }

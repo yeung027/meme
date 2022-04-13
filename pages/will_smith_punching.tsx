@@ -3,9 +3,9 @@ import { WithUserAgentProps, withUserAgent } from 'next-useragent'
 import styles from '../styles/will_smith_punching/desktop.module.css'
 import mobileStyles from '../styles/will_smith_punching/mobile.module.css'
 import Header from '../components/generator/header'
+import CPU from '../components/generator/cpu'
 import Steps from '../components/generator/steps'
 import Canvas from '../components/generator/canvas'
-import CPU from '../components/generator/cpu'
 import BottomControlPanel from '../components/generator/bottomControlPanel'
 import ExportDialog from '../components/generator/exportDialog'
 
@@ -69,18 +69,46 @@ class WillSmithPunchingPage extends Component<MyProps & WithUserAgentProps, MySt
 
   render() 
   {
+    let ele = null;
+
+    if(this.state.isMobile)
+    {
+      ele = <>
+              <Header parent={this} ref={this.headerRef} /> 
+              <div className={mobileStyles.whiteContainer}>
+                <Steps parent={this} ref={this.stepsRef} step={''} />
+                <Canvas parent={this} ref={this.canvasRef} />
+              </div>
+              <div className={mobileStyles.bottomControlPanelContainer}>
+                <BottomControlPanel parent={this} ref={this.bottomControlPanelRef} stage={null} />
+              </div>
+            </>
+    }
+    else
+    {
+      ele = <div className={styles.inner}>
+              <Header parent={this} ref={this.headerRef} /> 
+              <div className={styles.whiteContainer}>
+                <div className={styles.main}>
+                  <Steps parent={this} ref={this.stepsRef} step={''} />
+                  <Canvas parent={this} ref={this.canvasRef} />
+                </div>
+                <div className={styles.controlPanelContainer}>
+                  <BottomControlPanel parent={this} ref={this.bottomControlPanelRef} stage={null} />
+                </div>
+              </div>
+            </div>
+    }
+
+
+
+
+
     return  <>
               <ExportDialog parent={this} ref={this.exportDialogRef} />
               <CPU parent={this} ref={this.cpuRef} />
               <div className={this.state.isMobile? mobileStyles.container : styles.container} id ='page-root'>
-                <Header parent={this} ref={this.headerRef} />
-                <div className={this.state.isMobile? mobileStyles.whiteContainer : styles.whiteContainer}>
-                  <Steps parent={this} ref={this.stepsRef} step={''} />
-                  <Canvas parent={this} ref={this.canvasRef} />
-                </div>
-                <div className={this.state.isMobile? mobileStyles.bottomControlPanelContainer : styles.bottomControlPanelContainer}>
-                  <BottomControlPanel parent={this} ref={this.bottomControlPanelRef} stage={null} />
-                </div>
+                 {ele}
               </div>
             </>
   }

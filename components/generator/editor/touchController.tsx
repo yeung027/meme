@@ -4,19 +4,17 @@ const Pinchable  = require('react-tappable');
 
 type MyProps = {
   parent:any
-  touchevent:any
 };
 
 type MyStates = {
   touchStart:boolean
   debugLog: any[],
   pinchStarted: boolean,
-  pinchStartObj: object
+  pinchStartObj: any
 };
 
 interface TouchController  {
   parent: any
-  touchevent: any
   debugRef: any
   tappableRef: any
 }
@@ -45,13 +43,13 @@ class TouchController extends Component<MyProps, MyStates>
     this.onTouchStart   = this.onTouchStart.bind(this);
     this.onTouchMove    = this.onTouchMove.bind(this);
     this.onTouchEnd   = this.onTouchEnd.bind(this);
-    this.onPinchEnd = this.onPinchEnd.bind(this);
     this.getKeyNumByNode  = this.getKeyNumByNode.bind(this);
     this.getKeyNumByID     = this.getKeyNumByID.bind(this);
     this.checkPositionIsOverflowAndFix      = this.checkPositionIsOverflowAndFix.bind(this);
     this.checkBottomControlIsStageEditimg   = this.checkBottomControlIsStageEditimg.bind(this);
     this.onPinchStart   = this.onPinchStart.bind(this);
     this.onPinchMove   = this.onPinchMove.bind(this);
+    this.onPinchEnd = this.onPinchEnd.bind(this);
     this.handleTap       = this.handleTap.bind(this);
     this.debugLog       = this.debugLog.bind(this);
     this.getCanvasSize       = this.getCanvasSize.bind(this);
@@ -80,7 +78,7 @@ class TouchController extends Component<MyProps, MyStates>
      });
   }//END onPinchStart
 
-  onPinchEnd(e: any)
+  onPinchEnd(e: any, key: any)
   {
     this.setState({ 
       pinchStarted: false,
@@ -264,7 +262,7 @@ class TouchController extends Component<MyProps, MyStates>
     return result;
   }//END getbottomControlPanel
   
-  onTouchStart(e:TouchEvent)
+  onTouchStart(e: any, key: any)
   {
     if(!e || e.touches.length<=0)
     {
@@ -276,7 +274,7 @@ class TouchController extends Component<MyProps, MyStates>
      });
   }//END onTouchStart
 
-  onTouchEnd(e:TouchEvent)
+  onTouchEnd(e: any, key: any)
   {
     this.setState({ 
       touchStart:false,
@@ -289,7 +287,7 @@ class TouchController extends Component<MyProps, MyStates>
     return this.parent.parent.bottomControlPanelRef.current.state.currentUI === this.parent.parent.bottomControlPanelRef.current.stage.EDITIMG;
   }//END checkBottomControlIsStageEditimg
 
-  onTouchMove(e:TouchEvent)
+  onTouchMove(e: any, key: any)
   {
     if(!e || e.touches.length<=0)
     {
@@ -407,9 +405,9 @@ class TouchController extends Component<MyProps, MyStates>
         self.onPinchMove(e, key);
       }}
 
-      onPinchMove={function(e:any)
+      onPinchEnd={function(e:any)
       {
-        self.onPinchMove(e, key);
+        self.onPinchEnd(e, key);
       }}
 
       onTouchStart={function(e:any)

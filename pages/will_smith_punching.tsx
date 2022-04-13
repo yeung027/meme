@@ -12,6 +12,7 @@ import ExportDialog from '../components/generator/exportDialog'
 type MyProps = {
   ua: any,
   useragent: any,
+  debug: any
 };
 
 type MyStates = {

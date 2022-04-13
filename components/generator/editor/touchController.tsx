@@ -341,14 +341,6 @@ class TouchController extends Component<MyProps, MyStates>
     let eTarget:any = e.target;
     let tappableNode:any  = eTarget.parentNode;
     let keynum  = this.getKeyNumByNode(tappableNode);
-/*     
-    let tappableNode_w_half  = parseInt(tappableNode.style.width);
-    let tappableNode_h_half  = parseInt(tappableNode.style.height);
-
-    if(!isNaN(tappableNode_w_half)) tappableNode_w_half /= 2;
-    if(!isNaN(tappableNode_h_half)) tappableNode_h_half /= 2; */
-
-    //console.log(tappableNode_w_half);
 
     let new_post_left = currentTouchClientX - touchStartTouchX;
     let new_post_top  = currentTouchClientY - touchStartTouchY;

@@ -138,8 +138,8 @@ class ImageCompiler extends Component<MyProps, MyStates>
     let compare_output_x = rawImageSize[0] / canvasDetails.w;
     let compare_output_y = rawImageSize[1] / canvasDetails.h;
 
-    let image_org_x = parseInt(image.x) - canvasDetails.left;
-    let image_org_y = parseInt(image.y) - canvasDetails.top;
+    let image_org_x = parseInt(image.x);
+    let image_org_y = parseInt(image.y);
     let output_x  =  image_org_x * (compare_output_x);
     let output_y  =  image_org_y * (compare_output_y);
 

@@ -9,8 +9,6 @@ type MyProps = {
 
 type MyStates = {
   touchStart:boolean
-  lastEventType:string
-  lastEvent: any,
   debugLog: any[],
   pinchStarted: boolean,
   pinchStartObj: object
@@ -29,19 +27,10 @@ class TouchController extends Component<MyProps, MyStates>
   {
     super(props);
     this.parent = props.parent;
-    
-    enum TOUCHEVENT {
-      TOUCH_START = 'touch_start',
-      TOUCH_MOVE = 'touch_move',
-      NULL = 'null'
-    }
 
-    this.touchevent = TOUCHEVENT;
 
     this.state = {
       touchStart: false,
-      lastEventType: this.touchevent.NULL,
-      lastEvent: null,
       pinchStarted: false,
       pinchStartObj: null,
       debugLog: ['Debug:']
@@ -53,8 +42,9 @@ class TouchController extends Component<MyProps, MyStates>
 
     this.getbottomControlPanel = this.getbottomControlPanel.bind(this);
     this.getCanvas  = this.getCanvas.bind(this);
-    this.touchStart = this.touchStart.bind(this);
-    this.touchMove  = this.touchMove.bind(this);
+    this.onTouchStart   = this.onTouchStart.bind(this);
+    this.onTouchMove    = this.onTouchMove.bind(this);
+    this.onTouchEnd   = this.onTouchEnd.bind(this);
     this.onPinchEnd = this.onPinchEnd.bind(this);
     this.getKeyNumByNode  = this.getKeyNumByNode.bind(this);
     this.getKeyNumByID     = this.getKeyNumByID.bind(this);
@@ -150,7 +140,7 @@ class TouchController extends Component<MyProps, MyStates>
     //this.debugLog(this.state.pinchStartObj.keynum == keynum);
     this.debugLog(e.zoom);
     if(this.state.pinchStartObj.keynum != keynum) return this.debugLog('error! cannot find pinchStartObj');
-    
+
     let new_scale = this.state.pinchStartObj.imgObj.scale * zoom;
     let new_w = this.state.pinchStartObj.imgObj.w * zoom;
     let new_h = this.state.pinchStartObj.imgObj.h * zoom;
@@ -274,7 +264,7 @@ class TouchController extends Component<MyProps, MyStates>
     return result;
   }//END getbottomControlPanel
   
-  touchStart(e:TouchEvent)
+  onTouchStart(e:TouchEvent)
   {
     if(!e || e.touches.length<=0)
     {
@@ -283,17 +273,23 @@ class TouchController extends Component<MyProps, MyStates>
     }
     this.setState({ 
       touchStart:true,
-      lastEventType: this.touchevent.TOUCH_START,
-      lastEvent: e
      });
-  }//END touchStart
+  }//END onTouchStart
+
+  onTouchEnd(e:TouchEvent)
+  {
+    this.setState({ 
+      touchStart:false,
+     });
+  }//END onTouchEnd
+  
 
   checkBottomControlIsStageEditimg()
   {
     return this.parent.parent.bottomControlPanelRef.current.state.currentUI === this.parent.parent.bottomControlPanelRef.current.stage.EDITIMG;
   }//END checkBottomControlIsStageEditimg
 
-  touchMove(e:TouchEvent)
+  onTouchMove(e:TouchEvent)
   {
     if(!e || e.touches.length<=0)
     {
@@ -345,7 +341,7 @@ class TouchController extends Component<MyProps, MyStates>
 
     //console.log('xy:' + x +', '+y);
 
-  }//END touchMove
+  }//END onTouchMove
 
   checkPositionIsOverflowAndFix(x:number, y:number, targetWidthHeight:any[])
   {
@@ -400,10 +396,6 @@ class TouchController extends Component<MyProps, MyStates>
       {
         self.handleTap(e);
       }} 
-      /* onTouchStart={function(e:any)
-      {
-        self.touchStart(e);
-      }} */
 
       onPinchStart={function(e:any)
       {
@@ -415,14 +407,24 @@ class TouchController extends Component<MyProps, MyStates>
         self.onPinchMove(e, key);
       }}
 
-      onPinchEnd={function(e:any)
+      onPinchMove={function(e:any)
       {
-        self.onPinchEnd(e);
+        self.onPinchMove(e, key);
+      }}
+
+      onTouchStart={function(e:any)
+      {
+        self.onTouchStart(e, key);
+      }}
+
+      onTouchEnd={function(e:any)
+      {
+        self.onTouchEnd(e, key);
       }}
 
       onTouchMove={function(e:any)
       {
-        self.touchMove(e);
+        self.onTouchMove(e, key);
       }}
 
       className={tappableClass}
@@ -459,7 +461,7 @@ class TouchController extends Component<MyProps, MyStates>
           fontWeight: 400,
           lineHeight:'20px',
           wordWrap: 'break-word',
-          display:'block' 
+          display: this.parent.parent.state.debug ? 'block' : 'none'
       }
       
     return  <div style={debugStyle} ref={this.debugRef}>

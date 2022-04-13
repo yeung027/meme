@@ -16,6 +16,7 @@ type MyProps = {
 
 type MyStates = {
   isMobile: boolean,
+  debug: boolean
 };
 
 interface WillSmithPunchingPage {
@@ -36,9 +37,9 @@ class WillSmithPunchingPage extends Component<MyProps & WithUserAgentProps, MySt
     let useragent: string;
     useragent = this.props.useragent;
 
-
     this.state = {
       isMobile: ua.isMobile,
+      debug: this.props.debug =='true'
     }//END state
 
     this.headerRef = React.createRef();
@@ -54,6 +55,7 @@ class WillSmithPunchingPage extends Component<MyProps & WithUserAgentProps, MySt
   {
     return { 
       useragent: ctx.ua.source,
+      debug: process.env.debug
     }
   }//END getInitialProps
 

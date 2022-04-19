@@ -71,6 +71,12 @@
     font-size: 12px;
     font-family: 'Roboto';
     height: 37px;
+    cursor: pointer;
+}
+
+.purple_iconRight_btn_l:hover, .purple_iconRight_btn_l:hover span
+{
+    color:#FFC531;
 }
 
 .purple_iconRight_btn_l span

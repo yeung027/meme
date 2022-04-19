@@ -82,3 +82,17 @@
     -moz-box-sizing: border-box;    /* Firefox, other Gecko */
     box-sizing: border-box;         /* Opera/IE 8+ */
 }
+
+.textBtn
+{
+    font-size: 12px;
+    font-family: 'Roboto';
+    font-weight: 400;
+    color: #7900D2;
+    cursor: pointer;
+}
+
+.textBtn:hover
+{
+    color:#FFC531;
+}

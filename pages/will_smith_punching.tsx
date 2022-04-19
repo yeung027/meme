@@ -86,18 +86,20 @@ class WillSmithPunchingPage extends Component<MyProps & WithUserAgentProps, MySt
     }
     else
     {
-      ele = <div className={styles.inner}>
+      ele = <>
               <Header parent={this} ref={this.headerRef} /> 
-              <div className={styles.whiteContainer}>
-                <div className={styles.main}>
+              <div className={styles.main}>
+                <div className={styles.whiteContainer}>
+                  <div className={styles.whiteContainerInner}>
+                    <BottomControlPanel parent={this} ref={this.bottomControlPanelRef} stage={null} />
+                  </div>
+                </div>
+                <div className={styles.right}>
                   <Steps parent={this} ref={this.stepsRef} step={''} />
                   <Canvas parent={this} ref={this.canvasRef} />
                 </div>
-                <div className={styles.controlPanelContainer}>
-                  <BottomControlPanel parent={this} ref={this.bottomControlPanelRef} stage={null} />
-                </div>
               </div>
-            </div>
+            </>
     }
 
 

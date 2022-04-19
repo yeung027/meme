@@ -51,6 +51,7 @@ html, body
 {
   overflow-y: hidden;
   position: fixed;
+  /* border:blue 1px solid; */
 }
 
 .mobile_body_noscroll
@@ -59,7 +60,9 @@ html, body
   position: fixed;
 }
 
-
+#__next {
+  width: 100%;
+}
 
 .noselect {
   -webkit-touch-callout: none; /* iOS Safari */

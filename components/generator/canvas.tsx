@@ -61,6 +61,21 @@ class Canvas extends Component<MyProps, MyStates>
     if(!canvas) return;
     let canvascompStyles  = window.getComputedStyle(canvas);
     let canvasRect        = canvas.getBoundingClientRect();
+
+    if(!this.parent.state.isMobile)
+    {
+      let outter:any = document.querySelector('#canvasOutter');
+      let h = parseInt(canvascompStyles.height);
+      let w = h * 0.94;
+      //alert(w);
+      outter.style.width = w+'px';
+
+      canvascompStyles  = window.getComputedStyle(canvas);
+      canvasRect        = canvas.getBoundingClientRect();
+    }
+
+    
+
     let w:number, h:number;
     w = parseInt(canvascompStyles.width);
     h = parseInt(canvascompStyles.height);
@@ -107,7 +122,7 @@ class Canvas extends Component<MyProps, MyStates>
   render() 
   {
 
-      return  <div className={this.parent.state.isMobile? mobileStyles.container : styles.container}>
+      return  <div className={this.parent.state.isMobile? mobileStyles.container : styles.container} id='canvasOutter'>
                 <TouchController parent={this} ref={this.touchControllerRef} />
                 <div className={this.parent.state.isMobile? mobileStyles.canvasOutter : styles.canvasOutter}>
                 <div id='canvas' className={this.parent.state.isMobile? mobileStyles.canvas : styles.canvas}>

@@ -60,8 +60,39 @@ class TouchController extends Component<MyProps, MyStates>
     this.getImageCoorByPinchEventCenter       = this.getImageCoorByPinchEventCenter.bind(this);
     this.tappableElement       = this.tappableElement.bind(this);
     this.isTouchDevice       = this.isTouchDevice.bind(this);
+    this.onMouseOver       = this.onMouseOver.bind(this);
+    this.onMouseOut       = this.onMouseOut.bind(this);
+    this.onMouseDown       = this.onMouseDown.bind(this);
+    this.onMouseUp       = this.onMouseUp.bind(this);
+    this.onMouseMove       = this.onMouseMove.bind(this);
     
   }//END constructor
+
+  onMouseMove(e: any, key: any)
+  {
+    //console.log(Object.keys(e));
+    //console.log(e.pageX+', '+e.pageY);
+  }//END onMouseMove
+
+  onMouseUp(e: any, key: any)
+  {
+    console.log('up');
+  }//END onMouseUp
+
+  onMouseDown(e: any, key: any)
+  {
+    console.log('down');
+  }//END onMouseDown
+
+  onMouseOut(e: any, key: any)
+  {
+
+  }//END onMouseOut
+
+  onMouseOver(e: any, key: any)
+  {
+
+  }//END onMouseOver
 
   isTouchDevice() 
   {
@@ -492,6 +523,31 @@ class TouchController extends Component<MyProps, MyStates>
         className={tappableClass}
         style={wrapperStyle}
         key={key}
+
+        onMouseOver={function(e:any)
+        {
+          self.onMouseOver(e, key);
+        }}
+
+        onMouseLeave={function(e:any)
+        {
+          self.onMouseOut(e, key);
+        }}
+
+        onMouseDown={function(e:any)
+        {
+          self.onMouseDown(e, key);
+        }}
+
+        onMouseUp={function(e:any)
+        {
+          self.onMouseUp(e, key);
+        }}
+
+        onMouseMove={function(e:any)
+        {
+          self.onMouseMove(e, key);
+        }}
       >
         {children}
       </Pinchable>

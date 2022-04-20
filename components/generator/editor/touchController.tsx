@@ -58,9 +58,17 @@ class TouchController extends Component<MyProps, MyStates>
     this.fixImgSizeWhileZoomOverflow       = this.fixImgSizeWhileZoomOverflow.bind(this);
     this.zoomByPinchMove                      = this.zoomByPinchMove.bind(this);
     this.getImageCoorByPinchEventCenter       = this.getImageCoorByPinchEventCenter.bind(this);
+    this.tappableElement       = this.tappableElement.bind(this);
+    this.isTouchDevice       = this.isTouchDevice.bind(this);
     
   }//END constructor
 
+  isTouchDevice() 
+  {
+    return (('ontouchstart' in window) ||
+       (navigator.maxTouchPoints > 0) ||
+       (navigator.msMaxTouchPoints > 0));
+  }
 
   onPinchStart(e: any, key: any)
   {
@@ -429,52 +437,64 @@ class TouchController extends Component<MyProps, MyStates>
   tappableElement(tappableClass:any, wrapperStyle:any, children:any, key:string)
   {
     var self = this;
-    
+    if(this.isTouchDevice())
+      return <Pinchable  
+
+        id={key}
+        ref={this.tappableRef}
+        onTap={function(e:any)
+        {
+          self.handleTap(e);
+        }} 
+
+        onPinchStart={function(e:any)
+        {
+          self.onPinchStart(e, key);
+        }}
+
+        onPinchMove={function(e:any)
+        {
+          self.onPinchMove(e, key);
+        }}
+
+        onPinchEnd={function(e:any)
+        {
+          self.onPinchEnd(e, key);
+        }}
+
+        onTouchStart={function(e:any)
+        {
+          self.onTouchStart(e, key);
+        }}
+
+        onTouchEnd={function(e:any)
+        {
+          self.onTouchEnd(e, key);
+        }}
+
+        onTouchMove={function(e:any)
+        {
+          self.onTouchMove(e, key);
+        }}
+
+        className={tappableClass}
+        style={wrapperStyle}
+        key={key}
+      >
+        {children}
+      </Pinchable>
+    else
     return <Pinchable  
 
-      id={key}
-      ref={this.tappableRef}
-      onTap={function(e:any)
-      {
-        self.handleTap(e);
-      }} 
+        id={key}
+        ref={this.tappableRef}
+        className={tappableClass}
+        style={wrapperStyle}
+        key={key}
+      >
+        {children}
+      </Pinchable>
 
-      onPinchStart={function(e:any)
-      {
-        self.onPinchStart(e, key);
-      }}
-
-      onPinchMove={function(e:any)
-      {
-        self.onPinchMove(e, key);
-      }}
-
-      onPinchEnd={function(e:any)
-      {
-        self.onPinchEnd(e, key);
-      }}
-
-      onTouchStart={function(e:any)
-      {
-        self.onTouchStart(e, key);
-      }}
-
-      onTouchEnd={function(e:any)
-      {
-        self.onTouchEnd(e, key);
-      }}
-
-      onTouchMove={function(e:any)
-      {
-        self.onTouchMove(e, key);
-      }}
-
-      className={tappableClass}
-      style={wrapperStyle}
-      key={key}
-    >
-      {children}
-    </Pinchable >
   }//END tappableElement
 
   componentDidMount() 

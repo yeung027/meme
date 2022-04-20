@@ -137,7 +137,7 @@ class Canvas extends Component<MyProps, MyStates>
                     let clipBottom =(parseInt(image.y) +  parseInt(image.h)) - (this.state.canvasTop + this.state.canvasHeight) - 1;
 
 
-                    //console.log((this.state.canvasLeft + this.state.canvasWidth));
+                    console.log('image.y: ' + image.y);
                     //console.log((this.state.canvasLeft+ parseInt(image.x) +  parseInt(image.w)));
                     let wrapperStyle = {
                       width: image.w,

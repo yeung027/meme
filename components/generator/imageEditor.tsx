@@ -84,7 +84,7 @@ class ImageEditor extends Component<MyProps, MyStates>
     console.log('finally_rate: '+finally_rate);
     console.log('image finally size: '+b64ImageSize[1] * finally_rate); */
 
-    let canvasSize:any  = this.getCanvasComputedSize();
+    //let canvasSize:any  = this.getCanvasComputedSize();
 
     let canvas_image_length = !canvas.state.images ? 0 : canvas.state.images.length;
 
@@ -96,8 +96,8 @@ class ImageEditor extends Component<MyProps, MyStates>
 
     let obj = {
       upload: uploaded,
-      x: rect.left,
-      y: rect.top,
+      x: 0,
+      y: 0,
       w: b64ImageSize[0] * rateWithCanvas ,
       h: b64ImageSize[1] * rateWithCanvas ,
       scale: finally_rate , 

@@ -65,9 +65,10 @@ class TouchController extends Component<MyProps, MyStates>
 
   isTouchDevice() 
   {
+    let nav:any = navigator;
     return (('ontouchstart' in window) ||
        (navigator.maxTouchPoints > 0) ||
-       (navigator.msMaxTouchPoints > 0));
+       (nav.msMaxTouchPoints > 0));
   }
 
   onPinchStart(e: any, key: any)

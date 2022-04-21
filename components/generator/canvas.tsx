@@ -77,6 +77,10 @@ class Canvas extends Component<MyProps, MyStates>
     h = parseInt(canvascompStyles.height);
     if (isNaN(w)) w = 0;
     if (isNaN(h)) h = 0;
+
+
+    if(!this.parent.state.isMobile)  w = h * 0.94;
+
     this.setState({ 
       canvasWidth: w ,
       canvasHeight: h,
@@ -136,9 +140,12 @@ class Canvas extends Component<MyProps, MyStates>
       height:this.state.canvasHeight-1,
     }
 
+    let canvasOutterStyles = {}; 
+    if(!this.parent.state.isMobile) canvasOutterStyles = {width: this.state.canvasWidth+'px'};
+
       return  <div className={this.parent.state.isMobile? mobileStyles.container : styles.container} id='canvasOutter'>
                 <TouchController parent={this} ref={this.touchControllerRef} />
-                <div className={this.parent.state.isMobile? mobileStyles.canvasOutter : styles.canvasOutter}>
+                <div className={this.parent.state.isMobile? mobileStyles.canvasOutter : styles.canvasOutter} style={canvasOutterStyles}>
                 <div id='canvas' className={this.parent.state.isMobile? mobileStyles.canvas : styles.canvas}>
                   {
 
@@ -149,15 +156,17 @@ class Canvas extends Component<MyProps, MyStates>
                     let clipTop =  this.state.canvasTop - parseInt(image.y) + 1;
                     let clipRight =  (parseInt(image.x) +  parseInt(image.w)) - (this.state.canvasLeft + this.state.canvasWidth) - 1;
                     let clipBottom =(parseInt(image.y) +  parseInt(image.h)) - (this.state.canvasTop + this.state.canvasHeight) - 1;
-
+                    let left  = this.parent.state.isMobile? image.x : this.state.canvasLeft - image.x;
+                    let top   = this.parent.state.isMobile? image.y : this.state.canvasTop - image.y;
 
                     console.log('image.y: ' + image.y);
+                    console.log('image.x: ' + image.x);
                     //console.log((this.state.canvasLeft+ parseInt(image.x) +  parseInt(image.w)));
                     let wrapperStyle = {
                       width: image.w,
                       height:image.h,
-                      top: image.y,
-                      left: image.x,
+                      top: top,
+                      left: left,
                       clipPath: 'inset('+clipTop+'px '+clipRight+'px '+clipBottom+'px '+clipLeft+'px)',
                     }  
 

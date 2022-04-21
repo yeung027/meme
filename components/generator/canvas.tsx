@@ -58,16 +58,6 @@ class Canvas extends Component<MyProps, MyStates>
   {
     if(!window) return;
 
-    var body = document.body || document.getElementsByTagName("body")[0],
-            clientTop = document.documentElement.clientTop || body.clientTop || 0,
-            clientLeft = document.documentElement.clientLeft || body.clientLeft || 0,
-            scrollTop = (window.pageYOffset || document.documentElement.scrollTop || body.scrollTop),
-            scrollLeft = (window.pageXOffset || document.documentElement.scrollLeft || body.scrollLeft);
-
-
-
-
-
     let canvas:any = document.querySelector('#canvas');
     if(!canvas) return;
     let canvascompStyles  = window.getComputedStyle(canvas);
@@ -79,13 +69,14 @@ class Canvas extends Component<MyProps, MyStates>
     if (isNaN(h)) h = 0;
 
 
-    if(!this.parent.state.isMobile)  w = h * 0.94;
-
+     w = h * 0.94;
+    /*  console.log('w: '+w);
+     console.log('h: '+h); */
     this.setState({ 
       canvasWidth: w ,
       canvasHeight: h,
-      canvasLeft: canvasRect.left + scrollLeft - clientLeft,
-      canvasTop: canvasRect.top + scrollTop - clientTop
+      canvasLeft: canvasRect.left,
+      canvasTop: canvasRect.top
     }); 
     //console.log(canvasRect.left)
   }//END doUpdateCanvasComputedStyle
@@ -136,12 +127,12 @@ class Canvas extends Component<MyProps, MyStates>
   render() 
   {
     let canvasBGStyle = {
-      width: this.state.canvasWidth,
-      height:this.state.canvasHeight-1,
+      width: this.state.canvasWidth+'px',
+      height:(this.state.canvasHeight-1)+'px',
     }
 
     let canvasOutterStyles = {}; 
-    if(!this.parent.state.isMobile) canvasOutterStyles = {width: this.state.canvasWidth+'px'};
+    canvasOutterStyles = {width: this.state.canvasWidth+'px'};
 
       return  <div className={this.parent.state.isMobile? mobileStyles.container : styles.container} id='canvasOutter'>
                 <TouchController parent={this} ref={this.touchControllerRef} />

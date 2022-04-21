@@ -40,31 +40,33 @@ class TouchController extends Component<MyProps, MyStates>
     this.tappableRef = React.createRef();
 
 
-    this.getbottomControlPanel = this.getbottomControlPanel.bind(this);
-    this.getCanvas  = this.getCanvas.bind(this);
-    this.onTouchStart   = this.onTouchStart.bind(this);
-    this.onTouchMove    = this.onTouchMove.bind(this);
-    this.onTouchEnd   = this.onTouchEnd.bind(this);
-    this.getKeyNumByNode  = this.getKeyNumByNode.bind(this);
-    this.getKeyNumByID     = this.getKeyNumByID.bind(this);
+    this.getbottomControlPanel  = this.getbottomControlPanel.bind(this);
+    this.getCanvas              = this.getCanvas.bind(this);
+    this.onTouchStart           = this.onTouchStart.bind(this);
+    this.onTouchMove            = this.onTouchMove.bind(this);
+    this.onTouchEnd             = this.onTouchEnd.bind(this);
+    this.getKeyNumByNode        = this.getKeyNumByNode.bind(this);
+    this.getKeyNumByID          = this.getKeyNumByID.bind(this);
     this.checkPositionIsOverflowAndFix      = this.checkPositionIsOverflowAndFix.bind(this);
     this.checkBottomControlIsStageEditimg   = this.checkBottomControlIsStageEditimg.bind(this);
     this.onPinchStart   = this.onPinchStart.bind(this);
-    this.onPinchMove   = this.onPinchMove.bind(this);
-    this.onPinchEnd = this.onPinchEnd.bind(this);
-    this.handleTap       = this.handleTap.bind(this);
+    this.onPinchMove    = this.onPinchMove.bind(this);
+    this.onPinchEnd     = this.onPinchEnd.bind(this);
+    this.handleTap      = this.handleTap.bind(this);
     this.debugLog       = this.debugLog.bind(this);
-    this.getCanvasSize       = this.getCanvasSize.bind(this);
-    this.fixImgSizeWhileZoomOverflow       = this.fixImgSizeWhileZoomOverflow.bind(this);
+    this.getCanvasSize  = this.getCanvasSize.bind(this);
+    this.fixImgSizeWhileZoomOverflow          = this.fixImgSizeWhileZoomOverflow.bind(this);
     this.zoomByPinchMove                      = this.zoomByPinchMove.bind(this);
     this.getImageCoorByPinchEventCenter       = this.getImageCoorByPinchEventCenter.bind(this);
-    this.tappableElement       = this.tappableElement.bind(this);
-    this.isTouchDevice       = this.isTouchDevice.bind(this);
-    this.onMouseOver       = this.onMouseOver.bind(this);
-    this.onMouseOut       = this.onMouseOut.bind(this);
-    this.onMouseDown       = this.onMouseDown.bind(this);
-    this.onMouseUp       = this.onMouseUp.bind(this);
-    this.onMouseMove       = this.onMouseMove.bind(this);
+    this.tappableElement        = this.tappableElement.bind(this);
+    this.isTouchDevice          = this.isTouchDevice.bind(this);
+    this.onMouseOver            = this.onMouseOver.bind(this);
+    this.onMouseOut             = this.onMouseOut.bind(this);
+    this.onMouseDown            = this.onMouseDown.bind(this);
+    this.onMouseUp              = this.onMouseUp.bind(this);
+    this.onMouseMove            = this.onMouseMove.bind(this);
+    this.moveImg                = this.moveImg.bind(this);
+    
     
   }//END constructor
 
@@ -353,7 +355,8 @@ class TouchController extends Component<MyProps, MyStates>
     return this.parent.parent.bottomControlPanelRef.current.state.currentUI === this.parent.parent.bottomControlPanelRef.current.stage.EDITIMG;
   }//END checkBottomControlIsStageEditimg
 
-  onTouchMove(e: any, key: any)
+
+  moveImg(e: any, key: any, isTouch: boolean)
   {
     if(!e || e.touches.length<=0)
     {
@@ -422,7 +425,11 @@ class TouchController extends Component<MyProps, MyStates>
       images: imgObj
      });
 
+  }//END moveImg
 
+  onTouchMove(e: any, key: any)
+  {
+    this.moveImg(e, key, false);
   }//END onTouchMove
 
   checkPositionIsOverflowAndFix(x:number, y:number, targetWidthHeight:any[])

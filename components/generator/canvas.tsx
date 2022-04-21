@@ -15,6 +15,7 @@ type MyStates = {
   canvasLeft: number
   canvasTop: number
   touchController:any
+  updateCanvasComputedStyleCount: number
 };
 
 interface Canvas  {
@@ -37,11 +38,13 @@ class Canvas extends Component<MyProps, MyStates>
       canvasLeft: 0,
       canvasTop: 0,
       touchController: null,
+      updateCanvasComputedStyleCount:0
     }//END state
 
     this.touchControllerRef = React.createRef();
     
     this.updateCanvasComputedStyle                  = this.updateCanvasComputedStyle.bind(this);
+    this.doUpdateCanvasComputedStyle                = this.doUpdateCanvasComputedStyle.bind(this);
     this.loadTouchController                        = this.loadTouchController.bind(this);
   }//END constructor
 
@@ -51,9 +54,7 @@ class Canvas extends Component<MyProps, MyStates>
     this.loadTouchController();
   }//END componentDidMount
 
-
-
-  updateCanvasComputedStyle()
+  doUpdateCanvasComputedStyle()
   {
     if(!window) return;
 
@@ -83,6 +84,24 @@ class Canvas extends Component<MyProps, MyStates>
       canvasTop: canvasRect.top + scrollTop - clientTop
     }); 
     //console.log(canvasRect.left)
+  }//END doUpdateCanvasComputedStyle
+
+  updateCanvasComputedStyle()
+  {
+    let that  = this;
+    let count:number = this.state.updateCanvasComputedStyleCount;
+
+
+    if(count>10) return;
+    this.setState({ updateCanvasComputedStyleCount: count+1 });
+    this.doUpdateCanvasComputedStyle();
+    setTimeout(
+      function() {
+        that.updateCanvasComputedStyle();
+      }
+      .bind(this),
+      200
+    );
   }//END updateCanvasComputedStyle
 
 

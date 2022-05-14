@@ -131,3 +131,17 @@
 {
     color: #7A56DF;
 }
+
+.zoomSliderWrapper
+{
+    width:80%;
+}
+
+.zoomSliderContainer
+{
+}
+
+.zoomSliderLabel
+{
+    margin-bottom: 5px;
+}

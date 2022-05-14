@@ -11,6 +11,11 @@ import ImageIcon from '@material-ui/icons/Image';
 import TextFieldsIcon from '@material-ui/icons/TextFields';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 
+import Grid from '@material-ui/core/Grid';
+import Slider from '@material-ui/core/Slider';
+import ZoomInIcon from '@material-ui/icons/ZoomIn';
+import ZoomOutIcon from '@material-ui/icons/ZoomOut';
+
 type MyProps = {
     parent:any
 };
@@ -19,6 +24,7 @@ type MyStates = {
   snackOpen: boolean
   snackType: any
   snackMsg: string
+  desktopZoomSliderValue: any
 };
 
 interface EditImgUI {
@@ -36,6 +42,7 @@ class EditImgUI extends Component<MyProps, MyStates>
       snackOpen: false,
       snackType: 'error',
       snackMsg: '',
+      desktopZoomSliderValue: 0
     }//END state
     
     this.snackOnClick             = this.snackOnClick.bind(this);
@@ -43,6 +50,8 @@ class EditImgUI extends Component<MyProps, MyStates>
     this.snackOnClose             = this.snackOnClose.bind(this);
     this.nextBtnOnclick           = this.nextBtnOnclick.bind(this);
     this.skipBtnOnclick           = this.skipBtnOnclick.bind(this);
+    this.desktopZoomSlider        = this.desktopZoomSlider.bind(this);
+    this.desktopZoomSliderOnChange        = this.desktopZoomSliderOnChange.bind(this);
   }//END constructor
 
   snackOnClose()
@@ -82,6 +91,38 @@ class EditImgUI extends Component<MyProps, MyStates>
 
   }//END nextBtnOnclick
 
+  desktopZoomSliderOnChange(e:any , v:any)
+  {
+    this.setState({ 
+      desktopZoomSliderValue: v
+    });
+  }//END desktopZoomSliderOnChange
+
+  desktopZoomSlider()
+  {
+    return  <div className={styles.zoomSliderWrapper}>
+              <div className={styles.zoomSliderLabel}>
+                Zoom
+              </div>
+              <Grid container spacing={2} className={styles.zoomSliderContainer}>
+                <Grid item>
+                  <ZoomOutIcon />
+                </Grid>
+                <Grid item xs>
+                  <Slider 
+                    value={this.state.desktopZoomSliderValue} 
+                    onChange={this.desktopZoomSliderOnChange} 
+                    aria-labelledby="continuous-slider" 
+                  />
+                </Grid>
+                <Grid item>
+                  <ZoomInIcon />
+                </Grid>
+              </Grid>
+            </div>
+  }//END desktopZoomSlider
+
+
   render() 
   {
     let containerClass    = this.parent.parent.state.isMobile? mobileStyles.container : styles.container;
@@ -90,6 +131,8 @@ class EditImgUI extends Component<MyProps, MyStates>
     let buttonActiveClass = [buttonClass, this.parent.parent.state.isMobile? mobileStyles.active : styles.active].join(' ');
 
     let nextBtnClass       = utilStyles.purple_iconRight_btn_l;
+
+    //console.log(this.parent.parent.state.isMobile);
 
     return  <div className={containerClass}>
               <Snackbar 
@@ -124,6 +167,9 @@ class EditImgUI extends Component<MyProps, MyStates>
               </div>
               <div className={this.parent.parent.state.isMobile? mobileStyles.main : styles.main}>
                 <div className={this.parent.parent.state.isMobile? mobileStyles.mainInner : styles.mainInner}>
+                  {!this.parent.parent.state.isMobile &&
+                    this.desktopZoomSlider()
+                  }
                   <div className={buttonClass}>
                     <ImageIcon className={this.parent.parent.state.isMobile? mobileStyles.icon : styles.icon} />
                     <span>Image</span>

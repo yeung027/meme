@@ -74,6 +74,7 @@ class TouchController extends Component<MyProps, MyStates>
   {
     //console.log(Object.keys(e));
     //console.log(e.pageX+', '+e.pageY);
+    this.moveImg(e, key, false);
   }//END onMouseMove
 
   onMouseUp(e: any, key: any)
@@ -358,11 +359,6 @@ class TouchController extends Component<MyProps, MyStates>
 
   moveImg(e: any, key: any, isTouch: boolean)
   {
-    if(!e || e.touches.length<=0)
-    {
-      console.error('touchStart error...');
-      return;
-    }
     
     if(!this.checkBottomControlIsStageEditimg()) return;
     let touchStartTouchX = 0 , 
@@ -392,15 +388,33 @@ class TouchController extends Component<MyProps, MyStates>
     }
 
     //this.debugLog('touchStartTouchX: ' + touchStartTouchX);
+    let currentTouchClientX = 0,
+    currentTouchClientY = 0;
+    let canvasDom:any = document.querySelector('#canvas');
+    let convasRect = canvasDom.getBoundingClientRect();
 
-    let currentTouchClientX = e.touches[0].clientX;
-    let currentTouchClientY = e.touches[0].clientY;
-    console.log('touchStartImgX: ' + touchStartImgX);
-
-    if(noTouchStartObj)
+    if(this.parent.parent.state.isMobile)
     {
-      let canvasDom:any = document.querySelector('#canvas');
-      let convasRect = canvasDom.getBoundingClientRect();
+      currentTouchClientX = e.touches[0].clientX;
+      currentTouchClientY = e.touches[0].clientY;
+    }
+    else
+    {
+      //console.log("mouse xy: "+e.pageX+', '+e.pageY);
+      //console.log("convasRect.left: "+convasRect.left);
+      currentTouchClientX = e.pageX;
+      currentTouchClientY = e.pageY;
+    }
+
+    //console.log('touchStartImgX: ' + touchStartImgX);
+
+    if(noTouchStartObj && this.parent.parent.state.isMobile)
+    {
+      new_post_left = currentTouchClientX - convasRect.left - (imgObj[keynum].w / 2);
+      new_post_top  = currentTouchClientY - convasRect.top - (imgObj[keynum].h / 2);
+    }
+    else if(noTouchStartObj && !this.parent.parent.state.isMobile)
+    {
       new_post_left = currentTouchClientX - convasRect.left - (imgObj[keynum].w / 2);
       new_post_top  = currentTouchClientY - convasRect.top - (imgObj[keynum].h / 2);
     }
@@ -417,7 +431,7 @@ class TouchController extends Component<MyProps, MyStates>
       return;
     }
     
-
+    console.log('noTouchStartObj: ' + noTouchStartObj);
     imgObj[keynum].x = new_post_left+'px'
     imgObj[keynum].y = new_post_top+'px';
 
@@ -429,7 +443,7 @@ class TouchController extends Component<MyProps, MyStates>
 
   onTouchMove(e: any, key: any)
   {
-    this.moveImg(e, key, false);
+    this.moveImg(e, key, true);
   }//END onTouchMove
 
   checkPositionIsOverflowAndFix(x:number, y:number, targetWidthHeight:any[])

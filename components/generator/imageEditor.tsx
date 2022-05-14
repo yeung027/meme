@@ -91,7 +91,7 @@ class ImageEditor extends Component<MyProps, MyStates>
 
     let canvasDom:any = document.querySelector('#canvas');
     let rect = canvasDom.getBoundingClientRect();
-    console.log(rect.left);
+    //console.log(rect.left);
 
 
     let obj = {

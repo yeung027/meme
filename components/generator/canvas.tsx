@@ -127,12 +127,15 @@ class Canvas extends Component<MyProps, MyStates>
   render() 
   {
     let canvasBGStyle = {
-      width: this.state.canvasWidth+'px',
+      width: this.parent.state.isMobile? (this.state.canvasWidth * 0.9)+'px': this.state.canvasWidth+'px',
       height:(this.state.canvasHeight-1)+'px',
     }
 
     let canvasOutterStyles = {}; 
-    canvasOutterStyles = {width: this.state.canvasWidth+'px'};
+    if(!this.parent.state.isMobile || true)
+    {
+      canvasOutterStyles = {width: this.state.canvasWidth+'px'};
+    }
 
       return  <div className={this.parent.state.isMobile? mobileStyles.container : styles.container} id='canvasOutter'>
                 <TouchController parent={this} ref={this.touchControllerRef} />
@@ -145,7 +148,7 @@ class Canvas extends Component<MyProps, MyStates>
                     let tappableId  = 'img-tappable-'+image.key_num;
                     let clipLeft    =  this.parent.state.isMobile? this.state.canvasLeft - parseInt(image.x) + 1 : 0;
                     let clipTop     =  this.parent.state.isMobile? this.state.canvasTop - parseInt(image.y) + 1 : 0;
-                    let clipRight   =  this.parent.state.isMobile? (parseInt(image.x) +  parseInt(image.w)) - (this.state.canvasLeft + this.state.canvasWidth) - 1 : (parseInt(image.x) +  parseInt(image.w)) - this.state.canvasWidth;
+                    let clipRight   =  this.parent.state.isMobile? (parseInt(image.x) +  parseInt(image.w)) - (this.state.canvasLeft + (this.state.canvasWidth * 0.9)) - 1 : (parseInt(image.x) +  parseInt(image.w)) - this.state.canvasWidth;
                     let clipBottom  =  this.parent.state.isMobile? (parseInt(image.y) +  parseInt(image.h)) - (this.state.canvasTop + this.state.canvasHeight) - 1 :  (parseInt(image.y) +  parseInt(image.h)) - this.state.canvasHeight;
                     let left  = image.x;
                     let top   = image.y;

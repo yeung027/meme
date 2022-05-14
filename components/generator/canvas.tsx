@@ -46,6 +46,8 @@ class Canvas extends Component<MyProps, MyStates>
     this.updateCanvasComputedStyle                  = this.updateCanvasComputedStyle.bind(this);
     this.doUpdateCanvasComputedStyle                = this.doUpdateCanvasComputedStyle.bind(this);
     this.loadTouchController                        = this.loadTouchController.bind(this);
+    this.onImgdragstart                             = this.onImgdragstart.bind(this);
+    
   }//END constructor
 
   componentDidMount() 
@@ -99,6 +101,10 @@ class Canvas extends Component<MyProps, MyStates>
     );
   }//END updateCanvasComputedStyle
 
+  onImgdragstart(e:any)
+  {
+    e.preventDefault();
+  }//END onImgdragstart
 
   loadTouchController()
   {
@@ -153,8 +159,8 @@ class Canvas extends Component<MyProps, MyStates>
                     let left  = image.x;
                     let top   = image.y;
 
-                    console.log('image.y: ' + image.y);
-                    console.log('image.x: ' + image.x);
+                    //console.log('image.y: ' + image.y);
+                    //console.log('image.x: ' + image.x);
                     //console.log((this.state.canvasLeft+ parseInt(image.x) +  parseInt(image.w)));
                     let wrapperStyle = {
                       width: image.w,
@@ -168,7 +174,7 @@ class Canvas extends Component<MyProps, MyStates>
                     
                     let imgEle= <img key={'img-key-'+i} id={'img-key-'+i} src={image.upload.data_url} 
                                   className={this.parent.state.isMobile? mobileStyles.img : styles.img} 
-                                   
+                                  onDragStart={this.onImgdragstart}
                                 />
                     let ele = imgEle;
                     if(this.state.touchController)

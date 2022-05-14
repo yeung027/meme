@@ -11,7 +11,8 @@ type MyStates = {
   debugLog: any[],
   pinchStarted: boolean,
   pinchStartObj: any,
-  touchStartObj: any
+  touchStartObj: any,
+  isMouseDownHold: boolean
 };
 
 interface TouchController  {
@@ -33,6 +34,7 @@ class TouchController extends Component<MyProps, MyStates>
       pinchStarted: false,
       pinchStartObj: null,
       touchStartObj:null,
+      isMouseDownHold: false,
       debugLog: ['Debug:']
     }//END state
 
@@ -74,17 +76,24 @@ class TouchController extends Component<MyProps, MyStates>
   {
     //console.log(Object.keys(e));
     //console.log(e.pageX+', '+e.pageY);
+    if(!this.state.isMouseDownHold) return;
     this.moveImg(e, key, false);
   }//END onMouseMove
 
   onMouseUp(e: any, key: any)
   {
     console.log('up');
+    this.setState({ 
+      isMouseDownHold: false
+    });
   }//END onMouseUp
 
   onMouseDown(e: any, key: any)
   {
     console.log('down');
+    this.setState({ 
+      isMouseDownHold: true
+    });
   }//END onMouseDown
 
   onMouseOut(e: any, key: any)

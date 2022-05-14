@@ -90,10 +90,32 @@ class TouchController extends Component<MyProps, MyStates>
 
   onMouseDown(e: any, key: any)
   {
-    console.log('down');
+    //console.log('down');
     this.setState({ 
       isMouseDownHold: true
     });
+
+    //if(this.state.touchStart) return;
+
+    let keynum= this.getKeyNumByID(key);
+    let imgObj:any  =  this.parent.state.images.length > keynum ? this.parent.state.images[keynum] : null;
+
+    if(!imgObj) return this.debugLog('error! imgObj');
+
+    this.setState({ 
+      touchStart: true,
+      touchStartObj:{
+        key: key,
+        keynum: keynum,
+        e: e,
+        imgObj: {
+          x: imgObj.x,
+          y:imgObj.y,
+          w: imgObj.w,
+          h: imgObj.h
+        }
+      }
+     });
   }//END onMouseDown
 
   onMouseOut(e: any, key: any)
@@ -381,6 +403,7 @@ class TouchController extends Component<MyProps, MyStates>
 
     let imgObj:any  =  this.parent.state.images;
     let keynum= this.getKeyNumByID(key);
+    //console.log(this.state.touchStartObj);
     if(this.state.touchStartObj && this.state.touchStartObj.e && this.state.touchStartObj.e.touches 
       && this.state.touchStartObj.imgObj && this.state.touchStartObj.imgObj.x && this.state.touchStartObj.imgObj.y)
     {
@@ -388,6 +411,13 @@ class TouchController extends Component<MyProps, MyStates>
       touchStartImgY    = parseInt(this.state.touchStartObj.imgObj.y);
       touchStartTouchX  = this.state.touchStartObj.e.touches[0].clientX - touchStartImgX;
       touchStartTouchY  = this.state.touchStartObj.e.touches[0].clientY - touchStartImgY;
+    }
+    else if(this.state.touchStartObj && this.state.touchStartObj.e && this.state.touchStartObj.imgObj && this.state.touchStartObj.imgObj.x && this.state.touchStartObj.imgObj.y)
+    {
+      touchStartImgX    = parseInt(this.state.touchStartObj.imgObj.x);
+      touchStartImgY    = parseInt(this.state.touchStartObj.imgObj.y);
+      touchStartTouchX  = this.state.touchStartObj.e.pageX - touchStartImgX;
+      touchStartTouchY  = this.state.touchStartObj.e.pageY - touchStartImgY;
     }
     else
     {
@@ -440,7 +470,7 @@ class TouchController extends Component<MyProps, MyStates>
       return;
     }
     
-    console.log('noTouchStartObj: ' + noTouchStartObj);
+    //console.log('noTouchStartObj: ' + noTouchStartObj);
     imgObj[keynum].x = new_post_left+'px'
     imgObj[keynum].y = new_post_top+'px';
 

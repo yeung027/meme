@@ -96,8 +96,8 @@ class ImageEditor extends Component<MyProps, MyStates>
 
     let obj = {
       upload: uploaded,
-      x: rect.left,
-      y: rect.top,
+      x: this.parent.parent.state.isMobile? rect.left : 0,
+      y: this.parent.parent.state.isMobile? rect.top : 0,
       w: b64ImageSize[0] * rateWithCanvas ,
       h: b64ImageSize[1] * rateWithCanvas ,
       scale: finally_rate , 

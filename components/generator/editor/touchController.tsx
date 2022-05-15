@@ -35,7 +35,7 @@ class TouchController extends Component<MyProps, MyStates>
       pinchStartObj: null,
       touchStartObj:null,
       isMouseDownHold: false,
-      debugLog: ['Debug:']
+      debugLog: ['Debug:'],
     }//END state
 
     this.debugRef = React.createRef();
@@ -182,10 +182,10 @@ class TouchController extends Component<MyProps, MyStates>
   }
   onPinchMove(e: any, key: any)
   {
-    this.zoomByPinchMove(e, key);
+    this.zoomByPinchMove(e, key, true);
   }//END onPinchMove
 
-  zoomByPinchMove(e: any, key: any)
+  zoomByPinchMove(e: any, key: any, isTouch:boolean)
   {
 
     if(!this.checkBottomControlIsStageEditimg()) return;
@@ -210,19 +210,55 @@ class TouchController extends Component<MyProps, MyStates>
 
 
     let zoom = e.zoom;
-
+    let desktopStartObj:any = {};
     //this.debugLog(this.state.pinchStartObj.keynum == keynum);
     this.debugLog(e.zoom);
-    if(this.state.pinchStartObj.keynum != keynum) return this.debugLog('error! cannot find pinchStartObj');
+    if(isTouch && this.state.pinchStartObj.keynum != keynum) return this.debugLog('error! cannot find pinchStartObj');
+    else if(!isTouch)
+    {
+      desktopStartObj = {
+        key: key,
+        keynum: keynum,
+        e: e,
+        imgObj: e.imgObj
+      }
+    }
 
-    let new_scale = this.state.pinchStartObj.imgObj.scale * zoom;
-    let new_w = this.state.pinchStartObj.imgObj.w * zoom;
-    let new_h = this.state.pinchStartObj.imgObj.h * zoom;
-
+    let new_scale= 1, new_w = 0 ,new_h = 0;
+    if(isTouch)
+    {
+      new_scale = this.state.pinchStartObj.imgObj.scale * zoom;
+      new_w = this.state.pinchStartObj.imgObj.w * zoom;
+      new_h = this.state.pinchStartObj.imgObj.h * zoom;
+    }
+    else
+    {
+      zoom = zoom/10;
+      //console.log(desktopStartObj.imgObj);
+      new_scale = desktopStartObj.imgObj.scale * zoom;
+      new_w = desktopStartObj.imgObj.w * zoom;
+      new_h = desktopStartObj.imgObj.h * zoom;
+      //new_scale = this.state.pinchStartObj.imgObj.scale * zoom;
+      //return;
+      //new_scale
+    }
 
     let finally_size  = this.fixImgSizeWhileZoomOverflow(new_w, new_h, new_scale);
-    let fixed_xy_by_event_center:any[]  = this.getImageCoorByPinchEventCenter(e, this.state.pinchStartObj.imgObj);
+    let fixed_xy_by_event_center:any[] = [0,0];
+    
+    
+    if(isTouch)
+    {
+      fixed_xy_by_event_center = this.getImageCoorByPinchEventCenter(e, this.state.pinchStartObj.imgObj);
+    }
+    else
+    {
+      fixed_xy_by_event_center = this.getImageCoorByPinchEventCenter(e, desktopStartObj.imgObj);
+    }
 
+
+    console.log('finally_size: '+finally_size[0] +", "+finally_size[1]);
+    console.log('zoom: '+zoom);
     imgObj[keynum].scale = finally_size[2];
     imgObj[keynum].w = finally_size[0];
     imgObj[keynum].h = finally_size[1];
@@ -251,10 +287,14 @@ class TouchController extends Component<MyProps, MyStates>
     let w = parseInt(imageObj.w);
     let h = parseInt(imageObj.h); */
 
-    let center_x:number = e.center.x;
-    let center_y:number = e.center.y;
+    let center_x:number = 0;
+    let center_y:number = 0;
 
-    
+    if(e.center)
+    {
+      center_x = e.center.x;
+      center_y = e.center.y;
+    }
 
     let half_image_w = imageObj.w / 2;
     let half_image_h = imageObj.h / 2;
@@ -294,11 +334,11 @@ class TouchController extends Component<MyProps, MyStates>
   debugLog(str:any)
   {
     if(!this.debugRef || !this.debugRef.current) return;
-    let show: string;
+    let show: string = '';
 
 
     if (typeof str === 'string') show = str;
-    else  show = str.toString();
+    else if(str)  show = str.toString();
 
     let debug = this.state.debugLog;
     debug[debug.length] = show;

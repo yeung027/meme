@@ -12,7 +12,8 @@ type MyStates = {
   pinchStarted: boolean,
   pinchStartObj: any,
   touchStartObj: any,
-  isMouseDownHold: boolean
+  isMouseDownHold: boolean,
+  lastZoom: number
 };
 
 interface TouchController  {
@@ -36,6 +37,7 @@ class TouchController extends Component<MyProps, MyStates>
       touchStartObj:null,
       isMouseDownHold: false,
       debugLog: ['Debug:'],
+      lastZoom: -1
     }//END state
 
     this.debugRef = React.createRef();
@@ -233,14 +235,33 @@ class TouchController extends Component<MyProps, MyStates>
     }
     else
     {
-      zoom = zoom/10;
-      //console.log(desktopStartObj.imgObj);
+      let orgZoom = zoom/50;
+      zoom = zoom/50;
+      let lastZoom = this.state.lastZoom;
+      
+      //console.log('lastZoom33: '+lastZoom + ', '+ zoom);
+      if(lastZoom!= -1 && lastZoom > zoom)
+      {
+        zoom = (zoom / lastZoom);
+        //zoom = 0.5;
+        //console.log('lastZoom33: '+zoom);
+
+        this.setState({ 
+          lastZoom: orgZoom
+         });
+      }
+      else
+      {
+        this.setState({ 
+          lastZoom: zoom
+         });
+      }
+
       new_scale = desktopStartObj.imgObj.scale * zoom;
       new_w = desktopStartObj.imgObj.w * zoom;
       new_h = desktopStartObj.imgObj.h * zoom;
-      //new_scale = this.state.pinchStartObj.imgObj.scale * zoom;
-      //return;
-      //new_scale
+      
+      
     }
 
     let finally_size  = this.fixImgSizeWhileZoomOverflow(new_w, new_h, new_scale);
@@ -257,8 +278,8 @@ class TouchController extends Component<MyProps, MyStates>
     }
 
 
-    console.log('finally_size: '+finally_size[0] +", "+finally_size[1]);
-    console.log('zoom: '+zoom);
+    //console.log('finally_size: '+finally_size[0] +", "+finally_size[1]);
+    //console.log('zoom: '+zoom);
     imgObj[keynum].scale = finally_size[2];
     imgObj[keynum].w = finally_size[0];
     imgObj[keynum].h = finally_size[1];
@@ -294,6 +315,11 @@ class TouchController extends Component<MyProps, MyStates>
     {
       center_x = e.center.x;
       center_y = e.center.y;
+    }
+    else
+    {
+      center_x = imageObj.x + (imageObj.w / 2);
+      center_y = imageObj.y+ (imageObj.h / 2);
     }
 
     let half_image_w = imageObj.w / 2;

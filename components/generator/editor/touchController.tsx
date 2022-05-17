@@ -12,8 +12,7 @@ type MyStates = {
   pinchStarted: boolean,
   pinchStartObj: any,
   touchStartObj: any,
-  isMouseDownHold: boolean,
-  lastZoom: number
+  isMouseDownHold: boolean
 };
 
 interface TouchController  {
@@ -36,8 +35,7 @@ class TouchController extends Component<MyProps, MyStates>
       pinchStartObj: null,
       touchStartObj:null,
       isMouseDownHold: false,
-      debugLog: ['Debug:'],
-      lastZoom: -1
+      debugLog: ['Debug:']
     }//END state
 
     this.debugRef = React.createRef();
@@ -224,6 +222,12 @@ class TouchController extends Component<MyProps, MyStates>
         e: e,
         imgObj: e.imgObj
       }
+      // if(this.state.originalSize == [])
+      // {
+      //   this.setState({ 
+      //     originalSize:[desktopStartObj.imgObj.w, desktopStartObj.imgObj.h]
+      //    });
+      // }
     }
 
     let new_scale= 1, new_w = 0 ,new_h = 0;
@@ -235,36 +239,23 @@ class TouchController extends Component<MyProps, MyStates>
     }
     else
     {
-      let orgZoom = zoom/50;
-      zoom = zoom/50;
-      let lastZoom = this.state.lastZoom;
       
-      //console.log('lastZoom33: '+lastZoom + ', '+ zoom);
-      if(lastZoom!= -1 && lastZoom > zoom)
-      {
-        zoom = (zoom / lastZoom);
-        //zoom = 0.5;
-        //console.log('lastZoom33: '+zoom);
+      let scaling = Math.pow(2,(zoom - 50) / 25);
+      let org = [desktopStartObj.imgObj.w, desktopStartObj.imgObj.h];
+      // if(this.state.originalSize != [])
+      // {
+      //   org = this.state.originalSize;
+      // }
+      console.log('scaling: '+scaling);
 
-        this.setState({ 
-          lastZoom: orgZoom
-         });
-      }
-      else
-      {
-        this.setState({ 
-          lastZoom: zoom
-         });
-      }
-
-      new_scale = desktopStartObj.imgObj.scale * zoom;
-      new_w = desktopStartObj.imgObj.w * zoom;
-      new_h = desktopStartObj.imgObj.h * zoom;
+      new_scale = desktopStartObj.imgObj.scale * scaling;
+      new_w = org[0] * scaling;
+      new_h = org[1] * scaling;
       
       
     }
 
-    let finally_size  = this.fixImgSizeWhileZoomOverflow(new_w, new_h, new_scale);
+    let finally_size  = this.fixImgSizeWhileZoomOverflow(isTouch, new_w, new_h, new_scale);
     let fixed_xy_by_event_center:any[] = [0,0];
     
     
@@ -332,12 +323,12 @@ class TouchController extends Component<MyProps, MyStates>
     return [result_x, result_y];
   }//END zoomByPinchMove
 
-  fixImgSizeWhileZoomOverflow(w:number, h:number, new_scale:number)
+  fixImgSizeWhileZoomOverflow(isTouch:boolean, w:number, h:number, new_scale:number)
   {
     let canvasSize: any[] = this.getCanvasSize();
     let fix_w:number = w, fix_h:number = h;
     let wh_rate = h / w;
-    const min_percentage:number = 0.3;
+    const min_percentage:number = isTouch? 0.3 : 0;
     /* if(fix_w > canvasSize[0]) fix_w = canvasSize[0];
     if(fix_h > canvasSize[1]) fix_h = canvasSize[1]; */
 

@@ -42,7 +42,7 @@ class EditImgUI extends Component<MyProps, MyStates>
       snackOpen: false,
       snackType: 'error',
       snackMsg: '',
-      desktopZoomSliderValue: 0
+      desktopZoomSliderValue: 50
     }//END state
     
     this.snackOnClick             = this.snackOnClick.bind(this);

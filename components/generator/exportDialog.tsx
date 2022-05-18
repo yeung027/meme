@@ -209,15 +209,20 @@ class ExportDialog extends Component<MyProps, MyStates>
     let titleClass   = this.parent.state.isMobile? mobileStyles.title : styles.title;
     let closeBtnClass   = this.parent.state.isMobile? mobileStyles.closeBtn : styles.closeBtn;
 
-    let closeBtnStyle = {
+    let closeBtnStyle:any = {
       left: (this.state.pageWidth - this.state.closeBtnWidth - 10)+'px',
       lineHeight: this.state.appbarHeight+'px'
     }
 
-    let dialogMainEle =   <>
+    if(!this.parent.state.isMobile)
+    {
+      closeBtnStyle.left = (this.state.pageWidth - this.state.closeBtnWidth - 70)+'px';
+    }
+
+    let dialogMainEle =   <div className={this.parent.state.isMobile? '' : styles.imageProgressWrapper}>
                             <CircularProgress color="secondary" />
                             <span className={this.parent.state.isMobile? mobileStyles.prograssSpan : styles.prograssSpan}>Gerenating Image...</span>
-                          </>
+                          </div>
 
     if(this.state.exportSrc != '')
     {

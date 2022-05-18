@@ -94,7 +94,7 @@ class ImageEditor extends Component<MyProps, MyStates>
     //console.log(rect.left);
 
 
-    let obj = {
+    let obj:any = {
       upload: uploaded,
       x: this.parent.parent.state.isMobile? rect.left : 0,
       y: this.parent.parent.state.isMobile? rect.top : 0,
@@ -103,6 +103,11 @@ class ImageEditor extends Component<MyProps, MyStates>
       scale: finally_rate , 
       key_num: canvas_image_length
     };
+    obj.org = {
+      w: b64ImageSize[0] * rateWithCanvas,
+      h: b64ImageSize[1] * rateWithCanvas
+    };
+
     images  = images.concat(obj);
     canvas.setState({ 
       images: images

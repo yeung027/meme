@@ -222,12 +222,6 @@ class TouchController extends Component<MyProps, MyStates>
         e: e,
         imgObj: e.imgObj
       }
-      // if(this.state.originalSize == [])
-      // {
-      //   this.setState({ 
-      //     originalSize:[desktopStartObj.imgObj.w, desktopStartObj.imgObj.h]
-      //    });
-      // }
     }
 
     let new_scale= 1, new_w = 0 ,new_h = 0;
@@ -241,17 +235,13 @@ class TouchController extends Component<MyProps, MyStates>
     {
       
       let scaling = Math.pow(2,(zoom - 50) / 25);
-      let org = [desktopStartObj.imgObj.w, desktopStartObj.imgObj.h];
-      // if(this.state.originalSize != [])
-      // {
-      //   org = this.state.originalSize;
-      // }
+      
       console.log('scaling: '+scaling);
 
-      new_scale = desktopStartObj.imgObj.scale * scaling;
-      new_w = org[0] * scaling;
-      new_h = org[1] * scaling;
-      
+      console.log("w: "+this.parent.state.images[desktopStartObj.keynum].org.w);
+      console.log("h: "+this.parent.state.images[desktopStartObj.keynum].org.h);
+      new_w = this.parent.state.images[desktopStartObj.keynum].org.w * scaling;
+      new_h = this.parent.state.images[desktopStartObj.keynum].org.h * scaling;
       
     }
 
@@ -272,8 +262,8 @@ class TouchController extends Component<MyProps, MyStates>
     //console.log('finally_size: '+finally_size[0] +", "+finally_size[1]);
     //console.log('zoom: '+zoom);
     imgObj[keynum].scale = finally_size[2];
-    imgObj[keynum].w = finally_size[0];
-    imgObj[keynum].h = finally_size[1];
+    imgObj[keynum].w = isTouch ? finally_size[0] : new_w;
+    imgObj[keynum].h = isTouch ? finally_size[1] : new_h;
     imgObj[keynum].x = fixed_xy_by_event_center[0];
     imgObj[keynum].y = fixed_xy_by_event_center[1];
 

@@ -58,6 +58,7 @@ class TouchController extends Component<MyProps, MyStates>
     this.debugLog       = this.debugLog.bind(this);
     this.getCanvasSize  = this.getCanvasSize.bind(this);
     this.fixImgSizeWhileZoomOverflow          = this.fixImgSizeWhileZoomOverflow.bind(this);
+    this.fixImgWhileOutOfScreen               = this.fixImgWhileOutOfScreen.bind(this);
     this.zoomByPinchMove                      = this.zoomByPinchMove.bind(this);
     this.getImageCoorByPinchEventCenter       = this.getImageCoorByPinchEventCenter.bind(this);
     this.tappableElement        = this.tappableElement.bind(this);
@@ -236,10 +237,10 @@ class TouchController extends Component<MyProps, MyStates>
       
       let scaling = Math.pow(2,(zoom - 50) / 25);
       
-      console.log('scaling: '+scaling);
+      //console.log('scaling: '+scaling);
 
-      console.log("w: "+this.parent.state.images[desktopStartObj.keynum].org.w);
-      console.log("h: "+this.parent.state.images[desktopStartObj.keynum].org.h);
+      //console.log("w: "+this.parent.state.images[desktopStartObj.keynum].org.w);
+      //console.log("h: "+this.parent.state.images[desktopStartObj.keynum].org.h);
       new_w = this.parent.state.images[desktopStartObj.keynum].org.w * scaling;
       new_h = this.parent.state.images[desktopStartObj.keynum].org.h * scaling;
       
@@ -256,6 +257,8 @@ class TouchController extends Component<MyProps, MyStates>
     else
     {
       fixed_xy_by_event_center = this.getImageCoorByPinchEventCenter(e, desktopStartObj.imgObj);
+      let xy:any = this.fixImgWhileOutOfScreen(fixed_xy_by_event_center[0], fixed_xy_by_event_center[1]);
+      fixed_xy_by_event_center = [xy.x, xy.y];
     }
 
 
@@ -312,6 +315,23 @@ class TouchController extends Component<MyProps, MyStates>
     //this.debugLog('(touch_x_percent * ((x+w)/100)): ' +((touch_x_percent * ((x+w)/100))+(x)));
     return [result_x, result_y];
   }//END zoomByPinchMove
+
+  fixImgWhileOutOfScreen(x:number, y:number)
+  {
+    let canvasSize: any[] = this.getCanvasSize();
+    let new_x = x, new_y = y;
+    if(new_x<0 || isNaN(x)) new_x = 0;
+    if(new_y<0|| isNaN(y)) new_y = 0;
+    if(new_x>canvasSize[0]) new_x = canvasSize[0];
+    if(new_y>canvasSize[1]) new_y = canvasSize[1];
+
+    //console.log("fix_x: "+ x+", fix_y: "+ y);
+
+    return {
+      x:new_x,
+      y:new_y
+    };
+  }//END fixImgWhileOutOfScreen
 
   fixImgSizeWhileZoomOverflow(isTouch:boolean, w:number, h:number, new_scale:number)
   {

@@ -237,7 +237,7 @@ class TouchController extends Component<MyProps, MyStates>
       
       let scaling = Math.pow(2,(zoom - 50) / 25);
       
-      //console.log('scaling: '+scaling);
+      //console.log('scaling: '+scaling);hello
 
       //console.log("w: "+this.parent.state.images[desktopStartObj.keynum].org.w);
       //console.log("h: "+this.parent.state.images[desktopStartObj.keynum].org.h);

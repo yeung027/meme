@@ -24,12 +24,18 @@ class ImageText extends Component<MyProps, MyStates>
       
     }//END state
 
+    this.textBtnOnclick       = this.textBtnOnclick.bind(this);
     this.addText       = this.addText.bind(this);
   }//END constructor
 
-  addText(text:string)
+  textBtnOnclick(text:string)
   {
     //console.log('okok..add text');
+  }//END textBtnOnclick
+
+  addText()
+  {
+    
   }//END addText
 
   render() 

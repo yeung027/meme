@@ -50,6 +50,7 @@ class EditImgUI extends Component<MyProps, MyStates>
     this.snackOnClose             = this.snackOnClose.bind(this);
     this.nextBtnOnclick           = this.nextBtnOnclick.bind(this);
     this.skipBtnOnclick           = this.skipBtnOnclick.bind(this);
+    this.textBtnOnclick           = this.textBtnOnclick.bind(this);
     this.desktopZoomSlider        = this.desktopZoomSlider.bind(this);
     this.desktopZoomSliderOnChange        = this.desktopZoomSliderOnChange.bind(this);
   }//END constructor
@@ -72,6 +73,14 @@ class EditImgUI extends Component<MyProps, MyStates>
       snackOpen: false,
     });
   }//END snackOnClick
+
+  textBtnOnclick()
+  {
+    //console.log(this.parent.parent.cpuRef.current.imageEditorRef.current.imageTextRef.current);
+    this.parent.parent.cpuRef.current.imageEditorRef.current.imageTextRef.current.textBtnOnclick();
+
+
+  }//END textBtnOnclick
 
   skipBtnOnclick()
   {
@@ -185,7 +194,7 @@ class EditImgUI extends Component<MyProps, MyStates>
                     <ImageIcon className={this.parent.parent.state.isMobile? mobileStyles.icon : styles.icon} />
                     <span>Image</span>
                   </div>
-                  <div className={buttonActiveClass}>
+                  <div className={buttonActiveClass} onClick={this.textBtnOnclick}>
                     <TextFieldsIcon className={this.parent.parent.state.isMobile? mobileStyles.icon : styles.icon} />
                     <span>Text</span>
                   </div>

@@ -67,12 +67,22 @@ class ExportDialog extends Component<MyProps, MyStates>
   async bottomDownloadBtnClick()
   {
     //console.log(this.parent.exportDialogRef.current.state.exportSrc);
+    //console.log(this.parent.state.isMobile)
+    
     if (navigator.share) {
       await navigator.share({
         files: [this.state.exportFile]
       })
         .then(() => console.log('成功'))
         .catch((error) => console.log('發生錯誤', error));
+    }
+    else if(!this.parent.state.isMobile)
+    {
+      var element = document.createElement("a");
+      //console.log(this.state.exportSrc);
+       element.href = this.state.exportSrc;
+       element.download = "image.png";
+       element.click();
     }
 
   }//END bottomDownloadBtnClick

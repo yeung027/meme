@@ -140,8 +140,17 @@ class ImageCompiler extends Component<MyProps, MyStates>
 
     let image_org_x = parseInt(image.x) - canvasDetails.left;
     let image_org_y = parseInt(image.y) - canvasDetails.top;
+
+    
+
     let output_x  =  image_org_x * (compare_output_x);
     let output_y  =  image_org_y * (compare_output_y);
+
+    if(!this.parent.parent.state.isMobile)
+    {
+      output_x = parseInt(image.x)* (compare_output_x);
+      output_y = parseInt(image.y)* (compare_output_y);
+    }
 
     let output_w = parseInt(image.w)* (compare_output_x);
     let output_h = parseInt(image.h)* (compare_output_y);

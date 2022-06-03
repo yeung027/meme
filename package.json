@@ -10,8 +10,8 @@
   },
   "dependencies": {
     "@material-ui/core": "^4.12.3",
-    "@material-ui/icons": "^4.11.2",
-    "@material-ui/lab": "^4.0.0-alpha.61",
+    "@mui/icons-material": "^5.8.2",
+    "@mui/lab": "^5.0.0-alpha.84",
     "client-side-image-resize": "^1.1.2",
     "compress.js": "^1.2.2",
     "create-react-class": "^15.7.0",

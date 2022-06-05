@@ -4,11 +4,12 @@ import mobileStyles from '../../../styles/generator/bottomControl/editImg/mobile
 import utilStyles from '../../../styles/generator/bottomControl/util.module.css'
 import Snackbar from '@material-ui/core/Snackbar';
 import Grow from '@material-ui/core/Grow';
-import MuiAlert from '@material-ui/lab/Alert';
 
 
 import Grid from '@material-ui/core/Grid';
 import Slider from '@material-ui/core/Slider';
+import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
 
 type MyProps = {
     parent:any
@@ -35,7 +36,7 @@ class EditImgUI extends Component<MyProps, MyStates>
     this.state = {
       snackOpen: false,
       snackType: 'error',
-      snackMsg: '',
+      snackMsg: 'dsdsa',
       desktopZoomSliderValue: 50
     }//END state
     
@@ -149,8 +150,27 @@ class EditImgUI extends Component<MyProps, MyStates>
     //console.log(this.parent.parent.state.isMobile);
 
     return  <div className={containerClass}>
-              <Snackbar 
-                open={this.state.snackOpen} 
+              <Snackbar
+                anchorOrigin={{
+                  vertical: 'bottom',
+                  horizontal: 'right',
+                }}
+                open={this.state.snackOpen}
+                autoHideDuration={6000}
+                onClose={this.snackOnClose}
+                message={this.state.snackMsg}
+                TransitionComponent={this.getSnackTransition}
+                className={this.parent.parent.state.isMobile? mobileStyles.snack : styles.snack}
+                action={
+                  <React.Fragment>
+                    <IconButton size="small" aria-label="close" color="inherit" onClick={this.snackOnClose}>
+                      <i style={{color:'#fff'}} className={'bx bx-x'} />
+                    </IconButton>
+                  </React.Fragment>
+                }
+              />
+              {/* <Snackbar 
+                open={true || this.state.snackOpen} 
                 autoHideDuration={6000} 
                 onClose={this.snackOnClose}
                 onClick={this.snackOnClick}
@@ -161,14 +181,8 @@ class EditImgUI extends Component<MyProps, MyStates>
                }}
                 className={this.parent.parent.state.isMobile? mobileStyles.snack : styles.snack}
               >
-                <MuiAlert 
-                  elevation={6} 
-                  variant="filled"
-                  severity={this.state.snackType}
-                >
-                  {this.state.snackMsg}
-                </MuiAlert>
-              </Snackbar>
+                
+              </Snackbar> */}
 
               <div className={this.parent.parent.state.isMobile? mobileStyles.header : styles.header}>
                 <div className={this.parent.parent.state.isMobile? mobileStyles.title : styles.title}>

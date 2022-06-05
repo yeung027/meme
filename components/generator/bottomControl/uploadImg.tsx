@@ -6,7 +6,7 @@ import ImageUploading from 'react-images-uploading';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Snackbar from '@material-ui/core/Snackbar';
 import Grow from '@material-ui/core/Grow';
-import MuiAlert from '@material-ui/lab/Alert';
+import IconButton from '@material-ui/core/IconButton/IconButton';
 
 type MyProps = {
     parent:any
@@ -153,7 +153,26 @@ class ButtonControlUploadGUI extends Component<MyProps, MyStates>
     }
 
     return  <div className={containerClass}>
-              <Snackbar 
+              <Snackbar
+                anchorOrigin={{
+                  vertical: 'bottom',
+                  horizontal: 'right',
+                }}
+                open={this.state.snackOpen}
+                autoHideDuration={6000}
+                onClose={this.snackOnClose}
+                message={this.state.snackMsg}
+                TransitionComponent={this.getSnackTransition}
+                className={this.parent.parent.state.isMobile? mobileStyles.snack : styles.snack}
+                action={
+                  <React.Fragment>
+                    <IconButton size="small" aria-label="close" color="inherit" onClick={this.snackOnClose}>
+                      <i style={{color:'#fff'}} className={'bx bx-x'} />
+                    </IconButton>
+                  </React.Fragment>
+                }
+              />
+              {/* <Snackbar 
                 open={this.state.snackOpen} 
                 autoHideDuration={6000} 
                 onClose={this.snackOnClose}
@@ -172,7 +191,7 @@ class ButtonControlUploadGUI extends Component<MyProps, MyStates>
                 >
                   {this.state.snackMsg}
                 </MuiAlert>
-              </Snackbar>
+              </Snackbar> */}
 
               <div className={this.parent.parent.state.isMobile? mobileStyles.header : styles.header}>
                 <div className={this.parent.parent.state.isMobile? mobileStyles.title : styles.title}>

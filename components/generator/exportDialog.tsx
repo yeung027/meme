@@ -262,7 +262,7 @@ class ExportDialog extends Component<MyProps, MyStates>
             </div>
             <div className={this.parent.state.isMobile? mobileStyles.bottom : styles.bottom}>
               <IconButton color="primary" component="span" onClick={this.bottomDownloadBtnClick}>
-                {/* <GetAppIcon className={this.parent.state.isMobile? mobileStyles.bottomIcon : styles.bottomIcon} fontSize="large" /> */}
+              <i className={'bx bxs-download'} />
               </IconButton>
             </div>
             </div>

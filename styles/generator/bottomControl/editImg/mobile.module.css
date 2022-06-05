@@ -1,5 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap');
 
+.zoomSliderContainer
+{
+    color: #7A56DF;
+}
+
+
 .container
 {
     display: flex;
@@ -116,7 +122,28 @@
     font-family: 'Roboto';
 }
 
+.active:hover
+{
+    color:#FFC531;
+}
+
+.btn i
+{
+    color: #CAD2DD;
+}
+
+.active i
+{
+    color: #7A56DF;
+}
+
 .active
 {
     color: #7A56DF;
+    cursor: pointer;
+}
+
+.nextBtn i
+{
+    color: #fff;
 }

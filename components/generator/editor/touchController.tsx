@@ -1,4 +1,3 @@
-import { RestoreOutlined } from '@material-ui/icons';
 import React,{Component} from 'react';
 const Pinchable  = require('react-tappable');
 

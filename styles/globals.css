@@ -87,3 +87,9 @@ html, body
   justify-content: center;
   text-align: center;
 }
+
+i
+{
+    color: #7900D2;
+    font-size: 26px;
+}

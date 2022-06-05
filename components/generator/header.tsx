@@ -2,8 +2,6 @@ import React,{Component} from 'react';
 import styles from '../../styles/generator/header/desktop.module.css'
 import mobileStyles from '../../styles/generator/header/mobile.module.css'
 import IconButton from '@material-ui/core/IconButton';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
-import GetAppIcon from '@material-ui/icons/GetApp';
 
 type MyProps = {
     parent:any
@@ -45,10 +43,13 @@ class Header extends Component<MyProps, MyStates>
                         </div>
                         <div className={this.parent.state.isMobile? mobileStyles.right : styles.right}>
                             <IconButton color="primary" component="span">
-                                <MoreVertIcon className={this.parent.state.isMobile? mobileStyles.btn : styles.btn} />
+                            <i className={'bx bx-dots-vertical-rounded'} />
                             </IconButton>
                             <IconButton color="primary" component="span">
-                                <GetAppIcon className={this.parent.state.isMobile? mobileStyles.btn : styles.btn} onClick={this.exportBtnClick} />
+                                <i 
+                                    className={'bx bxs-download'}
+                                    onClick={this.exportBtnClick}
+                                 />
                             </IconButton>
                         </div>
                     </div>

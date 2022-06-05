@@ -7,11 +7,8 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import CloseIcon from '@material-ui/icons/Close';
 import Slide from '@material-ui/core/Slide';
 import Button from '@material-ui/core/Button';
-import GetAppIcon from '@material-ui/icons/GetApp';
-
 type MyProps = {
     parent:any
 };
@@ -247,7 +244,7 @@ class ExportDialog extends Component<MyProps, MyStates>
             <AppBar ref={this.appbarRef} className={appbarClass} style={{backgroundColor: '#5f00d2'}}>
               <Toolbar>
                 <IconButton edge="start" color="inherit" onClick={this.dialogClose} aria-label="close">
-                  <CloseIcon />
+                  <i className={'bx bx-x'} />
                 </IconButton>
                 <Typography variant="h6" className={titleClass}>
                   Export
@@ -265,7 +262,7 @@ class ExportDialog extends Component<MyProps, MyStates>
             </div>
             <div className={this.parent.state.isMobile? mobileStyles.bottom : styles.bottom}>
               <IconButton color="primary" component="span" onClick={this.bottomDownloadBtnClick}>
-                <GetAppIcon className={this.parent.state.isMobile? mobileStyles.bottomIcon : styles.bottomIcon} fontSize="large" />
+                {/* <GetAppIcon className={this.parent.state.isMobile? mobileStyles.bottomIcon : styles.bottomIcon} fontSize="large" /> */}
               </IconButton>
             </div>
             </div>

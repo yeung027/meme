@@ -5,16 +5,10 @@ import utilStyles from '../../../styles/generator/bottomControl/util.module.css'
 import Snackbar from '@material-ui/core/Snackbar';
 import Grow from '@material-ui/core/Grow';
 import MuiAlert from '@material-ui/lab/Alert';
-import NotificationImportantIcon from '@material-ui/icons/NotificationImportant';
 
-import ImageIcon from '@material-ui/icons/Image';
-import TextFieldsIcon from '@material-ui/icons/TextFields';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 
 import Grid from '@material-ui/core/Grid';
 import Slider from '@material-ui/core/Slider';
-import ZoomInIcon from '@material-ui/icons/ZoomIn';
-import ZoomOutIcon from '@material-ui/icons/ZoomOut';
 
 type MyProps = {
     parent:any
@@ -126,7 +120,7 @@ class EditImgUI extends Component<MyProps, MyStates>
               </div>
               <Grid container spacing={2} className={styles.zoomSliderContainer}>
                 <Grid item>
-                  <ZoomOutIcon />
+                <i className={'bx bx-zoom-out'} />
                 </Grid>
                 <Grid item xs>
                   <Slider 
@@ -136,7 +130,7 @@ class EditImgUI extends Component<MyProps, MyStates>
                   />
                 </Grid>
                 <Grid item>
-                  <ZoomInIcon />
+                <i className={'bx bx-zoom-in'} />
                 </Grid>
               </Grid>
             </div>
@@ -150,7 +144,7 @@ class EditImgUI extends Component<MyProps, MyStates>
     let buttonClass       = this.parent.parent.state.isMobile? mobileStyles.btn : styles.btn;
     let buttonActiveClass = [buttonClass, this.parent.parent.state.isMobile? mobileStyles.active : styles.active].join(' ');
 
-    let nextBtnClass       = utilStyles.purple_iconRight_btn_l;
+    let nextBtnClass       = [utilStyles.purple_iconRight_btn_l, this.parent.parent.state.isMobile? mobileStyles.nextBtn : styles.nextBtn].join(' ');
 
     //console.log(this.parent.parent.state.isMobile);
 
@@ -178,7 +172,7 @@ class EditImgUI extends Component<MyProps, MyStates>
 
               <div className={this.parent.parent.state.isMobile? mobileStyles.header : styles.header}>
                 <div className={this.parent.parent.state.isMobile? mobileStyles.title : styles.title}>
-                  <NotificationImportantIcon className={this.parent.parent.state.isMobile? mobileStyles.titleIcon : styles.titleIcon} />
+                  <i className={'bx bxs-bell'} />
                   <span>Edit Image</span>
                 </div>
                 <div className={this.parent.parent.state.isMobile? mobileStyles.header_r : styles.header_r}>
@@ -191,17 +185,18 @@ class EditImgUI extends Component<MyProps, MyStates>
                     this.desktopZoomSlider()
                   }
                   <div className={buttonClass}>
-                    <ImageIcon className={this.parent.parent.state.isMobile? mobileStyles.icon : styles.icon} />
+                  <i className={'bx bx-image'} />
                     <span>Image</span>
                   </div>
                   <div className={buttonActiveClass} onClick={this.textBtnOnclick}>
-                    <TextFieldsIcon className={this.parent.parent.state.isMobile? mobileStyles.icon : styles.icon} />
+                  <i className={'bx bx-text'} />
                     <span>Text</span>
                   </div>
 
                   <div className={nextBtnClass} onClick={this.nextBtnOnclick}>
                     <span>Next</span>
-                    <ChevronRightIcon className={utilStyles.icon} />  
+                    {/* <ChevronRightIcon className={utilStyles.icon} />   */}
+                    <i className={'bx bx-chevron-right'} />
                   </div>
                 </div>
               </div>

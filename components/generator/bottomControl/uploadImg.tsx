@@ -2,8 +2,6 @@ import React,{Component} from 'react';
 import styles from '../../../styles/generator/bottomControl/uploadImg/desktop.module.css'
 import mobileStyles from '../../../styles/generator/bottomControl/uploadImg/mobile.module.css'
 import utilStyles from '../../../styles/generator/bottomControl/util.module.css'
-import NotificationImportantIcon from '@material-ui/icons/NotificationImportant';
-import AddIcon from '@material-ui/icons/Add';
 import ImageUploading from 'react-images-uploading';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Snackbar from '@material-ui/core/Snackbar';
@@ -144,7 +142,7 @@ class ButtonControlUploadGUI extends Component<MyProps, MyStates>
   render() 
   {
     let containerClass    = this.parent.parent.state.isMobile? mobileStyles.container : styles.container;
-    let uploadBtnIconEle  = <AddIcon className={utilStyles.icon} />
+    let uploadBtnIconEle  = <i className={'bx bx-plus'} />;
     let uploadBtnLabel  = 'Upload';
     let uploadBtnClass  = utilStyles.iconPurpleBtn_L;
     if(this.state.fileSelected)
@@ -178,11 +176,11 @@ class ButtonControlUploadGUI extends Component<MyProps, MyStates>
 
               <div className={this.parent.parent.state.isMobile? mobileStyles.header : styles.header}>
                 <div className={this.parent.parent.state.isMobile? mobileStyles.title : styles.title}>
-                  <NotificationImportantIcon className={this.parent.parent.state.isMobile? mobileStyles.titleIcon : styles.titleIcon} />
+                  <i className={'bx bxs-bell'} />
                   <span>Add image & merge</span>
                 </div>
                 <div className={this.parent.parent.state.isMobile? mobileStyles.header_r : styles.header_r}>
-                  {/* <span className={this.parent.parent.state.isMobile? mobileStyles.textBtn : styles.textBtn}>skip</span> */}
+                  <span className={this.parent.parent.state.isMobile? mobileStyles.textBtn : styles.textBtn}>skip</span>
                 </div>
               </div>
               <div className={this.parent.parent.state.isMobile? mobileStyles.main : styles.main}>

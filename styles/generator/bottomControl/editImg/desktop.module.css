@@ -1,5 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap');
 
+
+.zoomSliderContainer
+{
+    color: #7A56DF;
+}
+
 .container
 {
     display: flex;
@@ -119,17 +125,27 @@
     color: #CAD2DD;
     font-size: 12px;
     font-family: 'Roboto';
-    cursor: pointer;
 }
 
-.btn:hover
+.active:hover
 {
     color:#FFC531;
+}
+
+.btn i
+{
+    color: #CAD2DD;
+}
+
+.active i
+{
+    color: #7A56DF;
 }
 
 .active
 {
     color: #7A56DF;
+    cursor: pointer;
 }
 
 .zoomSliderWrapper
@@ -144,4 +160,9 @@
 .zoomSliderLabel
 {
     margin-bottom: 5px;
+}
+
+.nextBtn i
+{
+    color: #fff;
 }

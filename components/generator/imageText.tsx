@@ -36,13 +36,15 @@ class ImageText extends Component<MyProps, MyStates>
 
   async addText(text:string)
   {
-    var canvas = document.createElement("canvas");
-    canvas.width = 620;
-    canvas.height = 80;
-    var ctx = canvas.getContext('2d')!;
+    const start_x = 10, start_y = 30;
+    let canvas = document.createElement("canvas");
+    let ctx = canvas.getContext('2d')!;
+    let width = ctx.measureText(text).width * text.length +(start_x * 2);
+    canvas.width = width;
+    canvas.height = 40;
     ctx.font = "30px Arial";
-
-    ctx.fillText(text,10,50);
+    
+    ctx.fillText(text,start_x, start_y);
     var img = document.createElement("img");
     img.src=canvas.toDataURL();
     //console.log(this.parent.parent.parent.canvasRef.current);
@@ -71,7 +73,7 @@ class ImageText extends Component<MyProps, MyStates>
       images: images
     }); 
 
-    console.log(obj);
+    //console.log(obj);
   }//END addText
 
   render() 

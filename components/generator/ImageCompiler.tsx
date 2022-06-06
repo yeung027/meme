@@ -13,6 +13,7 @@ type MyStates = {
   output_image_index:number
   output_requester_callback: any
   mergeCount:number
+  mergeItems:any[]
 };
 
 interface ImageCompiler  {
@@ -32,7 +33,8 @@ class ImageCompiler extends Component<MyProps, MyStates>
       imgSrc: this.rawImgSrc,
       output_image_index: -1,
       output_requester_callback: null,
-      mergeCount:0
+      mergeCount:0,
+      mergeItems:[]
     }//END state
     
     this.imageTextRef = React.createRef();
@@ -45,6 +47,9 @@ class ImageCompiler extends Component<MyProps, MyStates>
     this.getOutPut          = this.getOutPut.bind(this);
     this.doOutput           = this.doOutput.bind(this);
     this.getCanvasSize      = this.getCanvasSize.bind(this);
+    this.doSignleOutput      = this.doSignleOutput.bind(this);
+    this.prepareMergeItems      = this.prepareMergeItems.bind(this);
+    
   }//END constructor
 
 
@@ -60,7 +65,7 @@ class ImageCompiler extends Component<MyProps, MyStates>
       output_image_index:index,
       output_requester_callback: callback
      }, function(){
-      self.doOutput(self.rawImgSrc);
+      self.doOutput();
     });
     
   }//END getOutPut
@@ -86,48 +91,46 @@ class ImageCompiler extends Component<MyProps, MyStates>
     };
   }//END getCanvasSize
 
-  async doOutput(previous_src:any)
+  async doSignleOutput(previous_src:any)
   {
-    var self  = this;
-
-    if(!this.parent.parent.canvasRef.current.state.images || this.parent.parent.canvasRef.current.state.images.length<=0)
+    let rawImageSize:any  = await this.getRawImgSize();
+    let merge = await new Promise((resolve, reject) => 
     {
-      let rawImageSize:any  = await self.getRawImgSize();
-      let merge = await new Promise((resolve, reject) => 
+      mergeImages([previous_src], {
+        width: rawImageSize[0],
+        height: rawImageSize[1]
+      })
+      .then(function (b64) 
       {
-        mergeImages([previous_src], {
-          width: rawImageSize[0],
-          height: rawImageSize[1]
-        })
-        .then(function (b64) 
-        {
-          resolve(b64);
-        })
-        .catch(function (error:any) 
-        {
-          reject('mergeImages fail!');
-        });
-      });//END Promise
+        resolve(b64);
+      })
+      .catch(function (error:any) 
+      {
+        reject('mergeImages fail!');
+      });
+    });//END Promise
 
-      let output = await this.b64ToImgFile(merge);
-      //console.log(output);
-      this.state.output_requester_callback(merge, output);
+    let output = await this.b64ToImgFile(merge);
+    //console.log(output);
+    this.state.output_requester_callback(merge, output);
 
-      return;
+    return;
+  }//END doSignleOutput
 
-    }//end no image
-
-    let image = this.parent.parent.canvasRef.current.state.images[this.state.output_image_index];
+  async prepareMergeItems(index:number)
+  {
+    //console.log(index)
+    let image = this.parent.parent.canvasRef.current.state.images[index];
 
     let b64:any = image.upload;
-    let b64ImageSize:any  = await self.getb64ImgSize(b64.data_url);
+    let b64ImageSize:any  = await this.getb64ImgSize(b64.data_url);
 
     if(!b64ImageSize)
     {
       throw ('Cannot get image size!');
     }
 
-    let rawImageSize:any  = await self.getRawImgSize();
+    let rawImageSize:any  = await this.getRawImgSize();
 
     if(!rawImageSize)
     {
@@ -162,56 +165,68 @@ class ImageCompiler extends Component<MyProps, MyStates>
 
     try
     {
-      resizedIMG  = await self.resizeIMG(b64, output_w, output_h);
+      resizedIMG  = await this.resizeIMG(b64, output_w, output_h);
     }
     catch(error)
     {
       console.error(error);
       throw (error);
     }
-
     let resizedIMG_URL = URL.createObjectURL(resizedIMG);
-
-    console.log(resizedIMG_URL);
-    let merge = await new Promise((resolve, reject) => 
-    {
-      mergeImages([{ 
-        src: resizedIMG_URL,//resizedIMG_URL, //image.upload.data_url,
-
-        x: output_x, 
-        y: output_y 
-      }, previous_src], {
-        width: rawImageSize[0],
-        height: rawImageSize[1],
-        format: 'image/png'
-      })
-      .then(function (b64) 
-      {
-        
-        resolve(b64);
-        
-      })
-      .catch(function (error:any) 
-      {
-        reject('mergeImages fail!');
-      });
-    });//END Promise
-
+    let obj = {
+      src: resizedIMG_URL,//resizedIMG_URL, //image.upload.data_url,
+      x: output_x, 
+      y: output_y ,
+      //opacity: 0.2
+    };
+    console.log(obj);
+    return obj;
     
-    if(this.state.mergeCount<this.parent.parent.canvasRef.current.state.images.length)
-    {
-      let index = this.state.output_image_index+1;
-      if(this.state.output_image_index==1) index = 0;
-      this.setState({ output_image_index:index, mergeCount: this.state.mergeCount+1 }, function(){
-        self.doOutput(merge);
-      });
+  }//END prepareMergeItems
+
+  async doOutput()
+  {
+    let i =0;
+    let objs = [{
+      src: this.rawImgSrc,//resizedIMG_URL, //image.upload.data_url,
+      x: 0, 
+      y: 0 ,
+      //opacity: 0.7
+    }];
+    for (const image of this.parent.parent.canvasRef.current.state.images) {
+      let obj = await this.prepareMergeItems(i);
+      //await console.log(i);
+      objs[i+1] = obj;
+      i++;
     }
-    else 
-    {
-      this.setState({ mergeCount: 0 });
+
+    console.log('finally'+objs.length);
+
+    let rawImageSize:any  = await this.getRawImgSize();
+    let merge = await new Promise((resolve, reject) => 
+      {
+        mergeImages(objs, {
+          width: rawImageSize[0],
+          height: rawImageSize[1],
+          format: 'image/png'
+        })
+        .then(function (b64) 
+        {
+          
+          resolve(b64);
+          
+        })
+        .catch(function (error:any) 
+        {
+          reject('mergeImages fail!');
+        });
+      });//END Promise
+      
       let output = await this.b64ToImgFile(merge);
       this.state.output_requester_callback(merge, output);
-    }
+
+
+
 
   }//END doOutput
 

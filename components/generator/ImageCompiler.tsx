@@ -49,6 +49,7 @@ class ImageCompiler extends Component<MyProps, MyStates>
     this.getCanvasSize      = this.getCanvasSize.bind(this);
     this.doSignleOutput      = this.doSignleOutput.bind(this);
     this.prepareMergeItems      = this.prepareMergeItems.bind(this);
+    this.resizedataURL      = this.resizedataURL.bind(this);
     
   }//END constructor
 
@@ -172,9 +173,9 @@ class ImageCompiler extends Component<MyProps, MyStates>
       console.error(error);
       throw (error);
     }
-    //let resizedIMG_URL = URL.createObjectURL(resizedIMG);
+    let resizedIMG_URL = URL.createObjectURL(resizedIMG);
     let obj = {
-      src: image.upload.data_url,//resizedIMG_URL, //image.upload.data_url,
+      src: resizedIMG_URL,//resizedIMG_URL, //image.upload.data_url,
       x: output_x, 
       y: output_y ,
       //opacity: 0.2
@@ -259,7 +260,8 @@ class ImageCompiler extends Component<MyProps, MyStates>
 
   async resizeIMG(b64:any, w:number, h:number)
   {
-   return b64;
+    let a:any = await this.resizedataURL(b64.data_url, w, h);
+   return a;
     return new Promise((resolve, reject) => 
     {
       
@@ -271,6 +273,39 @@ class ImageCompiler extends Component<MyProps, MyStates>
       }).then((resp:any) => resolve(resp)).catch((error:any) => reject(error));
     })
   }//END resizeIMG
+
+  resizedataURL(datas:any, wantedWidth:any, wantedHeight:any){
+    var that:any = this;
+    return new Promise(async function(resolve,reject){
+
+        // We create an image to receive the Data URI
+        var img = document.createElement('img');
+        
+        // When the event "onload" is triggered we can resize the image.
+        img.onload = function()
+        {        
+            // We create a canvas and get its context.
+            var canvas = document.createElement('canvas');
+            var ctx = canvas.getContext('2d');
+
+            // We set the dimensions at the wanted size.
+            canvas.width = wantedWidth;
+            canvas.height = wantedHeight;
+
+            // We resize the image with the canvas method drawImage();
+            if(ctx) ctx.drawImage(img, 0, 0, wantedWidth, wantedHeight);
+
+            var dataURI = canvas.toDataURL();
+
+            // This is the return of the Promise
+            resolve(dataURI);
+        };
+
+        // We put the Data URI in the image's src attribute
+        img.src = datas;
+
+    })
+  }
 
   async b64ToImgFile(b64:any)
   {

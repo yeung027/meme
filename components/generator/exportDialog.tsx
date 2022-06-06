@@ -251,7 +251,7 @@ class ExportDialog extends Component<MyProps, MyStates>
                 </Typography>
                 <div className={closeBtnClass} style={closeBtnStyle} ref={this.closeBtnRef}>
                 <Button color="inherit" onClick={this.dialogClose} >
-                  save
+                  Close
                 </Button>
                 </div>
               </Toolbar>

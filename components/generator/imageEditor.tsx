@@ -79,7 +79,7 @@ class ImageEditor extends Component<MyProps, MyStates>
     let finally_rate:any  = await this.getResizeRate_compareWithRaw(uploaded.data_url, resizeRate);
     
     let rateWithCanvas:any  = await this.getResizeRate_compareWithCanvas(uploaded.data_url, resizeRate);
-
+    //console.log(uploaded.file);
     /* console.log('rateWithCanvas: '+rateWithCanvas);
     console.log('finally_rate: '+finally_rate);
     console.log('image finally size: '+b64ImageSize[1] * finally_rate); */

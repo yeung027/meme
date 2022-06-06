@@ -231,12 +231,15 @@ class ImageCompiler extends Component<MyProps, MyStates>
 
   }//END getResizeRate_compareWithRaw
 
-  resizeIMG(b64:any, w:number, h:number)
+  async resizeIMG(b64:any, w:number, h:number)
   {
+    //let file:any;
+    //if(!b64.file) file = await this.b64ToImgFile(b64.data_url);
     return new Promise((resolve, reject) => 
     {
+      
       convert({ 
-        file: b64.file,  
+        file: b64.file,//b64.file? b64.file : file,  
         width: w, 
         height: h,
         type: 'jpeg'

@@ -172,9 +172,9 @@ class ImageCompiler extends Component<MyProps, MyStates>
       console.error(error);
       throw (error);
     }
-    let resizedIMG_URL = URL.createObjectURL(resizedIMG);
+    //let resizedIMG_URL = URL.createObjectURL(resizedIMG);
     let obj = {
-      src: resizedIMG_URL,//resizedIMG_URL, //image.upload.data_url,
+      src: image.upload.data_url,//resizedIMG_URL, //image.upload.data_url,
       x: output_x, 
       y: output_y ,
       //opacity: 0.2
@@ -187,18 +187,19 @@ class ImageCompiler extends Component<MyProps, MyStates>
   async doOutput()
   {
     let i =0;
-    let objs = [{
+    let objs:any[] = [];
+    for (const image of this.parent.parent.canvasRef.current.state.images) {
+      let obj = await this.prepareMergeItems(i);
+      //await console.log(i);
+      objs[i] = obj;
+      i++;
+    }
+    objs[i] ={
       src: this.rawImgSrc,//resizedIMG_URL, //image.upload.data_url,
       x: 0, 
       y: 0 ,
       //opacity: 0.7
-    }];
-    for (const image of this.parent.parent.canvasRef.current.state.images) {
-      let obj = await this.prepareMergeItems(i);
-      //await console.log(i);
-      objs[i+1] = obj;
-      i++;
-    }
+    };
 
     console.log('finally'+objs.length);
 
@@ -258,6 +259,7 @@ class ImageCompiler extends Component<MyProps, MyStates>
 
   async resizeIMG(b64:any, w:number, h:number)
   {
+   return b64;
     return new Promise((resolve, reject) => 
     {
       

@@ -12,6 +12,7 @@ type MyStates = {
   imgSrc:string
   output_image_index:number
   output_requester_callback: any
+  mergeCount:number
 };
 
 interface ImageCompiler  {
@@ -30,7 +31,8 @@ class ImageCompiler extends Component<MyProps, MyStates>
     this.state = {
       imgSrc: this.rawImgSrc,
       output_image_index: -1,
-      output_requester_callback: null
+      output_requester_callback: null,
+      mergeCount:0
     }//END state
     
     this.imageTextRef = React.createRef();
@@ -51,11 +53,11 @@ class ImageCompiler extends Component<MyProps, MyStates>
 
     if(!this.parent.parent.canvasRef.current.state.images) throw ('uploaded images not found!');
     var self  = this;
-    
+    let index = 0;
     //if(this.parent.parent.canvasRef.current.state.images.length<=0) throw ('no photo uploaded or images data wrong');
-    
+    if(this.parent.parent.canvasRef.current.state.images.length>1) index = 1;
     this.setState({ 
-      output_image_index:0,
+      output_image_index:index,
       output_requester_callback: callback
      }, function(){
       self.doOutput(self.rawImgSrc);
@@ -170,19 +172,24 @@ class ImageCompiler extends Component<MyProps, MyStates>
 
     let resizedIMG_URL = URL.createObjectURL(resizedIMG);
 
+    console.log(resizedIMG_URL);
     let merge = await new Promise((resolve, reject) => 
     {
       mergeImages([{ 
-        src: resizedIMG_URL, 
+        src: resizedIMG_URL,//resizedIMG_URL, //image.upload.data_url,
+
         x: output_x, 
         y: output_y 
       }, previous_src], {
         width: rawImageSize[0],
-        height: rawImageSize[1]
+        height: rawImageSize[1],
+        format: 'image/png'
       })
       .then(function (b64) 
       {
+        
         resolve(b64);
+        
       })
       .catch(function (error:any) 
       {
@@ -190,15 +197,18 @@ class ImageCompiler extends Component<MyProps, MyStates>
       });
     });//END Promise
 
-
-    if(this.parent.parent.canvasRef.current.state.images.length >= this.state.output_image_index+2)
+    
+    if(this.state.mergeCount<this.parent.parent.canvasRef.current.state.images.length)
     {
-      this.setState({ output_image_index:(this.state.output_image_index+1) }, function(){
+      let index = this.state.output_image_index+1;
+      if(this.state.output_image_index==1) index = 0;
+      this.setState({ output_image_index:index, mergeCount: this.state.mergeCount+1 }, function(){
         self.doOutput(merge);
       });
     }
     else 
     {
+      this.setState({ mergeCount: 0 });
       let output = await this.b64ToImgFile(merge);
       this.state.output_requester_callback(merge, output);
     }
@@ -233,8 +243,6 @@ class ImageCompiler extends Component<MyProps, MyStates>
 
   async resizeIMG(b64:any, w:number, h:number)
   {
-    //let file:any;
-    //if(!b64.file) file = await this.b64ToImgFile(b64.data_url);
     return new Promise((resolve, reject) => 
     {
       
@@ -242,16 +250,42 @@ class ImageCompiler extends Component<MyProps, MyStates>
         file: b64.file,//b64.file? b64.file : file,  
         width: w, 
         height: h,
-        type: 'jpeg'
+        type: 'png'
       }).then((resp:any) => resolve(resp)).catch((error:any) => reject(error));
     })
   }//END resizeIMG
 
   async b64ToImgFile(b64:any)
   {
-    let blob = await (await fetch(b64)).blob();
-    let file = new File([blob], 'willsmith.png', { type: "image/jpeg" });
-    return file;
+    let canvas = document.createElement("canvas");
+    let ctx = canvas.getContext('2d', {alpha:true})!;
+    let size = await this.getb64ImgSize(b64);
+    canvas.width = size[0];
+    canvas.height = size[1];
+    ctx.fillStyle = "rgb(255, 255, 255)";
+    ctx.fillRect(0, 0, size[0], size[1]);
+    let image = new Image();
+    image.src = b64;
+    let file2 = await new Promise(async (resolve, reject) => 
+    {
+      image.onload = async function()
+      {
+        ctx.fillStyle= 'rgba(0,0,0,1)';
+        ctx.drawImage(image, 30, 20);
+        canvas.toBlob(function(blob:any){
+          let file = new File([blob], 'text.png', { type: "image/png" });
+          resolve(file)
+        })
+        
+      }
+    });//END Promise
+    let blob = await (await fetch(image.src)).blob();
+    let file = new File([blob], 'text.png', { type: "image/png" });
+
+
+    //let blob = await (await fetch(b64)).blob();
+   // let file = new File([blob], 'willsmith.png', { type: "image/png" });
+    return file2;
   }//END b64ToImgFile
 
   getb64ImgSize(b64:any)

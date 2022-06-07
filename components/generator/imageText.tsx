@@ -61,6 +61,7 @@ class ImageText extends Component<MyProps, MyStates>
     let imgObj:any  =  canvasComponent.state.images.length > keynum ? canvasComponent.state.images[keynum] : null;
 
     let canvasDom:any = document.querySelector('#canvas');
+    let rect = canvasDom.getBoundingClientRect();
     let input = document.createElement("input");
     input.type = "text";
     input.className = "floatTextInputEdit";
@@ -70,8 +71,16 @@ class ImageText extends Component<MyProps, MyStates>
     input.style.fontSize = imgObj.fontSize+'px';
     input.value = imgObj.text;
     input.id = 'floatTextInputEdit-'+keynum;
-    input.style.marginTop = imgObj.y;
-    input.style.marginLeft = imgObj.x;
+
+    let x:number = imgObj.x, y:number = imgObj.y;
+    if(this.parent.parent.parent.state.isMobile)
+    {
+      x-=rect.left;
+      y-=rect.top;
+    }
+
+    input.style.marginTop = y+'px';
+    input.style.marginLeft = x+'px';
     canvasDom.appendChild(input);
     input.onblur=function(e:any)
     {
@@ -104,8 +113,8 @@ class ImageText extends Component<MyProps, MyStates>
       this.state.defaultFontSize,
       'rgba(0,0,0,1)',
       this.state.defaultCanvasHeight,
-      0,
-      0,
+      this.parent.parent.parent.state.isMobile? rect.left : 0,
+      this.parent.parent.parent.state.isMobile? rect.top : 0,
     );
   }//END textBtnOnclick
 

@@ -79,7 +79,8 @@ class ImageText extends Component<MyProps, MyStates>
     }
     input.onkeyup=function(e:any)
     {
-      self.onBlur(e, keynum);
+      if (e.key === "Enter" || e.key === "Return" || e.key === 13) 
+        self.onBlur(e, keynum);
     }
 
     setTimeout(

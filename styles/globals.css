@@ -97,7 +97,7 @@ i
 
 .floatTextInputEdit
 {
-  border:red 1px solid;
+  border:#1b46e0 1px solid;
   position: absolute;
   z-index: 50;
 }

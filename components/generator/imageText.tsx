@@ -6,7 +6,8 @@ type MyProps = {
 
 type MyStates = {
   defaultText:string
-  canvasHeight:number
+  defaultCanvasHeight:number
+  defaultFontSize:number
 };
 
 interface ImageText {
@@ -22,22 +23,38 @@ class ImageText extends Component<MyProps, MyStates>
 
     this.state = {
       defaultText: '中文',
-      canvasHeight:40
+      defaultCanvasHeight:40,
+      defaultFontSize:30,
+    
     }//END state
 
     this.textBtnOnclick       = this.textBtnOnclick.bind(this);
-    this.addText       = this.addText.bind(this);
     this.onEdit       = this.onEdit.bind(this);
+    this.onBlur       = this.onBlur.bind(this);
+    this.doEditText       = this.doEditText.bind(this);
+    
   }//END constructor
 
-  textBtnOnclick()
+
+
+  onBlur(e: any, keyNum:number)
   {
-    
-    this.addText(this.state.defaultText);
-  }//END textBtnOnclick
+    let ele:HTMLInputElement = document.querySelector("#floatTextInputEdit-"+keyNum)!;
+    this.doEditText(
+      keyNum,
+      ele.value, 
+      this.state.defaultFontSize,
+      'rgba(255,0,0,1)',
+      this.state.defaultCanvasHeight,
+      -1,
+      -1
+    );
+    ele.style.display = 'none'
+  }//END onBlur
 
   onEdit(e: any, key: any)
   {
+    var self = this;
     let canvasComponent = this.parent.parent.parent.canvasRef.current;
     let keynum= canvasComponent.touchControllerRef.current.getKeyNumByID(key);
     
@@ -47,28 +64,62 @@ class ImageText extends Component<MyProps, MyStates>
     let input = document.createElement("input");
     input.type = "text";
     input.className = "floatTextInputEdit";
-    input.style.height = this.state.canvasHeight+'px';
+    input.style.height = imgObj.height+'px';
+    input.style.width = imgObj.width+'px';
     input.style.fontFamily = "Noto Sans TC, Roboto";
+    input.style.fontSize = imgObj.fontSize+'px';
     input.value = imgObj.text;
+    input.id = 'floatTextInputEdit-'+keynum;
+    input.style.marginTop = imgObj.y;
+    input.style.marginLeft = imgObj.x;
     canvasDom.appendChild(input);
-    
+    input.onblur=function(e:any)
+    {
+      self.onBlur(e, keynum);
+    }
+
+    setTimeout(
+      function() {
+        let ele:HTMLInputElement = document.querySelector("#floatTextInputEdit-"+keynum)!;
+        ele.focus();
+        ele.select();
+      }
+      .bind(this),
+      200
+  );
   }//END onEdit
 
-  async addText(text:string)
+  textBtnOnclick()
   {
+    let canvasDom:any = document.querySelector('#canvas');
+    let rect = canvasDom.getBoundingClientRect();
+    this.doEditText(
+      -1,
+      this.state.defaultText, 
+      this.state.defaultFontSize,
+      'rgba(0,0,0,1)',
+      this.state.defaultCanvasHeight,
+      this.parent.parent.parent.state.isMobile? rect.left : 0,
+      this.parent.parent.parent.state.isMobile? rect.top : 0,
+    );
+  }//END textBtnOnclick
+
+  async doEditText( imgObjIndex:number, text:string, fontSize:number, fontColor:string, height:number, x:number, y:number)
+  {
+    var that = this;
     const start_x = 10, start_y = 30;
     let canvas = document.createElement("canvas");
     canvas.style.fontWeight = '400';
     let ctx = canvas.getContext('2d', {alpha:true})!;
     let width = (ctx.measureText(text).width * 1.5) * text.length +(start_x * 2);
     canvas.width = width;
-    canvas.height = this.state.canvasHeight;
-    ctx.font = "30px Noto Sans TC, Roboto";
+    canvas.height = height;
+    ctx.font = fontSize+"px Noto Sans TC, Roboto";
     canvas.style.background = 'transparent';
     ctx.fillStyle = "rgba(255, 255, 255, 0)";
     //ctx.fillStyle = "rgb(255, 255, 255)";
-    ctx.fillRect(0, 0, width, this.state.canvasHeight);
-    ctx.fillStyle= 'rgba(0,0,0,1)';
+    ctx.fillRect(0, 0, width, this.state.defaultCanvasHeight);
+    ctx.fillStyle= fontColor;
 
     var link = document.createElement('link');
     link.rel = 'stylesheet';
@@ -80,11 +131,11 @@ class ImageText extends Component<MyProps, MyStates>
     var image = new Image();
     image.src = link.href;
     image.onerror = function() {
-        ctx.font = "30px Noto Sans TC, Roboto";
+        ctx.font = fontSize+"px Noto Sans TC, Roboto";
         ctx.fillText(text,start_x, start_y);
     };
     image.onload = function() {
-      ctx.font = "30px Noto Sans TC, Roboto";
+      ctx.font = fontSize+"px Noto Sans TC, Roboto";
       ctx.fillText(text,start_x, start_y);
   };
 
@@ -97,45 +148,56 @@ class ImageText extends Component<MyProps, MyStates>
 
     img.src=canvas.toDataURL();
 
-    //console.log(img.src);
-    let blob = await (await fetch(img.src)).blob();
-    let file = new File([blob], 'text.png', { type: "image/png" });
-    //console.log(this.parent.parent.parent.canvasRef.current);
     let uploaded = {
       data_url: img.src,
       //file: file
     }
 
-    let canvasDom:any = document.querySelector('#canvas');
-    let rect = canvasDom.getBoundingClientRect();
-
-    let b64ImageSize:any  = await this.parent.getb64ImgSize(uploaded.data_url);
+    //let b64ImageSize:any  = await this.parent.getb64ImgSize(uploaded.data_url);
     let canvas_image_length = !this.parent.parent.parent.canvasRef.current || !this.parent.parent.parent.canvasRef.current.state.images ? 0 : this.parent.parent.parent.canvasRef.current.state.images.length;
+
+    if(imgObjIndex<=-1)
+    {
+      let obj:any = {
+
+        upload: uploaded,
+        x: x,
+        y: y,
+        w: width ,
+        h: height,
+        scale: 1 , 
+        key_num: canvas_image_length,
+        isText: true,
+        text:text,
+        height: height,
+        width: width,
+        fontSize:fontSize
+      };
+
+      let images  = this.parent.parent.parent.canvasRef.current.state.images;
+      images  = images.concat(obj);
+      this.parent.parent.parent.canvasRef.current.setState({ 
+        images: images
+      }); 
+    }//END if -1
+    else
+    {
+      let images  = this.parent.parent.parent.canvasRef.current.state.images;
+      if(!images[imgObjIndex]) throw('imgObj not found #######122322121');
+      images[imgObjIndex].upload = uploaded;
+      images[imgObjIndex].w = width;
+      images[imgObjIndex].h = height;
+      images[imgObjIndex].text = text;
+      images[imgObjIndex].height = height;
+      images[imgObjIndex].width = width;
+      images[imgObjIndex].fontSize = fontSize;
+
+    }
     
     
-
-    //console.log(file);
-
-    let obj:any = {
-
-      upload: uploaded,
-      x: this.parent.parent.parent.state.isMobile? rect.left : 0,
-      y: this.parent.parent.parent.state.isMobile? rect.top : 0,
-      w: b64ImageSize[0] ,
-      h: b64ImageSize[1],
-      scale: 1 , 
-      key_num: canvas_image_length,
-      isText: true,
-      text:this.state.defaultText
-    };
-    let images  = this.parent.parent.parent.canvasRef.current.state.images;
-    images  = images.concat(obj);
-    this.parent.parent.parent.canvasRef.current.setState({ 
-      images: images
-    }); 
 
     //console.log(obj);
-  }//END addText
+  }//END doEditText
 
   render() 
   {

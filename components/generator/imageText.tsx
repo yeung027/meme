@@ -75,8 +75,8 @@ class ImageText extends Component<MyProps, MyStates>
     let x:number = imgObj.x, y:number = imgObj.y;
     if(this.parent.parent.parent.state.isMobile)
     {
-      //x-=rect.left;
-     // y-=rect.top;
+      x+=rect.left;
+      y+=rect.top;
     }
 
     input.style.marginTop = y+'px';

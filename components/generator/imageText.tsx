@@ -310,7 +310,7 @@ class ImageText extends Component<MyProps, MyStates>
       }, function(){
         that.createReloadFontFamilyTimeout(imgObjIndex, text, fontSize, fontColor, height);
       }); 
-
+      this.setEditTextUiSelectingTextIndex(imgObjIndex);
     }
     
     

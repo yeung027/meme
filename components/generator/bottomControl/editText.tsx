@@ -68,8 +68,8 @@ class EditTextUI extends Component<MyProps, MyStates>
   {
     //console.log(this.parent);
 
-    this.parent.stageChange(this.parent.stage.EXPORT);
-    this.parent.parent.stepsRef.current.stepChange(this.parent.parent.stepsRef.current.step.EXPORT);
+    this.parent.stageChange(this.parent.stage.EDITIMG);
+    this.parent.parent.stepsRef.current.stepChange(this.parent.parent.stepsRef.current.step.EDITIMG);
 
   }//END okBtnOnclick
 

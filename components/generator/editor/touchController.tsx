@@ -71,6 +71,7 @@ class TouchController extends Component<MyProps, MyStates>
     this.onPress                = this.onPress.bind(this);
     this.onDoubleClick                = this.onDoubleClick.bind(this);
     this.onPressOrDoubleClick                = this.onPressOrDoubleClick.bind(this);
+    this.setEditTextUiSelectingTextIndex  = this.setEditTextUiSelectingTextIndex.bind(this);
     
   }//END constructor
 
@@ -96,6 +97,7 @@ class TouchController extends Component<MyProps, MyStates>
     this.setState({ 
       isMouseDownHold: false
     });
+    this.setEditTextUiSelectingTextIndex(e, key);
   }//END onMouseUp
 
   onDoubleClick(e: any, key: any)
@@ -190,10 +192,29 @@ class TouchController extends Component<MyProps, MyStates>
      });
   }//END onPinchEnd
 
-  handleTap(e:any)
+  handleTap(e:any, key: any)
   {
     //this.debugLog(e.target.toString());
+    this.setEditTextUiSelectingTextIndex(e, key);
   }//END handleTap
+
+  setEditTextUiSelectingTextIndex(e: any, key: any)
+  {
+    
+    let keynum= this.getKeyNumByID(key);
+    let imgObj = this.parent.state.images[keynum];
+    if(!imgObj || !imgObj.isText) return;
+
+
+    let bottomControlPanel = this.parent.parent.bottomControlPanelRef.current;
+    let editText = bottomControlPanel.editTextRef? bottomControlPanel.editTextRef.current: null;
+    if(editText)
+      editText.setState({ 
+        selectingTextIndex: keynum
+      }); 
+    
+    //console.log(this.parent.parent.bottomControlPanelRef.current)
+  }//END setEditTextUiSelectingTextIndex
 
 
   getCanvasSize()
@@ -639,7 +660,7 @@ class TouchController extends Component<MyProps, MyStates>
         ref={this.tappableRef}
         onTap={function(e:any)
         {
-          self.handleTap(e);
+          self.handleTap(e, key);
         }} 
 
         onPinchStart={function(e:any)

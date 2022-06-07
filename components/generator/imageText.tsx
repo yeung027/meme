@@ -48,6 +48,26 @@ class ImageText extends Component<MyProps, MyStates>
     //ctx.fillStyle = "rgb(255, 255, 255)";
     ctx.fillRect(0, 0, width, 40);
     ctx.fillStyle= 'rgba(0,0,0,1)';
+
+    var link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = 'https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap';
+    document.getElementsByTagName('head')[0].appendChild(link);
+    
+    // Trick from https://stackoverflow.com/questions/2635814/
+    var image = new Image();
+    image.src = link.href;
+    image.onerror = function() {
+        //ctx.font = '50px "Vast Shadow"';
+        //ctx.textBaseline = 'top';
+        //ctx.fillText('Hello!', 20, 10);
+        ctx.font = "30px Noto Sans TC, Roboto";
+        ctx.fillText(text,start_x, start_y);
+    };
+
+
+
     ctx.fillText(text,start_x, start_y);
 
 
@@ -82,7 +102,8 @@ class ImageText extends Component<MyProps, MyStates>
       w: b64ImageSize[0] ,
       h: b64ImageSize[1],
       scale: 1 , 
-      key_num: canvas_image_length
+      key_num: canvas_image_length,
+      isText: true
     };
     let images  = this.parent.parent.parent.canvasRef.current.state.images;
     images  = images.concat(obj);

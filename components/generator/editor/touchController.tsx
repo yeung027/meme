@@ -69,16 +69,18 @@ class TouchController extends Component<MyProps, MyStates>
     this.onMouseMove            = this.onMouseMove.bind(this);
     this.moveImg                = this.moveImg.bind(this);
     this.onPress                = this.onPress.bind(this);
-    
+    this.onDoubleClick                = this.onDoubleClick.bind(this);
+    this.onPressOrDoubleClick                = this.onPressOrDoubleClick.bind(this);
     
   }//END constructor
 
 
   onPress(e: any, key: any)
   {
-    let ele:any = document.querySelector('#'+key+' img');
+    //let ele:any = document.querySelector('#'+key+' img');
     //console.log(key);
-    ele.style.border = 'red 3px solid'
+    //ele.style.border = 'red 3px solid';
+    this.onPressOrDoubleClick(e, key);
   }
 
   onMouseMove(e: any, key: any)
@@ -96,9 +98,27 @@ class TouchController extends Component<MyProps, MyStates>
     });
   }//END onMouseUp
 
+  onDoubleClick(e: any, key: any)
+  {
+    this.onPressOrDoubleClick(e, key);
+  }//END onDoubleClick
+
+  onPressOrDoubleClick(e: any, key: any)
+  {
+    let keynum= this.getKeyNumByID(key);
+    let imgObj:any  =  this.parent.state.images.length > keynum ? this.parent.state.images[keynum] : null;
+    //console.log(imgObj.isText);
+    //console.log(this.parent.parent.cpuRef.current.imageEditorRef.current.imageTextRef.current);
+
+    if(imgObj.isText)
+    this.parent.parent.cpuRef.current.imageEditorRef.current.imageTextRef.current.onEdit(e, key);
+
+
+  }//END onPressOrDoubleClick
+
   onMouseDown(e: any, key: any)
   {
-    console.log(e.detail);
+    if(e.detail>1) this.onDoubleClick(e, key);
     this.setState({ 
       isMouseDownHold: true
     });

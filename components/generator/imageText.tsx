@@ -5,7 +5,8 @@ type MyProps = {
 };
 
 type MyStates = {
-
+  defaultText:string
+  canvasHeight:number
 };
 
 interface ImageText {
@@ -20,18 +21,38 @@ class ImageText extends Component<MyProps, MyStates>
     this.parent = props.parent;
 
     this.state = {
-      
+      defaultText: '中文',
+      canvasHeight:40
     }//END state
 
     this.textBtnOnclick       = this.textBtnOnclick.bind(this);
     this.addText       = this.addText.bind(this);
+    this.onEdit       = this.onEdit.bind(this);
   }//END constructor
 
   textBtnOnclick()
   {
     
-    this.addText('中文');
+    this.addText(this.state.defaultText);
   }//END textBtnOnclick
+
+  onEdit(e: any, key: any)
+  {
+    let canvasComponent = this.parent.parent.parent.canvasRef.current;
+    let keynum= canvasComponent.touchControllerRef.current.getKeyNumByID(key);
+    
+    let imgObj:any  =  canvasComponent.state.images.length > keynum ? canvasComponent.state.images[keynum] : null;
+
+    let canvasDom:any = document.querySelector('#canvas');
+    let input = document.createElement("input");
+    input.type = "text";
+    input.className = "floatTextInputEdit";
+    input.style.height = this.state.canvasHeight+'px';
+    input.style.fontFamily = "Noto Sans TC, Roboto";
+    input.value = imgObj.text;
+    canvasDom.appendChild(input);
+    
+  }//END onEdit
 
   async addText(text:string)
   {
@@ -41,12 +62,12 @@ class ImageText extends Component<MyProps, MyStates>
     let ctx = canvas.getContext('2d', {alpha:true})!;
     let width = (ctx.measureText(text).width * 1.5) * text.length +(start_x * 2);
     canvas.width = width;
-    canvas.height = 40;
+    canvas.height = this.state.canvasHeight;
     ctx.font = "30px Noto Sans TC, Roboto";
     canvas.style.background = 'transparent';
     ctx.fillStyle = "rgba(255, 255, 255, 0)";
     //ctx.fillStyle = "rgb(255, 255, 255)";
-    ctx.fillRect(0, 0, width, 40);
+    ctx.fillRect(0, 0, width, this.state.canvasHeight);
     ctx.fillStyle= 'rgba(0,0,0,1)';
 
     var link = document.createElement('link');
@@ -59,12 +80,13 @@ class ImageText extends Component<MyProps, MyStates>
     var image = new Image();
     image.src = link.href;
     image.onerror = function() {
-        //ctx.font = '50px "Vast Shadow"';
-        //ctx.textBaseline = 'top';
-        //ctx.fillText('Hello!', 20, 10);
         ctx.font = "30px Noto Sans TC, Roboto";
         ctx.fillText(text,start_x, start_y);
     };
+    image.onload = function() {
+      ctx.font = "30px Noto Sans TC, Roboto";
+      ctx.fillText(text,start_x, start_y);
+  };
 
 
 
@@ -103,7 +125,8 @@ class ImageText extends Component<MyProps, MyStates>
       h: b64ImageSize[1],
       scale: 1 , 
       key_num: canvas_image_length,
-      isText: true
+      isText: true,
+      text:this.state.defaultText
     };
     let images  = this.parent.parent.parent.canvasRef.current.state.images;
     images  = images.concat(obj);

@@ -94,3 +94,10 @@ i
     color: #7900D2;
     font-size: 26px;
 }
+
+.floatTextInputEdit
+{
+  border:red 1px solid;
+  position: absolute;
+  z-index: 50;
+}

@@ -157,8 +157,14 @@
     opacity: 1;
     left: 200px;
     top: 260px;
+    display: none;
 }
 .sketchPicker
 {
     
+}
+
+.sketchPickerWrapperShow
+{
+    display: block;
 }

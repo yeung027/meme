@@ -36,6 +36,7 @@ class ImageText extends Component<MyProps, MyStates>
     this.doEditText       = this.doEditText.bind(this);
     this.createReloadFontFamilyTimeout        = this.createReloadFontFamilyTimeout.bind(this);
     this.setBottomControlToEditText           = this.setBottomControlToEditText.bind(this);
+    this.setEditTextUI_selectingIndex           = this.setEditTextUI_selectingIndex.bind(this);
     
   }//END constructor
 
@@ -80,8 +81,8 @@ class ImageText extends Component<MyProps, MyStates>
     let x:number = parseFloat(imgObj.x), y:number = parseFloat(imgObj.y);
     if(!this.parent.parent.parent.state.isMobile)
     {
-      x+=rect.left;
-      y+=rect.top;
+      //x+=rect.left;
+      //y+=rect.top;
     }
     input.style.top = y+'px';
     input.style.left = x+'px';
@@ -116,6 +117,7 @@ class ImageText extends Component<MyProps, MyStates>
     this.setBottomControlToEditText();
   }//END onEdit
 
+
   textBtnOnclick()
   {
     let canvasDom:any = document.querySelector('#canvas');
@@ -131,6 +133,26 @@ class ImageText extends Component<MyProps, MyStates>
     );
     this.setBottomControlToEditText();
   }//END textBtnOnclick
+
+  updateColor(index:number, color:string)
+  {
+    let canvasComponent = this.parent.parent.parent.canvasRef.current;
+    let imgObj:any  =  canvasComponent.state.images.length > index ? canvasComponent.state.images[index] : null;
+
+
+    
+    this.doEditText(
+      index,
+      imgObj.text, 
+      imgObj.fontSize,
+      color,
+      imgObj.height,
+      -1,
+      -1
+    );
+
+
+  }
 
   setBottomControlToEditText()
   {
@@ -218,6 +240,9 @@ class ImageText extends Component<MyProps, MyStates>
       }, function(){
         that.createReloadFontFamilyTimeout(imgObjIndex, text, fontSize, fontColor, height);
       }); 
+
+      this.setEditTextUI_selectingIndex(images.length-1);
+
     }//END if -1
     else
     {
@@ -243,20 +268,45 @@ class ImageText extends Component<MyProps, MyStates>
       }); 
 
     }
-    
-    
 
-    //console.log(obj);
   }//END doEditText
+
+
+  setEditTextUI_selectingIndex(index:number)
+  {
+    var self = this;
+    let bottomControlPanel = this.parent.parent.parent.bottomControlPanelRef.current;
+    
+    if(!bottomControlPanel.editTextRef || !bottomControlPanel.editTextRef.current)
+    {
+      setTimeout(
+        function() 
+        {
+          self.setEditTextUI_selectingIndex(index);
+        }
+        .bind(this),
+        500
+      );
+      return;
+    }
+
+    bottomControlPanel.editTextRef.current.setState({ 
+      selectingTextIndex: index,
+      colorBtnActive: true
+    }); 
+
+    console.log(this.parent.parent.parent.bottomControlPanelRef.current);
+    //this.editTextRef
+  }//END setEditTextUI_selectingIndex
 
   createReloadFontFamilyTimeout(imgObjIndex:number, text:string, fontSize:number, fontColor:string, height:number)
   {
     var that = this;
-    if(false && this.state.reloadFontFamilyCount<=5)
+    if(this.state.reloadFontFamilyCount<=5)
     {
       let index = imgObjIndex;
       if(index<=0) index = this.parent.parent.parent.canvasRef.current.state.images.length-1;
-      let images  = this.parent.parent.parent.canvasRef.current.state.images;
+      //let images  = this.parent.parent.parent.canvasRef.current.state.images;
       setTimeout(
         function() {
           that.doEditText(
@@ -273,7 +323,7 @@ class ImageText extends Component<MyProps, MyStates>
           }); 
         }
         .bind(this),
-        1000
+        500
       );
     }
   }//END createReloadFontFamilyTimeout

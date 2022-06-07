@@ -12,6 +12,9 @@ type MyProps = {
 
 type MyStates = {
   pickerColor:string
+  colorBtnActive:boolean
+  pickerOpen:boolean
+  selectingTextIndex:number
 };
 
 interface EditTextUI {
@@ -27,7 +30,10 @@ class EditTextUI extends Component<MyProps, MyStates>
     this.parent = props.parent;
 
     this.state = {
-      pickerColor: '#000'
+      pickerColor: '#000',
+      colorBtnActive: false,
+      pickerOpen: false,
+      selectingTextIndex:-1
     }//END state
     
     this.colorPickerRef = React.createRef();
@@ -35,7 +41,7 @@ class EditTextUI extends Component<MyProps, MyStates>
     this.colorBtnOnclick           = this.colorBtnOnclick.bind(this);
     this.okBtnOnclick           = this.okBtnOnclick.bind(this);
     this.handleSketchPickerChangeComplete           = this.handleSketchPickerChangeComplete.bind(this);
-    this.adjustColorPickerPosition           = this.adjustColorPickerPosition.bind(this);
+    this.updateSelectingTextColor           = this.updateSelectingTextColor.bind(this);
   }//END constructor
 
 
@@ -43,25 +49,43 @@ class EditTextUI extends Component<MyProps, MyStates>
   {
     //console.log(this.parent);
 
-    this.parent.stageChange(this.parent.stage.EXPORT);
-    this.parent.parent.stepsRef.current.stepChange(this.parent.parent.stepsRef.current.step.EXPORT);
+    this.parent.stageChange(this.parent.stage.EDITIMG);
+    this.parent.parent.stepsRef.current.stepChange(this.parent.parent.stepsRef.current.step.EDITIMG);
 
   }//END okBtnOnclick
 
-  adjustColorPickerPosition()
-  {
+  // adjustColorPickerPosition()
+  // {
 
-  }//END adjustColorPickerPosition
+  // }//END adjustColorPickerPosition
 
   colorBtnOnclick(e:any)
   {
-    this.adjustColorPickerPosition();
+    if(this.state.colorBtnActive)
+    {
+      this.setState({ 
+        pickerOpen: !this.state.pickerOpen
+      }); 
+    }
+    
   }//END colorBtnOnclick
+
+  updateSelectingTextColor()
+  {
+    this.parent.parent.cpuRef.current.imageEditorRef.current.imageTextRef.current.updateColor(
+      this.state.selectingTextIndex,
+      this.state.pickerColor
+    );
+
+  }//END updateSelectingTextColor
+
 
   handleSketchPickerChangeComplete(color:any)
   {
-    console.log(this.parent.parent.state.isMobile);
-    this.setState({ pickerColor: color.hex });
+    var self = this;
+    this.setState({ pickerColor: color.hex }, function(){
+      self.updateSelectingTextColor();
+    });
   };
 
   render() 
@@ -73,8 +97,10 @@ class EditTextUI extends Component<MyProps, MyStates>
 
     let okBtnClass       = [utilStyles.purple_iconRight_btn_l, this.parent.parent.state.isMobile? mobileStyles.okBtn : styles.okBtn].join(' ');
 
-    //console.log(this.parent.parent.state.isMobile);
-
+    //console.log(this.parent.parent.state.isMobile);pickerOpen
+    let pickerWrapperClass = this.parent.parent.state.isMobile? mobileStyles.sketchPickerWrapper : styles.sketchPickerWrapper;
+    if(this.state.pickerOpen) 
+      pickerWrapperClass = [pickerWrapperClass, this.parent.parent.state.isMobile? mobileStyles.sketchPickerWrapperShow : styles.sketchPickerWrapperShow].join(' ');
     return  <div className={containerClass}>
    
               <div className={this.parent.parent.state.isMobile? mobileStyles.header : styles.header}>
@@ -89,10 +115,10 @@ class EditTextUI extends Component<MyProps, MyStates>
               <div className={this.parent.parent.state.isMobile? mobileStyles.main : styles.main}>
                 <div className={this.parent.parent.state.isMobile? mobileStyles.mainInner : styles.mainInner}>
 
-                  <div className={buttonActiveClass} onClick={this.colorBtnOnclick}>
-                  <i className={'bx bx-palette'} />
-                    <span>Color</span>
-                    <div className={this.parent.parent.state.isMobile? mobileStyles.sketchPickerWrapper : styles.sketchPickerWrapper}>
+                  <div className={this.state.colorBtnActive? buttonActiveClass : buttonClass}>
+                  <i className={'bx bx-palette'} onClick={this.colorBtnOnclick} />
+                    <span onClick={this.colorBtnOnclick}>Color</span>
+                    <div className={pickerWrapperClass}>
                       <SketchPicker
                         ref={this.colorPickerRef}
                         onChangeComplete={ this.handleSketchPickerChangeComplete }

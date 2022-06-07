@@ -22,6 +22,7 @@ type MyStates = {
 interface BottomControlPanel {
   parent: any
   stage:any
+  editTextRef:any
 }
 
 class BottomControlPanel extends Component<MyProps, MyStates>
@@ -47,6 +48,8 @@ class BottomControlPanel extends Component<MyProps, MyStates>
       pendingUI: null,
     }//END state
     
+    this.editTextRef = React.createRef();
+
     this.animationEnd = this.animationEnd.bind(this);
     this.stageChange  = this.stageChange.bind(this);
   }//END constructor
@@ -131,7 +134,7 @@ class BottomControlPanel extends Component<MyProps, MyStates>
     else if(this.state.currentUI === this.stage.EDITIMG)
       ui  = <EditImgUI parent={this} />
     else if(this.state.currentUI === this.stage.EDITTEXT)
-      ui  = <EditTextUI parent={this} />
+      ui  = <EditTextUI parent={this} ref={this.editTextRef} />
     else if(this.state.currentUI === this.stage.EXPORT)
       ui  = <ExportUI parent={this} />
 

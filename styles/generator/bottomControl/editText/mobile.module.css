@@ -149,8 +149,14 @@
     display: flex;
     justify-content: center;
     align-content: center;
+    display: none;
 }
 .sketchPicker
 {
     
+}
+
+.sketchPickerWrapperShow
+{
+    display: block;
 }

@@ -61,6 +61,7 @@ class ImageText extends Component<MyProps, MyStates>
     let imgObj:any  =  canvasComponent.state.images.length > keynum ? canvasComponent.state.images[keynum] : null;
 
     let canvasDom:any = document.querySelector('#canvas');
+    let rootDom:any = document.querySelector('#rootDiv');
     let rect = canvasDom.getBoundingClientRect();
     let input = document.createElement("input");
     input.type = "text";
@@ -81,7 +82,10 @@ class ImageText extends Component<MyProps, MyStates>
 
     input.style.marginTop = y+'px';
     input.style.marginLeft = x+'px';
-    canvasDom.appendChild(input);
+    if(this.parent.parent.parent.state.isMobile)
+      rootDom.appendChild(input);
+    else canvasDom.appendChild(input);
+
     input.onblur=function(e:any)
     {
       self.onBlur(e, keynum);

@@ -44,12 +44,12 @@ class ImageText extends Component<MyProps, MyStates>
       keyNum,
       ele.value, 
       this.state.defaultFontSize,
-      'rgba(255,0,0,1)',
+      'rgba(0,0,0,1)',
       this.state.defaultCanvasHeight,
       -1,
       -1
     );
-    ele.style.display = 'none'
+    ele.remove();
   }//END onBlur
 
   onEdit(e: any, key: any)
@@ -187,7 +187,7 @@ class ImageText extends Component<MyProps, MyStates>
       let imagesCopy  = images;
       if(!images[imgObjIndex]) throw('imgObj not found #######122322121');
       let obj = images[imgObjIndex];
-      console.log(obj.text);
+      //console.log(obj.text);
       
       obj.upload = uploaded;
       obj.w = width;

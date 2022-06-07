@@ -77,6 +77,10 @@ class ImageText extends Component<MyProps, MyStates>
     {
       self.onBlur(e, keynum);
     }
+    input.onkeyup=function(e:any)
+    {
+      self.onBlur(e, keynum);
+    }
 
     setTimeout(
       function() {
@@ -99,8 +103,8 @@ class ImageText extends Component<MyProps, MyStates>
       this.state.defaultFontSize,
       'rgba(0,0,0,1)',
       this.state.defaultCanvasHeight,
-      this.parent.parent.parent.state.isMobile? rect.left : 0,
-      this.parent.parent.parent.state.isMobile? rect.top : 0,
+      0,
+      0,
     );
   }//END textBtnOnclick
 

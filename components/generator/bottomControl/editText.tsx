@@ -75,7 +75,7 @@ class EditTextUI extends Component<MyProps, MyStates>
 
   colorBackDropOnclick(e:any)
   {
-    if(this.parent.parent.state.isMobile)
+    //if(this.parent.parent.state.isMobile)
       this.setState({ colorPickerOpen: false });
   }
 
@@ -86,16 +86,25 @@ class EditTextUI extends Component<MyProps, MyStates>
 
   updateColorPickerPosition()
   {
-    if(!this.parent.parent.state.isMobile) return;
+    //if(!this.parent.parent.state.isMobile) return;
 
     let bottomControlPanelDom:any = document.querySelector('#BottomControlPanel');
-    let colorPickerWrapperDom:any = document.querySelector('#colorPickerWrapper');
+    let colorPickerWrapperDom:any = this.parent.parent.state.isMobile ? 
+      document.querySelector('#colorPickerWrapper') : document.querySelector('#colorPickerWrapper_1');
     let bottomControlPanelInnerDom:any = document.querySelector('#BottomControlPanelInner');
     let rect = bottomControlPanelDom.getBoundingClientRect();
     let rectInner = bottomControlPanelInnerDom.getBoundingClientRect();
-    console.log(rectInner.left);
+    
     colorPickerWrapperDom.style.marginTop = -rect.top+'px';
     colorPickerWrapperDom.style.marginLeft = -rectInner.left+'px';
+    if(!this.parent.parent.state.isMobile)
+    {
+      let colorBtnDom:any = document.querySelector('#editTextUIColorBtn');
+      let colorRect = colorBtnDom.getBoundingClientRect();
+      //console.log("colorRect: "+colorRect.left);
+      colorPickerWrapperDom.style.marginLeft = -(rectInner.left+colorRect.left+40)+'px';
+      colorPickerWrapperDom.style.marginTop = -(colorRect.top+25)+'px';
+    }
   }
 
   colorPickerOnChangeComplete(color:any, e:any)
@@ -113,11 +122,28 @@ class EditTextUI extends Component<MyProps, MyStates>
     this.updateColorPickerPosition();
   }//END componentDidMount
 
-  getColorPickerEle()
+  getColorPickerEle(positionNum:number)
   {
     let colorPickerWrapperClass = this.parent.parent.state.isMobile? mobileStyles.colorPickerWrapper : styles.colorPickerWrapper;
     if(this.state.colorPickerOpen)
       colorPickerWrapperClass = [colorPickerWrapperClass, this.parent.parent.state.isMobile? mobileStyles.colorPickerOpen : styles.colorPickerOpen].join(' ');
+
+    if(!this.parent.parent.state.isMobile && positionNum==1)
+    {
+      return  <div 
+                id="colorPickerWrapper_1" 
+                className={colorPickerWrapperClass}
+              >
+                <div 
+                  onClick={this.colorBackDropOnclick}
+                  className={this.parent.parent.state.isMobile? mobileStyles.colorPickerBackDrop : styles.colorPickerBackDrop2} 
+                />
+              </div>
+    }
+
+
+    
+    
     return  <div 
               id="colorPickerWrapper" 
               className={colorPickerWrapperClass}
@@ -147,7 +173,7 @@ class EditTextUI extends Component<MyProps, MyStates>
     //console.log(this.parent.parent.state.isMobile);
     
     return  <div className={containerClass}>
-              {this.parent.parent.state.isMobile && this.getColorPickerEle()}
+              {this.getColorPickerEle(1)}
 
               <div className={this.parent.parent.state.isMobile? mobileStyles.header : styles.header}>
                 <div className={this.parent.parent.state.isMobile? mobileStyles.title : styles.title}>
@@ -159,12 +185,14 @@ class EditTextUI extends Component<MyProps, MyStates>
                 </div>
               </div>
               <div className={this.parent.parent.state.isMobile? mobileStyles.main : styles.main}>
-                <div className={this.parent.parent.state.isMobile? mobileStyles.mainInner : styles.mainInner}>
+                <div 
+                  className={this.parent.parent.state.isMobile? mobileStyles.mainInner : styles.mainInner}
+                >
 
-                  <div className={buttonActiveClass}>
+                  <div className={buttonActiveClass} id="editTextUIColorBtn">
                   <i className={'bx bx-palette'} onClick={this.colorBtnOnclick} />
                     <span onClick={this.colorBtnOnclick}>Color</span>
-                    {!this.parent.parent.state.isMobile && this.getColorPickerEle()}
+                    {!this.parent.parent.state.isMobile && this.getColorPickerEle(2)}
                   </div>
                   <div className={buttonClass} >
                   <i className={'bx bx-text'} />

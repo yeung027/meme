@@ -157,6 +157,7 @@
     top:280px;
     left:170px;
     display: none;
+    z-index: 50;
 }
 
 .colorPickerOpen
@@ -167,4 +168,23 @@
 .colorPickerBackDrop
 {
     display: none;
+}
+
+.colorPickerInner
+{
+    z-index: 60;
+}
+
+.colorPickerBackDrop
+{
+    display: none;
+}
+
+.colorPickerBackDrop2
+{
+    width:100vw;
+    height:100vh;
+    position: absolute;
+    display: block;
+    z-index: 49;
 }

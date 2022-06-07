@@ -8,6 +8,7 @@ type MyStates = {
   defaultText:string
   defaultCanvasHeight:number
   defaultFontSize:number
+  reloadFontFamilyCount:number
 };
 
 interface ImageText {
@@ -25,6 +26,7 @@ class ImageText extends Component<MyProps, MyStates>
       defaultText: '中文',
       defaultCanvasHeight:40,
       defaultFontSize:30,
+      reloadFontFamilyCount: 0
     
     }//END state
 
@@ -32,6 +34,7 @@ class ImageText extends Component<MyProps, MyStates>
     this.onEdit       = this.onEdit.bind(this);
     this.onBlur       = this.onBlur.bind(this);
     this.doEditText       = this.doEditText.bind(this);
+    this.createReloadFontFamilyTimeout       = this.createReloadFontFamilyTimeout.bind(this);
     
   }//END constructor
 
@@ -73,18 +76,19 @@ class ImageText extends Component<MyProps, MyStates>
     input.value = imgObj.text;
     input.id = 'floatTextInputEdit-'+keynum;
 
-    let x:number = imgObj.x, y:number = imgObj.y;
-    if(this.parent.parent.parent.state.isMobile)
-    {
-      x+=rect.left;
-      y+=rect.top;
-    }
+    let x:number = parseFloat(imgObj.x), y:number = parseFloat(imgObj.y);
+    //if(this.parent.parent.parent.state.isMobile)
+    x+=rect.left;
+    y+=rect.top;
 
-    input.style.marginTop = y+'px';
-    input.style.marginLeft = x+'px';
+    input.style.top = y+'px';
+    input.style.left = x+'px';
+
+    console.log(x+", "+y);
+
     if(this.parent.parent.parent.state.isMobile)
       rootDom.appendChild(input);
-    else canvasDom.appendChild(input);
+    else rootDom.appendChild(input);
 
     input.onblur=function(e:any)
     {
@@ -104,7 +108,7 @@ class ImageText extends Component<MyProps, MyStates>
       }
       .bind(this),
       200
-  );
+    );
   }//END onEdit
 
   textBtnOnclick()
@@ -158,7 +162,6 @@ class ImageText extends Component<MyProps, MyStates>
   };
 
 
-
     ctx.fillText(text,start_x, start_y);
 
 
@@ -194,8 +197,11 @@ class ImageText extends Component<MyProps, MyStates>
 
       let images  = this.parent.parent.parent.canvasRef.current.state.images;
       images  = images.concat(obj);
+      
       this.parent.parent.parent.canvasRef.current.setState({ 
         images: images
+      }, function(){
+        that.createReloadFontFamilyTimeout(imgObjIndex, text, fontSize, fontColor, height);
       }); 
     }//END if -1
     else
@@ -217,6 +223,8 @@ class ImageText extends Component<MyProps, MyStates>
       imagesCopy[imgObjIndex] = obj;
       this.parent.parent.parent.canvasRef.current.setState({ 
         images: imagesCopy
+      }, function(){
+        that.createReloadFontFamilyTimeout(imgObjIndex, text, fontSize, fontColor, height);
       }); 
 
     }
@@ -225,6 +233,35 @@ class ImageText extends Component<MyProps, MyStates>
 
     //console.log(obj);
   }//END doEditText
+
+  createReloadFontFamilyTimeout(imgObjIndex:number, text:string, fontSize:number, fontColor:string, height:number)
+  {
+    var that = this;
+    if(false && this.state.reloadFontFamilyCount<=5)
+    {
+      let index = imgObjIndex;
+      if(index<=0) index = this.parent.parent.parent.canvasRef.current.state.images.length-1;
+      let images  = this.parent.parent.parent.canvasRef.current.state.images;
+      setTimeout(
+        function() {
+          that.doEditText(
+            index,
+            text,
+            fontSize,
+            fontColor,
+            height,
+            -1,
+            -1,
+          );
+          that.setState({ 
+            reloadFontFamilyCount: that.state.reloadFontFamilyCount+1
+          }); 
+        }
+        .bind(this),
+        1000
+      );
+    }
+  }//END createReloadFontFamilyTimeout
 
   render() 
   {

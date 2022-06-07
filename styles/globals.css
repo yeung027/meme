@@ -101,3 +101,9 @@ i
   position: absolute;
   z-index: 50;
 }
+
+#rootDiv
+{
+  width: 100vw;
+  height: 100vh;
+}

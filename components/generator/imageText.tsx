@@ -53,7 +53,24 @@ class ImageText extends Component<MyProps, MyStates>
       -1,
       -1
     );
-    ele.remove();
+    if(ele.parentNode)
+    {
+      let inputDom:any = document.querySelector('#floatTextInputEdit-'+keyNum);
+      inputDom.removeEventListener("onblur", this.onBlur);
+      setTimeout(
+        function() {
+          try{
+            ele.remove();
+          }catch(e){
+            console.error(e);
+          }
+        }
+        .bind(this),
+        200
+      );
+      
+    }
+    
   }//END onBlur
 
   onEdit(e: any, key: any)

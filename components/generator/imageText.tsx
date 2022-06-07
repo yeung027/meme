@@ -24,7 +24,7 @@ class ImageText extends Component<MyProps, MyStates>
     this.parent = props.parent;
 
     this.state = {
-      defaultText: 'Edit text here',
+      defaultText: 'Edit Text here',
       defaultCanvasHeight:40,
       defaultFontSize:30,
       reloadFontFamilyCount: 0
@@ -35,6 +35,7 @@ class ImageText extends Component<MyProps, MyStates>
     this.onEdit       = this.onEdit.bind(this);
     this.onBlur       = this.onBlur.bind(this);
     this.doEditText       = this.doEditText.bind(this);
+    this.calWidth = this.calWidth.bind(this);
     this.createReloadFontFamilyTimeout        = this.createReloadFontFamilyTimeout.bind(this);
     this.setBottomControlToEditText           = this.setBottomControlToEditText.bind(this);
     this.setEditTextUiSelectingTextIndex      = this.setEditTextUiSelectingTextIndex.bind(this);
@@ -181,6 +182,31 @@ class ImageText extends Component<MyProps, MyStates>
     step.stepChange(step.step.EDITIMG);
   }//END setBottomControlToEditText
 
+  calWidth(ctx:any, str:string)
+  {
+    const regex = /^[~`!@#$%^&*()_+=[\]\{}|;':",.\/<>?a-zA-Z0-9-]+$/;
+    var normal = 0;
+    var spec = 0;
+    let noramlStrs = '';
+    let sepStrs = '';
+    var width = 0;
+    for (var i = 0; i < str.length; i++)
+    {
+     if(str[i].match(regex))normal++
+     else spec++;
+    }
+
+    console.log('normal: '+normal+', spec: '+spec);
+
+    for (var i = 0; i < normal; i++) noramlStrs += 'a';
+    for (var i = 0; i < spec; i++) sepStrs += '中';
+    width += ctx.measureText(noramlStrs).width * 2.7;
+    width += ctx.measureText(sepStrs).width * 3.3;
+    width +=40;
+    return width;
+  }
+  
+
   async doEditText( imgObjIndex:number, text:string, fontSize:number, fontColor:string, height:number, x:number, y:number)
   {
     var that = this;
@@ -188,7 +214,8 @@ class ImageText extends Component<MyProps, MyStates>
     let canvas = document.createElement("canvas");
     canvas.style.fontWeight = '400';
     let ctx = canvas.getContext('2d', {alpha:true})!;
-    let width = (ctx.measureText(text).width * 1.5) * text.length +(start_x * 2);
+    let width = this.calWidth(ctx, text);
+    //(ctx.measureText(text).width * 1.5) * text.length +(start_x * 2);
     canvas.width = width;
     canvas.height = height;
     ctx.font = fontSize+"px Noto Sans TC, Roboto";

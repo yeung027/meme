@@ -1,6 +1,7 @@
 import React,{Component} from 'react';
 import ImageText from './imageText'
-import mergeImages from 'merge-images';
+import mergeImages, { Image as MergeImage } from 'merge-images';
+import NextImage from 'next/image';
 const convert = require('client-side-image-resize');
 
 type MyProps = {
@@ -49,7 +50,6 @@ class ImageCompiler extends Component<MyProps, MyStates>
     this.getCanvasSize      = this.getCanvasSize.bind(this);
     this.doSignleOutput      = this.doSignleOutput.bind(this);
     this.prepareMergeItems      = this.prepareMergeItems.bind(this);
-    this.resizedataURL      = this.resizedataURL.bind(this);
     
   }//END constructor
 
@@ -125,7 +125,7 @@ class ImageCompiler extends Component<MyProps, MyStates>
 
     let b64:any = image.upload;
     let b64ImageSize:any  = await this.getb64ImgSize(b64.data_url);
-
+    //console.log('prepareMergeItems b64ImageSize: '+ b64ImageSize[0]+', '+b64ImageSize[1]);
     if(!b64ImageSize)
     {
       throw ('Cannot get image size!');
@@ -163,17 +163,18 @@ class ImageCompiler extends Component<MyProps, MyStates>
 
     let resizedIMG:any;
 
-
+    console.log('before resize!!!!');
     try
     {
-      resizedIMG  = await this.resizeIMG(b64, output_w, output_h);
+      resizedIMG  = await this.resizeIMG(b64.data_url, output_w, output_h);
     }
     catch(error)
     {
-      console.error(error);
+      //console.error(error);
       throw (error);
     }
-    let resizedIMG_URL = URL.createObjectURL(resizedIMG);
+    console.log('after resize!!!!' + resizedIMG);
+    let resizedIMG_URL = resizedIMG;//URL.createObjectURL(resizedIMG);
     let obj = {
       src: resizedIMG_URL,//resizedIMG_URL, //image.upload.data_url,
       x: output_x, 
@@ -191,7 +192,7 @@ class ImageCompiler extends Component<MyProps, MyStates>
     let objs:any[] = [];
     for (const image of this.parent.parent.canvasRef.current.state.images) {
       let obj = await this.prepareMergeItems(i);
-      //await console.log(i);
+      console.log(i);
       objs[i] = obj;
       i++;
     }
@@ -245,7 +246,7 @@ class ImageCompiler extends Component<MyProps, MyStates>
     let w:number = rawImageSize[0]
     , h:number = rawImageSize[1];
     
-    let b64Size:any = await this.getb64ImgSize(b64);
+    let b64Size:any = await this.getb64ImgSize(b64.data_url);
     let b64_w = b64Size[0], b64_h = b64Size[1];
     let w_rate  = b64_w / w;
     let h_rate  = b64_h / h;
@@ -258,60 +259,50 @@ class ImageCompiler extends Component<MyProps, MyStates>
 
   }//END getResizeRate_compareWithRaw
 
-  async resizeIMG(b64:any, w:number, h:number)
+  async resizeIMG(datas:any, wantedWidth:any, wantedHeight:any)
   {
-    let a:any = await this.resizedataURL(b64.data_url, w, h);
-   return a;
-    return new Promise((resolve, reject) => 
-    {
-      
-      convert({ 
-        file: b64.file,//b64.file? b64.file : file,  
-        width: w, 
-        height: h,
-        type: 'png'
-      }).then((resp:any) => resolve(resp)).catch((error:any) => reject(error));
-    })
-  }//END resizeIMG
-
-  resizedataURL(datas:any, wantedWidth:any, wantedHeight:any){
-    var that:any = this;
+    console.log('resizeIMG ####1');
     return new Promise(async function(resolve,reject){
 
-        // We create an image to receive the Data URI
-        var img = document.createElement('img');
-        
-        // When the event "onload" is triggered we can resize the image.
-        img.onload = function()
-        {        
-            // We create a canvas and get its context.
-            var canvas = document.createElement('canvas');
-            var ctx = canvas.getContext('2d');
+      // We create an image to receive the Data URI
+      //var img = document.createElement('img');
+      let img = new Image();
+      
+      // When the event "onload" is triggered we can resize the image.
+      img.onload = function()
+      {        
+        console.log('resizeIMG inside onload');
+          // We create a canvas and get its context.
+          var canvas = document.createElement('canvas');
+          var ctx = canvas.getContext('2d');
 
-            // We set the dimensions at the wanted size.
-            canvas.width = wantedWidth;
-            canvas.height = wantedHeight;
+          // We set the dimensions at the wanted size.
+          canvas.width = wantedWidth;
+          canvas.height = wantedHeight;
+          console.log(this);
+          
+          // We resize the image with the canvas method drawImage();
+          if(ctx) ctx.drawImage(img, 0, 0, wantedWidth, wantedHeight);
 
-            // We resize the image with the canvas method drawImage();
-            if(ctx) ctx.drawImage(img, 0, 0, wantedWidth, wantedHeight);
+          var dataURI = canvas.toDataURL();
+          console.log('resizeIMG before resolve');
+          // This is the return of the Promise
+          resolve(dataURI);
+      };
 
-            var dataURI = canvas.toDataURL();
+      // We put the Data URI in the image's src attribute
+      img.src = datas;
+      console.log('resizeIMG set src: '+datas);
+  })
+  }//END resizeIMG
 
-            // This is the return of the Promise
-            resolve(dataURI);
-        };
-
-        // We put the Data URI in the image's src attribute
-        img.src = datas;
-
-    })
-  }
 
   async b64ToImgFile(b64:any)
   {
     let canvas = document.createElement("canvas");
     let ctx = canvas.getContext('2d', {alpha:true})!;
     let size = await this.getb64ImgSize(b64);
+    //let size = [100, 200];
     canvas.width = size[0];
     canvas.height = size[1];
     ctx.fillStyle = "rgb(255, 255, 255)";
@@ -343,8 +334,14 @@ class ImageCompiler extends Component<MyProps, MyStates>
   getb64ImgSize(b64:any)
   {
     return new Promise<number[]>((resolve, reject) => {
-      let img = new Image();
-      img.onload = () => resolve([img.width, img.height])
+      let img= new Image();
+     // if(b64 == this.rawImgSrc) resolve([1024, 1024]);
+     // console.log('getb64ImgSize');
+      //console.log('getb64ImgSize: '+b64);
+      img.onload = function(){ 
+        //console.log('getb64ImgSize img.onload~~~~');
+        resolve([img.width, img.height])
+      };
       img.onerror = () => reject('Error occurred while get b64 Image Size');
       img.src = b64;
     })

@@ -77,9 +77,9 @@ class TouchController extends Component<MyProps, MyStates>
 
   onPress(e: any, key: any)
   {
-    let ele:any = document.querySelector('#'+key+' img');
+    //let ele:any = document.querySelector('#'+key+' img');
     //console.log(key);
-    ele.style.border = 'red 3px solid';
+    //ele.style.border = 'red 3px solid';
     this.onPressOrDoubleClick(e, key);
   }
 
@@ -284,7 +284,13 @@ class TouchController extends Component<MyProps, MyStates>
     else
     {
       fixed_xy_by_event_center = this.getImageCoorByPinchEventCenter(e, desktopStartObj.imgObj);
-      let xy:any = this.fixImgWhileOutOfScreen(fixed_xy_by_event_center[0], fixed_xy_by_event_center[1]);
+      let xy:any = this.fixImgWhileOutOfScreen
+      (
+        isTouch ? finally_size[0] : new_w,
+        isTouch ? finally_size[1] : new_h,
+        fixed_xy_by_event_center[0], 
+        fixed_xy_by_event_center[1]
+      );
       fixed_xy_by_event_center = [xy.x, xy.y];
     }
 
@@ -343,7 +349,7 @@ class TouchController extends Component<MyProps, MyStates>
     return [result_x, result_y];
   }//END zoomByPinchMove
 
-  fixImgWhileOutOfScreen(x:number, y:number)
+  fixImgWhileOutOfScreen(w:number, h:number, x:number, y:number)
   {
     let canvasSize: any[] = this.getCanvasSize();
     let new_x = x, new_y = y;
@@ -352,7 +358,8 @@ class TouchController extends Component<MyProps, MyStates>
     if(new_x>canvasSize[0]) new_x = canvasSize[0];
     if(new_y>canvasSize[1]) new_y = canvasSize[1];
 
-    //console.log("fix_x: "+ x+", fix_y: "+ y);
+    // let canvasDom:any = document.querySelector('#canvas');
+    // let convasRect = canvasDom.getBoundingClientRect();
 
     return {
       x:new_x,
@@ -517,6 +524,7 @@ class TouchController extends Component<MyProps, MyStates>
     else
     {
       noTouchStartObj = true;
+      if(this.parent.parent.state.isMobile) return;
       /* touchStartTouchX = e.touches[0].clientX - (imgObj[keynum].w );
       touchStartTouchY = e.touches[0].clientY - (imgObj[keynum].h ); */
     }

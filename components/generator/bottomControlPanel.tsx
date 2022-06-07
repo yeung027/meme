@@ -3,6 +3,7 @@ import styles from '../../styles/generator/bottomControlPanel/desktop.module.css
 import mobileStyles from '../../styles/generator/bottomControlPanel/mobile.module.css'
 import UploadImgUI from './bottomControl/uploadImg';
 import EditImgUI from './bottomControl/editImg';
+import EditTextUI from './bottomControl/editText';
 import ExportUI from './bottomControl/export';
 
 type MyProps = {
@@ -33,6 +34,7 @@ class BottomControlPanel extends Component<MyProps, MyStates>
     enum STAGE {
       UPLOADIMG = 'uploadimg',
       EDITIMG = 'editimg',
+      EDITTEXT = 'edittext',
       EXPORT = 'export'
     }
 
@@ -90,6 +92,15 @@ class BottomControlPanel extends Component<MyProps, MyStates>
         animationInout: false
        });
     }
+    else if(ui === this.stage.EDITTEXT)
+    {
+      this.setState({ 
+        isAnimation: true,
+        pendingUIChange: true,
+        pendingUI: this.stage.EDITTEXT,
+        animationInout: false
+       });
+    }
     else if(ui === this.stage.EXPORT)
     {
       this.setState({ 
@@ -119,6 +130,8 @@ class BottomControlPanel extends Component<MyProps, MyStates>
       ui  = <UploadImgUI parent={this} />
     else if(this.state.currentUI === this.stage.EDITIMG)
       ui  = <EditImgUI parent={this} />
+    else if(this.state.currentUI === this.stage.EDITTEXT)
+      ui  = <EditTextUI parent={this} />
     else if(this.state.currentUI === this.stage.EXPORT)
       ui  = <ExportUI parent={this} />
 

@@ -92,3 +92,11 @@
     font-size: 12px;
     font-family: 'Roboto';
 }
+
+.purple_iconRight_btn_l i
+{
+    display: flex;
+    padding:0;
+    align-content: center;
+    height:20px;
+}

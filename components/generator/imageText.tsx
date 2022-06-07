@@ -34,7 +34,8 @@ class ImageText extends Component<MyProps, MyStates>
     this.onEdit       = this.onEdit.bind(this);
     this.onBlur       = this.onBlur.bind(this);
     this.doEditText       = this.doEditText.bind(this);
-    this.createReloadFontFamilyTimeout       = this.createReloadFontFamilyTimeout.bind(this);
+    this.createReloadFontFamilyTimeout        = this.createReloadFontFamilyTimeout.bind(this);
+    this.setBottomControlToEditText           = this.setBottomControlToEditText.bind(this);
     
   }//END constructor
 
@@ -84,7 +85,7 @@ class ImageText extends Component<MyProps, MyStates>
     input.style.top = y+'px';
     input.style.left = x+'px';
 
-    console.log(x+", "+y);
+    //console.log(x+", "+y);
 
     if(this.parent.parent.parent.state.isMobile)
       rootDom.appendChild(input);
@@ -109,6 +110,8 @@ class ImageText extends Component<MyProps, MyStates>
       .bind(this),
       200
     );
+
+    this.setBottomControlToEditText();
   }//END onEdit
 
   textBtnOnclick()
@@ -124,7 +127,17 @@ class ImageText extends Component<MyProps, MyStates>
       this.parent.parent.parent.state.isMobile? rect.left : 0,
       this.parent.parent.parent.state.isMobile? rect.top : 0,
     );
+    this.setBottomControlToEditText();
   }//END textBtnOnclick
+
+  setBottomControlToEditText()
+  {
+    //console.log(this.parent.parent.parent.bottomControlPanelRef.current);
+    let bottomControl = this.parent.parent.parent.bottomControlPanelRef.current;
+    let step = this.parent.parent.parent.stepsRef.current;
+    bottomControl.stageChange(bottomControl.stage.EDITTEXT);
+    step.stepChange(step.step.EDITIMG);
+  }//END setBottomControlToEditText
 
   async doEditText( imgObjIndex:number, text:string, fontSize:number, fontColor:string, height:number, x:number, y:number)
   {

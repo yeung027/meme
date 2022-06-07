@@ -77,9 +77,9 @@ class TouchController extends Component<MyProps, MyStates>
 
   onPress(e: any, key: any)
   {
-    //let ele:any = document.querySelector('#'+key+' img');
+    let ele:any = document.querySelector('#'+key+' img');
     //console.log(key);
-    //ele.style.border = 'red 3px solid';
+    ele.style.border = 'red 3px solid';
     this.onPressOrDoubleClick(e, key);
   }
 
@@ -478,7 +478,8 @@ class TouchController extends Component<MyProps, MyStates>
 
   checkBottomControlIsStageEditimg()
   {
-    return this.parent.parent.bottomControlPanelRef.current.state.currentUI === this.parent.parent.bottomControlPanelRef.current.stage.EDITIMG;
+    return this.parent.parent.bottomControlPanelRef.current.state.currentUI === this.parent.parent.bottomControlPanelRef.current.stage.EDITIMG || 
+    this.parent.parent.bottomControlPanelRef.current.state.currentUI === this.parent.parent.bottomControlPanelRef.current.stage.EDITTEXT;
   }//END checkBottomControlIsStageEditimg
 
 

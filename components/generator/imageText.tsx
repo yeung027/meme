@@ -182,15 +182,24 @@ class ImageText extends Component<MyProps, MyStates>
     }//END if -1
     else
     {
+      
       let images  = this.parent.parent.parent.canvasRef.current.state.images;
+      let imagesCopy  = images;
       if(!images[imgObjIndex]) throw('imgObj not found #######122322121');
-      images[imgObjIndex].upload = uploaded;
-      images[imgObjIndex].w = width;
-      images[imgObjIndex].h = height;
-      images[imgObjIndex].text = text;
-      images[imgObjIndex].height = height;
-      images[imgObjIndex].width = width;
-      images[imgObjIndex].fontSize = fontSize;
+      let obj = images[imgObjIndex];
+      console.log(obj.text);
+      
+      obj.upload = uploaded;
+      obj.w = width;
+      obj.h = height;
+      obj.text = text;
+      obj.height = height;
+      obj.width = width;
+      obj.fontSize = fontSize;
+      imagesCopy[imgObjIndex] = obj;
+      this.parent.parent.parent.canvasRef.current.setState({ 
+        images: imagesCopy
+      }); 
 
     }
     

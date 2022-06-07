@@ -68,9 +68,18 @@ class TouchController extends Component<MyProps, MyStates>
     this.onMouseUp              = this.onMouseUp.bind(this);
     this.onMouseMove            = this.onMouseMove.bind(this);
     this.moveImg                = this.moveImg.bind(this);
+    this.onPress                = this.onPress.bind(this);
     
     
   }//END constructor
+
+
+  onPress(e: any, key: any)
+  {
+    let ele:any = document.querySelector('#'+key+' img');
+    //console.log(key);
+    ele.style.border = 'red 3px solid'
+  }
 
   onMouseMove(e: any, key: any)
   {
@@ -82,7 +91,6 @@ class TouchController extends Component<MyProps, MyStates>
 
   onMouseUp(e: any, key: any)
   {
-    console.log('up');
     this.setState({ 
       isMouseDownHold: false
     });
@@ -90,7 +98,7 @@ class TouchController extends Component<MyProps, MyStates>
 
   onMouseDown(e: any, key: any)
   {
-    //console.log('down');
+    console.log(e.detail);
     this.setState({ 
       isMouseDownHold: true
     });
@@ -633,6 +641,11 @@ class TouchController extends Component<MyProps, MyStates>
         onTouchMove={function(e:any)
         {
           self.onTouchMove(e, key);
+        }}
+
+        onPress={function(e:any)
+        {
+          self.onPress(e, key);
         }}
 
         className={tappableClass}

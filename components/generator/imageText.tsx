@@ -78,18 +78,20 @@ class ImageText extends Component<MyProps, MyStates>
     input.id = 'floatTextInputEdit-'+keynum;
 
     let x:number = parseFloat(imgObj.x), y:number = parseFloat(imgObj.y);
-    //if(this.parent.parent.parent.state.isMobile)
-    x+=rect.left;
-    y+=rect.top;
-
+    if(!this.parent.parent.parent.state.isMobile)
+    {
+      x+=rect.left;
+      y+=rect.top;
+    }
     input.style.top = y+'px';
     input.style.left = x+'px';
 
     //console.log(x+", "+y);
 
-    if(this.parent.parent.parent.state.isMobile)
-      rootDom.appendChild(input);
-    else rootDom.appendChild(input);
+    // if(this.parent.parent.parent.state.isMobile)
+    //   rootDom.appendChild(input);
+    // else rootDom.appendChild(input);
+    rootDom.appendChild(input);
 
     input.onblur=function(e:any)
     {

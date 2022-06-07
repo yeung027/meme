@@ -139,3 +139,38 @@
 {
     color: #fff;
 }
+
+
+.colorPickerWrapper
+{
+    position: absolute;
+    top:0;
+    left:0;
+    z-index: 50;
+    
+    width:100vw;
+    height:95vh;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    background-color:rgba(0, 0, 0, 0.5);
+}
+
+.colorPickerOpen
+{
+    display: flex;
+}
+
+.colorPickerInner
+{
+    z-index: 60;
+}
+
+.colorPickerBackDrop
+{
+    width:100vw;
+    height:100%;
+    position: absolute;
+    display: block;
+    z-index: 59;
+}

@@ -150,3 +150,21 @@
 {
     color: #fff;
 }
+
+.colorPickerWrapper
+{
+    position: absolute;
+    top:280px;
+    left:170px;
+    display: none;
+}
+
+.colorPickerOpen
+{
+    display: block;
+}
+
+.colorPickerBackDrop
+{
+    display: none;
+}

@@ -1,3 +1,4 @@
+import { withThemeCreator } from '@material-ui/styles';
 import React,{Component} from 'react';
 
 type MyProps = {
@@ -23,7 +24,7 @@ class ImageText extends Component<MyProps, MyStates>
     this.parent = props.parent;
 
     this.state = {
-      defaultText: '中文',
+      defaultText: 'Edit text here',
       defaultCanvasHeight:40,
       defaultFontSize:30,
       reloadFontFamilyCount: 0
@@ -36,10 +37,32 @@ class ImageText extends Component<MyProps, MyStates>
     this.doEditText       = this.doEditText.bind(this);
     this.createReloadFontFamilyTimeout        = this.createReloadFontFamilyTimeout.bind(this);
     this.setBottomControlToEditText           = this.setBottomControlToEditText.bind(this);
+    this.setEditTextUiSelectingTextIndex      = this.setEditTextUiSelectingTextIndex.bind(this);
     
   }//END constructor
 
+  setEditTextUiSelectingTextIndex(index:number)
+  {
+    let self = this;
+    let bottomControlPanel = this.parent.parent.parent.bottomControlPanelRef.current;
+    let editText = bottomControlPanel.editTextRef? bottomControlPanel.editTextRef.current: null;
+    if(!editText)
+    {
+      setTimeout(
+        function() {
+          self.setEditTextUiSelectingTextIndex(index);
+        }
+        .bind(this),
+        200
+      );
+      return;
+    }
 
+    editText.setState({ 
+      selectingTextIndex: index
+    }); 
+    //console.log(editText);
+  }
 
   onBlur(e: any, keyNum:number)
   {
@@ -235,6 +258,8 @@ class ImageText extends Component<MyProps, MyStates>
       }, function(){
         that.createReloadFontFamilyTimeout(imgObjIndex, text, fontSize, fontColor, height);
       }); 
+
+      this.setEditTextUiSelectingTextIndex(images.length-1);
     }//END if -1
     else
     {
@@ -266,10 +291,12 @@ class ImageText extends Component<MyProps, MyStates>
     //console.log(obj);
   }//END doEditText
 
+  
+
   createReloadFontFamilyTimeout(imgObjIndex:number, text:string, fontSize:number, fontColor:string, height:number)
   {
     var that = this;
-    if(false && this.state.reloadFontFamilyCount<=5)
+    if(this.state.reloadFontFamilyCount<=5)
     {
       let index = imgObjIndex;
       if(index<=0) index = this.parent.parent.parent.canvasRef.current.state.images.length-1;

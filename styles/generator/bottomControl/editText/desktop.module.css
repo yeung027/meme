@@ -150,3 +150,15 @@
 {
     color: #fff;
 }
+
+.sketchPickerWrapper
+{
+    position: absolute;
+    opacity: 1;
+    left: 200px;
+    top: 260px;
+}
+.sketchPicker
+{
+    
+}

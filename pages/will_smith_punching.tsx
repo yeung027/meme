@@ -86,7 +86,7 @@ class WillSmithPunchingPage extends Component<MyProps & WithUserAgentProps, MySt
     }
     else
     {
-      ele = <>
+      ele = <div id='rootDiv'>
               <Header parent={this} ref={this.headerRef} /> 
               <div className={styles.main}>
                 <div className={styles.whiteContainer}>
@@ -99,7 +99,7 @@ class WillSmithPunchingPage extends Component<MyProps & WithUserAgentProps, MySt
                   <Canvas parent={this} ref={this.canvasRef} />
                 </div>
               </div>
-            </>
+            </div>
     }
 
 

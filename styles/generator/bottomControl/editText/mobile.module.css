@@ -139,3 +139,18 @@
 {
     color: #fff;
 }
+
+.sketchPickerWrapper
+{
+    position: absolute;
+    opacity: 1;
+    width:100vw;
+    height:100vh;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+.sketchPicker
+{
+    
+}

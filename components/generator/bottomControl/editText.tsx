@@ -2,7 +2,7 @@ import React,{Component} from 'react';
 import styles from '../../../styles/generator/bottomControl/editText/desktop.module.css'
 import mobileStyles from '../../../styles/generator/bottomControl/editText/mobile.module.css'
 import utilStyles from '../../../styles/generator/bottomControl/util.module.css'
-
+import { SketchPicker } from 'react-color'
 
 import IconButton from '@material-ui/core/IconButton';
 
@@ -11,11 +11,12 @@ type MyProps = {
 };
 
 type MyStates = {
-
+  pickerColor:string
 };
 
 interface EditTextUI {
-parent: any
+  parent: any
+  colorPickerRef:any
 }
 
 class EditTextUI extends Component<MyProps, MyStates>
@@ -26,12 +27,15 @@ class EditTextUI extends Component<MyProps, MyStates>
     this.parent = props.parent;
 
     this.state = {
-
+      pickerColor: '#000'
     }//END state
     
+    this.colorPickerRef = React.createRef();
 
     this.colorBtnOnclick           = this.colorBtnOnclick.bind(this);
     this.okBtnOnclick           = this.okBtnOnclick.bind(this);
+    this.handleSketchPickerChangeComplete           = this.handleSketchPickerChangeComplete.bind(this);
+    this.adjustColorPickerPosition           = this.adjustColorPickerPosition.bind(this);
   }//END constructor
 
 
@@ -44,12 +48,21 @@ class EditTextUI extends Component<MyProps, MyStates>
 
   }//END okBtnOnclick
 
+  adjustColorPickerPosition()
+  {
+
+  }//END adjustColorPickerPosition
 
   colorBtnOnclick(e:any)
   {
-    console.log('color')
+    this.adjustColorPickerPosition();
   }//END colorBtnOnclick
 
+  handleSketchPickerChangeComplete(color:any)
+  {
+    console.log(this.parent.parent.state.isMobile);
+    this.setState({ pickerColor: color.hex });
+  };
 
   render() 
   {
@@ -64,7 +77,6 @@ class EditTextUI extends Component<MyProps, MyStates>
 
     return  <div className={containerClass}>
    
-
               <div className={this.parent.parent.state.isMobile? mobileStyles.header : styles.header}>
                 <div className={this.parent.parent.state.isMobile? mobileStyles.title : styles.title}>
                   <i className={'bx bxs-bell'} />
@@ -80,6 +92,14 @@ class EditTextUI extends Component<MyProps, MyStates>
                   <div className={buttonActiveClass} onClick={this.colorBtnOnclick}>
                   <i className={'bx bx-palette'} />
                     <span>Color</span>
+                    <div className={this.parent.parent.state.isMobile? mobileStyles.sketchPickerWrapper : styles.sketchPickerWrapper}>
+                      <SketchPicker
+                        ref={this.colorPickerRef}
+                        onChangeComplete={ this.handleSketchPickerChangeComplete }
+                        color={this.state.pickerColor}
+                        className={this.parent.parent.state.isMobile? mobileStyles.sketchPicker : styles.sketchPicker}
+                      />
+                    </div>
                   </div>
                   <div className={buttonClass} >
                   <i className={'bx bx-text'} />

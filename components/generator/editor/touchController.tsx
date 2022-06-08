@@ -1,4 +1,6 @@
 import React,{Component} from 'react';
+import EditingImage from '../../../models/editingImage';
+
 const Pinchable  = require('react-tappable');
 
 type MyProps = {
@@ -9,10 +11,19 @@ type MyStates = {
   touchStart:boolean
   debugLog: any[],
   pinchStarted: boolean,
-  pinchStartObj: any,
-  touchStartObj: any,
+  pinchStartObj?:TouchStartObj,
+  touchStartObj?:TouchStartObj,
   isMouseDownHold: boolean
 };
+
+type TouchStartObj = {
+  key: string,
+  keynum: number,
+  e: any,
+  imgObj: EditingImage
+  w:number
+  h:number
+}
 
 interface TouchController  {
   parent: any
@@ -31,8 +42,6 @@ class TouchController extends Component<MyProps, MyStates>
     this.state = {
       touchStart: false,
       pinchStarted: false,
-      pinchStartObj: null,
-      touchStartObj:null,
       isMouseDownHold: false,
       debugLog: ['Debug:']
     }//END state
@@ -80,7 +89,7 @@ class TouchController extends Component<MyProps, MyStates>
     return this.parent.parent.componentsGetterRef.current;
   }//END componentsGetter
 
-  async rotateImg(key: any, degrees:number) 
+  async rotateImg(key: string, degrees:number) 
   {
     let keynum= this.getKeyNumByID(key);
     let images = this.componentsGetter().canvas().state.images;
@@ -129,7 +138,7 @@ class TouchController extends Component<MyProps, MyStates>
   onPressOrDoubleClick(e: any, key: any)
   {
     let keynum= this.getKeyNumByID(key);
-    let imgObj:any  =  this.parent.state.images.length > keynum ? this.parent.state.images[keynum] : null;
+    let imgObj:EditingImage  =  this.parent.state.images.length > keynum ? this.parent.state.images[keynum] : null;
     //console.log(imgObj.isText);
     //console.log(this.componentsGetter().imageText());
 
@@ -149,7 +158,7 @@ class TouchController extends Component<MyProps, MyStates>
     //if(this.state.touchStart) return;
 
     let keynum= this.getKeyNumByID(key);
-    let imgObj:any  =  this.parent.state.images.length > keynum ? this.parent.state.images[keynum] : null;
+    let imgObj:EditingImage  =  this.parent.state.images.length > keynum ? this.parent.state.images[keynum] : null;
 
     if(!imgObj) return this.debugLog('error! imgObj');
 
@@ -159,11 +168,17 @@ class TouchController extends Component<MyProps, MyStates>
         key: key,
         keynum: keynum,
         e: e,
+        w:imgObj.width,
+        h:imgObj.height,
         imgObj: {
+          upload:imgObj.upload,
+          isText:imgObj.isText,
+          index:imgObj.index,
+          rotation:imgObj.rotation,
           x: imgObj.x,
           y:imgObj.y,
-          w: imgObj.w,
-          h: imgObj.h
+          width: imgObj.width,
+          height: imgObj.height
         }
       }
      });
@@ -191,13 +206,15 @@ class TouchController extends Component<MyProps, MyStates>
   onPinchStart(e: any, key: any)
   {
     let keynum= this.getKeyNumByID(key);
-    let imgObj:any  =  this.parent.state.images.length > keynum ? this.parent.state.images[keynum] : null;
+    let imgObj:EditingImage  =  this.parent.state.images.length > keynum ? this.parent.state.images[keynum] : null;
 
     if(!imgObj) return this.debugLog('error! imgObj');
 
     this.setState({ 
       pinchStarted: true,
       pinchStartObj:{
+        w:imgObj.width,
+        h:imgObj.height,
         key: key,
         keynum: keynum,
         e: e,
@@ -210,7 +227,7 @@ class TouchController extends Component<MyProps, MyStates>
   {
     this.setState({ 
       pinchStarted: false,
-      pinchStartObj: null
+      pinchStartObj: undefined
      });
   }//END onPinchEnd
 
@@ -224,7 +241,7 @@ class TouchController extends Component<MyProps, MyStates>
   {
     
     let keynum= this.getKeyNumByID(key);
-    let imgObj = this.parent.state.images[keynum];
+    let imgObj:EditingImage = this.parent.state.images[keynum];
     if(!imgObj || !imgObj.isText) return;
 
     if(this.componentsGetter().editText())
@@ -238,7 +255,7 @@ class TouchController extends Component<MyProps, MyStates>
 
   getCanvasSize()
   {
-    let canvas:any = document.querySelector('#canvas');
+    let canvas:HTMLCanvasElement = document.querySelector('#canvas')!;
     let style = window.getComputedStyle(canvas);
     let w:number, h:number;
     w = parseInt(style.width);
@@ -257,9 +274,9 @@ class TouchController extends Component<MyProps, MyStates>
   rotateByPinchMove(e: any, key: any, isTouch:boolean)
   {
     let keynum= this.getKeyNumByID(key);
-    let imgObjs:any  =  this.parent.state.images;
-    let image = imgObjs[keynum];
-    let rotation = image.rotation;
+    let imgObjs:EditingImage[]  =  this.parent.state.images;
+    let image:EditingImage = imgObjs[keynum];
+    let rotation:number = image.rotation;
     let e_rotation = e.rotation;
     this.debugLog('e.rotation: '+e.rotation);
     if(!rotation || isNaN(rotation)) rotation = 0;
@@ -290,7 +307,7 @@ class TouchController extends Component<MyProps, MyStates>
       return;
     }
 
-    let imgObj:any  =  this.parent.state.images;
+    let imgObj:EditingImage[]  =  this.parent.state.images;
 
     if(!imgObj || imgObj.length<(keynum+1)) return this.debugLog('error! imgObj');
 
@@ -299,7 +316,7 @@ class TouchController extends Component<MyProps, MyStates>
     let desktopStartObj:any = {};
     //this.debugLog(this.state.pinchStartObj.keynum == keynum);
     this.debugLog(e.zoom);
-    if(isTouch && this.state.pinchStartObj.keynum != keynum) return this.debugLog('error! cannot find pinchStartObj');
+    if(isTouch && this.state.pinchStartObj?.keynum != keynum) return this.debugLog('error! cannot find pinchStartObj');
     else if(!isTouch)
     {
       desktopStartObj = {
@@ -313,9 +330,9 @@ class TouchController extends Component<MyProps, MyStates>
     let new_scale= 1, new_w = 0 ,new_h = 0;
     if(isTouch)
     {
-      new_scale = this.state.pinchStartObj.imgObj.scale * zoom;
-      new_w = this.state.pinchStartObj.imgObj.w * zoom;
-      new_h = this.state.pinchStartObj.imgObj.h * zoom;
+      //new_scale = this.state.pinchStartObj.imgObj.scale * zoom;
+      new_w = this.state.pinchStartObj?.imgObj? this.state.pinchStartObj.imgObj.width : 0 * zoom;
+      new_h = this.state.pinchStartObj?.imgObj?this.state.pinchStartObj.imgObj.height : 0 * zoom;
     }
     else
     {
@@ -337,7 +354,7 @@ class TouchController extends Component<MyProps, MyStates>
     
     if(isTouch)
     {
-      fixed_xy_by_event_center = this.getImageCoorByPinchEventCenter(e, this.state.pinchStartObj.imgObj);
+      fixed_xy_by_event_center = this.getImageCoorByPinchEventCenter(e, this.state.pinchStartObj?.imgObj!);
     }
     else
     {
@@ -355,9 +372,9 @@ class TouchController extends Component<MyProps, MyStates>
 
     //console.log('finally_size: '+finally_size[0] +", "+finally_size[1]);
     //console.log('zoom: '+zoom);
-    imgObj[keynum].scale = finally_size[2];
-    imgObj[keynum].w = isTouch ? finally_size[0] : new_w;
-    imgObj[keynum].h = isTouch ? finally_size[1] : new_h;
+    //imgObj[keynum].scale = finally_size[2];
+    imgObj[keynum].width = isTouch ? finally_size[0] : new_w;
+    imgObj[keynum].height = isTouch ? finally_size[1] : new_h;
     imgObj[keynum].x = fixed_xy_by_event_center[0];
     imgObj[keynum].y = fixed_xy_by_event_center[1];
 
@@ -367,7 +384,7 @@ class TouchController extends Component<MyProps, MyStates>
 
 
      this.setState({ 
-      touchStartObj:{}
+      touchStartObj:undefined
      });
     //this.debugLog(imgObj[keynum].scale);
     //this.debugLog(e.center.x + ', ' + e.center.y);
@@ -381,7 +398,7 @@ class TouchController extends Component<MyProps, MyStates>
     /* let x = parseInt(imageObj.x);
     let y = parseInt(imageObj.y);
     let w = parseInt(imageObj.w);
-    let h = parseInt(imageObj.h); */
+    let h = parseInt(imageObj.height); */
 
     let center_x:number = 0;
     let center_y:number = 0;
@@ -394,11 +411,11 @@ class TouchController extends Component<MyProps, MyStates>
     else
     {
       center_x = imageObj.x + (imageObj.w / 2);
-      center_y = imageObj.y+ (imageObj.h / 2);
+      center_y = imageObj.y+ (imageObj.height / 2);
     }
 
     let half_image_w = imageObj.w / 2;
-    let half_image_h = imageObj.h / 2;
+    let half_image_h = imageObj.height / 2;
     let result_x  = center_x - half_image_w;
     let result_y  = center_y - half_image_h;
 
@@ -497,21 +514,27 @@ class TouchController extends Component<MyProps, MyStates>
     }
 
     let keynum= this.getKeyNumByID(key);
-    let imgObj:any  =  this.parent.state.images.length > keynum ? this.parent.state.images[keynum] : null;
+    let imgObj:EditingImage  =  this.parent.state.images.length > keynum ? this.parent.state.images[keynum] : null;
 
     if(!imgObj) return this.debugLog('error! imgObj');
 
     this.setState({ 
       touchStart: true,
       touchStartObj:{
+        w:imgObj.width,
+        h:imgObj.height,
         key: key,
         keynum: keynum,
         e: e,
         imgObj: {
+          upload:imgObj.upload,
+          isText:imgObj.isText,
+          index:imgObj.index,
+          rotation:imgObj.rotation,
           x: imgObj.x,
           y:imgObj.y,
-          w: imgObj.w,
-          h: imgObj.h
+          width: imgObj.width,
+          height: imgObj.height
         }
       }
      });
@@ -522,7 +545,7 @@ class TouchController extends Component<MyProps, MyStates>
   {
     this.setState({ 
       touchStart:false,
-      touchStartObj: null
+      touchStartObj: undefined
      });
   }//END onTouchEnd
   
@@ -547,21 +570,21 @@ class TouchController extends Component<MyProps, MyStates>
       let new_post_left = 0,
       new_post_top = 0;
 
-    let imgObj:any  =  this.parent.state.images;
+    let imgObj:EditingImage[]  =  this.parent.state.images;
     let keynum= this.getKeyNumByID(key);
     //console.log(this.state.touchStartObj);
     if(this.state.touchStartObj && this.state.touchStartObj.e && this.state.touchStartObj.e.touches 
       && this.state.touchStartObj.imgObj && this.state.touchStartObj.imgObj.x && this.state.touchStartObj.imgObj.y)
     {
-      touchStartImgX    = parseInt(this.state.touchStartObj.imgObj.x);
-      touchStartImgY    = parseInt(this.state.touchStartObj.imgObj.y);
+      touchStartImgX    = this.state.touchStartObj.imgObj.x;
+      touchStartImgY    = this.state.touchStartObj.imgObj.y;
       touchStartTouchX  = this.state.touchStartObj.e.touches[0].clientX - touchStartImgX;
       touchStartTouchY  = this.state.touchStartObj.e.touches[0].clientY - touchStartImgY;
     }
     else if(this.state.touchStartObj && this.state.touchStartObj.e && this.state.touchStartObj.imgObj && this.state.touchStartObj.imgObj.x && this.state.touchStartObj.imgObj.y)
     {
-      touchStartImgX    = parseInt(this.state.touchStartObj.imgObj.x);
-      touchStartImgY    = parseInt(this.state.touchStartObj.imgObj.y);
+      touchStartImgX    = this.state.touchStartObj.imgObj.x;
+      touchStartImgY    = this.state.touchStartObj.imgObj.y;
       touchStartTouchX  = this.state.touchStartObj.e.pageX - touchStartImgX;
       touchStartTouchY  = this.state.touchStartObj.e.pageY - touchStartImgY;
     }
@@ -569,14 +592,14 @@ class TouchController extends Component<MyProps, MyStates>
     {
       noTouchStartObj = true;
       if(this.parent.parent.state.isMobile) return;
-      /* touchStartTouchX = e.touches[0].clientX - (imgObj[keynum].w );
-      touchStartTouchY = e.touches[0].clientY - (imgObj[keynum].h ); */
+      /* touchStartTouchX = e.touches[0].clientX - (imgObj[keynum].width );
+      touchStartTouchY = e.touches[0].clientY - (imgObj[keynum].height ); */
     }
 
     //this.debugLog('touchStartTouchX: ' + touchStartTouchX);
     let currentTouchClientX = 0,
     currentTouchClientY = 0;
-    let canvasDom:any = document.querySelector('#canvas');
+    let canvasDom:HTMLCanvasElement = document.querySelector('#canvas')!;
     let convasRect = canvasDom.getBoundingClientRect();
 
     if(this.parent.parent.state.isMobile)
@@ -596,13 +619,13 @@ class TouchController extends Component<MyProps, MyStates>
 
     if(noTouchStartObj && this.parent.parent.state.isMobile)
     {
-      new_post_left = currentTouchClientX - convasRect.left - (imgObj[keynum].w / 2);
-      new_post_top  = currentTouchClientY - convasRect.top - (imgObj[keynum].h / 2);
+      new_post_left = currentTouchClientX - convasRect.left - (imgObj[keynum].width / 2);
+      new_post_top  = currentTouchClientY - convasRect.top - (imgObj[keynum].height / 2);
     }
     else if(noTouchStartObj && !this.parent.parent.state.isMobile)
     {
-      new_post_left = currentTouchClientX - convasRect.left - (imgObj[keynum].w / 2);
-      new_post_top  = currentTouchClientY - convasRect.top - (imgObj[keynum].h / 2);
+      new_post_left = currentTouchClientX - convasRect.left - (imgObj[keynum].width / 2);
+      new_post_top  = currentTouchClientY - convasRect.top - (imgObj[keynum].height / 2);
     }
     else
     {
@@ -618,8 +641,8 @@ class TouchController extends Component<MyProps, MyStates>
     }
     
     //console.log('noTouchStartObj: ' + noTouchStartObj);
-    imgObj[keynum].x = new_post_left+'px'
-    imgObj[keynum].y = new_post_top+'px';
+    imgObj[keynum].x = new_post_left
+    imgObj[keynum].y = new_post_top;
 
     this.parent.setState({ 
       images: imgObj
@@ -634,7 +657,7 @@ class TouchController extends Component<MyProps, MyStates>
 
   checkPositionIsOverflowAndFix(x:number, y:number, targetWidthHeight:any[])
   {
-    let canvasDom:any = document.querySelector('#canvas');
+    let canvasDom:HTMLCanvasElement = document.querySelector('#canvas')!;
     let convasRect = canvasDom.getBoundingClientRect();
     
     let maxX  = convasRect.left + convasRect.width;
@@ -664,7 +687,7 @@ class TouchController extends Component<MyProps, MyStates>
     return this.getKeyNumByID(id);
   }//END getKeyNumByNode
 
-  getKeyNumByID(id:any)
+  getKeyNumByID(id:string):number
   {
     let num = id.substring(13);
     let target_key_num = parseInt(num);

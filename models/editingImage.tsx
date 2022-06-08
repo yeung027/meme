@@ -9,7 +9,9 @@ type EditingImage = {
     height:number
     index:number
     isText:boolean
-    text:EditingText
+    text?:EditingText
+    rotation:number
+    org?:EditingImage
 };
 
 

@@ -2,14 +2,14 @@ import React,{Component} from 'react';
 import styles from '../../styles/generator/canvas/desktop.module.css'
 import mobileStyles from '../../styles/generator/canvas/mobile.module.css'
 import TouchController from './editor/touchController';
-
+import EditingImage from '../../models/editingImage';
 
 type MyProps = {
     parent:any
 };
 
 type MyStates = {
-  images: any[]
+  images: EditingImage[]
   canvasWidth: number
   canvasHeight: number
   canvasLeft: number
@@ -173,13 +173,13 @@ class Canvas extends Component<MyProps, MyStates>
                 <div id='canvas' className={this.parent.state.isMobile? mobileStyles.canvas : styles.canvas} style={canvasStyle}>
                   {
 
-                    this.state.images.map((image, i) => {     
+                    this.state.images.map((image:EditingImage, i) => {     
                     
-                    let tappableId  = 'img-tappable-'+image.key_num;
-                    let clipLeft    =  this.parent.state.isMobile? this.state.canvasLeft - parseInt(image.x) + 1 : 0 - parseInt(image.x);
-                    let clipTop     =  this.parent.state.isMobile? this.state.canvasTop - parseInt(image.y) + 1 : 0 - parseInt(image.y);
-                    let clipRight   =  this.parent.state.isMobile? (parseInt(image.x) +  parseInt(image.w)) - (this.state.canvasLeft + (this.state.canvasWidth * 0.9)) - 1 : (parseInt(image.x) +  parseInt(image.w)) - this.state.canvasWidth;
-                    let clipBottom  =  this.parent.state.isMobile? (parseInt(image.y) +  parseInt(image.h)) - (this.state.canvasTop + this.state.canvasHeight) - 1 :  (parseInt(image.y) +  parseInt(image.h)) - this.state.canvasHeight;
+                    let tappableId  = 'img-tappable-'+image.index;
+                    let clipLeft    =  this.parent.state.isMobile? this.state.canvasLeft - image.x + 1 : 0 - image.x;
+                    let clipTop     =  this.parent.state.isMobile? this.state.canvasTop - image.y + 1 : 0 - image.y;
+                    let clipRight   =  this.parent.state.isMobile? (image.x+  image.width )- (this.state.canvasLeft + (this.state.canvasWidth * 0.9)) - 1 : (image.x +  image.width) - this.state.canvasWidth;
+                    let clipBottom  =  this.parent.state.isMobile? (image.y +  image.height) - (this.state.canvasTop + this.state.canvasHeight) - 1 :  (image.y +  image.height) - this.state.canvasHeight;
                     let left  = image.x;
                     let top   = image.y;
                     
@@ -190,8 +190,8 @@ class Canvas extends Component<MyProps, MyStates>
                     //console.log('image.x: ' + image.x);
                     //console.log((this.state.canvasLeft+ parseInt(image.x) +  parseInt(image.w)));
                     let wrapperStyle:any = {
-                      width: image.w,
-                      height:image.h,
+                      width: image.width,
+                      height:image.height,
                       top: top,
                       left: left,
                       transform: 'rotate('+rotation+'deg)'

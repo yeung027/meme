@@ -1,8 +1,9 @@
 import React,{Component} from 'react';
 import ImageText from './imageText';
-
+import EditingImage from '../../models/editingImage';
 type MyProps = {
     parent:any
+
     rawImgSrc: string
 };
 
@@ -66,7 +67,7 @@ class ImageEditor extends Component<MyProps, MyStates>
     let canvas  = this.componentsGetter().canvas();
     if(!this.componentsGetter().canvas()) throw ('cannot get canvasRef curent #2');
     //console.log(canvas.state.images.length);
-    let images  = canvas.state.images;
+    let images:EditingImage[]  = canvas.state.images;
     if(!canvas.state.images || !Array.isArray(canvas.state.images) || canvas.state.images.length <=0)
       images = [];
     
@@ -91,23 +92,32 @@ class ImageEditor extends Component<MyProps, MyStates>
     let canvas_image_length = !canvas.state.images ? 0 : canvas.state.images.length;
 
 
-    let canvasDom:any = document.querySelector('#canvas');
+    let canvasDom:HTMLCanvasElement = document.querySelector('#canvas')!;
     let rect = canvasDom.getBoundingClientRect();
     //console.log(rect.left);
 
 
-    let obj:any = {
+    let obj:EditingImage = {
       upload: uploaded,
       x: this.parent.parent.state.isMobile? rect.left : 0,
       y: this.parent.parent.state.isMobile? rect.top : 0,
-      w: b64ImageSize[0] * rateWithCanvas ,
-      h: b64ImageSize[1] * rateWithCanvas ,
-      scale: finally_rate , 
-      key_num: canvas_image_length
+      width: b64ImageSize[0] * rateWithCanvas ,
+      height: b64ImageSize[1] * rateWithCanvas ,
+      //scale: finally_rate , 
+      index: canvas_image_length,
+      isText:false,
+      rotation:0
     };
     obj.org = {
-      w: b64ImageSize[0] * rateWithCanvas,
-      h: b64ImageSize[1] * rateWithCanvas
+      upload:obj.upload,
+      x:obj.x,
+      y:obj.y,
+      isText:obj.isText,
+      text: obj.text,
+      rotation: obj.rotation,
+      index:obj.index,
+      width: b64ImageSize[0] * rateWithCanvas,
+      height: b64ImageSize[1] * rateWithCanvas
     };
 
     images  = images.concat(obj);
@@ -173,7 +183,7 @@ class ImageEditor extends Component<MyProps, MyStates>
   getCanvasComputedSize()
   {
     if(!window) throw ('Window is null');
-    let canvas:any = document.querySelector('#canvas');
+    let canvas:HTMLCanvasElement = document.querySelector('#canvas')!;
     if(!canvas) throw ('canvas is null');
     let canvascompStyles = window.getComputedStyle(canvas);
     let w:number, h:number;

@@ -73,6 +73,7 @@ class TouchController extends Component<MyProps, MyStates>
     this.onPressOrDoubleClick                = this.onPressOrDoubleClick.bind(this);
     this.setEditTextUiSelectingTextIndex  = this.setEditTextUiSelectingTextIndex.bind(this);
     this.rotateImg  = this.rotateImg.bind(this);
+    this.rotateByPinchMove  = this.rotateByPinchMove.bind(this);
   }//END constructor
 
   async rotateImg(key: any, degrees:number) 
@@ -248,7 +249,24 @@ class TouchController extends Component<MyProps, MyStates>
   onPinchMove(e: any, key: any)
   {
     this.zoomByPinchMove(e, key, true);
+    this.rotateByPinchMove(e, key, true);
   }//END onPinchMove
+
+  rotateByPinchMove(e: any, key: any, isTouch:boolean)
+  {
+    let keynum= this.getKeyNumByID(key);
+    let imgObjs:any  =  this.parent.state.images;
+    let image = imgObjs[keynum];
+    let rotation = image.rotation;
+    let e_rotation = e.rotation;
+    if(!rotation || isNaN(rotation)) rotation = 0;
+    rotation +=e_rotation;
+    image.rotation = rotation;
+    imgObjs[keynum] = image;
+    this.parent.setState({ 
+      images: imgObjs
+     });
+  }//END rotateByPinchMove
 
   zoomByPinchMove(e: any, key: any, isTouch:boolean)
   {

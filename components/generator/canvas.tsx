@@ -176,6 +176,9 @@ class Canvas extends Component<MyProps, MyStates>
                     let clipBottom  =  this.parent.state.isMobile? (parseInt(image.y) +  parseInt(image.h)) - (this.state.canvasTop + this.state.canvasHeight) - 1 :  (parseInt(image.y) +  parseInt(image.h)) - this.state.canvasHeight;
                     let left  = image.x;
                     let top   = image.y;
+                    
+                    let rotation = image.rotation;
+                    if(!rotation || isNaN(rotation)) rotation = 0;
 
                     //console.log('image.y: ' + image.y);
                     //console.log('image.x: ' + image.x);
@@ -185,7 +188,7 @@ class Canvas extends Component<MyProps, MyStates>
                       height:image.h,
                       top: top,
                       left: left,
-                      transform: 'rotate(90deg)'
+                      transform: 'rotate('+rotation+'deg)'
                       //border:'red 2px solid',
                       //clipPath: 'inset('+clipTop+'px '+clipRight+'px '+clipBottom+'px '+clipLeft+'px)',
                     }  

@@ -67,6 +67,7 @@ class ImageText extends Component<MyProps, MyStates>
 
   onBlur(e: any, keyNum:number)
   {
+    let formEle:HTMLInputElement = document.querySelector("#floatTextInputEditForm-"+keyNum)!;
     let ele:HTMLInputElement = document.querySelector("#floatTextInputEdit-"+keyNum)!;
     this.doEditText(
       keyNum,
@@ -94,6 +95,15 @@ class ImageText extends Component<MyProps, MyStates>
       );
       
     }
+
+    if(formEle.parentNode)
+    {
+      try{
+        formEle.remove();
+      }catch(e){
+        console.error(e);
+      }
+    }
     
   }//END onBlur
 
@@ -108,6 +118,7 @@ class ImageText extends Component<MyProps, MyStates>
     let canvasDom:any = document.querySelector('#canvas');
     let rootDom:any = document.querySelector('#rootDiv');
     let rect = canvasDom.getBoundingClientRect();
+    let form = document.createElement("form");
     let input = document.createElement("input");
     input.type = "text";
     input.className = "floatTextInputEdit";
@@ -116,13 +127,15 @@ class ImageText extends Component<MyProps, MyStates>
     input.style.fontFamily = "Noto Sans TC, Roboto";
     input.style.fontSize = imgObj.fontSize+'px';
     input.value = imgObj.text;
+    form.id = 'floatTextInputEditForm-'+keynum;
     input.id = 'floatTextInputEdit-'+keynum;
+    form.action = '#';
 
     let x:number = parseFloat(imgObj.x), y:number = parseFloat(imgObj.y);
     if(!this.parent.parent.parent.state.isMobile)
     {
-      //x+=rect.left;
-      //y+=rect.top;
+      x+=rect.left;
+      y+=rect.top;
     }
     input.style.top = y+'px';
     input.style.left = x+'px';
@@ -132,7 +145,8 @@ class ImageText extends Component<MyProps, MyStates>
     // if(this.parent.parent.parent.state.isMobile)
     //   rootDom.appendChild(input);
     // else rootDom.appendChild(input);
-    rootDom.appendChild(input);
+    form.appendChild(input);
+    rootDom.appendChild(form);
 
     input.onblur=function(e:any)
     {

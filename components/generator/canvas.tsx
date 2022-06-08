@@ -14,6 +14,7 @@ type MyStates = {
   canvasHeight: number
   canvasLeft: number
   canvasTop: number
+  headerHeight: number
   touchController:any
   updateCanvasComputedStyleCount: number
 };
@@ -37,6 +38,7 @@ class Canvas extends Component<MyProps, MyStates>
       canvasHeight: 0,
       canvasLeft: 0,
       canvasTop: 0,
+      headerHeight:0,
       touchController: null,
       updateCanvasComputedStyleCount:0
     }//END state
@@ -56,6 +58,7 @@ class Canvas extends Component<MyProps, MyStates>
     this.loadTouchController();
   }//END componentDidMount
 
+
   doUpdateCanvasComputedStyle()
   {
     if(!window) return;
@@ -70,6 +73,10 @@ class Canvas extends Component<MyProps, MyStates>
     if (isNaN(w)) w = 0;
     if (isNaN(h)) h = 0;
 
+    let header:any = document.querySelector('#rootHeader');
+    if(!header) return;
+    let headerRect        = header.getBoundingClientRect();
+    
 
      w = h * 0.94;
     /*  console.log('w: '+w);
@@ -78,7 +85,8 @@ class Canvas extends Component<MyProps, MyStates>
       canvasWidth: w ,
       canvasHeight: h,
       canvasLeft: canvasRect.left,
-      canvasTop: canvasRect.top
+      canvasTop: canvasRect.top,
+      headerHeight: headerRect.height,
     }); 
     //console.log(canvasRect.left)
   }//END doUpdateCanvasComputedStyle
@@ -142,11 +150,21 @@ class Canvas extends Component<MyProps, MyStates>
     {
       canvasOutterStyles = {width: this.state.canvasWidth+'px'};
     }
+    
+
+    let clipLeft    =  this.parent.state.isMobile? this.state.canvasLeft + 1 : 0 ;
+    let clipTop     =   0 ;
+    let clipRight   =  this.parent.state.isMobile?  (this.state.canvasLeft + (this.state.canvasWidth * 0.9)) - 1 :  0;
+    let clipBottom  =  this.parent.state.isMobile? (this.state.canvasTop + this.state.canvasHeight) - 1 :   0;
+    
+    let canvasStyle:any = {
+      clipPath: 'inset('+clipTop+'px '+clipRight+'px '+clipBottom+'px '+clipLeft+'px)',
+    }
 
       return  <div className={this.parent.state.isMobile? mobileStyles.container : styles.container} id='canvasOutter'>
                 <TouchController parent={this} ref={this.touchControllerRef} />
                 <div className={this.parent.state.isMobile? mobileStyles.canvasOutter : styles.canvasOutter} style={canvasOutterStyles}>
-                <div id='canvas' className={this.parent.state.isMobile? mobileStyles.canvas : styles.canvas}>
+                <div id='canvas' className={this.parent.state.isMobile? mobileStyles.canvas : styles.canvas} style={canvasStyle}>
                   {
 
                     this.state.images.map((image, i) => {     
@@ -162,20 +180,27 @@ class Canvas extends Component<MyProps, MyStates>
                     //console.log('image.y: ' + image.y);
                     //console.log('image.x: ' + image.x);
                     //console.log((this.state.canvasLeft+ parseInt(image.x) +  parseInt(image.w)));
-                    let wrapperStyle = {
+                    let wrapperStyle:any = {
                       width: image.w,
                       height:image.h,
                       top: top,
                       left: left,
+                      transform: 'rotate(90deg)'
                       //border:'red 2px solid',
-                      clipPath: 'inset('+clipTop+'px '+clipRight+'px '+clipBottom+'px '+clipLeft+'px)',
+                      //clipPath: 'inset('+clipTop+'px '+clipRight+'px '+clipBottom+'px '+clipLeft+'px)',
                     }  
+
+                    let imageStyle:any = {
+                      //transform: 'rotate(90deg)'
+                    }
+
 
                     let tapperClass = this.parent.state.isMobile? mobileStyles.tappable : styles.tappable;
                     
                     let imgEle= <img key={'img-key-'+i} id={'img-key-'+i} src={image.upload.data_url} 
                                   className={this.parent.state.isMobile? mobileStyles.img : styles.img} 
                                   onDragStart={this.onImgdragstart}
+                                  style={imageStyle}
                                 />
                     let ele = imgEle;
                     if(this.state.touchController)

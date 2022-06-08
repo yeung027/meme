@@ -50,9 +50,65 @@ class ImageCompiler extends Component<MyProps, MyStates>
     this.getCanvasSize      = this.getCanvasSize.bind(this);
     this.doSignleOutput      = this.doSignleOutput.bind(this);
     this.prepareMergeItems      = this.prepareMergeItems.bind(this);
+    // this.rotateB64  = this.rotateB64.bind(this);
+    // this.doRotateB64  = this.doRotateB64.bind(this);
     
   }//END constructor
 
+  
+  // async rotateB64(key: any, degrees:number) 
+  // {
+  //   let keynum= this.getKeyNumByID(key);
+  //   let imgObj:any  =  this.parent.state.images.length > keynum ? this.parent.state.images[keynum] : null;
+  //   console.log('rotateB64 imgObj:' +imgObj);
+  //   let rotated:any = await this.doRotateB64(this.parent.parent.canvasRef.current.state.images[keynum].upload.data_url, degrees);
+  //   let images = this.parent.parent.canvasRef.current.state.images;
+  //   let image = this.parent.parent.canvasRef.current.state.images[keynum];
+  //   image.upload.data_url = rotated.data_url;
+  //   image.w = rotated.w;
+  //   image.h = rotated.h;
+  //   images[keynum] = image;
+  //   this.parent.parent.canvasRef.current.setState({ 
+  //     images: images
+  //   });
+  // }//END rotateB64
+
+
+  // doRotateB64(srcBase64:any, degrees:number) 
+  // {
+  //   return new Promise((resolve, reject) => 
+  //   {
+  //     const canvas = document.createElement('canvas');
+  //     let ctx = canvas.getContext("2d")!;
+  //     let image = new Image();
+  //     const scale:number = 1.01;
+  //     image.onload = function () {
+  //       canvas.width = degrees % 180 === 0 ? (image.width * scale) : (image.height * scale);
+  //       canvas.height = degrees % 180 === 0 ? (image.height * scale) : (image.width * scale);
+    
+  //       ctx.translate(canvas.width / 2, canvas.height / 2);
+  //       ctx.rotate(degrees * Math.PI / 180);
+  //       ctx.drawImage(image, image.width / -2, image.height / -2);
+        
+  //       let result = {
+  //         data_url:canvas.toDataURL(),
+  //         w:canvas.width,
+  //         h:canvas.height
+  //       }
+
+  //       resolve(result);
+  //     };
+
+  //     image.onerror = function(e)
+  //     {
+  //       reject(e);
+  //     }
+  
+  //   image.src = srcBase64;
+
+  //   });//END Promise
+    
+  // }//END doRotateB64
 
   getOutPut(callback: any)
   {

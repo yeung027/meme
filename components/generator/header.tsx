@@ -37,7 +37,7 @@ class Header extends Component<MyProps, MyStates>
   render() 
   {
       return    <>
-                    <div className={this.parent.state.isMobile? mobileStyles.container : styles.container}>
+                    <div className={this.parent.state.isMobile? mobileStyles.container : styles.container} id="rootHeader">
                         <div className={this.parent.state.isMobile? mobileStyles.title : styles.title}>
                             Will Smith Punching generator
                         </div>

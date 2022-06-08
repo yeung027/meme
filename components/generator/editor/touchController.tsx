@@ -72,8 +72,23 @@ class TouchController extends Component<MyProps, MyStates>
     this.onDoubleClick                = this.onDoubleClick.bind(this);
     this.onPressOrDoubleClick                = this.onPressOrDoubleClick.bind(this);
     this.setEditTextUiSelectingTextIndex  = this.setEditTextUiSelectingTextIndex.bind(this);
-    
+    this.rotateImg  = this.rotateImg.bind(this);
   }//END constructor
+
+  async rotateImg(key: any, degrees:number) 
+  {
+    let keynum= this.getKeyNumByID(key);
+    let images = this.parent.parent.canvasRef.current.state.images;
+    let image = this.parent.parent.canvasRef.current.state.images[keynum];
+
+    image.rotate = degrees;
+    images[keynum] = image;
+    this.parent.parent.canvasRef.current.setState({ 
+      images: images
+    });
+  }//END rotateImg
+
+
 
 
   onPress(e: any, key: any)
@@ -98,6 +113,7 @@ class TouchController extends Component<MyProps, MyStates>
       isMouseDownHold: false
     });
     this.setEditTextUiSelectingTextIndex(e, key);
+    this.rotateImg(key, 45);
   }//END onMouseUp
 
   onDoubleClick(e: any, key: any)

@@ -8,6 +8,7 @@ import Steps from '../components/generator/steps'
 import Canvas from '../components/generator/canvas'
 import BottomControlPanel from '../components/generator/bottomControlPanel'
 import ExportDialog from '../components/generator/exportDialog'
+import ComponentsGetter from '../components/helpers/componentsGetter'
 
 type MyProps = {
   ua: any,
@@ -27,6 +28,7 @@ interface WillSmithPunchingPage {
   bottomControlPanelRef: any
   cpuRef: any
   exportDialogRef: any
+  componentsGetterRef: any
 }
 
 class WillSmithPunchingPage extends Component<MyProps & WithUserAgentProps, MyStates> 
@@ -43,6 +45,7 @@ class WillSmithPunchingPage extends Component<MyProps & WithUserAgentProps, MySt
       debug: this.props.debug =='true'
     }//END state
 
+    this.componentsGetterRef = React.createRef();
     this.headerRef = React.createRef();
     this.stepsRef = React.createRef();
     this.canvasRef = React.createRef();
@@ -87,6 +90,7 @@ class WillSmithPunchingPage extends Component<MyProps & WithUserAgentProps, MySt
     else
     {
       ele = <div id='rootDiv'>
+              <ComponentsGetter parent={this} ref={this.componentsGetterRef} />
               <Header parent={this} ref={this.headerRef} /> 
               <div className={styles.main}>
                 <div className={styles.whiteContainer}>

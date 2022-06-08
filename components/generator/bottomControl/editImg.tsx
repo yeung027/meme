@@ -39,7 +39,8 @@ class EditImgUI extends Component<MyProps, MyStates>
       snackMsg: 'dsdsa',
       desktopZoomSliderValue: 50
     }//END state
-    
+
+    this.componentsGetter        = this.componentsGetter.bind(this);
     this.snackOnClick             = this.snackOnClick.bind(this);
     this.getSnackTransition       = this.getSnackTransition.bind(this);
     this.snackOnClose             = this.snackOnClose.bind(this);
@@ -49,6 +50,11 @@ class EditImgUI extends Component<MyProps, MyStates>
     this.desktopZoomSlider        = this.desktopZoomSlider.bind(this);
     this.desktopZoomSliderOnChange        = this.desktopZoomSliderOnChange.bind(this);
   }//END constructor
+
+  componentsGetter()
+  {
+    return this.parent.parent.componentsGetterRef.current;
+  }//END componentsGetter
 
   snackOnClose()
   {
@@ -82,16 +88,15 @@ class EditImgUI extends Component<MyProps, MyStates>
     //console.log(this.parent);
 
     this.parent.stageChange(this.parent.stage.EXPORT);
-    this.parent.parent.stepsRef.current.stepChange(this.parent.parent.stepsRef.current.step.EXPORT);
+    this.componentsGetter().steps().stepChange(this.componentsGetter().steps().step.EXPORT);
 
   }//END skipBtnOnclick
 
   nextBtnOnclick()
   {
     //console.log(this.parent);
-
     this.parent.stageChange(this.parent.stage.EXPORT);
-    this.parent.parent.stepsRef.current.stepChange(this.parent.parent.stepsRef.current.step.EXPORT);
+    this.componentsGetter().steps().stepChange(this.componentsGetter().steps().step.EXPORT);
 
   }//END nextBtnOnclick
 

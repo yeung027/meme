@@ -10,6 +10,7 @@ type MyStates = {
   defaultCanvasHeight:number
   defaultFontSize:number
   reloadFontFamilyCount:number
+  reloadFontFamilyTimeout:any
 };
 
 interface ImageText {
@@ -27,7 +28,8 @@ class ImageText extends Component<MyProps, MyStates>
       defaultText: 'Edit Text here',
       defaultCanvasHeight:40,
       defaultFontSize:30,
-      reloadFontFamilyCount: 0
+      reloadFontFamilyCount: 0,
+      reloadFontFamilyTimeout: null
     
     }//END state
 
@@ -111,6 +113,18 @@ class ImageText extends Component<MyProps, MyStates>
 
   onEdit(e: any, key: any)
   {
+    if(this.state.reloadFontFamilyTimeout)
+    {
+      let temp = this.state.reloadFontFamilyTimeout;
+      this.setState({ 
+        reloadFontFamilyTimeout: null
+      },function()
+      {
+        clearTimeout(temp);
+      }); 
+    }
+      
+
     var self = this;
     let canvasComponent = this.parent.parent.parent.canvasRef.current;
     let keynum= canvasComponent.touchControllerRef.current.getKeyNumByID(key);
@@ -369,7 +383,7 @@ class ImageText extends Component<MyProps, MyStates>
       let index = imgObjIndex;
       if(index<=0) index = this.parent.parent.parent.canvasRef.current.state.images.length-1;
       //let images  = this.parent.parent.parent.canvasRef.current.state.images;
-      setTimeout(
+      let timeout = setTimeout(
         function() {
           that.doEditText(
             index,
@@ -387,7 +401,14 @@ class ImageText extends Component<MyProps, MyStates>
         .bind(this),
         500
       );
+
+      that.setState({ 
+        reloadFontFamilyTimeout: timeout
+      }); 
     }
+
+    
+
   }//END createReloadFontFamilyTimeout
 
   render() 

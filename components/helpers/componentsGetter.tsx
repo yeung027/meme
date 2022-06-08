@@ -22,12 +22,18 @@ class ComponentsGetter extends Component<MyProps, MyStates>
     this.parent = props.parent;
     this.state = {}//END state
 
-    this.steps             = this.steps.bind(this);
+    this.steps                    = this.steps.bind(this);
+    this.imageEditor              = this.imageEditor.bind(this);
   }//END constructor
 
   steps()
   {
     return this.parent.stepsRef.current!;
+  }
+
+  imageEditor()
+  {
+    return this.parent.cpuRef.current.imageEditorRef.current;
   }
 
   render(){return null;}

@@ -115,12 +115,9 @@ class ImageText extends Component<MyProps, MyStates>
   {
     if(this.state.reloadFontFamilyTimeout)
     {
-      let temp = this.state.reloadFontFamilyTimeout;
+      clearTimeout(this.state.reloadFontFamilyTimeout);
       this.setState({ 
         reloadFontFamilyTimeout: null
-      },function()
-      {
-        clearTimeout(temp);
       }); 
     }
       
@@ -378,7 +375,7 @@ class ImageText extends Component<MyProps, MyStates>
   createReloadFontFamilyTimeout(imgObjIndex:number, text:string, fontSize:number, fontColor:string, height:number)
   {
     var that = this;
-    if(this.state.reloadFontFamilyCount<=5)
+    if(this.state.reloadFontFamilyCount<=1)
     {
       let index = imgObjIndex;
       if(index<=0) index = this.parent.parent.parent.canvasRef.current.state.images.length-1;
@@ -399,7 +396,7 @@ class ImageText extends Component<MyProps, MyStates>
           }); 
         }
         .bind(this),
-        500
+        1000
       );
 
       that.setState({ 

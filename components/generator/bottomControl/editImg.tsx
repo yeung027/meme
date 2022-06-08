@@ -77,8 +77,8 @@ class EditImgUI extends Component<MyProps, MyStates>
 
   textBtnOnclick()
   {
-    //console.log(this.parent.parent.cpuRef.current.imageEditorRef.current.imageTextRef.current);
-    this.parent.parent.cpuRef.current.imageEditorRef.current.imageTextRef.current.textBtnOnclick();
+    //console.log(this.componentsGetter().imageEditor().imageTextRef.current);
+    this.componentsGetter().imageEditor().imageTextRef.current.textBtnOnclick();
 
 
   }//END textBtnOnclick

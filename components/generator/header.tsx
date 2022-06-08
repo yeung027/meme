@@ -25,13 +25,18 @@ class Header extends Component<MyProps, MyStates>
     this.state = {
       
     }//END state
-    
+    this.componentsGetter        = this.componentsGetter.bind(this);
     this.exportBtnClick           = this.exportBtnClick.bind(this);
   }//END constructor
 
+  componentsGetter()
+  {
+    return this.parent.componentsGetterRef.current;
+  }//END componentsGetter
+
   exportBtnClick()
   {
-    this.parent.exportDialogRef.current.export();
+    this.componentsGetter().exportDialog().export();
   }//END exportBtnClick
 
   render() 

@@ -29,7 +29,13 @@ class ComponentsGetter extends Component<MyProps, MyStates>
     this.canvas                   = this.canvas.bind(this);
     this.exportDialog             = this.exportDialog.bind(this);
     this.bottomControlPanel       = this.bottomControlPanel.bind(this);
+    this.compiler                 = this.compiler.bind(this);
   }//END constructor
+
+  compiler()
+  {
+    return this.parent.cpuRef.current.compilerRef.current;
+  }
 
   editText()
   {

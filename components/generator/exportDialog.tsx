@@ -51,6 +51,7 @@ class ExportDialog extends Component<MyProps, MyStates>
       exportSrc: ''
     }//END state
     
+    this.componentsGetter        = this.componentsGetter.bind(this);
     this.getTransition      = this.getTransition.bind(this);
     this.dialogClose              = this.dialogClose.bind(this);
     this.updatePageComputedStyle            = this.updatePageComputedStyle.bind(this);
@@ -60,6 +61,11 @@ class ExportDialog extends Component<MyProps, MyStates>
     this.export           = this.export.bind(this);
     this.bottomDownloadBtnClick           = this.bottomDownloadBtnClick.bind(this);
   }//END constructor
+
+  componentsGetter()
+  {
+    return this.parent.componentsGetterRef.current;
+  }//END componentsGetter
 
   async bottomDownloadBtnClick()
   {
@@ -89,8 +95,8 @@ class ExportDialog extends Component<MyProps, MyStates>
     this.setState({ 
       open: true,
     });
-    //console.log(this.parent.cpuRef.current.compilerRef.current);
-    this.parent.cpuRef.current.compilerRef.current.getOutPut(this.exportCallback);
+    //console.log(this.componentsGetter().compiler());
+    this.componentsGetter().compiler().getOutPut(this.exportCallback);
   }//END export
 
   async exportCallback(b64: any, file: any)

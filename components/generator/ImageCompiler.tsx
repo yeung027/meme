@@ -40,6 +40,7 @@ class ImageCompiler extends Component<MyProps, MyStates>
     
     this.imageTextRef = React.createRef();
 
+    this.componentsGetter        = this.componentsGetter.bind(this);
     this.resizeIMG          = this.resizeIMG.bind(this);
     this.getRawImgSize      = this.getRawImgSize.bind(this);
     this.getb64ImgSize      = this.getb64ImgSize.bind(this);
@@ -55,20 +56,24 @@ class ImageCompiler extends Component<MyProps, MyStates>
     
   }//END constructor
 
-  
+  componentsGetter()
+  {
+    return this.parent.parent.componentsGetterRef.current;
+  }//END componentsGetter
+
   // async rotateB64(key: any, degrees:number) 
   // {
   //   let keynum= this.getKeyNumByID(key);
   //   let imgObj:any  =  this.parent.state.images.length > keynum ? this.parent.state.images[keynum] : null;
   //   console.log('rotateB64 imgObj:' +imgObj);
-  //   let rotated:any = await this.doRotateB64(this.parent.parent.canvasRef.current.state.images[keynum].upload.data_url, degrees);
-  //   let images = this.parent.parent.canvasRef.current.state.images;
-  //   let image = this.parent.parent.canvasRef.current.state.images[keynum];
+  //   let rotated:any = await this.doRotateB64(this.componentsGetter().canvas().state.images[keynum].upload.data_url, degrees);
+  //   let images = this.componentsGetter().canvas().state.images;
+  //   let image = this.componentsGetter().canvas().state.images[keynum];
   //   image.upload.data_url = rotated.data_url;
   //   image.w = rotated.w;
   //   image.h = rotated.h;
   //   images[keynum] = image;
-  //   this.parent.parent.canvasRef.current.setState({ 
+  //   this.componentsGetter().canvas().setState({ 
   //     images: images
   //   });
   // }//END rotateB64
@@ -113,11 +118,11 @@ class ImageCompiler extends Component<MyProps, MyStates>
   getOutPut(callback: any)
   {
 
-    if(!this.parent.parent.canvasRef.current.state.images) throw ('uploaded images not found!');
+    if(!this.componentsGetter().canvas().state.images) throw ('uploaded images not found!');
     var self  = this;
     let index = 0;
-    //if(this.parent.parent.canvasRef.current.state.images.length<=0) throw ('no photo uploaded or images data wrong');
-    if(this.parent.parent.canvasRef.current.state.images.length>1) index = 1;
+    //if(this.componentsGetter().canvas().state.images.length<=0) throw ('no photo uploaded or images data wrong');
+    if(this.componentsGetter().canvas().state.images.length>1) index = 1;
     this.setState({ 
       output_image_index:index,
       output_requester_callback: callback
@@ -177,7 +182,7 @@ class ImageCompiler extends Component<MyProps, MyStates>
   async prepareMergeItems(index:number)
   {
     //console.log(index)
-    let image = this.parent.parent.canvasRef.current.state.images[index];
+    let image = this.componentsGetter().canvas().state.images[index];
 
     let b64:any = image.upload;
     let b64ImageSize:any  = await this.getb64ImgSize(b64.data_url);
@@ -246,7 +251,7 @@ class ImageCompiler extends Component<MyProps, MyStates>
   {
     let i =0;
     let objs:any[] = [];
-    for (const image of this.parent.parent.canvasRef.current.state.images) {
+    for (const image of this.componentsGetter().canvas().state.images) {
       let obj = await this.prepareMergeItems(i);
       console.log(i);
       objs[i] = obj;

@@ -45,12 +45,18 @@ class Canvas extends Component<MyProps, MyStates>
 
     this.touchControllerRef = React.createRef();
     
+    this.componentsGetter        = this.componentsGetter.bind(this);
     this.updateCanvasComputedStyle                  = this.updateCanvasComputedStyle.bind(this);
     this.doUpdateCanvasComputedStyle                = this.doUpdateCanvasComputedStyle.bind(this);
     this.loadTouchController                        = this.loadTouchController.bind(this);
     this.onImgdragstart                             = this.onImgdragstart.bind(this);
     
   }//END constructor
+
+  componentsGetter()
+  {
+    return this.parent.componentsGetterRef.current;
+  }//END componentsGetter
 
   componentDidMount() 
   {
@@ -119,7 +125,7 @@ class Canvas extends Component<MyProps, MyStates>
     var self = this;
     try
     {
-      let v = this.touchControllerRef.current;
+      let v = this.componentsGetter().touchController();
 
       this.setState({ 
         touchController: v
@@ -127,7 +133,7 @@ class Canvas extends Component<MyProps, MyStates>
     }
     catch(error)
     {
-      console.error(error);
+      //console.error(error);
       setTimeout(
         function() {
           self.loadTouchController();

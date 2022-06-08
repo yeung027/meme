@@ -69,11 +69,13 @@ class ImageText extends Component<MyProps, MyStates>
   {
     let formEle:HTMLInputElement = document.querySelector("#floatTextInputEditForm-"+keyNum)!;
     let ele:HTMLInputElement = document.querySelector("#floatTextInputEdit-"+keyNum)!;
+    let canvasComponent = this.parent.parent.parent.canvasRef.current;
+    console.log('canvasComponent.state.images[keyNum].color: '+canvasComponent.state.images[keyNum].color);
     this.doEditText(
       keyNum,
       ele.value, 
       this.state.defaultFontSize,
-      'rgba(0,0,0,1)',
+      canvasComponent.state.images[keyNum].color,
       this.state.defaultCanvasHeight,
       -1,
       -1
@@ -130,6 +132,10 @@ class ImageText extends Component<MyProps, MyStates>
     form.id = 'floatTextInputEditForm-'+keynum;
     input.id = 'floatTextInputEdit-'+keynum;
     form.action = '#';
+    form.onsubmit = function(e:any)
+    {
+      e.preventDefault();
+    }
 
     let x:number = parseFloat(imgObj.x), y:number = parseFloat(imgObj.y);
     if(!this.parent.parent.parent.state.isMobile)
@@ -309,7 +315,8 @@ class ImageText extends Component<MyProps, MyStates>
         text:text,
         height: height,
         width: width,
-        fontSize:fontSize
+        fontSize:fontSize,
+        color:fontColor
       };
 
       let images  = this.parent.parent.parent.canvasRef.current.state.images;
@@ -339,6 +346,8 @@ class ImageText extends Component<MyProps, MyStates>
       obj.height = height;
       obj.width = width;
       obj.fontSize = fontSize;
+      obj.color = fontColor;
+
       imagesCopy[imgObjIndex] = obj;
       this.parent.parent.parent.canvasRef.current.setState({ 
         images: imagesCopy

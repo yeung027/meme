@@ -167,7 +167,8 @@ class TouchController extends Component<MyProps, MyStates>
 
   onMouseOut(e: any, key: any)
   {
-
+    //e.rotation = 45;
+    //this.rotateByPinchMove(e, key, true);
   }//END onMouseOut
 
   onMouseOver(e: any, key: any)
@@ -259,6 +260,7 @@ class TouchController extends Component<MyProps, MyStates>
     let image = imgObjs[keynum];
     let rotation = image.rotation;
     let e_rotation = e.rotation;
+    this.debugLog('e.rotation: '+e.rotation);
     if(!rotation || isNaN(rotation)) rotation = 0;
     rotation +=e_rotation;
     image.rotation = rotation;

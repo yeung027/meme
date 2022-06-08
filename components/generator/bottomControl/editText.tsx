@@ -2,6 +2,7 @@ import React,{Component} from 'react';
 import styles from '../../../styles/generator/bottomControl/editText/desktop.module.css'
 import mobileStyles from '../../../styles/generator/bottomControl/editText/mobile.module.css'
 import utilStyles from '../../../styles/generator/bottomControl/util.module.css'
+/* @ts-ignore */
 import { SketchPicker } from 'react-color'
 
 type MyProps = {

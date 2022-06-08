@@ -152,10 +152,10 @@ class Canvas extends Component<MyProps, MyStates>
     }
     
 
-    let clipLeft    =  this.parent.state.isMobile? this.state.canvasLeft + 1 : 0 ;
+    let clipLeft    =  0 ;
     let clipTop     =   0 ;
-    let clipRight   =  this.parent.state.isMobile?  (this.state.canvasLeft + (this.state.canvasWidth * 0.9)) - 1 :  0;
-    let clipBottom  =  this.parent.state.isMobile? (this.state.canvasTop + this.state.canvasHeight) - 1 :   0;
+    let clipRight   =   0;
+    let clipBottom  =  0;
     
     let canvasStyle:any = {
       clipPath: 'inset('+clipTop+'px '+clipRight+'px '+clipBottom+'px '+clipLeft+'px)',

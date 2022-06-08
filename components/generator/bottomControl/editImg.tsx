@@ -77,8 +77,8 @@ class EditImgUI extends Component<MyProps, MyStates>
 
   textBtnOnclick()
   {
-    //console.log(this.componentsGetter().imageEditor().imageTextRef.current);
-    this.componentsGetter().imageEditor().imageTextRef.current.textBtnOnclick();
+    //console.log(this.componentsGetter().imageText());
+    this.componentsGetter().imageText().textBtnOnclick();
 
 
   }//END textBtnOnclick
@@ -106,14 +106,14 @@ class EditImgUI extends Component<MyProps, MyStates>
       desktopZoomSliderValue: v
     });
 
-    if(!this.parent.parent.canvasRef.current) return;
-    let images  = this.parent.parent.canvasRef.current.state.images;
+    if(!this.componentsGetter().canvas()) return;
+    let images  = this.componentsGetter().canvas().state.images;
     if(!images || !Array.isArray(images) || images.length<=0 ) return;
 
     //console.log(document.querySelector('#img-tappable-'+0));
     e.zoom = v;
     e.imgObj = images[0];
-    this.parent.parent.canvasRef.current.touchControllerRef.current.zoomByPinchMove(e, 'img-tappable-'+0, false);
+    this.componentsGetter().touchController().zoomByPinchMove(e, 'img-tappable-'+0, false);
 
 
   }//END desktopZoomSliderOnChange

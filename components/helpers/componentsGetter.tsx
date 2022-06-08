@@ -24,7 +24,25 @@ class ComponentsGetter extends Component<MyProps, MyStates>
 
     this.steps                    = this.steps.bind(this);
     this.imageEditor              = this.imageEditor.bind(this);
+    this.touchController          = this.touchController.bind(this);
+    this.imageText                = this.imageText.bind(this);
+    this.canvas                   = this.canvas.bind(this);
   }//END constructor
+
+  canvas()
+  {
+    return this.parent.canvasRef.current;
+  }
+
+  imageText()
+  {
+    return this.imageEditor().imageTextRef.current;
+  }
+
+  touchController()
+  {
+    return this.parent.canvasRef.current.touchControllerRef.current;
+  }
 
   steps()
   {

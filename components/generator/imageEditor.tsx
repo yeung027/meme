@@ -30,7 +30,7 @@ class ImageEditor extends Component<MyProps, MyStates>
     }//END state
     this.imageTextRef = React.createRef();
 
-    this.getCanvas                  = this.getCanvas.bind(this);
+    this.componentsGetter        = this.componentsGetter.bind(this);
     this.addUploadedImage           = this.addUploadedImage.bind(this);
     this.getRawImgSize              = this.getRawImgSize.bind(this);
     this.getb64ImgSize              = this.getb64ImgSize.bind(this);
@@ -40,13 +40,15 @@ class ImageEditor extends Component<MyProps, MyStates>
     
   }//END constructor
 
+  componentsGetter()
+  {
+    return this.parent.parent.componentsGetterRef.current;
+  }//END componentsGetter
+
   getCanvas()
   {
-    if(!this.parent) throw ('cannot get canvas');
-    if(!this.parent.parent) throw ('cannot get main page');
-    if(!this.parent.parent.canvasRef) throw ('cannot get canvasRef');
-    if(!this.parent.parent.canvasRef.current) throw ('cannot get canvasRef curent');
-    return this.parent.parent.canvasRef.current;
+    if(!this.componentsGetter().canvas()) throw ('cannot get canvasRef curent');
+    return this.componentsGetter().canvas();
   }//END getCanvas
 
   getb64ImgSize(b64:any)
@@ -61,8 +63,8 @@ class ImageEditor extends Component<MyProps, MyStates>
 
   async addUploadedImage(uploaded:any, callback:any)
   {
-    let canvas  = this.getCanvas();
-    if(!canvas) throw ('cannot get canvasRef curent #2');
+    let canvas  = this.componentsGetter().canvas();
+    if(!this.componentsGetter().canvas()) throw ('cannot get canvasRef curent #2');
     //console.log(canvas.state.images.length);
     let images  = canvas.state.images;
     if(!canvas.state.images || !Array.isArray(canvas.state.images) || canvas.state.images.length <=0)

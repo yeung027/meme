@@ -30,6 +30,7 @@ class ComponentsGetter extends Component<MyProps, MyStates>
     this.exportDialog             = this.exportDialog.bind(this);
     this.bottomControlPanel       = this.bottomControlPanel.bind(this);
     this.compiler                 = this.compiler.bind(this);
+    this.editText                 = this.editText.bind(this);
   }//END constructor
 
   compiler()

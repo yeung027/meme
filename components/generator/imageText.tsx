@@ -1,4 +1,3 @@
-import { withThemeCreator } from '@material-ui/styles';
 import React,{Component} from 'react';
 
 type MyProps = {
@@ -33,6 +32,7 @@ class ImageText extends Component<MyProps, MyStates>
     
     }//END state
 
+    this.componentsGetter        = this.componentsGetter.bind(this);
     this.textBtnOnclick       = this.textBtnOnclick.bind(this);
     this.onEdit       = this.onEdit.bind(this);
     this.onBlur       = this.onBlur.bind(this);
@@ -44,12 +44,15 @@ class ImageText extends Component<MyProps, MyStates>
     
   }//END constructor
 
+  componentsGetter()
+  {
+    return this.parent.parent.parent.componentsGetterRef.current;
+  }//END componentsGetter
+
   setEditTextUiSelectingTextIndex(index:number)
   {
     let self = this;
-    let bottomControlPanel = this.parent.parent.parent.bottomControlPanelRef.current;
-    let editText = bottomControlPanel.editTextRef? bottomControlPanel.editTextRef.current: null;
-    if(!editText)
+    if(!this.componentsGetter().editText())
     {
       setTimeout(
         function() {
@@ -61,7 +64,7 @@ class ImageText extends Component<MyProps, MyStates>
       return;
     }
 
-    editText.setState({ 
+    this.componentsGetter().editText().setState({ 
       selectingTextIndex: index
     }); 
     //console.log(editText);
@@ -71,7 +74,7 @@ class ImageText extends Component<MyProps, MyStates>
   {
     let formEle:HTMLInputElement = document.querySelector("#floatTextInputEditForm-"+keyNum)!;
     let ele:HTMLInputElement = document.querySelector("#floatTextInputEdit-"+keyNum)!;
-    let canvasComponent = this.parent.parent.parent.canvasRef.current;
+    let canvasComponent = this.componentsGetter().canvas();
     console.log('canvasComponent.state.images[keyNum].color: '+canvasComponent.state.images[keyNum].color);
     this.doEditText(
       keyNum,
@@ -123,8 +126,8 @@ class ImageText extends Component<MyProps, MyStates>
       
 
     var self = this;
-    let canvasComponent = this.parent.parent.parent.canvasRef.current;
-    let keynum= canvasComponent.touchControllerRef.current.getKeyNumByID(key);
+    let canvasComponent = this.componentsGetter().canvas();
+    let keynum= this.componentsGetter().touchController().getKeyNumByID(key);
     
     let imgObj:any  =  canvasComponent.state.images.length > keynum ? canvasComponent.state.images[keynum] : null;
 
@@ -207,7 +210,7 @@ class ImageText extends Component<MyProps, MyStates>
 
   updateColor(index:number, color:string)
   {
-    let canvasComponent = this.parent.parent.parent.canvasRef.current;
+    let canvasComponent = this.componentsGetter().canvas();
     let imgObj:any  =  canvasComponent.state.images.length > index ? canvasComponent.state.images[index] : null;
 
 
@@ -227,11 +230,10 @@ class ImageText extends Component<MyProps, MyStates>
 
   setBottomControlToEditText()
   {
-    //console.log(this.parent.parent.parent.bottomControlPanelRef.current);
-    let bottomControl = this.parent.parent.parent.bottomControlPanelRef.current;
-    let step = this.parent.parent.parent.stepsRef.current;
+    //console.log(this.componentsGetter().bottomControlPanel());
+    let bottomControl = this.componentsGetter().bottomControlPanel();
     bottomControl.stageChange(bottomControl.stage.EDITTEXT);
-    step.stepChange(step.step.EDITIMG);
+    this.componentsGetter().steps().stepChange(this.componentsGetter().steps().step.EDITIMG);
   }//END setBottomControlToEditText
 
   calWidth(ctx:any, str:string)
@@ -309,7 +311,7 @@ class ImageText extends Component<MyProps, MyStates>
     }
 
     //let b64ImageSize:any  = await this.parent.getb64ImgSize(uploaded.data_url);
-    let canvas_image_length = !this.parent.parent.parent.canvasRef.current || !this.parent.parent.parent.canvasRef.current.state.images ? 0 : this.parent.parent.parent.canvasRef.current.state.images.length;
+    let canvas_image_length = !this.componentsGetter().canvas() || !this.componentsGetter().canvas().state.images ? 0 : this.componentsGetter().canvas().state.images.length;
 
     if(imgObjIndex<=-1)
     {
@@ -330,10 +332,10 @@ class ImageText extends Component<MyProps, MyStates>
         color:fontColor
       };
 
-      let images  = this.parent.parent.parent.canvasRef.current.state.images;
+      let images  = this.componentsGetter().canvas().state.images;
       images  = images.concat(obj);
       
-      this.parent.parent.parent.canvasRef.current.setState({ 
+      this.componentsGetter().canvas().setState({ 
         images: images
       }, function(){
         that.createReloadFontFamilyTimeout(imgObjIndex, text, fontSize, fontColor, height);
@@ -344,7 +346,7 @@ class ImageText extends Component<MyProps, MyStates>
     else
     {
       
-      let images  = this.parent.parent.parent.canvasRef.current.state.images;
+      let images  = this.componentsGetter().canvas().state.images;
       let imagesCopy  = images;
       if(!images[imgObjIndex]) throw('imgObj not found #######122322121');
       let obj = images[imgObjIndex];
@@ -360,7 +362,7 @@ class ImageText extends Component<MyProps, MyStates>
       obj.color = fontColor;
 
       imagesCopy[imgObjIndex] = obj;
-      this.parent.parent.parent.canvasRef.current.setState({ 
+      this.componentsGetter().canvas().setState({ 
         images: imagesCopy
       }, function(){
         that.createReloadFontFamilyTimeout(imgObjIndex, text, fontSize, fontColor, height);
@@ -378,8 +380,8 @@ class ImageText extends Component<MyProps, MyStates>
     if(this.state.reloadFontFamilyCount<=1)
     {
       let index = imgObjIndex;
-      if(index<=0) index = this.parent.parent.parent.canvasRef.current.state.images.length-1;
-      //let images  = this.parent.parent.parent.canvasRef.current.state.images;
+      if(index<=0) index = this.componentsGetter().canvas().state.images.length-1;
+      //let images  = this.componentsGetter().canvas().state.images;
       let timeout = setTimeout(
         function() {
           that.doEditText(

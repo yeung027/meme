@@ -1,3 +1,4 @@
+import { withThemeCreator } from '@material-ui/styles';
 import React,{Component} from 'react';
 
 type MyProps = {
@@ -23,7 +24,7 @@ class ImageText extends Component<MyProps, MyStates>
     this.parent = props.parent;
 
     this.state = {
-      defaultText: '中文',
+      defaultText: 'Edit Text here',
       defaultCanvasHeight:40,
       defaultFontSize:30,
       reloadFontFamilyCount: 0
@@ -34,13 +35,35 @@ class ImageText extends Component<MyProps, MyStates>
     this.onEdit       = this.onEdit.bind(this);
     this.onBlur       = this.onBlur.bind(this);
     this.doEditText       = this.doEditText.bind(this);
+    this.calWidth = this.calWidth.bind(this);
     this.createReloadFontFamilyTimeout        = this.createReloadFontFamilyTimeout.bind(this);
     this.setBottomControlToEditText           = this.setBottomControlToEditText.bind(this);
-    this.setEditTextUI_selectingIndex           = this.setEditTextUI_selectingIndex.bind(this);
+    this.setEditTextUiSelectingTextIndex      = this.setEditTextUiSelectingTextIndex.bind(this);
     
   }//END constructor
 
+  setEditTextUiSelectingTextIndex(index:number)
+  {
+    let self = this;
+    let bottomControlPanel = this.parent.parent.parent.bottomControlPanelRef.current;
+    let editText = bottomControlPanel.editTextRef? bottomControlPanel.editTextRef.current: null;
+    if(!editText)
+    {
+      setTimeout(
+        function() {
+          self.setEditTextUiSelectingTextIndex(index);
+        }
+        .bind(this),
+        200
+      );
+      return;
+    }
 
+    editText.setState({ 
+      selectingTextIndex: index
+    }); 
+    //console.log(editText);
+  }
 
   onBlur(e: any, keyNum:number)
   {
@@ -54,7 +77,24 @@ class ImageText extends Component<MyProps, MyStates>
       -1,
       -1
     );
-    ele.remove();
+    if(ele.parentNode)
+    {
+      let inputDom:any = document.querySelector('#floatTextInputEdit-'+keyNum);
+      inputDom.removeEventListener("onblur", this.onBlur);
+      setTimeout(
+        function() {
+          try{
+            ele.remove();
+          }catch(e){
+            console.error(e);
+          }
+        }
+        .bind(this),
+        200
+      );
+      
+    }
+    
   }//END onBlur
 
   onEdit(e: any, key: any)
@@ -163,6 +203,31 @@ class ImageText extends Component<MyProps, MyStates>
     step.stepChange(step.step.EDITIMG);
   }//END setBottomControlToEditText
 
+  calWidth(ctx:any, str:string)
+  {
+    const regex = /^[~`!@#$%^&*()_+=[\]\{}|;':",.\/<>?a-zA-Z0-9-]+$/;
+    var normal = 0;
+    var spec = 0;
+    let noramlStrs = '';
+    let sepStrs = '';
+    var width = 0;
+    for (var i = 0; i < str.length; i++)
+    {
+     if(str[i].match(regex))normal++
+     else spec++;
+    }
+
+    console.log('normal: '+normal+', spec: '+spec);
+
+    for (var i = 0; i < normal; i++) noramlStrs += 'a';
+    for (var i = 0; i < spec; i++) sepStrs += '中';
+    width += ctx.measureText(noramlStrs).width * 2.7;
+    width += ctx.measureText(sepStrs).width * 3.3;
+    width +=40;
+    return width;
+  }
+  
+
   async doEditText( imgObjIndex:number, text:string, fontSize:number, fontColor:string, height:number, x:number, y:number)
   {
     var that = this;
@@ -170,7 +235,8 @@ class ImageText extends Component<MyProps, MyStates>
     let canvas = document.createElement("canvas");
     canvas.style.fontWeight = '400';
     let ctx = canvas.getContext('2d', {alpha:true})!;
-    let width = (ctx.measureText(text).width * 1.5) * text.length +(start_x * 2);
+    let width = this.calWidth(ctx, text);
+    //(ctx.measureText(text).width * 1.5) * text.length +(start_x * 2);
     canvas.width = width;
     canvas.height = height;
     ctx.font = fontSize+"px Noto Sans TC, Roboto";
@@ -241,8 +307,7 @@ class ImageText extends Component<MyProps, MyStates>
         that.createReloadFontFamilyTimeout(imgObjIndex, text, fontSize, fontColor, height);
       }); 
 
-      this.setEditTextUI_selectingIndex(images.length-1);
-
+      this.setEditTextUiSelectingTextIndex(images.length-1);
     }//END if -1
     else
     {
@@ -266,38 +331,12 @@ class ImageText extends Component<MyProps, MyStates>
       }, function(){
         that.createReloadFontFamilyTimeout(imgObjIndex, text, fontSize, fontColor, height);
       }); 
-
+      this.setEditTextUiSelectingTextIndex(imgObjIndex);
     }
 
   }//END doEditText
 
-
-  setEditTextUI_selectingIndex(index:number)
-  {
-    var self = this;
-    let bottomControlPanel = this.parent.parent.parent.bottomControlPanelRef.current;
-    
-    if(!bottomControlPanel.editTextRef || !bottomControlPanel.editTextRef.current)
-    {
-      setTimeout(
-        function() 
-        {
-          self.setEditTextUI_selectingIndex(index);
-        }
-        .bind(this),
-        500
-      );
-      return;
-    }
-
-    bottomControlPanel.editTextRef.current.setState({ 
-      selectingTextIndex: index,
-      colorBtnActive: true
-    }); 
-
-    console.log(this.parent.parent.parent.bottomControlPanelRef.current);
-    //this.editTextRef
-  }//END setEditTextUI_selectingIndex
+  
 
   createReloadFontFamilyTimeout(imgObjIndex:number, text:string, fontSize:number, fontColor:string, height:number)
   {

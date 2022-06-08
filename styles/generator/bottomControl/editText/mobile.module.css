@@ -140,23 +140,37 @@
     color: #fff;
 }
 
-.sketchPickerWrapper
+
+.colorPickerWrapper
 {
     position: absolute;
-    opacity: 1;
-    width:100vw;
-    height:100vh;
-    display: flex;
-    justify-content: center;
-    align-content: center;
-    display: none;
-}
-.sketchPicker
-{
+    top:0;
+    left:0;
+    z-index: 50;
     
+    width:100vw;
+    height:95vh;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    background-color:rgba(0, 0, 0, 0.5);
 }
 
-.sketchPickerWrapperShow
+.colorPickerOpen
 {
+    display: flex;
+}
+
+.colorPickerInner
+{
+    z-index: 60;
+}
+
+.colorPickerBackDrop
+{
+    width:100vw;
+    height:100%;
+    position: absolute;
     display: block;
+    z-index: 59;
 }

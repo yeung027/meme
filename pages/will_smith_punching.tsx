@@ -106,13 +106,13 @@ class WillSmithPunchingPage extends Component<MyProps & WithUserAgentProps, MySt
 
 
 
-    return  <>
+    return  <div id="rootDiv">
               <ExportDialog parent={this} ref={this.exportDialogRef} />
               <CPU parent={this} ref={this.cpuRef} />
               <div className={this.state.isMobile? mobileStyles.container : styles.container} id ='page-root'>
                  {ele}
               </div>
-            </>
+            </div>
   }
 
   }//END class WillSmithPunchingPage

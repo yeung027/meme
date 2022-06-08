@@ -168,7 +168,7 @@ class Canvas extends Component<MyProps, MyStates>
                       top: top,
                       left: left,
                       //border:'red 2px solid',
-                      //clipPath: 'inset('+clipTop+'px '+clipRight+'px '+clipBottom+'px '+clipLeft+'px)',
+                      clipPath: 'inset('+clipTop+'px '+clipRight+'px '+clipBottom+'px '+clipLeft+'px)',
                     }  
 
                     let tapperClass = this.parent.state.isMobile? mobileStyles.tappable : styles.tappable;

@@ -71,15 +71,16 @@ class TouchController extends Component<MyProps, MyStates>
     this.onPress                = this.onPress.bind(this);
     this.onDoubleClick                = this.onDoubleClick.bind(this);
     this.onPressOrDoubleClick                = this.onPressOrDoubleClick.bind(this);
+    this.setEditTextUiSelectingTextIndex  = this.setEditTextUiSelectingTextIndex.bind(this);
     
   }//END constructor
 
 
   onPress(e: any, key: any)
   {
-    let ele:any = document.querySelector('#'+key+' img');
+    //let ele:any = document.querySelector('#'+key+' img');
     //console.log(key);
-    ele.style.border = 'red 3px solid';
+    //ele.style.border = 'red 3px solid';
     this.onPressOrDoubleClick(e, key);
   }
 
@@ -96,6 +97,7 @@ class TouchController extends Component<MyProps, MyStates>
     this.setState({ 
       isMouseDownHold: false
     });
+    this.setEditTextUiSelectingTextIndex(e, key);
   }//END onMouseUp
 
   onDoubleClick(e: any, key: any)
@@ -190,10 +192,29 @@ class TouchController extends Component<MyProps, MyStates>
      });
   }//END onPinchEnd
 
-  handleTap(e:any)
+  handleTap(e:any, key: any)
   {
     //this.debugLog(e.target.toString());
+    this.setEditTextUiSelectingTextIndex(e, key);
   }//END handleTap
+
+  setEditTextUiSelectingTextIndex(e: any, key: any)
+  {
+    
+    let keynum= this.getKeyNumByID(key);
+    let imgObj = this.parent.state.images[keynum];
+    if(!imgObj || !imgObj.isText) return;
+
+
+    let bottomControlPanel = this.parent.parent.bottomControlPanelRef.current;
+    let editText = bottomControlPanel.editTextRef? bottomControlPanel.editTextRef.current: null;
+    if(editText)
+      editText.setState({ 
+        selectingTextIndex: keynum
+      }); 
+    
+    //console.log(this.parent.parent.bottomControlPanelRef.current)
+  }//END setEditTextUiSelectingTextIndex
 
 
   getCanvasSize()
@@ -284,7 +305,13 @@ class TouchController extends Component<MyProps, MyStates>
     else
     {
       fixed_xy_by_event_center = this.getImageCoorByPinchEventCenter(e, desktopStartObj.imgObj);
-      let xy:any = this.fixImgWhileOutOfScreen(fixed_xy_by_event_center[0], fixed_xy_by_event_center[1]);
+      let xy:any = this.fixImgWhileOutOfScreen
+      (
+        isTouch ? finally_size[0] : new_w,
+        isTouch ? finally_size[1] : new_h,
+        fixed_xy_by_event_center[0], 
+        fixed_xy_by_event_center[1]
+      );
       fixed_xy_by_event_center = [xy.x, xy.y];
     }
 
@@ -343,7 +370,7 @@ class TouchController extends Component<MyProps, MyStates>
     return [result_x, result_y];
   }//END zoomByPinchMove
 
-  fixImgWhileOutOfScreen(x:number, y:number)
+  fixImgWhileOutOfScreen(w:number, h:number, x:number, y:number)
   {
     let canvasSize: any[] = this.getCanvasSize();
     let new_x = x, new_y = y;
@@ -352,7 +379,8 @@ class TouchController extends Component<MyProps, MyStates>
     if(new_x>canvasSize[0]) new_x = canvasSize[0];
     if(new_y>canvasSize[1]) new_y = canvasSize[1];
 
-    //console.log("fix_x: "+ x+", fix_y: "+ y);
+    // let canvasDom:any = document.querySelector('#canvas');
+    // let convasRect = canvasDom.getBoundingClientRect();
 
     return {
       x:new_x,
@@ -517,6 +545,7 @@ class TouchController extends Component<MyProps, MyStates>
     else
     {
       noTouchStartObj = true;
+      if(this.parent.parent.state.isMobile) return;
       /* touchStartTouchX = e.touches[0].clientX - (imgObj[keynum].w );
       touchStartTouchY = e.touches[0].clientY - (imgObj[keynum].h ); */
     }
@@ -631,7 +660,7 @@ class TouchController extends Component<MyProps, MyStates>
         ref={this.tappableRef}
         onTap={function(e:any)
         {
-          self.handleTap(e);
+          self.handleTap(e, key);
         }} 
 
         onPinchStart={function(e:any)

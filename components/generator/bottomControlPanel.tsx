@@ -138,8 +138,15 @@ class BottomControlPanel extends Component<MyProps, MyStates>
     else if(this.state.currentUI === this.stage.EXPORT)
       ui  = <ExportUI parent={this} />
 
-    return  <div className={containerClass} onAnimationEnd={this.animationEnd}>
-              <div className={innerClass}>
+    return  <div 
+              className={containerClass} 
+              onAnimationEnd={this.animationEnd}
+              id="BottomControlPanel"
+            >
+              <div 
+                className={innerClass}
+                id="BottomControlPanelInner"
+              >
                   {ui}
               </div>
             </div>

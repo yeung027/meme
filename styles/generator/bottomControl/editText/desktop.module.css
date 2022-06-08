@@ -151,20 +151,40 @@
     color: #fff;
 }
 
-.sketchPickerWrapper
+.colorPickerWrapper
 {
     position: absolute;
-    opacity: 1;
-    left: 200px;
-    top: 260px;
+    top:280px;
+    left:170px;
     display: none;
-}
-.sketchPicker
-{
-    
+    z-index: 50;
 }
 
-.sketchPickerWrapperShow
+.colorPickerOpen
 {
     display: block;
+}
+
+.colorPickerBackDrop
+{
+    display: none;
+}
+
+.colorPickerInner
+{
+    z-index: 60;
+}
+
+.colorPickerBackDrop
+{
+    display: none;
+}
+
+.colorPickerBackDrop2
+{
+    width:100vw;
+    height:100vh;
+    position: absolute;
+    display: block;
+    z-index: 49;
 }

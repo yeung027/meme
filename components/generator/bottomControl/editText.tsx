@@ -4,16 +4,13 @@ import mobileStyles from '../../../styles/generator/bottomControl/editText/mobil
 import utilStyles from '../../../styles/generator/bottomControl/util.module.css'
 import { SketchPicker } from 'react-color'
 
-import IconButton from '@material-ui/core/IconButton';
-
 type MyProps = {
     parent:any
 };
 
 type MyStates = {
-  pickerColor:string
-  colorBtnActive:boolean
-  pickerOpen:boolean
+  colorPickerOpen:boolean
+  colorPickerColor:string
   selectingTextIndex:number
 };
 
@@ -30,9 +27,8 @@ class EditTextUI extends Component<MyProps, MyStates>
     this.parent = props.parent;
 
     this.state = {
-      pickerColor: '#000',
-      colorBtnActive: false,
-      pickerOpen: false,
+      colorPickerOpen:false,
+      colorPickerColor:'#000',
       selectingTextIndex:-1
     }//END state
     
@@ -40,10 +36,34 @@ class EditTextUI extends Component<MyProps, MyStates>
 
     this.colorBtnOnclick           = this.colorBtnOnclick.bind(this);
     this.okBtnOnclick           = this.okBtnOnclick.bind(this);
-    this.handleSketchPickerChangeComplete           = this.handleSketchPickerChangeComplete.bind(this);
-    this.updateSelectingTextColor           = this.updateSelectingTextColor.bind(this);
+    this.getColorPickerEle           = this.getColorPickerEle.bind(this);
+    this.updateColorPickerPosition           = this.updateColorPickerPosition.bind(this);
+    this.colorPickerOnChangeComplete  = this.colorPickerOnChangeComplete.bind(this);
+    this.colorBackDropOnclick = this.colorBackDropOnclick.bind(this);
+    this.updateImageObjColor= this.updateImageObjColor.bind(this);
   }//END constructor
 
+  updateImageObjColor()
+  {
+    if(this.state.selectingTextIndex<0) return;
+    let imageText = this.parent.parent.cpuRef.current.imageEditorRef.current.imageTextRef.current;
+    let canvas = this.parent.parent.canvasRef.current;
+    let imgObj = canvas.state.images[this.state.selectingTextIndex];
+
+
+    imageText.doEditText(
+      this.state.selectingTextIndex,
+      imgObj.text, 
+      imgObj.fontSize,
+      this.state.colorPickerColor,
+      imgObj.height,
+      -1,
+      -1
+    );
+
+    console.log(imageText)
+
+  }//END updateImageObjColor
 
   okBtnOnclick()
   {
@@ -54,39 +74,93 @@ class EditTextUI extends Component<MyProps, MyStates>
 
   }//END okBtnOnclick
 
-  // adjustColorPickerPosition()
-  // {
-
-  // }//END adjustColorPickerPosition
+  colorBackDropOnclick(e:any)
+  {
+    //if(this.parent.parent.state.isMobile)
+      this.setState({ colorPickerOpen: false });
+  }
 
   colorBtnOnclick(e:any)
   {
-    if(this.state.colorBtnActive)
-    {
-      this.setState({ 
-        pickerOpen: !this.state.pickerOpen
-      }); 
-    }
-    
+    this.setState({ colorPickerOpen: !this.state.colorPickerOpen });
   }//END colorBtnOnclick
 
-  updateSelectingTextColor()
+  updateColorPickerPosition()
   {
-    this.parent.parent.cpuRef.current.imageEditorRef.current.imageTextRef.current.updateColor(
-      this.state.selectingTextIndex,
-      this.state.pickerColor
-    );
+    //if(!this.parent.parent.state.isMobile) return;
 
-  }//END updateSelectingTextColor
+    let bottomControlPanelDom:any = document.querySelector('#BottomControlPanel');
+    let colorPickerWrapperDom:any = this.parent.parent.state.isMobile ? 
+      document.querySelector('#colorPickerWrapper') : document.querySelector('#colorPickerWrapper_1');
+    let bottomControlPanelInnerDom:any = document.querySelector('#BottomControlPanelInner');
+    let rect = bottomControlPanelDom.getBoundingClientRect();
+    let rectInner = bottomControlPanelInnerDom.getBoundingClientRect();
+    
+    colorPickerWrapperDom.style.marginTop = -rect.top+'px';
+    colorPickerWrapperDom.style.marginLeft = -rectInner.left+'px';
+    if(!this.parent.parent.state.isMobile)
+    {
+      let colorBtnDom:any = document.querySelector('#editTextUIColorBtn');
+      let colorRect = colorBtnDom.getBoundingClientRect();
+      //console.log("colorRect: "+colorRect.left);
+      colorPickerWrapperDom.style.marginLeft = -(rectInner.left+colorRect.left+40)+'px';
+      colorPickerWrapperDom.style.marginTop = -(colorRect.top+25)+'px';
+    }
+  }
 
-
-  handleSketchPickerChangeComplete(color:any)
+  colorPickerOnChangeComplete(color:any, e:any)
   {
-    var self = this;
-    this.setState({ pickerColor: color.hex }, function(){
-      self.updateSelectingTextColor();
-    });
-  };
+    let that = this;
+    this.setState({ colorPickerColor: color.hex },
+      function()
+      {
+        that.updateImageObjColor();
+      });
+  }
+
+  componentDidMount() 
+  {
+    this.updateColorPickerPosition();
+  }//END componentDidMount
+
+  getColorPickerEle(positionNum:number)
+  {
+    let colorPickerWrapperClass = this.parent.parent.state.isMobile? mobileStyles.colorPickerWrapper : styles.colorPickerWrapper;
+    if(this.state.colorPickerOpen)
+      colorPickerWrapperClass = [colorPickerWrapperClass, this.parent.parent.state.isMobile? mobileStyles.colorPickerOpen : styles.colorPickerOpen].join(' ');
+
+    if(!this.parent.parent.state.isMobile && positionNum==1)
+    {
+      return  <div 
+                id="colorPickerWrapper_1" 
+                className={colorPickerWrapperClass}
+              >
+                <div 
+                  onClick={this.colorBackDropOnclick}
+                  className={this.parent.parent.state.isMobile? mobileStyles.colorPickerBackDrop : styles.colorPickerBackDrop2} 
+                />
+              </div>
+    }
+
+
+    
+    
+    return  <div 
+              id="colorPickerWrapper" 
+              className={colorPickerWrapperClass}
+            >
+              <div 
+                onClick={this.colorBackDropOnclick}
+                className={this.parent.parent.state.isMobile? mobileStyles.colorPickerBackDrop : styles.colorPickerBackDrop} 
+              />
+              <div className={this.parent.parent.state.isMobile? mobileStyles.colorPickerInner : styles.colorPickerInner}>
+              <SketchPicker
+                color={this.state.colorPickerColor}
+                onChangeComplete={this.colorPickerOnChangeComplete}
+              />
+              </div>
+            </div>
+  }//END getColorPickerEle
 
   render() 
   {
@@ -97,12 +171,11 @@ class EditTextUI extends Component<MyProps, MyStates>
 
     let okBtnClass       = [utilStyles.purple_iconRight_btn_l, this.parent.parent.state.isMobile? mobileStyles.okBtn : styles.okBtn].join(' ');
 
-    //console.log(this.parent.parent.state.isMobile);pickerOpen
-    let pickerWrapperClass = this.parent.parent.state.isMobile? mobileStyles.sketchPickerWrapper : styles.sketchPickerWrapper;
-    if(this.state.pickerOpen) 
-      pickerWrapperClass = [pickerWrapperClass, this.parent.parent.state.isMobile? mobileStyles.sketchPickerWrapperShow : styles.sketchPickerWrapperShow].join(' ');
+    //console.log(this.parent.parent.state.isMobile);
+    
     return  <div className={containerClass}>
-   
+              {this.getColorPickerEle(1)}
+
               <div className={this.parent.parent.state.isMobile? mobileStyles.header : styles.header}>
                 <div className={this.parent.parent.state.isMobile? mobileStyles.title : styles.title}>
                   <i className={'bx bxs-bell'} />
@@ -113,19 +186,14 @@ class EditTextUI extends Component<MyProps, MyStates>
                 </div>
               </div>
               <div className={this.parent.parent.state.isMobile? mobileStyles.main : styles.main}>
-                <div className={this.parent.parent.state.isMobile? mobileStyles.mainInner : styles.mainInner}>
+                <div 
+                  className={this.parent.parent.state.isMobile? mobileStyles.mainInner : styles.mainInner}
+                >
 
-                  <div className={this.state.colorBtnActive? buttonActiveClass : buttonClass}>
+                  <div className={buttonActiveClass} id="editTextUIColorBtn">
                   <i className={'bx bx-palette'} onClick={this.colorBtnOnclick} />
                     <span onClick={this.colorBtnOnclick}>Color</span>
-                    <div className={pickerWrapperClass}>
-                      <SketchPicker
-                        ref={this.colorPickerRef}
-                        onChangeComplete={ this.handleSketchPickerChangeComplete }
-                        color={this.state.pickerColor}
-                        className={this.parent.parent.state.isMobile? mobileStyles.sketchPicker : styles.sketchPicker}
-                      />
-                    </div>
+                    {!this.parent.parent.state.isMobile && this.getColorPickerEle(2)}
                   </div>
                   <div className={buttonClass} >
                   <i className={'bx bx-text'} />

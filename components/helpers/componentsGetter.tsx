@@ -28,7 +28,18 @@ class ComponentsGetter extends Component<MyProps, MyStates>
     this.imageText                = this.imageText.bind(this);
     this.canvas                   = this.canvas.bind(this);
     this.exportDialog             = this.exportDialog.bind(this);
+    this.bottomControlPanel       = this.bottomControlPanel.bind(this);
   }//END constructor
+
+  editText()
+  {
+    return this.bottomControlPanel().editTextRef.current;
+  }
+
+  bottomControlPanel()
+  {
+    return this.parent.bottomControlPanelRef.current;
+  }
 
   exportDialog()
   {

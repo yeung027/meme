@@ -40,9 +40,8 @@ class TouchController extends Component<MyProps, MyStates>
     this.debugRef = React.createRef();
     this.tappableRef = React.createRef();
 
-
+    this.componentsGetter        = this.componentsGetter.bind(this);
     this.getbottomControlPanel  = this.getbottomControlPanel.bind(this);
-    this.getCanvas              = this.getCanvas.bind(this);
     this.onTouchStart           = this.onTouchStart.bind(this);
     this.onTouchMove            = this.onTouchMove.bind(this);
     this.onTouchEnd             = this.onTouchEnd.bind(this);
@@ -76,15 +75,20 @@ class TouchController extends Component<MyProps, MyStates>
     this.rotateByPinchMove  = this.rotateByPinchMove.bind(this);
   }//END constructor
 
+  componentsGetter()
+  {
+    return this.parent.parent.componentsGetterRef.current;
+  }//END componentsGetter
+
   async rotateImg(key: any, degrees:number) 
   {
     let keynum= this.getKeyNumByID(key);
-    let images = this.parent.parent.canvasRef.current.state.images;
-    let image = this.parent.parent.canvasRef.current.state.images[keynum];
+    let images = this.componentsGetter().canvas().state.images;
+    let image = this.componentsGetter().canvas().state.images[keynum];
 
     image.rotate = degrees;
     images[keynum] = image;
-    this.parent.parent.canvasRef.current.setState({ 
+    this.componentsGetter().canvas().setState({ 
       images: images
     });
   }//END rotateImg
@@ -114,7 +118,7 @@ class TouchController extends Component<MyProps, MyStates>
       isMouseDownHold: false
     });
     this.setEditTextUiSelectingTextIndex(e, key);
-    this.rotateImg(key, 45);
+    //this.rotateImg(key, 45);
   }//END onMouseUp
 
   onDoubleClick(e: any, key: any)
@@ -127,10 +131,10 @@ class TouchController extends Component<MyProps, MyStates>
     let keynum= this.getKeyNumByID(key);
     let imgObj:any  =  this.parent.state.images.length > keynum ? this.parent.state.images[keynum] : null;
     //console.log(imgObj.isText);
-    //console.log(this.parent.parent.cpuRef.current.imageEditorRef.current.imageTextRef.current);
+    //console.log(this.componentsGetter().imageText());
 
     if(imgObj.isText)
-    this.parent.parent.cpuRef.current.imageEditorRef.current.imageTextRef.current.onEdit(e, key);
+    this.componentsGetter().imageText().onEdit(e, key);
 
 
   }//END onPressOrDoubleClick
@@ -223,15 +227,12 @@ class TouchController extends Component<MyProps, MyStates>
     let imgObj = this.parent.state.images[keynum];
     if(!imgObj || !imgObj.isText) return;
 
-
-    let bottomControlPanel = this.parent.parent.bottomControlPanelRef.current;
-    let editText = bottomControlPanel.editTextRef? bottomControlPanel.editTextRef.current: null;
-    if(editText)
-      editText.setState({ 
+    if(this.componentsGetter().editText())
+    this.componentsGetter().editText().setState({ 
         selectingTextIndex: keynum
       }); 
     
-    //console.log(this.parent.parent.bottomControlPanelRef.current)
+    //console.log(this.componentsGetter().bottomControlPanel())
   }//END setEditTextUiSelectingTextIndex
 
 
@@ -470,28 +471,14 @@ class TouchController extends Component<MyProps, MyStates>
 
   }//END debugLog
 
-  getCanvas()
-  {
-    let result;
-    try
-    {
-      //console.log(this.parent.parent.canvasRef.current);
-      result  = this.parent.parent.canvasRef.current;
-    }
-    catch(error)
-    {
-      console.error(error);
-    }
-    return result;
-  }//END getCanvas
 
   getbottomControlPanel()
   {
     let result;
     try
     {
-      //result = this.parent.parent.bottomControlPanelRef.current.state.currentUI;
-      result = this.parent.parent.bottomControlPanelRef.current;
+      //result = this.componentsGetter().bottomControlPanel().state.currentUI;
+      result = this.componentsGetter().bottomControlPanel();
     }
     catch(error)
     {
@@ -542,8 +529,8 @@ class TouchController extends Component<MyProps, MyStates>
 
   checkBottomControlIsStageEditimg()
   {
-    return this.parent.parent.bottomControlPanelRef.current.state.currentUI === this.parent.parent.bottomControlPanelRef.current.stage.EDITIMG || 
-    this.parent.parent.bottomControlPanelRef.current.state.currentUI === this.parent.parent.bottomControlPanelRef.current.stage.EDITTEXT;
+    return this.componentsGetter().bottomControlPanel().state.currentUI === this.componentsGetter().bottomControlPanel().stage.EDITIMG || 
+    this.componentsGetter().bottomControlPanel().state.currentUI === this.componentsGetter().bottomControlPanel().stage.EDITTEXT;
   }//END checkBottomControlIsStageEditimg
 
 

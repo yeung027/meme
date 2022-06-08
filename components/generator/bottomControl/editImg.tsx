@@ -4,11 +4,8 @@ import mobileStyles from '../../../styles/generator/bottomControl/editImg/mobile
 import utilStyles from '../../../styles/generator/bottomControl/util.module.css'
 import Snackbar from '@material-ui/core/Snackbar';
 import Grow from '@material-ui/core/Grow';
-
-
 import Grid from '@material-ui/core/Grid';
 import Slider from '@material-ui/core/Slider';
-import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 
 type MyProps = {

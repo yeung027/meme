@@ -38,6 +38,7 @@ class ExportUI extends Component<MyProps, MyStates>
       snackMsg: '',
     }//END state
 
+    this.componentsGetter        = this.componentsGetter.bind(this);
     this.snackOnClick             = this.snackOnClick.bind(this);
     this.getSnackTransition       = this.getSnackTransition.bind(this);
     this.snackOnClose             = this.snackOnClose.bind(this);
@@ -48,12 +49,17 @@ class ExportUI extends Component<MyProps, MyStates>
     
   }//END constructor
 
+  componentsGetter()
+  {
+    return this.parent.parent.componentsGetterRef.current;
+  }//END componentsGetter
+
   async bottomDownloadBtnClick()
   {
     if (navigator.share) {
       await navigator.share({
         title: 'Meme',
-        files: [this.parent.parent.exportDialogRef.current.state.exportFile]
+        files: [this.componentsGetter().exportDialog().state.exportFile]
       })
         .then(() => console.log('成功'))
         .catch((error) => console.log('發生錯誤', error));
@@ -90,8 +96,7 @@ class ExportUI extends Component<MyProps, MyStates>
 
   exportBtnOnclick()
   {
-    //console.log(this.parent.parent.exportDialogRef.current);
-    this.parent.parent.exportDialogRef.current.export();
+    this.componentsGetter().exportDialog().export();
   }//END exportBtnOnclick
 
   

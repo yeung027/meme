@@ -39,7 +39,7 @@ class ButtonControlUploadGUI extends Component<MyProps, MyStates>
       snackMsg: '',
     }//END state
     
-    this.getImageEditor           = this.getImageEditor.bind(this);
+    this.componentsGetter        = this.componentsGetter.bind(this);
     this.voidImgUpload            = this.voidImgUpload.bind(this);
     this.snackOnClick             = this.snackOnClick.bind(this);
     this.getSnackTransition       = this.getSnackTransition.bind(this);
@@ -47,6 +47,11 @@ class ButtonControlUploadGUI extends Component<MyProps, MyStates>
     this.uploadOnChange           = this.uploadOnChange.bind(this);
     this.uploadOnChangeCallback   = this.uploadOnChangeCallback.bind(this);
   }//END constructor
+
+  componentsGetter()
+  {
+    return this.parent.parent.componentsGetterRef.current;
+  }//END componentsGetter
 
   snackOnClose()
   {
@@ -92,27 +97,15 @@ class ButtonControlUploadGUI extends Component<MyProps, MyStates>
     
   }//END componentDidMount
 
-  getImageEditor()
-  {
-    if(!this.parent) throw ('1');
-    if(!this.parent.parent) throw ('2');
-    if(!this.parent.parent.cpuRef || !this.parent.parent.cpuRef.current) 
-      throw ('3');
-    if(!this.parent.parent.cpuRef.current.imageEditorRef 
-      || !this.parent.parent.cpuRef.current.imageEditorRef.current)
-      throw ('4');
-    return this.parent.parent.cpuRef.current.imageEditorRef.current;
-  }//END getImageEditor
-
   async uploadOnChange(imageList:Array<any>, addUpdateIndex:any)
   {
     //console.log(this.getCanvasDrawer());
     //console.log(imageList.length);
-    if(this.getImageEditor() && imageList && imageList.length>0 && imageList[0].data_url && imageList[0].data_url != null)
+    if(this.componentsGetter().imageEditor() && imageList && imageList.length>0 && imageList[0].data_url && imageList[0].data_url != null)
     {
       try
       {
-        let imageEditor = this.getImageEditor();
+        let imageEditor = this.componentsGetter().imageEditor();
         if(!imageEditor) throw ('5');
         await imageEditor.addUploadedImage(imageList[0], this.uploadOnChangeCallback);
         //console.log(imageEditor.addB64Image);
@@ -134,9 +127,9 @@ class ButtonControlUploadGUI extends Component<MyProps, MyStates>
 
   uploadOnChangeCallback(success:boolean)
   {
-    //console.log(this.parent.parent.stepsRef.current.stepChange);
+    //console.log(this.componentsGetter().steps().stepChange);
     this.parent.stageChange(this.parent.stage.EDITIMG);
-    this.parent.parent.stepsRef.current.stepChange(this.parent.parent.stepsRef.current.step.EDITIMG);
+    this.componentsGetter().steps().stepChange(this.componentsGetter().steps().step.EDITIMG);
   }//END uploadOnChangeCallback
 
   render() 

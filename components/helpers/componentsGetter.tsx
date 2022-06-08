@@ -27,7 +27,13 @@ class ComponentsGetter extends Component<MyProps, MyStates>
     this.touchController          = this.touchController.bind(this);
     this.imageText                = this.imageText.bind(this);
     this.canvas                   = this.canvas.bind(this);
+    this.exportDialog             = this.exportDialog.bind(this);
   }//END constructor
+
+  exportDialog()
+  {
+    return this.parent.exportDialogRef.current;
+  }
 
   canvas()
   {

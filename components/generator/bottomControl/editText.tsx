@@ -35,6 +35,7 @@ class EditTextUI extends Component<MyProps, MyStates>
     
     this.colorPickerRef = React.createRef();
 
+    this.componentsGetter        = this.componentsGetter.bind(this);
     this.colorBtnOnclick           = this.colorBtnOnclick.bind(this);
     this.okBtnOnclick           = this.okBtnOnclick.bind(this);
     this.getColorPickerEle           = this.getColorPickerEle.bind(this);
@@ -44,15 +45,19 @@ class EditTextUI extends Component<MyProps, MyStates>
     this.updateImageObjColor= this.updateImageObjColor.bind(this);
   }//END constructor
 
+  componentsGetter()
+  {
+    return this.parent.parent.componentsGetterRef.current;
+  }//END componentsGetter
+
   updateImageObjColor()
   {
     if(this.state.selectingTextIndex<0) return;
-    let imageText = this.parent.parent.cpuRef.current.imageEditorRef.current.imageTextRef.current;
-    let canvas = this.parent.parent.canvasRef.current;
-    let imgObj = canvas.state.images[this.state.selectingTextIndex];
+
+    let imgObj = this.componentsGetter().canvas().state.images[this.state.selectingTextIndex];
 
 
-    imageText.doEditText(
+    this.componentsGetter().imageText().doEditText(
       this.state.selectingTextIndex,
       imgObj.text, 
       imgObj.fontSize,
@@ -62,8 +67,6 @@ class EditTextUI extends Component<MyProps, MyStates>
       -1
     );
 
-    console.log(imageText)
-
   }//END updateImageObjColor
 
   okBtnOnclick()
@@ -71,7 +74,7 @@ class EditTextUI extends Component<MyProps, MyStates>
     //console.log(this.parent);
 
     this.parent.stageChange(this.parent.stage.EDITIMG);
-    this.parent.parent.stepsRef.current.stepChange(this.parent.parent.stepsRef.current.step.EDITIMG);
+    this.componentsGetter().steps().stepChange(this.componentsGetter().steps().EDITIMG);
 
   }//END okBtnOnclick
 

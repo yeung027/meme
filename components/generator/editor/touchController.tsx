@@ -615,8 +615,9 @@ class TouchController extends Component<MyProps, MyStates>
       currentTouchClientY = e.pageY;
     }
 
+    //console.log('keynum: ' + keynum);
+    //console.log('imgObj.length: ' + imgObj.length);
     //console.log('touchStartImgX: ' + touchStartImgX);
-
     if(noTouchStartObj && this.parent.parent.state.isMobile)
     {
       new_post_left = currentTouchClientX - convasRect.left - (imgObj[keynum].width / 2);

@@ -4,6 +4,7 @@ import mobileStyles from '../../../styles/generator/bottomControl/editText/mobil
 import utilStyles from '../../../styles/generator/bottomControl/util.module.css'
 /* @ts-ignore */
 import { SketchPicker } from 'react-color'
+import EditingImage from '../../../models/editingImage';
 
 type MyProps = {
     parent:any
@@ -54,17 +55,17 @@ class EditTextUI extends Component<MyProps, MyStates>
   {
     if(this.state.selectingTextIndex<0) return;
 
-    let imgObj = this.componentsGetter().canvas().state.images[this.state.selectingTextIndex];
+    let imgObj:EditingImage = this.componentsGetter().canvas().state.images[this.state.selectingTextIndex];
 
 
     this.componentsGetter().imageText().doEditText(
       this.state.selectingTextIndex,
-      imgObj.text, 
-      imgObj.fontSize,
+      imgObj.text!.value, 
+      imgObj.text!.fontSize,
       this.state.colorPickerColor,
       imgObj.height,
-      -1,
-      -1
+      imgObj.x, 
+      imgObj.y,
     );
 
   }//END updateImageObjColor
@@ -93,10 +94,10 @@ class EditTextUI extends Component<MyProps, MyStates>
   {
     //if(!this.parent.parent.state.isMobile) return;
 
-    let bottomControlPanelDom:any = document.querySelector('#BottomControlPanel');
+    let bottomControlPanelDom:HTMLDivElement = document.querySelector('#BottomControlPanel')!;
     let colorPickerWrapperDom:any = this.parent.parent.state.isMobile ? 
       document.querySelector('#colorPickerWrapper') : document.querySelector('#colorPickerWrapper_1');
-    let bottomControlPanelInnerDom:any = document.querySelector('#BottomControlPanelInner');
+    let bottomControlPanelInnerDom:HTMLDivElement = document.querySelector('#BottomControlPanelInner')!;
     let rect = bottomControlPanelDom.getBoundingClientRect();
     let rectInner = bottomControlPanelInnerDom.getBoundingClientRect();
     

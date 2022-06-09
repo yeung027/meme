@@ -1,4 +1,5 @@
 import React,{Component} from 'react';
+import EditingImage from '../../models/editingImage';
 
 type MyProps = {
     parent:any
@@ -10,6 +11,7 @@ type MyStates = {
   defaultFontSize:number
   reloadFontFamilyCount:number
   reloadFontFamilyTimeout:any
+  defaultColor:string
 };
 
 interface ImageText {
@@ -27,6 +29,7 @@ class ImageText extends Component<MyProps, MyStates>
       defaultText: 'Edit Text here',
       defaultCanvasHeight:40,
       defaultFontSize:30,
+      defaultColor:'rgba(0,0,0,1)',
       reloadFontFamilyCount: 0,
       reloadFontFamilyTimeout: null
     
@@ -74,14 +77,14 @@ class ImageText extends Component<MyProps, MyStates>
   {
     let formEle:HTMLInputElement = document.querySelector("#floatTextInputEditForm-"+keyNum)!;
     let ele:HTMLInputElement = document.querySelector("#floatTextInputEdit-"+keyNum)!;
-    let canvasComponent = this.componentsGetter().canvas();
-    console.log('canvasComponent.state.images[keyNum].color: '+canvasComponent.state.images[keyNum].color);
+    let imgObj:EditingImage  =  this.componentsGetter().canvas().state.images.length > keyNum ? this.componentsGetter().canvas().state.images[keyNum] : null;
+    //console.log('canvasComponent.state.images[keyNum].color: '+canvasComponent.state.images[keyNum].color);
     this.doEditText(
       keyNum,
       ele.value, 
-      this.state.defaultFontSize,
-      canvasComponent.state.images[keyNum].color,
-      this.state.defaultCanvasHeight,
+      imgObj.text!.fontSize,
+      imgObj.text!.color,
+      imgObj.height,
       -1,
       -1
     );
@@ -126,10 +129,10 @@ class ImageText extends Component<MyProps, MyStates>
       
 
     var self = this;
-    let canvasComponent = this.componentsGetter().canvas();
+    //let canvasComponent = this.componentsGetter().canvas();
     let keynum= this.componentsGetter().touchController().getKeyNumByID(key);
     
-    let imgObj:any  =  canvasComponent.state.images.length > keynum ? canvasComponent.state.images[keynum] : null;
+    let imgObj:EditingImage  =  this.componentsGetter().canvas().state.images.length > keynum ? this.componentsGetter().canvas().state.images[keynum] : null;
 
     let canvasDom:any = document.querySelector('#canvas');
     let rootDom:any = document.querySelector('#rootDiv');
@@ -141,8 +144,8 @@ class ImageText extends Component<MyProps, MyStates>
     input.style.height = imgObj.height+'px';
     input.style.width = imgObj.width+'px';
     input.style.fontFamily = "Noto Sans TC, Roboto";
-    input.style.fontSize = imgObj.fontSize+'px';
-    input.value = imgObj.text;
+    input.style.fontSize = imgObj.text?.fontSize+'px';
+    input.value = imgObj.text!.value!;
     form.id = 'floatTextInputEditForm-'+keynum;
     input.id = 'floatTextInputEdit-'+keynum;
     form.action = '#';
@@ -151,7 +154,7 @@ class ImageText extends Component<MyProps, MyStates>
       e.preventDefault();
     }
 
-    let x:number = parseFloat(imgObj.x), y:number = parseFloat(imgObj.y);
+    let x:number = imgObj.x, y:number = imgObj.y;
     if(!this.parent.parent.parent.state.isMobile)
     {
       x+=rect.left;
@@ -194,13 +197,13 @@ class ImageText extends Component<MyProps, MyStates>
 
   textBtnOnclick()
   {
-    let canvasDom:any = document.querySelector('#canvas');
+    let canvasDom:HTMLCanvasElement = document.querySelector('#canvas')!;
     let rect = canvasDom.getBoundingClientRect();
     this.doEditText(
       -1,
       this.state.defaultText, 
       this.state.defaultFontSize,
-      'rgba(0,0,0,1)',
+      this.state.defaultColor,
       this.state.defaultCanvasHeight,
       this.parent.parent.parent.state.isMobile? rect.left : 0,
       this.parent.parent.parent.state.isMobile? rect.top : 0,
@@ -211,22 +214,22 @@ class ImageText extends Component<MyProps, MyStates>
   updateColor(index:number, color:string)
   {
     let canvasComponent = this.componentsGetter().canvas();
-    let imgObj:any  =  canvasComponent.state.images.length > index ? canvasComponent.state.images[index] : null;
+    let imgObj:EditingImage  =  canvasComponent.state.images.length > index ? canvasComponent.state.images[index] : null;
 
-
+    console.log('updateColor');
     
     this.doEditText(
       index,
-      imgObj.text, 
-      imgObj.fontSize,
+      imgObj.text!.value, 
+      imgObj.text!.fontSize,
       color,
       imgObj.height,
-      -1,
-      -1
+      imgObj.x,
+      imgObj.y
     );
 
 
-  }
+  }//END updateColor
 
   setBottomControlToEditText()
   {
@@ -250,7 +253,7 @@ class ImageText extends Component<MyProps, MyStates>
      else spec++;
     }
 
-    console.log('normal: '+normal+', spec: '+spec);
+    //console.log('normal: '+normal+', spec: '+spec);
 
     for (var i = 0; i < normal; i++) noramlStrs += 'a';
     for (var i = 0; i < spec; i++) sepStrs += '中';
@@ -258,17 +261,17 @@ class ImageText extends Component<MyProps, MyStates>
     width += ctx.measureText(sepStrs).width * 3.3;
     width +=40;
     return width;
-  }
+  }//END calWidth
   
 
   async doEditText( imgObjIndex:number, text:string, fontSize:number, fontColor:string, height:number, x:number, y:number)
   {
     var that = this;
     const start_x = 10, start_y = 30;
-    let canvas = document.createElement("canvas");
+    let canvas:HTMLCanvasElement = document.createElement("canvas");
     canvas.style.fontWeight = '400';
     let ctx = canvas.getContext('2d', {alpha:true})!;
-    let width = this.calWidth(ctx, text);
+    let width:number = this.calWidth(ctx, text);
     //(ctx.measureText(text).width * 1.5) * text.length +(start_x * 2);
     canvas.width = width;
     canvas.height = height;
@@ -279,7 +282,7 @@ class ImageText extends Component<MyProps, MyStates>
     ctx.fillRect(0, 0, width, this.state.defaultCanvasHeight);
     ctx.fillStyle= fontColor;
 
-    var link = document.createElement('link');
+    var link:HTMLLinkElement = document.createElement('link');
     link.rel = 'stylesheet';
     link.type = 'text/css';
     link.href = 'https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap';
@@ -301,7 +304,7 @@ class ImageText extends Component<MyProps, MyStates>
     ctx.fillText(text,start_x, start_y);
 
 
-    var img = document.createElement("img");
+    var img:HTMLImageElement = document.createElement("img");
 
     img.src=canvas.toDataURL();
 
@@ -315,24 +318,25 @@ class ImageText extends Component<MyProps, MyStates>
 
     if(imgObjIndex<=-1)
     {
-      let obj:any = {
+      let obj:EditingImage = {
 
         upload: uploaded,
         x: x,
         y: y,
-        w: width ,
-        h: height,
-        scale: 1 , 
-        key_num: canvas_image_length,
-        isText: true,
-        text:text,
+        width: width ,
         height: height,
-        width: width,
-        fontSize:fontSize,
-        color:fontColor
+        //scale: 1 , 
+        rotation:0,
+        index: canvas_image_length,
+        isText: true,
+        text:{
+          value:text,
+          fontSize:fontSize,
+          color:fontColor
+        }
       };
 
-      let images  = this.componentsGetter().canvas().state.images;
+      let images:EditingImage[]  = this.componentsGetter().canvas().state.images;
       images  = images.concat(obj);
       
       this.componentsGetter().canvas().setState({ 
@@ -346,20 +350,21 @@ class ImageText extends Component<MyProps, MyStates>
     else
     {
       
-      let images  = this.componentsGetter().canvas().state.images;
-      let imagesCopy  = images;
+      let images:EditingImage[]  = this.componentsGetter().canvas().state.images;
+      let imagesCopy:EditingImage[]  = images;
       if(!images[imgObjIndex]) throw('imgObj not found #######122322121');
-      let obj = images[imgObjIndex];
+      let obj:EditingImage = images[imgObjIndex];
       //console.log(obj.text);
       
       obj.upload = uploaded;
-      obj.w = width;
-      obj.h = height;
-      obj.text = text;
-      obj.height = height;
       obj.width = width;
-      obj.fontSize = fontSize;
-      obj.color = fontColor;
+      obj.height = height;
+      obj.text = {
+        fontSize: fontSize,
+        color: fontColor,
+        value: text
+      };
+      
 
       imagesCopy[imgObjIndex] = obj;
       this.componentsGetter().canvas().setState({ 
@@ -379,7 +384,7 @@ class ImageText extends Component<MyProps, MyStates>
     var that = this;
     if(this.state.reloadFontFamilyCount<=1)
     {
-      let index = imgObjIndex;
+      let index:number = imgObjIndex;
       if(index<=0) index = this.componentsGetter().canvas().state.images.length-1;
       //let images  = this.componentsGetter().canvas().state.images;
       let timeout = setTimeout(

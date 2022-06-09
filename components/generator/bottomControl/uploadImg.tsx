@@ -40,6 +40,7 @@ class ButtonControlUploadGUI extends Component<MyProps, MyStates>
     }//END state
     
     this.componentsGetter        = this.componentsGetter.bind(this);
+    this.isMobile                 = this.isMobile.bind(this);
     this.voidImgUpload            = this.voidImgUpload.bind(this);
     this.snackOnClick             = this.snackOnClick.bind(this);
     this.getSnackTransition       = this.getSnackTransition.bind(this);
@@ -52,6 +53,11 @@ class ButtonControlUploadGUI extends Component<MyProps, MyStates>
   {
     return this.parent.parent.componentsGetterRef.current;
   }//END componentsGetter
+
+  isMobile()
+  {
+    return !this.componentsGetter() ? this.parent.parent.state.isMobile : this.componentsGetter().isMobile();
+  }
 
   snackOnClose()
   {
@@ -134,7 +140,7 @@ class ButtonControlUploadGUI extends Component<MyProps, MyStates>
 
   render() 
   {
-    let containerClass    = this.parent.parent.state.isMobile? mobileStyles.container : styles.container;
+    let containerClass    = this.isMobile()? mobileStyles.container : styles.container;
     let uploadBtnIconEle  = <i className={'bx bx-plus'} />;
     let uploadBtnLabel  = 'Upload';
     let uploadBtnClass  = utilStyles.iconPurpleBtn_L;
@@ -156,7 +162,7 @@ class ButtonControlUploadGUI extends Component<MyProps, MyStates>
                 onClose={this.snackOnClose}
                 message={this.state.snackMsg}
                 TransitionComponent={this.getSnackTransition}
-                className={this.parent.parent.state.isMobile? mobileStyles.snack : styles.snack}
+                className={this.isMobile()? mobileStyles.snack : styles.snack}
                 action={
                   <React.Fragment>
                     <IconButton size="small" aria-label="close" color="inherit" onClick={this.snackOnClose}>
@@ -175,7 +181,7 @@ class ButtonControlUploadGUI extends Component<MyProps, MyStates>
                   vertical: "bottom",
                   horizontal: "right"
                }}
-                className={this.parent.parent.state.isMobile? mobileStyles.snack : styles.snack}
+                className={this.isMobile()? mobileStyles.snack : styles.snack}
               >
                 <MuiAlert 
                   elevation={6} 
@@ -186,16 +192,16 @@ class ButtonControlUploadGUI extends Component<MyProps, MyStates>
                 </MuiAlert>
               </Snackbar> */}
 
-              <div className={this.parent.parent.state.isMobile? mobileStyles.header : styles.header}>
-                <div className={this.parent.parent.state.isMobile? mobileStyles.title : styles.title}>
+              <div className={this.isMobile()? mobileStyles.header : styles.header}>
+                <div className={this.isMobile()? mobileStyles.title : styles.title}>
                   <i className={'bx bxs-bell'} />
                   <span>Add image & merge</span>
                 </div>
-                <div className={this.parent.parent.state.isMobile? mobileStyles.header_r : styles.header_r}>
-                  <span className={this.parent.parent.state.isMobile? mobileStyles.textBtn : styles.textBtn}>skip</span>
+                <div className={this.isMobile()? mobileStyles.header_r : styles.header_r}>
+                  <span className={this.isMobile()? mobileStyles.textBtn : styles.textBtn}>skip</span>
                 </div>
               </div>
-              <div className={this.parent.parent.state.isMobile? mobileStyles.main : styles.main}>
+              <div className={this.isMobile()? mobileStyles.main : styles.main}>
 
                 <ImageUploading
                   /*multiple*/

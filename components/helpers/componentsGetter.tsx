@@ -22,6 +22,8 @@ class ComponentsGetter extends Component<MyProps, MyStates>
     this.parent = props.parent;
     this.state = {}//END state
 
+    this.page                     = this.page.bind(this);
+    this.isMobile                 = this.isMobile.bind(this);
     this.steps                    = this.steps.bind(this);
     this.imageEditor              = this.imageEditor.bind(this);
     this.touchController          = this.touchController.bind(this);
@@ -32,6 +34,16 @@ class ComponentsGetter extends Component<MyProps, MyStates>
     this.compiler                 = this.compiler.bind(this);
     this.editText                 = this.editText.bind(this);
   }//END constructor
+
+  isMobile()
+  {
+    return this.page().state.isMobile;
+  }
+
+  page()
+  {
+    return this.parent;
+  }
 
   compiler()
   {

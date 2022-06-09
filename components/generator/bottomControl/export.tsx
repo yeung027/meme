@@ -104,10 +104,10 @@ class ExportUI extends Component<MyProps, MyStates>
 
   render() 
   {
-    let containerClass    = this.parent.parent.state.isMobile? mobileStyles.container : styles.container;
+    let containerClass    = this.componentsGetter().isMobile()? mobileStyles.container : styles.container;
     
-    let buttonClass       = this.parent.parent.state.isMobile? mobileStyles.btn : styles.btn;
-    let buttonActiveClass = [buttonClass, this.parent.parent.state.isMobile? mobileStyles.active : styles.active].join(' ');
+    let buttonClass       = this.componentsGetter().isMobile()? mobileStyles.btn : styles.btn;
+    let buttonActiveClass = [buttonClass, this.componentsGetter().isMobile()? mobileStyles.active : styles.active].join(' ');
 
     let nextBtnClass       = utilStyles.purple_iconRight_btn_l;
     
@@ -126,7 +126,7 @@ class ExportUI extends Component<MyProps, MyStates>
                 onClose={this.snackOnClose}
                 message={this.state.snackMsg}
                 TransitionComponent={this.getSnackTransition}
-                className={this.parent.parent.state.isMobile? mobileStyles.snack : styles.snack}
+                className={this.componentsGetter().isMobile()? mobileStyles.snack : styles.snack}
                 action={
                   <React.Fragment>
                     <IconButton size="small" aria-label="close" color="inherit" onClick={this.snackOnClose}>
@@ -145,7 +145,7 @@ class ExportUI extends Component<MyProps, MyStates>
                   vertical: "bottom",
                   horizontal: "right"
                }}
-                className={this.parent.parent.state.isMobile? mobileStyles.snack : styles.snack}
+                className={this.componentsGetter().isMobile()? mobileStyles.snack : styles.snack}
               >
                 <MuiAlert 
                   elevation={6} 
@@ -156,17 +156,17 @@ class ExportUI extends Component<MyProps, MyStates>
                 </MuiAlert>
               </Snackbar> */}
 
-              <div className={this.parent.parent.state.isMobile? mobileStyles.header : styles.header}>
-                <div className={this.parent.parent.state.isMobile? mobileStyles.title : styles.title}>
+              <div className={this.componentsGetter().isMobile()? mobileStyles.header : styles.header}>
+                <div className={this.componentsGetter().isMobile()? mobileStyles.title : styles.title}>
                 <i className={'bx bxs-bell'} />
                 <span>Export Image</span>
                 </div>
-                <div className={this.parent.parent.state.isMobile? mobileStyles.header_r : styles.header_r}>
+                <div className={this.componentsGetter().isMobile()? mobileStyles.header_r : styles.header_r}>
                   
                 </div>
               </div>
-              <div className={this.parent.parent.state.isMobile? mobileStyles.main : styles.main}>
-                <div className={this.parent.parent.state.isMobile? mobileStyles.mainInner : styles.mainInner}>
+              <div className={this.componentsGetter().isMobile()? mobileStyles.main : styles.main}>
+                <div className={this.componentsGetter().isMobile()? mobileStyles.mainInner : styles.mainInner}>
                   
                   <div className={buttonActiveClass} onClick={this.backBtnOnclick}>
                   <i className={'bx bx-left-arrow-alt'} />

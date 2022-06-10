@@ -77,6 +77,7 @@ class WillSmithPunchingPage extends Component<MyProps & WithUserAgentProps, MySt
     if(this.state.isMobile)
     {
       ele = <>
+              <ComponentsGetter parent={this} ref={this.componentsGetterRef} />
               <Header parent={this} ref={this.headerRef} /> 
               <div className={mobileStyles.whiteContainer}>
                 <Steps parent={this} ref={this.stepsRef} step={''} />

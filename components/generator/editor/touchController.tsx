@@ -1,5 +1,6 @@
 import React,{Component} from 'react';
 import EditingImage from '../../../models/editingImage';
+import Canvas from '../canvas';
 
 const Pinchable  = require('react-tappable');
 
@@ -206,7 +207,8 @@ class TouchController extends Component<MyProps, MyStates>
   onPinchStart(e: any, key: any)
   {
     let keynum= this.getKeyNumByID(key);
-    let imgObj:EditingImage  =  this.parent.state.images.length > keynum ? this.parent.state.images[keynum] : null;
+    let canvas:Canvas = this.parent;
+    let imgObj:EditingImage  = canvas.state.images[keynum];
 
     if(!imgObj) return this.debugLog('error! imgObj');
 
@@ -331,8 +333,9 @@ class TouchController extends Component<MyProps, MyStates>
     if(isTouch)
     {
       //new_scale = this.state.pinchStartObj.imgObj.scale * zoom;
-      new_w = this.state.pinchStartObj?.imgObj? this.state.pinchStartObj.imgObj.width : 0 * zoom;
-      new_h = this.state.pinchStartObj?.imgObj?this.state.pinchStartObj.imgObj.height : 0 * zoom;
+      let touchStartObj:TouchStartObj = this.state.pinchStartObj!;
+      new_w = touchStartObj?.imgObj? touchStartObj.imgObj.width : 0 * zoom;
+      new_h = touchStartObj?.imgObj? touchStartObj.imgObj.height : 0 * zoom;
     }
     else
     {
@@ -343,8 +346,10 @@ class TouchController extends Component<MyProps, MyStates>
 
       //console.log("w: "+this.parent.state.images[desktopStartObj.keynum].org.w);
       //console.log("h: "+this.parent.state.images[desktopStartObj.keynum].org.h);
-      new_w = this.parent.state.images[desktopStartObj.keynum].org.w * scaling;
-      new_h = this.parent.state.images[desktopStartObj.keynum].org.h * scaling;
+      let canvas:Canvas = this.parent;
+      let org:EditingImage = canvas.state.images[desktopStartObj.keynum].org!;
+      new_w = org.width * scaling;
+      new_h = org.height * scaling;
       
     }
 
@@ -354,7 +359,7 @@ class TouchController extends Component<MyProps, MyStates>
     
     if(isTouch)
     {
-      fixed_xy_by_event_center = this.getImageCoorByPinchEventCenter(e, this.state.pinchStartObj?.imgObj!);
+      fixed_xy_by_event_center = this.getImageCoorByPinchEventCenter(e, this.state.pinchStartObj!.imgObj!);
     }
     else
     {
@@ -370,7 +375,8 @@ class TouchController extends Component<MyProps, MyStates>
     }
 
 
-    //console.log('finally_size: '+finally_size[0] +", "+finally_size[1]);
+    console.log('finally_size: '+finally_size[0] +", "+finally_size[1]);
+    console.log('new_w: '+new_w +", new_h: "+new_h);
     //console.log('zoom: '+zoom);
     //imgObj[keynum].scale = finally_size[2];
     imgObj[keynum].width = isTouch ? finally_size[0] : new_w;

@@ -273,22 +273,22 @@ class TouchController extends Component<MyProps, MyStates>
     //this.rotateByPinchMove(e, key, true);
   }//END onPinchMove
 
-  rotateByPinchMove(e: any, key: any, isTouch:boolean)
-  {
-    let keynum= this.getKeyNumByID(key);
-    let imgObjs:EditingImage[]  =  this.parent.state.images;
-    let image:EditingImage = imgObjs[keynum];
-    let rotation:number = image.rotation;
-    let e_rotation = e.rotation;
-    this.debugLog('e.rotation: '+e.rotation);
-    if(!rotation || isNaN(rotation)) rotation = 0;
-    rotation +=e_rotation;
-    image.rotation = rotation;
-    imgObjs[keynum] = image;
-    this.parent.setState({ 
-      images: imgObjs
-     });
-  }//END rotateByPinchMove
+  // rotateByPinchMove(e: any, key: any, isTouch:boolean)
+  // {
+  //   let keynum= this.getKeyNumByID(key);
+  //   let imgObjs:EditingImage[]  =  this.parent.state.images;
+  //   let image:EditingImage = imgObjs[keynum];
+  //   let rotation:number = image.rotation;
+  //   let e_rotation = e.rotation;
+  //   this.debugLog('e.rotation: '+e.rotation);
+  //   if(!rotation || isNaN(rotation)) rotation = 0;
+  //   rotation +=e_rotation;
+  //   image.rotation = rotation;
+  //   imgObjs[keynum] = image;
+  //   this.parent.setState({ 
+  //     images: imgObjs
+  //    });
+  // }//END rotateByPinchMove
 
   zoomByPinchMove(e: any, key: any, isTouch:boolean)
   {
@@ -330,7 +330,7 @@ class TouchController extends Component<MyProps, MyStates>
     }
 
     let new_scale= 1, new_w = 0 ,new_h = 0;
-    if(isTouch)
+    if(false && isTouch)
     {
       //new_scale = this.state.pinchStartObj.imgObj.scale * zoom;
       let touchStartObj:TouchStartObj = this.state.pinchStartObj!;

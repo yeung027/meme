@@ -379,8 +379,8 @@ class TouchController extends Component<MyProps, MyStates>
     console.log('new_w: '+new_w +", new_h: "+new_h);
     //console.log('zoom: '+zoom);
     //imgObj[keynum].scale = finally_size[2];
-    imgObj[keynum].width = isTouch ? finally_size[0] : new_w;
-    imgObj[keynum].height = isTouch ? finally_size[1] : new_h;
+    imgObj[keynum].width = isTouch && false ? finally_size[0] : new_w;
+    imgObj[keynum].height = isTouch && false ? finally_size[1] : new_h;
     imgObj[keynum].x = fixed_xy_by_event_center[0];
     imgObj[keynum].y = fixed_xy_by_event_center[1];
 

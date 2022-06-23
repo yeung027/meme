@@ -359,7 +359,14 @@ class TouchController extends Component<MyProps, MyStates>
     
     if(isTouch)
     {
-      fixed_xy_by_event_center = this.getImageCoorByPinchEventCenter(e, this.state.pinchStartObj!.imgObj!);
+      let xy:any = this.fixImgWhileOutOfScreen
+      (
+        isTouch ? finally_size[0] : new_w,
+        isTouch ? finally_size[1] : new_h,
+        fixed_xy_by_event_center[0], 
+        fixed_xy_by_event_center[1]
+      );
+      fixed_xy_by_event_center = [xy.x, xy.y];//this.getImageCoorByPinchEventCenter(e, this.state.pinchStartObj!.imgObj!);
     }
     else
     {

@@ -405,7 +405,7 @@ class TouchController extends Component<MyProps, MyStates>
     //this.debugLog(e.center.x + ', ' + e.center.y);
   }//END zoomByPinchMove
 
-  getImageCoorByPinchEventCenter(e:any, imageObj: any)
+  getImageCoorByPinchEventCenter(e:any, imageObj: EditingImage)
   {
     //let touch_x_percent = this.state.touch_x_percent;
     //let touch_y_percent = this.state.touch_y_percent;
@@ -418,18 +418,18 @@ class TouchController extends Component<MyProps, MyStates>
     let center_x:number = 0;
     let center_y:number = 0;
 
-    if(e.center)
+    if(e.center && !isNaN(e.center.x) && !isNaN(e.center.y))
     {
       center_x = e.center.x;
       center_y = e.center.y;
     }
     else
     {
-      center_x = imageObj.x + (imageObj.w / 2);
+      center_x = imageObj.x + (imageObj.width / 2);
       center_y = imageObj.y+ (imageObj.height / 2);
     }
 
-    let half_image_w = imageObj.w / 2;
+    let half_image_w = imageObj.width / 2;
     let half_image_h = imageObj.height / 2;
     let result_x  = center_x - half_image_w;
     let result_y  = center_y - half_image_h;

@@ -270,7 +270,7 @@ class TouchController extends Component<MyProps, MyStates>
   onPinchMove(e: any, key: any)
   {
     this.zoomByPinchMove(e, key, true);
-    this.rotateByPinchMove(e, key, true);
+    //this.rotateByPinchMove(e, key, true);
   }//END onPinchMove
 
   rotateByPinchMove(e: any, key: any, isTouch:boolean)

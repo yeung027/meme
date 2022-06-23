@@ -366,7 +366,7 @@ class TouchController extends Component<MyProps, MyStates>
         fixed_xy_by_event_center[0], 
         fixed_xy_by_event_center[1]
       );
-      fixed_xy_by_event_center = [xy.x, xy.y];//this.getImageCoorByPinchEventCenter(e, this.state.pinchStartObj!.imgObj!);
+      fixed_xy_by_event_center = this.getImageCoorByPinchEventCenter(e, this.state.pinchStartObj!.imgObj!);
     }
     else
     {

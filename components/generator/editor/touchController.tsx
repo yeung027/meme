@@ -318,8 +318,8 @@ class TouchController extends Component<MyProps, MyStates>
     let desktopStartObj:any = {};
     //this.debugLog(this.state.pinchStartObj.keynum == keynum);
     this.debugLog(e.zoom);
-    if(isTouch && this.state.pinchStartObj?.keynum != keynum) return this.debugLog('error! cannot find pinchStartObj');
-    else if(!isTouch)
+    if(false && isTouch && this.state.pinchStartObj?.keynum != keynum) return this.debugLog('error! cannot find pinchStartObj');
+    else if(true || !isTouch)
     {
       desktopStartObj = {
         key: key,
@@ -357,7 +357,7 @@ class TouchController extends Component<MyProps, MyStates>
     let fixed_xy_by_event_center:any[] = [0,0];
     
     
-    if(isTouch)
+    if(false && isTouch)
     {
       fixed_xy_by_event_center = this.getImageCoorByPinchEventCenter(e, this.state.pinchStartObj!.imgObj!);
     }

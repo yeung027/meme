@@ -301,7 +301,7 @@ class TouchController extends Component<MyProps, MyStates>
     //this.debugLog(e.touches[0].identifier);
     //let tappableNode:any  = eTarget.parentNode;
     //let keynum  = this.getKeyNumByNode(tappableNode);
-    let tappableNode:any  = document.querySelector('#'+key);
+    //let tappableNode:any  = document.querySelector('#'+key);
 
     if(isNaN(keynum))
     {
@@ -330,15 +330,15 @@ class TouchController extends Component<MyProps, MyStates>
     }
 
     let new_scale= 1, new_w = 0 ,new_h = 0;
-    if(false && isTouch)
-    {
-      //new_scale = this.state.pinchStartObj.imgObj.scale * zoom;
-      let touchStartObj:TouchStartObj = this.state.pinchStartObj!;
-      new_w = touchStartObj?.imgObj? touchStartObj.imgObj.width : 0 * zoom;
-      new_h = touchStartObj?.imgObj? touchStartObj.imgObj.height : 0 * zoom;
-    }
-    else
-    {
+    // if(false && isTouch)
+    // {
+    //   //new_scale = this.state.pinchStartObj.imgObj.scale * zoom;
+    //   let touchStartObj:TouchStartObj = this.state.pinchStartObj!;
+    //   new_w = touchStartObj?.imgObj? touchStartObj.imgObj.width : 0 * zoom;
+    //   new_h = touchStartObj?.imgObj? touchStartObj.imgObj.height : 0 * zoom;
+    // }
+    // else
+    // {
       
       let scaling = Math.pow(2,(zoom - 50) / 25);
       
@@ -351,7 +351,7 @@ class TouchController extends Component<MyProps, MyStates>
       new_w = org.width * scaling;
       new_h = org.height * scaling;
       
-    }
+   // }
 
     let finally_size  = this.fixImgSizeWhileZoomOverflow(isTouch, new_w, new_h, new_scale);
     let fixed_xy_by_event_center:any[] = [0,0];
@@ -379,8 +379,8 @@ class TouchController extends Component<MyProps, MyStates>
     console.log('new_w: '+new_w +", new_h: "+new_h);
     //console.log('zoom: '+zoom);
     //imgObj[keynum].scale = finally_size[2];
-    imgObj[keynum].width = isTouch && false ? finally_size[0] : new_w;
-    imgObj[keynum].height = isTouch && false ? finally_size[1] : new_h;
+    imgObj[keynum].width = new_w;//isTouch && false ? finally_size[0] : new_w;
+    imgObj[keynum].height = new_h;//isTouch && false ? finally_size[1] : new_h;
     imgObj[keynum].x = fixed_xy_by_event_center[0];
     imgObj[keynum].y = fixed_xy_by_event_center[1];
 
@@ -389,9 +389,9 @@ class TouchController extends Component<MyProps, MyStates>
      });
 
 
-     this.setState({ 
-      touchStartObj:undefined
-     });
+    //  this.setState({ 
+    //   touchStartObj:undefined
+    //  });
     //this.debugLog(imgObj[keynum].scale);
     //this.debugLog(e.center.x + ', ' + e.center.y);
   }//END zoomByPinchMove

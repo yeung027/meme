@@ -82,7 +82,7 @@ class TouchController extends Component<MyProps, MyStates>
     this.onPressOrDoubleClick                = this.onPressOrDoubleClick.bind(this);
     this.setEditTextUiSelectingTextIndex  = this.setEditTextUiSelectingTextIndex.bind(this);
     this.rotateImg  = this.rotateImg.bind(this);
-    this.rotateByPinchMove  = this.rotateByPinchMove.bind(this);
+    //this.rotateByPinchMove  = this.rotateByPinchMove.bind(this);
   }//END constructor
 
   componentsGetter()

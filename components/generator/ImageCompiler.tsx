@@ -2,6 +2,8 @@ import React,{Component} from 'react';
 import ImageText from './imageText'
 import mergeImages, { Image as MergeImage } from 'merge-images';
 import NextImage from 'next/image';
+import EditingImage from '../../models/editingImage';
+import UploadedImage from '../../models/uploadedImage';
 const convert = require('client-side-image-resize');
 
 type MyProps = {
@@ -182,9 +184,9 @@ class ImageCompiler extends Component<MyProps, MyStates>
   async prepareMergeItems(index:number)
   {
     //console.log(index)
-    let image = this.componentsGetter().canvas().state.images[index];
+    let image:EditingImage = this.componentsGetter().canvas().state.images[index];
 
-    let b64:any = image.upload;
+    let b64:UploadedImage = image.upload;
     let b64ImageSize:any  = await this.getb64ImgSize(b64.data_url);
     //console.log('prepareMergeItems b64ImageSize: '+ b64ImageSize[0]+', '+b64ImageSize[1]);
     if(!b64ImageSize)
@@ -205,8 +207,8 @@ class ImageCompiler extends Component<MyProps, MyStates>
     let compare_output_x = rawImageSize[0] / canvasDetails.w;
     let compare_output_y = rawImageSize[1] / canvasDetails.h;
 
-    let image_org_x = parseInt(image.x) - canvasDetails.left;
-    let image_org_y = parseInt(image.y) - canvasDetails.top;
+    let image_org_x = image.x - canvasDetails.left;
+    let image_org_y = image.y - canvasDetails.top;
 
     
 
@@ -215,12 +217,12 @@ class ImageCompiler extends Component<MyProps, MyStates>
 
     if(!this.parent.parent.state.isMobile)
     {
-      output_x = parseInt(image.x)* (compare_output_x);
-      output_y = parseInt(image.y)* (compare_output_y);
+      output_x = image.x* (compare_output_x);
+      output_y = image.y* (compare_output_y);
     }
 
-    let output_w = parseInt(image.w)* (compare_output_x);
-    let output_h = parseInt(image.h)* (compare_output_y);
+    let output_w = image.width * (compare_output_x);
+    let output_h = image.height * (compare_output_y);
 
     let resizedIMG:any;
 

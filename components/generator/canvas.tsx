@@ -224,7 +224,7 @@ class Canvas extends Component<MyProps, MyStates>
                       <img 
                         id='canvasIMG' 
                         className={this.parent.state.isMobile? mobileStyles.rawImg : styles.rawImg} 
-                        src="/generator/will_smith_punching/raw.png" 
+                        src={this.parent.state.rawImgSrc} 
                         alt="meme" 
                       />
                       

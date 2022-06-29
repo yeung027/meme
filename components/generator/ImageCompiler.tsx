@@ -8,11 +8,9 @@ const convert = require('client-side-image-resize');
 
 type MyProps = {
     parent:any
-    rawImgSrc: string
 };
 
 type MyStates = {
-  imgSrc:string
   output_image_index:number
   output_requester_callback: any
   mergeCount:number
@@ -22,7 +20,6 @@ type MyStates = {
 interface ImageCompiler  {
   parent: any
   imageTextRef: any
-  rawImgSrc: string
 }
 
 class ImageCompiler extends Component<MyProps, MyStates>
@@ -31,9 +28,7 @@ class ImageCompiler extends Component<MyProps, MyStates>
   {
     super(props);
     this.parent = props.parent;
-    this.rawImgSrc  = '/generator/will_smith_punching/raw.png';
     this.state = {
-      imgSrc: this.rawImgSrc,
       output_image_index: -1,
       output_requester_callback: null,
       mergeCount:0,
@@ -260,7 +255,7 @@ class ImageCompiler extends Component<MyProps, MyStates>
       i++;
     }
     objs[i] ={
-      src: this.rawImgSrc,//resizedIMG_URL, //image.upload.data_url,
+      src: this.componentsGetter().page().state.rawImgSrc,//resizedIMG_URL, //image.upload.data_url,
       x: 0, 
       y: 0 ,
       //opacity: 0.7
@@ -412,7 +407,7 @@ class ImageCompiler extends Component<MyProps, MyStates>
 
   getRawImgSize()
   {
-    return this.getb64ImgSize(this.rawImgSrc);
+    return this.getb64ImgSize(this.componentsGetter().page().state.rawImgSrc);
   }//END getRawImgSize
 
   render() 

@@ -2,7 +2,7 @@ import {MemePage} from '../components/pages/meme'
 import { withUserAgent } from 'next-useragent'
 
 
-class WillSmithPunchingPage extends MemePage
+class Another extends MemePage
 {
   constructor(props:any)
   {
@@ -11,7 +11,7 @@ class WillSmithPunchingPage extends MemePage
     this.state = {
       isMobile: this.state.isMobile,
       debug: this.state.debug,
-      rawImgSrc: "/generator/will_smith_punching/raw.png"
+      rawImgSrc: "/generator/will_smith_punching/raw222.png"
     }
 
   }//END constructor  
@@ -20,4 +20,4 @@ class WillSmithPunchingPage extends MemePage
 
   }//END class WillSmithPunchingPage
 
-export default withUserAgent(WillSmithPunchingPage);
+export default withUserAgent(Another);

@@ -20,7 +20,8 @@ type MyProps = {
 type MyStates = {
   isMobile: boolean
   debug: boolean
-  rawImgSrc: any
+  rawImgSrc: string
+  pageTitle: string
 };
 
 
@@ -43,7 +44,9 @@ export class MemePage extends Component<MyProps & WithUserAgentProps, MyStates>
     this.state = {
       isMobile: ua.isMobile,
       debug: this.props.debug =='true',
-      rawImgSrc: "/generator/will_smith_punching/raw.png"
+      rawImgSrc: "/generator/will_smith_punching/happy.png",
+      pageTitle: "Meme Generator"
+      
     }//END state
 
     this.componentsGetterRef = React.createRef();

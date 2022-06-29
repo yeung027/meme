@@ -44,7 +44,7 @@ class Header extends Component<MyProps, MyStates>
       return    <>
                     <div className={this.parent.state.isMobile? mobileStyles.container : styles.container} id="rootHeader">
                         <div className={this.parent.state.isMobile? mobileStyles.title : styles.title}>
-                            Will Smith Punching generator
+                            {this.parent.state.pageTitle}
                         </div>
                         <div className={this.parent.state.isMobile? mobileStyles.right : styles.right}>
                             <IconButton color="primary" component="span">

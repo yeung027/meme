@@ -11,7 +11,8 @@ class Another extends MemePage
     this.state = {
       isMobile: this.state.isMobile,
       debug: this.state.debug,
-      rawImgSrc: "/generator/will_smith_punching/raw222.png"
+      rawImgSrc: "/generator/will_smith_punching/raw222.png",
+      pageTitle: "Another generator"
     }
 
   }//END constructor  

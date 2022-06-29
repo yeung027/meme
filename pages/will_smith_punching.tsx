@@ -11,7 +11,8 @@ class WillSmithPunchingPage extends MemePage
     this.state = {
       isMobile: this.state.isMobile,
       debug: this.state.debug,
-      rawImgSrc: "/generator/will_smith_punching/raw.png"
+      rawImgSrc: "/generator/will_smith_punching/raw.png",
+      pageTitle: "Will Smith Punching generator"
     }
 
   }//END constructor  

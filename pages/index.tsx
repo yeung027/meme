@@ -4,6 +4,7 @@ import Header from '../components/generator/header'
 import styles from '../styles/index/desktop.module.css'
 import mobileStyles from '../styles/index/mobile.module.css'
 import Link from 'next/link'
+import Menu from '../components/menu';
 
 type MyProps = {
   ua: any,
@@ -19,6 +20,7 @@ type MyStates = {
 };
 
 interface IndexPage{
+  menuRef: any
   headerRef: any
 }
 
@@ -39,6 +41,7 @@ class IndexPage extends Component<MyProps & WithUserAgentProps, MyStates>
       pageTitle: "Meme Generator"
     }//END state
 
+    this.menuRef = React.createRef();
     this.headerRef = React.createRef();
 
     this.getList           = this.getList.bind(this);
@@ -100,7 +103,7 @@ class IndexPage extends Component<MyProps & WithUserAgentProps, MyStates>
     if(this.state.isMobile)
     {
       ele = <>
-
+              <Menu parent={this} ref={this.menuRef} /> 
               <Header parent={this} ref={this.headerRef} /> 
               <div className={mobileStyles.whiteContainer}>
                 {this.getList()}

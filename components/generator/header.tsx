@@ -25,8 +25,9 @@ class Header extends Component<MyProps, MyStates>
     this.state = {
       
     }//END state
-    this.componentsGetter        = this.componentsGetter.bind(this);
+    this.componentsGetter         = this.componentsGetter.bind(this);
     this.exportBtnClick           = this.exportBtnClick.bind(this);
+    this.menuBtnClick             = this.menuBtnClick.bind(this);
   }//END constructor
 
   componentsGetter()
@@ -39,6 +40,11 @@ class Header extends Component<MyProps, MyStates>
     this.componentsGetter().exportDialog().export();
   }//END exportBtnClick
 
+  menuBtnClick()
+  {
+    this.parent.menuRef.current.setOpen(true);
+  }
+
   render() 
   {
       return    <>
@@ -47,7 +53,7 @@ class Header extends Component<MyProps, MyStates>
                             {this.parent.state.pageTitle}
                         </div>
                         <div className={this.parent.state.isMobile? mobileStyles.right : styles.right}>
-                            <IconButton color="primary" component="span">
+                            <IconButton color="primary" component="span" onClick={this.menuBtnClick}>
                             <i className={'bx bx-dots-vertical-rounded'} />
                             </IconButton>
                             {!this.parent.state.isIndex &&

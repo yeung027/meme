@@ -103,7 +103,6 @@ class IndexPage extends Component<MyProps & WithUserAgentProps, MyStates>
     if(this.state.isMobile)
     {
       ele = <>
-              <Menu parent={this} ref={this.menuRef} /> 
               <Header parent={this} ref={this.headerRef} /> 
               <div className={mobileStyles.whiteContainer}>
                 {this.getList()}
@@ -130,6 +129,7 @@ class IndexPage extends Component<MyProps & WithUserAgentProps, MyStates>
 
 
     return  <div id="rootDiv">
+              <Menu parent={this} ref={this.menuRef} /> 
               <div className={this.state.isMobile? mobileStyles.container : styles.container} id ='page-root'>
                  {ele}
               </div>

@@ -86,3 +86,27 @@
 {
     color: #5c5c5c;
 }
+
+.poweredBy
+{
+    display: flex;
+    flex-flow: column;
+    height: 100%;
+    justify-content: end;
+    align-items: center;
+    /* border: red 1px solid; */
+    width: 100%;
+    padding: 0 0 10px 0;
+    font-size: 12px;
+}
+.poweredByInner
+{
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+}
+.poweredBy span.name
+{
+    color: #6900c5;
+    display: inline;
+}

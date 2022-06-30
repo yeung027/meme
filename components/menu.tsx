@@ -69,6 +69,9 @@ class Menu extends Component<MyProps, MyStates>
       xBtnClass = [xBtnClass, 'bx bx-x'].join(' ');
 
 
+      let poweredByClass = this.parent.state.isMobile ? mobileStyles.item : styles.item;
+      poweredByClass = [poweredByClass, this.parent.state.isMobile ? mobileStyles.poweredBy : styles.poweredBy].join(' ');
+
       return  <div className={containerClass}>
                 <div className={this.parent.state.isMobile ? mobileStyles.inner : styles.inner}>
                   <div className={this.parent.state.isMobile ? mobileStyles.XbtnContainer : styles.XbtnContainer}>
@@ -83,6 +86,13 @@ class Menu extends Component<MyProps, MyStates>
                         </div>
                       </a>
                     </Link>
+
+                    <div className={poweredByClass}>
+                      <span className={this.parent.state.isMobile ? mobileStyles.poweredByInner : styles.poweredByInner}>
+                        <span className={this.parent.state.isMobile ? mobileStyles.by : styles.by}>by</span>
+                        <span className={this.parent.state.isMobile ? mobileStyles.name : styles.name}>HeyHei</span>
+                      </span>
+                    </div>
                   </div>
                 </div>
                 <div className={this.parent.state.isMobile ? mobileStyles.empty : styles.empty} onClick={this.emptyClick} />

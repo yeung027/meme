@@ -9,6 +9,7 @@ import Canvas from '../generator/canvas'
 import BottomControlPanel from '../generator/bottomControlPanel'
 import ExportDialog from '../generator/exportDialog'
 import ComponentsGetter from '../helpers/componentsGetter'
+import Menu from '../menu';
 
 type MyProps = {
   ua: any,
@@ -27,6 +28,7 @@ type MyStates = {
 
 export class MemePage extends Component<MyProps & WithUserAgentProps, MyStates> 
 {
+  menuRef: any
   headerRef: any;
   stepsRef: any;
   canvasRef: any;
@@ -50,6 +52,7 @@ export class MemePage extends Component<MyProps & WithUserAgentProps, MyStates>
       
     }//END state
 
+    this.menuRef = React.createRef();
     this.componentsGetterRef = React.createRef();
     this.headerRef = React.createRef();
     this.stepsRef = React.createRef();
@@ -118,6 +121,7 @@ export class MemePage extends Component<MyProps & WithUserAgentProps, MyStates>
 
 
     return  <div id="rootDiv">
+              <Menu parent={this} ref={this.menuRef} /> 
               <ExportDialog parent={this} ref={this.exportDialogRef} />
               <CPU parent={this} ref={this.cpuRef} />
               <div className={this.state.isMobile? mobileStyles.container : styles.container} id ='page-root'>

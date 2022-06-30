@@ -1,6 +1,7 @@
 import React,{Component} from 'react';
 import styles from '../styles/menu/desktop.module.css'
 import mobileStyles from '../styles/menu/mobile.module.css'
+import Link from 'next/link'
 
 type MyProps = {
     parent:any
@@ -29,6 +30,7 @@ class Menu extends Component<MyProps, MyStates>
     this.setOpen              = this.setOpen.bind(this);
     this.emptyClick           = this.emptyClick.bind(this);
     this.xBtnClick            = this.xBtnClick.bind(this);
+    this.homeAClick           = this.homeAClick.bind(this);
   }//END constructor
 
   setOpen(v: boolean)
@@ -44,6 +46,11 @@ class Menu extends Component<MyProps, MyStates>
   }
 
   xBtnClick()
+  {
+    this.setOpen(false);
+  }
+
+  homeAClick()
   {
     this.setOpen(false);
   }
@@ -66,7 +73,16 @@ class Menu extends Component<MyProps, MyStates>
                   <div className={this.parent.state.isMobile ? mobileStyles.XbtnContainer : styles.XbtnContainer}>
                     <i className={xBtnClass} onClick={this.xBtnClick} />
                   </div>
-                  menu
+                  <div className={this.parent.state.isMobile ? mobileStyles.listWrapper : styles.listWrapper}>
+                    <Link href="/">
+                      <a onClick={this.homeAClick}>
+                        <div className={this.parent.state.isMobile ? mobileStyles.item : styles.item}>
+                        <i className={'bx bxs-home-alt-2'} onClick={this.xBtnClick} />
+                          Home
+                        </div>
+                      </a>
+                    </Link>
+                  </div>
                 </div>
                 <div className={this.parent.state.isMobile ? mobileStyles.empty : styles.empty} onClick={this.emptyClick} />
               </div>;

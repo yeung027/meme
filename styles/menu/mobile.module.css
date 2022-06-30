@@ -54,3 +54,35 @@
     cursor: pointer;
     margin: 10px 10px 0 0;
 }
+
+.listWrapper
+{
+    /* border: blue 1px solid; */
+    width: 100%;
+    height: 99%;
+    margin-top: -30px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.item:first-child
+{
+    padding-top: 60px;
+}
+
+.item
+{
+    display: flex;
+    flex-direction: row;
+    gap:10px;
+    color: #5c5c5c;
+    /* border: blue 1px solid; */
+    padding: 0 30px;
+    justify-content: left;
+}
+
+.item i
+{
+    color: #5c5c5c;
+}

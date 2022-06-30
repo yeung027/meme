@@ -35,7 +35,7 @@ class CPU extends Component<MyProps, MyStates>
   {
       return  <>
                 <ImageEditor parent={this} ref={this.imageEditorRef} rawImgSrc={''} />
-                <ImageCompiler parent={this} ref={this.compilerRef} rawImgSrc={''} />
+                <ImageCompiler parent={this} ref={this.compilerRef} />
               </>;
   }
 

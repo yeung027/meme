@@ -240,7 +240,7 @@ class ExportDialog extends Component<MyProps, MyStates>
     if(this.state.exportSrc != '')
     {
       dialogMainEle =   <div className={this.parent.state.isMobile? mobileStyles.imageWrapper : styles.imageWrapper}>
-                          {<img src={this.state.exportSrc} 
+                          {<img src={this.state.exportSrc!} 
                             className={this.parent.state.isMobile? mobileStyles.image : styles.image} 
                           />}
                         </div>

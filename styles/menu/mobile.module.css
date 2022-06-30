@@ -92,7 +92,7 @@
     display: flex;
     /* flex-flow: column;
     height: 100%; */
-    height: calc(100% - 30px);
+    height: calc(100% - 50px);
     justify-content: center;
     align-items: flex-end;
     /* border: red 1px solid; */

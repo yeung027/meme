@@ -1,7 +1,7 @@
 import React,{Component} from 'react';
 import { WithUserAgentProps, withUserAgent } from 'next-useragent'
-import styles from '../../styles/will_smith_punching/desktop.module.css'
-import mobileStyles from '../../styles/will_smith_punching/mobile.module.css'
+import styles from '../../styles/memepage/desktop.module.css'
+import mobileStyles from '../../styles/memepage/mobile.module.css'
 import Header from '../generator/header'
 import CPU from '../generator/cpu'
 import Steps from '../generator/steps'
@@ -34,6 +34,7 @@ export class MemePage extends Component<MyProps & WithUserAgentProps, MyStates>
   cpuRef: any;
   exportDialogRef: any;
   componentsGetterRef: any;
+
   constructor(props:any)
   {
     super(props);
@@ -126,4 +127,4 @@ export class MemePage extends Component<MyProps & WithUserAgentProps, MyStates>
   }
 
 
-}//END class WillSmithPunchingPage
+}//END class MemePage

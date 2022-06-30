@@ -1,0 +1,65 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap');
+.container
+{
+    display:flex;
+    flex-direction: column;
+    width:100%;
+    height:100%;
+    justify-content:flex-start;
+    align-items:flex-start;
+    /* border:red solid 1px; */
+}
+
+
+.main
+{
+    width: 100%;
+    height: calc(100% - 80px);
+    display:flex;
+    flex-direction: row;
+    -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+    box-sizing: border-box;         /* Opera/IE 8+ */
+    background-color: #F5F5F5;
+}
+
+.whiteContainer
+{
+    display:flex;
+    background-color: #F5F5F5;
+    width: 309px;
+    display: flex;
+    flex-direction: row;
+    -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+    box-sizing: border-box;         /* Opera/IE 8+ */
+}
+
+.whiteContainerInner
+{
+    display:flex;
+    background-color: #FFF;
+    width: 300px;
+    height: 100%;
+    -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+    box-sizing: border-box;         /* Opera/IE 8+ */
+    box-shadow: 3px 2px 5px 0px  rgba(0,0,0,0.19);
+    
+}
+
+.right
+{
+    display:flex;
+    background-color: #F5F5F5;
+    width: calc(100% - 309px);
+    height: 100%; 
+    display: flex;
+    flex-direction: column;
+    justify-content:flex-start;
+    align-items:center;
+    -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+    box-sizing: border-box;         /* Opera/IE 8+ */
+   /*  border:red solid 3px;  */
+}

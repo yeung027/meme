@@ -45,8 +45,8 @@ class Header extends Component<MyProps, MyStates>
                     <div className={this.parent.state.isMobile? mobileStyles.container : styles.container} id="rootHeader">
                         <div className={this.parent.state.isMobile? mobileStyles.title : styles.title}>
                             {this.parent.state.pageTitle}
-                        </div>
-                        <div className={this.parent.state.isMobile? mobileStyles.right : styles.right}>
+                        </div>dasds
+                        {/* <div className={this.parent.state.isMobile? mobileStyles.right : styles.right}>
                             <IconButton color="primary" component="span">
                             <i className={'bx bx-dots-vertical-rounded'} />
                             </IconButton>
@@ -56,7 +56,7 @@ class Header extends Component<MyProps, MyStates>
                                     onClick={this.exportBtnClick}
                                  />
                             </IconButton>
-                        </div>
+                        </div> */}
                     </div>
                 </>
   }

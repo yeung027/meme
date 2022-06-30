@@ -1,10 +1,10 @@
 import React,{Component} from 'react';
 import ImageText from './imageText'
-import mergeImages, { Image as MergeImage } from 'merge-images';
-import NextImage from 'next/image';
+import mergeImages from 'merge-images'; //, { Image as MergeImage }
+//import NextImage from 'next/image';
 import EditingImage from '../../models/editingImage';
 import UploadedImage from '../../models/uploadedImage';
-const convert = require('client-side-image-resize');
+//const convert = require('client-side-image-resize');
 
 type MyProps = {
     parent:any

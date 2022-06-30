@@ -16,7 +16,7 @@
 {
     background-color: #F5F5F5;
     width: 100%;
-    height: calc(100% - 172px);
+    height: 100%;
     -webkit-border-top-left-radius: 25px;
     -webkit-border-top-right-radius: 25px;
     -moz-border-radius-topleft: 25px;
@@ -39,4 +39,72 @@
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.listWrapper
+{
+    /* border: red 2px solid; */
+    display: flex;
+    flex-direction: column;
+    gap:18px;
+
+}
+
+.listItem
+{
+    border-radius: 20px;
+    background-color: #FFF;
+    padding: 5px 15px;
+    box-shadow: 5px 5px 15px 3px rgba(0,0,0,0.09);
+    display: flex;
+    flex-direction: row;
+}
+
+.avator
+{
+    border-radius:50%;
+    border: #6900c5 2px solid;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    width: 51px;
+    height: 51px;
+}
+
+.avator img
+{
+    width: 46px;
+    height: 46px;
+    margin: auto;
+}
+
+.listItemCenter
+{
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+    margin-left: 20px;
+    /* border: red 1px solid; */
+    gap: 1px;
+}
+
+.listItemCenter span
+{
+    height: 20px;
+    /* border: blue 1px solid; */
+}
+
+.listItemTitle
+{
+    color: #000;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.listItemH2
+{
+    color: #8497AF;
+    font-size: 14px;
+    font-weight: normal;
 }

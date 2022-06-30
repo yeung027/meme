@@ -3,6 +3,7 @@ import { WithUserAgentProps, withUserAgent } from 'next-useragent'
 import Header from '../components/generator/header'
 import styles from '../styles/index/desktop.module.css'
 import mobileStyles from '../styles/index/mobile.module.css'
+import Link from 'next/link'
 
 type MyProps = {
   ua: any,
@@ -11,6 +12,7 @@ type MyProps = {
 };
 
 type MyStates = {
+  isIndex: boolean
   isMobile: boolean
   debug: boolean
   pageTitle: string
@@ -31,6 +33,7 @@ class IndexPage extends Component<MyProps & WithUserAgentProps, MyStates>
     useragent = this.props.useragent;
 
     this.state = {
+      isIndex: true,
       isMobile: ua.isMobile,
       debug: this.props.debug =='true',
       pageTitle: "Meme Generator"
@@ -38,6 +41,7 @@ class IndexPage extends Component<MyProps & WithUserAgentProps, MyStates>
 
     this.headerRef = React.createRef();
 
+    this.getList           = this.getList.bind(this);
   }//END constructor  
   
 
@@ -56,6 +60,40 @@ class IndexPage extends Component<MyProps & WithUserAgentProps, MyStates>
       body.classList.add(this.state.isMobile ? 'mobile_body_noscroll' : 'desktop_body_noscroll');
   }//END componentDidMount
 
+  getList()
+  {
+    return  <div className={this.state.isMobile ? mobileStyles.listWrapper : styles.listWrapper}>
+              <Link href="will_smith_punching">
+                <a 
+                className={this.state.isMobile ? mobileStyles.listItem : styles.listItem}
+                >
+                  <div className={this.state.isMobile ? mobileStyles.avator : styles.avator}>
+                    <img src='generator/will_smith_punching/happy.png' />
+                  </div>
+                  <div className={this.state.isMobile ? mobileStyles.listItemCenter : styles.listItemCenter}>
+                    <span className={this.state.isMobile ? mobileStyles.listItemTitle : styles.listItemTitle}>title 1</span>
+                    <span className={this.state.isMobile ? mobileStyles.listItemH2 : styles.listItemH2}>sub</span>
+                  </div>
+                </a>
+              </Link>
+
+              <Link href="another">
+                <a className={this.state.isMobile ? mobileStyles.listItem : styles.listItem}>
+                  <div className={this.state.isMobile ? mobileStyles.avator : styles.avator}>
+                    <img src='generator/will_smith_punching/raw222.png' />
+                  </div>
+                  <div className={this.state.isMobile ? mobileStyles.listItemCenter : styles.listItemCenter}>
+                    <span className={this.state.isMobile ? mobileStyles.listItemTitle : styles.listItemTitle}>title 2</span>
+                    <span className={this.state.isMobile ? mobileStyles.listItemH2 : styles.listItemH2}>sub 2</span>
+                  </div>
+                </a>
+              </Link>
+
+
+            </div>
+  }//END getlist
+
+
   render() 
   {
     let ele = null;
@@ -65,10 +103,7 @@ class IndexPage extends Component<MyProps & WithUserAgentProps, MyStates>
 
               <Header parent={this} ref={this.headerRef} /> 
               <div className={mobileStyles.whiteContainer}>
-                
-              </div>
-              <div className={mobileStyles.bottomControlPanelContainer}>
-                
+                {this.getList()}
               </div>
             </>
     }
@@ -84,7 +119,7 @@ class IndexPage extends Component<MyProps & WithUserAgentProps, MyStates>
                   </div>
                 </div>
                 <div className={styles.right}>
-                  
+                  {this.getList()}
                 </div>
               </div>
             </div>

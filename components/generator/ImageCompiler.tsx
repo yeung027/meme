@@ -169,7 +169,7 @@ class ImageCompiler extends Component<MyProps, MyStates>
       });
     });//END Promise
 
-    let output = await this.b64ToImgFile(merge);
+    let output = await this.b64ToImgFile(merge);//s
     //console.log(output);
     this.state.output_requester_callback(merge, output);
 

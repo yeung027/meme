@@ -812,6 +812,8 @@ class TouchController extends Component<MyProps, MyStates>
     }, {
       passive: false,
     })
+
+    this.parent.parent.touchControllerDidMountCallback();
   }//END componentDidMount
 
   render() 

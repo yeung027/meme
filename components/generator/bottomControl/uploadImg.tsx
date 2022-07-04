@@ -94,6 +94,7 @@ class ButtonControlUploadGUI extends Component<MyProps, MyStates>
 
   componentDidMount() 
   {
+    this.parent.parent.uploadImgDidMountCallback();
     let img_file: HTMLElement = document.querySelector("#img_file") as HTMLElement;
 
     if(img_file)

@@ -57,6 +57,7 @@ class Menu extends Component<MyProps, MyStates>
 
   componentDidMount() 
   {
+    this.parent.menuDidMountCallback();
     //console.log(this)
   }//END componentDidMount
 

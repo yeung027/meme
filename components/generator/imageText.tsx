@@ -47,6 +47,11 @@ class ImageText extends Component<MyProps, MyStates>
     
   }//END constructor
 
+  componentDidMount() 
+  {
+    this.parent.parent.parent.imageTextDidMountCallback();
+  }//END componentDidMount
+
   componentsGetter()
   {
     return this.parent.parent.parent.componentsGetterRef.current;

@@ -39,6 +39,11 @@ class Steps extends Component<MyProps, MyStates>
 
   }//END constructor
 
+  componentDidMount() 
+  {
+    this.parent.stepsDidMountCallback();
+  }//END componentDidMount
+
   stepChange(step:string)
   {
     if(step === this.step.UPLOADIMG)

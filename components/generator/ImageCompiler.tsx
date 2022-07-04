@@ -53,6 +53,11 @@ class ImageCompiler extends Component<MyProps, MyStates>
     
   }//END constructor
 
+  componentDidMount() 
+  {
+    this.parent.parent.imageCompilerDidMountCallback();
+  }//END componentDidMount
+
   componentsGetter()
   {
     return this.parent.parent.componentsGetterRef.current;

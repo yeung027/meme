@@ -35,6 +35,11 @@ class ComponentsGetter extends Component<MyProps, MyStates>
     this.editText                 = this.editText.bind(this);
   }//END constructor
 
+  componentDidMount() 
+  {
+    this.parent.componentsGetterDidMountCallback();
+  }//END componentDidMount
+
   isMobile()
   {
     return this.page().state.isMobile;

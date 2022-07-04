@@ -23,7 +23,19 @@ type MyStates = {
   debug: boolean
   rawImgSrc: string
   pageTitle: string
-  headertDidMount: boolean
+  headerDidMount: boolean
+  stepsDidMount: boolean
+  canvasDidMount: boolean
+  bottomControlPanelDidMount: boolean
+  uploadImgDidMount: boolean
+  cpuDidMount: boolean
+  imageEditorDidMount: boolean
+  imageTextDidMount: boolean
+  imageCompilerDidMount: boolean
+  componentsGetterDidMount: boolean
+  exportDialogDidMount: boolean
+  menuDidMount: boolean
+  touchControllerDidMount: boolean
 };
 
 
@@ -50,8 +62,19 @@ export class MemePage extends Component<MyProps & WithUserAgentProps, MyStates>
       debug: this.props.debug =='true',
       rawImgSrc: "/generator/will_smith_punching/happy.png",
       pageTitle: "Meme Generator",
-      headertDidMount:false
-      
+      headerDidMount: false,
+      stepsDidMount: false,
+      canvasDidMount: false,
+      bottomControlPanelDidMount: false,
+      uploadImgDidMount: false,
+      cpuDidMount: false,
+      imageEditorDidMount: false,
+      imageTextDidMount: false,
+      imageCompilerDidMount: false,
+      componentsGetterDidMount: false,
+      exportDialogDidMount: false,
+      menuDidMount: false,
+      touchControllerDidMount: false
     }//END state
 
     this.menuRef = React.createRef();
@@ -63,11 +86,27 @@ export class MemePage extends Component<MyProps & WithUserAgentProps, MyStates>
     this.cpuRef = React.createRef();
     this.exportDialogRef = React.createRef();
 
-    this.checkIsAllCallbackDoneAndDo     = this.checkIsAllCallbackDoneAndDo.bind(this);
-    this.headertDidMountCallback         = this.headertDidMountCallback.bind(this);
-
+    this.checkIsAllCallbackDoneAndDo      = this.checkIsAllCallbackDoneAndDo.bind(this);
+    this.headerDidMountCallback           = this.headerDidMountCallback.bind(this);
+    this.stepsDidMountCallback            = this.stepsDidMountCallback.bind(this);
+    this.canvasDidMountCallback           = this.canvasDidMountCallback.bind(this);
+    this.bottomControlPanelDidMountCallback           = this.bottomControlPanelDidMountCallback.bind(this);
+    this.uploadImgDidMountCallback           = this.uploadImgDidMountCallback.bind(this);
+    this.cpuDidMountCallback           = this.cpuDidMountCallback.bind(this);
+    this.imageEditorDidMountCallback           = this.imageEditorDidMountCallback.bind(this);
+    this.imageTextDidMountCallback           = this.imageTextDidMountCallback.bind(this);
+    this.imageCompilerDidMountCallback           = this.imageCompilerDidMountCallback.bind(this);
+    this.componentsGetterDidMountCallback           = this.componentsGetterDidMountCallback.bind(this);
+    this.exportDialogDidMountCallback           = this.exportDialogDidMountCallback.bind(this);
+    this.menuDidMountCallback           = this.menuDidMountCallback.bind(this);
+    this.touchControllerDidMountCallback           = this.touchControllerDidMountCallback.bind(this);
+    this.getState           = this.getState.bind(this);
   }//END constructor  
   
+  getState()
+  {
+    return this.state;
+  }
 
   static async getInitialProps(ctx:any) 
   {
@@ -84,16 +123,102 @@ export class MemePage extends Component<MyProps & WithUserAgentProps, MyStates>
       body.classList.add(this.state.isMobile ? 'mobile_body_noscroll' : 'desktop_body_noscroll');
   }//END componentDidMount
 
-  headertDidMountCallback()
+  headerDidMountCallback()
   {
     this.setState({
-      headertDidMount:false
+      headerDidMount:true
     },this.checkIsAllCallbackDoneAndDo);
-  }//END headertDidMountCallback
+  }//END headerDidMountCallback
+
+  stepsDidMountCallback()
+  {
+    this.setState({
+      stepsDidMount:true
+    },this.checkIsAllCallbackDoneAndDo);
+  }//END stepsDidMountCallback
+
+  canvasDidMountCallback()
+  {
+    this.setState({
+      canvasDidMount:true
+    },this.checkIsAllCallbackDoneAndDo);
+  }//END canvasDidMountCallback
+
+  bottomControlPanelDidMountCallback()
+  {
+    this.setState({
+      bottomControlPanelDidMount:true
+    },this.checkIsAllCallbackDoneAndDo);
+  }//END bottomControlPanelDidMountCallback
+
+  uploadImgDidMountCallback()
+  {
+    this.setState({
+      uploadImgDidMount:true
+    },this.checkIsAllCallbackDoneAndDo);
+  }//END uploadImgDidMountCallback
+
+  cpuDidMountCallback()
+  {
+    this.setState({
+      cpuDidMount:true
+    },this.checkIsAllCallbackDoneAndDo);
+  }//END cpuDidMountCallback
+
+  imageEditorDidMountCallback()
+  {
+    this.setState({
+      imageEditorDidMount:true
+    },this.checkIsAllCallbackDoneAndDo);
+  }//END imageEditorDidMountCallback
+
+  imageTextDidMountCallback()
+  {
+    this.setState({
+      imageTextDidMount:true
+    },this.checkIsAllCallbackDoneAndDo);
+  }//END imageTextDidMountCallback
+
+  imageCompilerDidMountCallback()
+  {
+    this.setState({
+      imageCompilerDidMount:true
+    },this.checkIsAllCallbackDoneAndDo);
+  }//END imageCompilerDidMountCallback
+
+  componentsGetterDidMountCallback()
+  {
+    this.setState({
+      componentsGetterDidMount:true
+    },this.checkIsAllCallbackDoneAndDo);
+  }//END componentsGetterDidMountCallback
+
+  exportDialogDidMountCallback()
+  {
+    this.setState({
+      exportDialogDidMount:true
+    },this.checkIsAllCallbackDoneAndDo);
+  }//END exportDialogDidMountCallback
+
+  menuDidMountCallback()
+  {
+    this.setState({
+      menuDidMount:true
+    },this.checkIsAllCallbackDoneAndDo);
+  }//END menuDidMountCallback
+
+  touchControllerDidMountCallback()
+  {
+    this.setState({
+      touchControllerDidMount:true
+    },this.checkIsAllCallbackDoneAndDo);
+  }//END touchControllerDidMountCallback
 
   checkIsAllCallbackDoneAndDo()
   {
-    console.log('yeah');
+    console.log(this.state.headerDidMount && this.state.stepsDidMount && this.state.canvasDidMount && this.state.bottomControlPanelDidMount
+      && this.state.uploadImgDidMount && this.state.cpuDidMount && this.state.imageEditorDidMount && this.state.imageTextDidMount
+      && this.state.imageCompilerDidMount && this.state.componentsGetterDidMount && this.state.exportDialogDidMount && this.state.menuDidMount && this.state.touchControllerDidMount);
   }
 
   render() 

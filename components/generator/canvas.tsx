@@ -62,6 +62,7 @@ class Canvas extends Component<MyProps, MyStates>
   {
     this.updateCanvasComputedStyle();
     this.loadTouchController();
+    this.parent.canvasDidMountCallback();
   }//END componentDidMount
 
 

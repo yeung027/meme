@@ -214,6 +214,7 @@ class ExportDialog extends Component<MyProps, MyStates>
     this.updatePageComputedStyle();
     this.updateAppBarComputedStyle();
     this.updateCloseBtnComputedStyle();
+    this.parent.exportDialogDidMountCallback();
   }
 
   render() 

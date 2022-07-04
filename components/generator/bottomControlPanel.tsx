@@ -54,6 +54,11 @@ class BottomControlPanel extends Component<MyProps, MyStates>
     this.stageChange  = this.stageChange.bind(this);
   }//END constructor
 
+  componentDidMount() 
+  {
+    this.parent.bottomControlPanelDidMountCallback();
+  }//END componentDidMount
+
   animationEnd()
   {
     //console.log('animationEnd');

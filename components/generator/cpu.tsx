@@ -31,6 +31,11 @@ class CPU extends Component<MyProps, MyStates>
     this.imageEditorRef = React.createRef();
   }//END constructor
 
+  componentDidMount() 
+  {
+    this.parent.cpuDidMountCallback();
+  }//END componentDidMount
+
   render() 
   {
       return  <>

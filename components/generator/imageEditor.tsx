@@ -41,6 +41,11 @@ class ImageEditor extends Component<MyProps, MyStates>
     
   }//END constructor
 
+  componentDidMount() 
+  {
+    this.parent.parent.imageEditorDidMountCallback();
+  }//END componentDidMount
+
   componentsGetter()
   {
     return this.parent.parent.componentsGetterRef.current;

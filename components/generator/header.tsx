@@ -48,7 +48,7 @@ class Header extends Component<MyProps, MyStates>
   componentDidMount() 
   {
     if(!this.parent.state.isIndex)
-      this.parent.headertDidMountCallback();
+      this.parent.headerDidMountCallback();
   }//END componentDidMount
 
   render() 

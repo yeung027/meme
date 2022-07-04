@@ -57,7 +57,7 @@ class Menu extends Component<MyProps, MyStates>
 
   componentDidMount() 
   {
-    console.log(this)
+    //console.log(this)
   }//END componentDidMount
 
   render() 

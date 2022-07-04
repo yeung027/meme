@@ -23,6 +23,7 @@ type MyStates = {
   debug: boolean
   rawImgSrc: string
   pageTitle: string
+  headertDidMount: boolean
 };
 
 
@@ -48,7 +49,8 @@ export class MemePage extends Component<MyProps & WithUserAgentProps, MyStates>
       isMobile: ua.isMobile,
       debug: this.props.debug =='true',
       rawImgSrc: "/generator/will_smith_punching/happy.png",
-      pageTitle: "Meme Generator"
+      pageTitle: "Meme Generator",
+      headertDidMount:false
       
     }//END state
 
@@ -60,6 +62,9 @@ export class MemePage extends Component<MyProps & WithUserAgentProps, MyStates>
     this.bottomControlPanelRef = React.createRef();
     this.cpuRef = React.createRef();
     this.exportDialogRef = React.createRef();
+
+    this.checkIsAllCallbackDoneAndDo     = this.checkIsAllCallbackDoneAndDo.bind(this);
+    this.headertDidMountCallback         = this.headertDidMountCallback.bind(this);
 
   }//END constructor  
   
@@ -78,6 +83,18 @@ export class MemePage extends Component<MyProps & WithUserAgentProps, MyStates>
     if(body)
       body.classList.add(this.state.isMobile ? 'mobile_body_noscroll' : 'desktop_body_noscroll');
   }//END componentDidMount
+
+  headertDidMountCallback()
+  {
+    this.setState({
+      headertDidMount:false
+    },this.checkIsAllCallbackDoneAndDo);
+  }//END headertDidMountCallback
+
+  checkIsAllCallbackDoneAndDo()
+  {
+    console.log('yeah');
+  }
 
   render() 
   {

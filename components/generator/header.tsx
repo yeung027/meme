@@ -45,6 +45,12 @@ class Header extends Component<MyProps, MyStates>
     this.parent.menuRef.current.setOpen(true);
   }
 
+  componentDidMount() 
+  {
+    if(!this.parent.state.isIndex)
+      this.parent.headertDidMountCallback();
+  }//END componentDidMount
+
   render() 
   {
       return    <>

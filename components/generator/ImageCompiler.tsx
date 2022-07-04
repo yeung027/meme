@@ -221,7 +221,7 @@ class ImageCompiler extends Component<MyProps, MyStates>
 
     let resizedIMG:any;
 
-    console.log('before resize!!!!');
+    //console.log('before resize!!!!');
     try
     {
       resizedIMG  = await this.resizeIMG(b64.data_url, output_w, output_h);
@@ -231,7 +231,7 @@ class ImageCompiler extends Component<MyProps, MyStates>
       //console.error(error);
       throw (error);
     }
-    console.log('after resize!!!!' + resizedIMG);
+    //console.log('after resize!!!!' + resizedIMG);
     let resizedIMG_URL = resizedIMG;//URL.createObjectURL(resizedIMG);
     let obj = {
       src: resizedIMG_URL,//resizedIMG_URL, //image.upload.data_url,
@@ -239,7 +239,7 @@ class ImageCompiler extends Component<MyProps, MyStates>
       y: output_y ,
       //opacity: 0.2
     };
-    console.log(obj);
+    //console.log(obj);
     return obj;
     
   }//END prepareMergeItems
@@ -250,7 +250,7 @@ class ImageCompiler extends Component<MyProps, MyStates>
     let objs:any[] = [];
     for (const image of this.componentsGetter().canvas().state.images) {
       let obj = await this.prepareMergeItems(i);
-      console.log(i);
+      //console.log(i);
       objs[i] = obj;
       i++;
     }
@@ -261,7 +261,7 @@ class ImageCompiler extends Component<MyProps, MyStates>
       //opacity: 0.7
     };
 
-    console.log('finally'+objs.length);
+    //console.log('finally'+objs.length);
 
     let rawImageSize:any  = await this.getRawImgSize();
     let merge = await new Promise((resolve, reject) => 
@@ -319,7 +319,7 @@ class ImageCompiler extends Component<MyProps, MyStates>
 
   async resizeIMG(datas:any, wantedWidth:any, wantedHeight:any)
   {
-    console.log('resizeIMG ####1');
+    //console.log('resizeIMG ####1');
     return new Promise(async function(resolve,reject){
 
       // We create an image to receive the Data URI
@@ -329,7 +329,7 @@ class ImageCompiler extends Component<MyProps, MyStates>
       // When the event "onload" is triggered we can resize the image.
       img.onload = function()
       {        
-        console.log('resizeIMG inside onload');
+        //console.log('resizeIMG inside onload');
           // We create a canvas and get its context.
           var canvas = document.createElement('canvas');
           var ctx = canvas.getContext('2d');
@@ -337,20 +337,20 @@ class ImageCompiler extends Component<MyProps, MyStates>
           // We set the dimensions at the wanted size.
           canvas.width = wantedWidth;
           canvas.height = wantedHeight;
-          console.log(this);
+          //console.log(this);
           
           // We resize the image with the canvas method drawImage();
           if(ctx) ctx.drawImage(img, 0, 0, wantedWidth, wantedHeight);
 
           var dataURI = canvas.toDataURL();
-          console.log('resizeIMG before resolve');
+          //console.log('resizeIMG before resolve');
           // This is the return of the Promise
           resolve(dataURI);
       };
 
       // We put the Data URI in the image's src attribute
       img.src = datas;
-      console.log('resizeIMG set src: '+datas);
+      //console.log('resizeIMG set src: '+datas);
   })
   }//END resizeIMG
 

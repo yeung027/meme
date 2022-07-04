@@ -23,6 +23,9 @@ type MyStates = {
   appbarHeight: number
   exportFile: any
   exportSrc: string
+  rawImageSize:number[]
+  imageWrapperWidth: number 
+  imageWrapperHeight: number
 };
 
 interface ExportDialog {
@@ -48,7 +51,10 @@ class ExportDialog extends Component<MyProps, MyStates>
       appbarWidth: 0,  
       appbarHeight: 0,
       exportFile: null,
-      exportSrc: ''
+      exportSrc: '',
+      rawImageSize:[],
+      imageWrapperWidth: 0 ,
+      imageWrapperHeight: 0
     }//END state
     
     this.componentsGetter        = this.componentsGetter.bind(this);
@@ -60,7 +66,30 @@ class ExportDialog extends Component<MyProps, MyStates>
     this.exportCallback           = this.exportCallback.bind(this);
     this.export           = this.export.bind(this);
     this.bottomDownloadBtnClick           = this.bottomDownloadBtnClick.bind(this);
+    this.getRawImageSize                             = this.getRawImageSize.bind(this);
+    this.updateImageWrapperComputedStyle                             = this.updateImageWrapperComputedStyle.bind(this);
+    
   }//END constructor
+
+  async getRawImageSize()
+  {
+    let that = this;
+    if(!this.componentsGetter() || !this.componentsGetter().compiler()) return setTimeout(
+      function() {
+        
+       that.getRawImageSize();
+
+      }
+      .bind(this),
+      70
+    );
+
+    let rawImgSize:[] = await that.componentsGetter().compiler().getRawImgSize();
+    this.setState({ 
+      rawImageSize : rawImgSize
+    }); 
+    //console.log(await that.componentsGetter().compiler().getRawImgSize())
+  }
 
   componentsGetter()
   {
@@ -215,7 +244,33 @@ class ExportDialog extends Component<MyProps, MyStates>
     this.updateAppBarComputedStyle();
     this.updateCloseBtnComputedStyle();
     this.parent.exportDialogDidMountCallback();
+    this.updateImageWrapperComputedStyle();
+    this.getRawImageSize();
   }
+
+  updateImageWrapperComputedStyle()
+  {
+    if(!window) return;
+    let self = this;
+    let imageWrapper:any = document.querySelector('#exportDialogImageWrapper');
+    if(!imageWrapper) return setTimeout(
+      function() {
+        self.updateImageWrapperComputedStyle();
+      }
+      .bind(this),
+      70
+    );
+
+    let compStyles  = window.getComputedStyle(imageWrapper);
+    let w:number, h:number;
+    w = parseInt(compStyles.width);
+    h = parseInt(compStyles.height);
+
+    this.setState({ 
+      imageWrapperWidth: w,
+      imageWrapperHeight: h
+    });  
+  }//END updateImageWrapperComputedStyle
 
   render() 
   {
@@ -240,7 +295,27 @@ class ExportDialog extends Component<MyProps, MyStates>
 
     if(this.state.exportSrc != '')
     {
-      dialogMainEle =   <div className={this.parent.state.isMobile? mobileStyles.imageWrapper : styles.imageWrapper}>
+      let wScale:number = 1;
+      let wStyle:string = '';
+      let imageWrapperstyle:any = {};
+      if( this.state.rawImageSize &&  this.state.rawImageSize!=[])
+      {
+        wScale = this.state.rawImageSize[0] / this.state.rawImageSize[1];
+        if(this.state.imageWrapperWidth>0 && this.state.imageWrapperHeight >0)
+        {
+          wStyle = (this.state.imageWrapperHeight * wScale)+'px';
+          imageWrapperstyle.width = wStyle;
+        }
+      }
+
+      
+      
+      //console.log('wStyle: '+wStyle);
+      dialogMainEle =   <div 
+                          className={this.parent.state.isMobile? mobileStyles.imageWrapper : styles.imageWrapper}
+                          id="exportDialogImageWrapper"
+                          style={imageWrapperstyle}
+                        >
                           {<img src={this.state.exportSrc!} 
                             className={this.parent.state.isMobile? mobileStyles.image : styles.image} 
                           />}

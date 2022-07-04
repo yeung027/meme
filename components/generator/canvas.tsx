@@ -17,6 +17,7 @@ type MyStates = {
   headerHeight: number
   touchController:any
   updateCanvasComputedStyleCount: number
+  rawImageSize:number[]
 };
 
 interface Canvas  {
@@ -40,7 +41,8 @@ class Canvas extends Component<MyProps, MyStates>
       canvasTop: 0,
       headerHeight:0,
       touchController: null,
-      updateCanvasComputedStyleCount:0
+      updateCanvasComputedStyleCount:0,
+      rawImageSize:[]
     }//END state
 
     this.touchControllerRef = React.createRef();
@@ -50,7 +52,7 @@ class Canvas extends Component<MyProps, MyStates>
     this.doUpdateCanvasComputedStyle                = this.doUpdateCanvasComputedStyle.bind(this);
     this.loadTouchController                        = this.loadTouchController.bind(this);
     this.onImgdragstart                             = this.onImgdragstart.bind(this);
-    
+    this.getRawImageSize                             = this.getRawImageSize.bind(this);
   }//END constructor
 
   componentsGetter()
@@ -63,12 +65,44 @@ class Canvas extends Component<MyProps, MyStates>
     this.updateCanvasComputedStyle();
     this.loadTouchController();
     this.parent.canvasDidMountCallback();
+    this.getRawImageSize();
   }//END componentDidMount
 
+
+  async getRawImageSize()
+  {
+    let that = this;
+    if(!this.componentsGetter() || !this.componentsGetter().compiler()) return setTimeout(
+      function() {
+        
+       that.getRawImageSize();
+
+      }
+      .bind(this),
+      70
+    );
+
+    let rawImgSize:[] = await that.componentsGetter().compiler().getRawImgSize();
+    this.setState({ 
+      rawImageSize : rawImgSize
+    }); 
+    //console.log(await that.componentsGetter().compiler().getRawImgSize())
+  }
 
   doUpdateCanvasComputedStyle()
   {
     if(!window) return;
+    let that= this;
+    if(!this.state.rawImageSize || this.state.rawImageSize == [] || this.state.rawImageSize.length<=1) return setTimeout(
+      function() { 
+       that.doUpdateCanvasComputedStyle();
+      }
+      .bind(this),
+      70
+    );
+    let wScale:number = this.state.rawImageSize[0] / this.state.rawImageSize[1];
+
+    //console.log('wScale: '+wScale);
 
     let canvas:any = document.querySelector('#canvas');
     if(!canvas) return;
@@ -85,7 +119,7 @@ class Canvas extends Component<MyProps, MyStates>
     let headerRect        = header.getBoundingClientRect();
     
 
-     w = h * 0.94;
+    w = h * wScale;
     /*  console.log('w: '+w);
      console.log('h: '+h); */
     this.setState({ 

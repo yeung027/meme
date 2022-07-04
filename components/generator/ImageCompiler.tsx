@@ -139,7 +139,7 @@ class ImageCompiler extends Component<MyProps, MyStates>
     if(!window) return;
     let canvas:any = document.querySelector('#canvas');
     if(!canvas) return;
-    let canvascompStyles  = window.getComputedStyle(canvas);
+    //let canvascompStyles  = window.getComputedStyle(canvas);
     let canvasRect        = canvas.getBoundingClientRect();
     let w:number, h:number;
     w = parseInt(canvasRect.width);

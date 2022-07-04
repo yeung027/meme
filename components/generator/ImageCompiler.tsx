@@ -169,7 +169,7 @@ class ImageCompiler extends Component<MyProps, MyStates>
       });
     });//END Promise
 
-    let output = await this.b64ToImgFile(merge);
+    let output = await this.b64ToImgFile(merge);//s
     //console.log(output);
     this.state.output_requester_callback(merge, output);
 
@@ -359,12 +359,13 @@ class ImageCompiler extends Component<MyProps, MyStates>
   {
     let canvas = document.createElement("canvas");
     let ctx = canvas.getContext('2d', {alpha:true})!;
-    let size = await this.getb64ImgSize(b64);
+    //let size = await this.getb64ImgSize(b64);
+    let rawImageSize:any  = await this.getRawImgSize();
     //let size = [100, 200];
-    canvas.width = size[0];
-    canvas.height = size[1];
+    canvas.width = rawImageSize[0];
+    canvas.height = rawImageSize[1];
     ctx.fillStyle = "rgb(255, 255, 255)";
-    ctx.fillRect(0, 0, size[0], size[1]);
+    ctx.fillRect(0, 0, rawImageSize[0], rawImageSize[1]);
     let image = new Image();
     image.src = b64;
     let file2 = await new Promise(async (resolve, reject) => 
@@ -380,8 +381,8 @@ class ImageCompiler extends Component<MyProps, MyStates>
         
       }
     });//END Promise
-    let blob = await (await fetch(image.src)).blob();
-    let file = new File([blob], 'text.png', { type: "image/png" });
+    // let blob = await (await fetch(image.src)).blob();
+    // let file = new File([blob], 'text.png', { type: "image/png" });
 
 
     //let blob = await (await fetch(b64)).blob();

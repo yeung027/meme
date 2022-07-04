@@ -253,18 +253,22 @@ class ImageCompiler extends Component<MyProps, MyStates>
   {
     let i =0;
     let objs:any[] = [];
-    for (const image of this.componentsGetter().canvas().state.images) {
-      let obj = await this.prepareMergeItems(i);
-      //console.log(i);
-      objs[i] = obj;
-      i++;
-    }
+
     objs[i] ={
       src: this.componentsGetter().page().state.rawImgSrc,//resizedIMG_URL, //image.upload.data_url,
       x: 0, 
       y: 0 ,
       //opacity: 0.7
     };
+    i++;
+
+    for (const image of this.componentsGetter().canvas().state.images) {
+      let obj = await this.prepareMergeItems(i-1);
+      //console.log(i);
+      objs[i] = obj;
+      i++;
+    }
+    
 
     //console.log('finally'+objs.length);
 

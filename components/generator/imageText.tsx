@@ -375,7 +375,7 @@ class ImageText extends Component<MyProps, MyStates>
       this.componentsGetter().canvas().setState({ 
         images: imagesCopy
       }, function(){
-        that.createReloadFontFamilyTimeout(imgObjIndex, text, fontSize, fontColor, height);
+        //that.createReloadFontFamilyTimeout(imgObjIndex, text, fontSize, fontColor, height);
       }); 
       this.setEditTextUiSelectingTextIndex(imgObjIndex);
     }
@@ -389,6 +389,7 @@ class ImageText extends Component<MyProps, MyStates>
     var that = this;
     if(this.state.reloadFontFamilyCount<=1)
     {
+      console.log('color: '+fontColor+', imgObjIndex:'+imgObjIndex);
       let index:number = imgObjIndex;
       if(index<=0) index = this.componentsGetter().canvas().state.images.length-1;
       //let images  = this.componentsGetter().canvas().state.images;

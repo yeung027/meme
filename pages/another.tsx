@@ -14,7 +14,17 @@ class Another extends MemePage
   }//END constructor  
 
   
+  onReady()
+  {
+    this.initStageSetup();
+  }//END onReady
 
-  }//END class WillSmithPunchingPage
+  async initStageSetup()
+  {
+    await this.componentsGetterRef.current.imageText().doEditText( -1, 'aaaaaaaa', 30, '#000', 40, 0, 0);
+    await this.componentsGetterRef.current.imageText().doEditText( -2, 'aaaaaaaa', 30, '#eb4034', 40, 70, 100);
+  }
+
+}//END class WillSmithPunchingPage
 
 export default withUserAgent(Another);

@@ -51,13 +51,14 @@ export class MemePage extends Component<MyProps & WithUserAgentProps, MyStates>
   cpuRef: any;
   exportDialogRef: any;
   componentsGetterRef: any;
-
+  onReadyCalled:boolean;
   constructor(props:any)
   {
     super(props);
     const ua  = this.props.ua;
     let useragent: string;
     useragent = this.props.useragent;
+    this.onReadyCalled = false;
 
     this.state = {
       isMobile: ua.isMobile,
@@ -105,6 +106,8 @@ export class MemePage extends Component<MyProps & WithUserAgentProps, MyStates>
     this.menuDidMountCallback                         = this.menuDidMountCallback.bind(this);
     this.touchControllerDidMountCallback              = this.touchControllerDidMountCallback.bind(this);
     this.getState                                     = this.getState.bind(this);
+    this.onReady                                      = this.onReady.bind(this);
+    
   }//END constructor  
   
   getState()
@@ -220,10 +223,19 @@ export class MemePage extends Component<MyProps & WithUserAgentProps, MyStates>
 
   checkIsAllCallbackDoneAndDo()
   {
-    console.log(this.state.headerDidMount && this.state.stepsDidMount && this.state.canvasDidMount && this.state.bottomControlPanelDidMount
+    if(this.state.headerDidMount && this.state.stepsDidMount && this.state.canvasDidMount && this.state.bottomControlPanelDidMount
       && this.state.uploadImgDidMount && this.state.cpuDidMount && this.state.imageEditorDidMount && this.state.imageTextDidMount
-      && this.state.imageCompilerDidMount && this.state.componentsGetterDidMount && this.state.exportDialogDidMount && this.state.menuDidMount && this.state.touchControllerDidMount);
+      && this.state.imageCompilerDidMount && this.state.componentsGetterDidMount && this.state.exportDialogDidMount && this.state.menuDidMount && this.state.touchControllerDidMount)
+    {
+      if(!this.onReadyCalled) this.onReady();
+      this.onReadyCalled = true;
+    }
   }
+
+  onReady()
+  {
+    //console.log('meme');
+  }//END onReady
 
   render() 
   {

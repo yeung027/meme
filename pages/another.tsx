@@ -21,7 +21,7 @@ class Another extends MemePage
 
   async initStageSetup()
   {
-    let canvasDom:HTMLCanvasElement = document.querySelector('#canvas')!;
+    let canvasDom:HTMLCanvasElement = this.canvasRef.current.canvasRef.current!;
     let rect = canvasDom.getBoundingClientRect();
     await this.componentsGetterRef.current.imageText().doEditText( -1, 'aaaaaaaa', 30, '#000', 40, this.state.isMobile? rect.left : 0, this.state.isMobile? rect.top : 0);
     await this.componentsGetterRef.current.imageText().doEditText( -2, 'aaaaaaaa', 30, '#eb4034', 40, 

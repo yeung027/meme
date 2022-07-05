@@ -19,6 +19,8 @@ type MyStates = {
 interface EditTextUI {
   parent: any
   colorPickerRef:any
+  colorPicker1Ref:any
+  colorBtnRef:any
 }
 
 class EditTextUI extends Component<MyProps, MyStates>
@@ -35,6 +37,8 @@ class EditTextUI extends Component<MyProps, MyStates>
     }//END state
     
     this.colorPickerRef = React.createRef();
+    this.colorPicker1Ref = React.createRef();
+    this.colorBtnRef = React.createRef();
 
     this.componentsGetter        = this.componentsGetter.bind(this);
     this.colorBtnOnclick           = this.colorBtnOnclick.bind(this);
@@ -94,10 +98,10 @@ class EditTextUI extends Component<MyProps, MyStates>
   {
     //if(!this.componentsGetter().isMobile()) return;
 
-    let bottomControlPanelDom:HTMLDivElement = document.querySelector('#BottomControlPanel')!;
+    let bottomControlPanelDom:HTMLDivElement = this.componentsGetter().bottomControlPanel().rootRef.current!;
     let colorPickerWrapperDom:any = this.componentsGetter().isMobile() ? 
-      document.querySelector('#colorPickerWrapper') : document.querySelector('#colorPickerWrapper_1');
-    let bottomControlPanelInnerDom:HTMLDivElement = document.querySelector('#BottomControlPanelInner')!;
+      this.colorPickerRef.current : this.colorPicker1Ref.current;
+    let bottomControlPanelInnerDom:HTMLDivElement = this.componentsGetter().bottomControlPanel().innerRef.current!;
     let rect = bottomControlPanelDom.getBoundingClientRect();
     let rectInner = bottomControlPanelInnerDom.getBoundingClientRect();
     
@@ -105,7 +109,7 @@ class EditTextUI extends Component<MyProps, MyStates>
     colorPickerWrapperDom.style.marginLeft = -rectInner.left+'px';
     if(!this.componentsGetter().isMobile())
     {
-      let colorBtnDom:any = document.querySelector('#editTextUIColorBtn');
+      let colorBtnDom:any = this.colorBtnRef.current;
       let colorRect = colorBtnDom.getBoundingClientRect();
       //console.log("colorRect: "+colorRect.left);
       colorPickerWrapperDom.style.marginLeft = -(rectInner.left+colorRect.left+40)+'px';
@@ -138,6 +142,7 @@ class EditTextUI extends Component<MyProps, MyStates>
     {
       return  <div 
                 id="colorPickerWrapper_1" 
+                ref={this.colorPicker1Ref}
                 className={colorPickerWrapperClass}
               >
                 <div 
@@ -152,6 +157,7 @@ class EditTextUI extends Component<MyProps, MyStates>
     
     return  <div 
               id="colorPickerWrapper" 
+              ref={this.colorPickerRef}
               className={colorPickerWrapperClass}
             >
               <div 
@@ -195,7 +201,7 @@ class EditTextUI extends Component<MyProps, MyStates>
                   className={this.componentsGetter().isMobile()? mobileStyles.mainInner : styles.mainInner}
                 >
 
-                  <div className={buttonActiveClass} id="editTextUIColorBtn">
+                  <div className={buttonActiveClass} id="editTextUIColorBtn" ref={this.colorBtnRef}>
                   <i className={'bx bx-palette'} onClick={this.colorBtnOnclick} />
                     <span onClick={this.colorBtnOnclick}>Color</span>
                     {!this.componentsGetter().isMobile() && this.getColorPickerEle(2)}

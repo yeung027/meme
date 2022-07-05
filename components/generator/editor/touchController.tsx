@@ -272,7 +272,7 @@ class TouchController extends Component<MyProps, MyStates>
 
   getCanvasSize()
   {
-    let canvas:HTMLCanvasElement = document.querySelector('#canvas')!;
+    let canvas:HTMLCanvasElement = this.componentsGetter().canvas().canvasRef.current!;
     let style = window.getComputedStyle(canvas);
     let w:number, h:number;
     w = parseInt(style.width);
@@ -700,7 +700,7 @@ class TouchController extends Component<MyProps, MyStates>
 
   checkPositionIsOverflowAndFix(x:number, y:number, targetWidthHeight:any[])
   {
-    let canvasDom:HTMLCanvasElement = document.querySelector('#canvas')!;
+    let canvasDom:HTMLCanvasElement = this.componentsGetter().canvas().canvasRef.current!;
     let convasRect = canvasDom.getBoundingClientRect();
     
     let maxX  = convasRect.left + convasRect.width;

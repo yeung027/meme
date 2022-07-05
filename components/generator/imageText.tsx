@@ -139,7 +139,7 @@ class ImageText extends Component<MyProps, MyStates>
     
     let imgObj:EditingImage  =  this.componentsGetter().canvas().state.images.length > keynum ? this.componentsGetter().canvas().state.images[keynum] : null;
 
-    let canvasDom:any = document.querySelector('#canvas');
+    let canvasDom:any = this.componentsGetter().canvas().canvasRef.current;
     let rootDom:any = document.querySelector('#rootDiv');
     let rect = canvasDom.getBoundingClientRect();
     let form = document.createElement("form");
@@ -202,7 +202,7 @@ class ImageText extends Component<MyProps, MyStates>
 
   textBtnOnclick()
   {
-    let canvasDom:HTMLCanvasElement = document.querySelector('#canvas')!;
+    let canvasDom:HTMLCanvasElement = this.componentsGetter().canvas().canvasRef.current!;
     let rect = canvasDom.getBoundingClientRect();
     this.doEditText(
       -1,

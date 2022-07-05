@@ -12,7 +12,8 @@ type MyStates = {
 };
 
 interface Header {
-parent: any
+  parent: any
+  rootRef: any
 }
 
 class Header extends Component<MyProps, MyStates>
@@ -21,6 +22,7 @@ class Header extends Component<MyProps, MyStates>
   {
     super(props);
     this.parent = props.parent;
+    this.rootRef = React.createRef();
 
     this.state = {
       
@@ -54,7 +56,11 @@ class Header extends Component<MyProps, MyStates>
   render() 
   {
       return    <>
-                    <div className={this.parent.state.isMobile? mobileStyles.container : styles.container} id="rootHeader">
+                    <div 
+                      className={this.parent.state.isMobile? mobileStyles.container : styles.container} 
+                      id="rootHeader"
+                      ref={this.rootRef}
+                    >
                         <div className={this.parent.state.isMobile? mobileStyles.title : styles.title}>
                             {this.parent.state.pageTitle}
                         </div>

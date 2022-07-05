@@ -24,6 +24,7 @@ interface Canvas  {
   parent: any
   touchController:TouchController
   touchControllerRef: any
+  canvasRef: any
 }
 
 class Canvas extends Component<MyProps, MyStates>
@@ -46,6 +47,7 @@ class Canvas extends Component<MyProps, MyStates>
     }//END state
 
     this.touchControllerRef = React.createRef();
+    this.canvasRef = React.createRef();
     
     this.componentsGetter        = this.componentsGetter.bind(this);
     this.updateCanvasComputedStyle                  = this.updateCanvasComputedStyle.bind(this);
@@ -69,6 +71,7 @@ class Canvas extends Component<MyProps, MyStates>
     this.loadTouchController();
     this.parent.canvasDidMountCallback();
     this.getRawImageSize();
+    //console.log(this.canvasRef.current);
   }//END componentDidMount
 
 
@@ -107,7 +110,7 @@ class Canvas extends Component<MyProps, MyStates>
 
     //console.log('wScale: '+wScale);
 
-    let canvas:any = document.querySelector('#canvas');
+    let canvas:any = this.canvasRef.current;
     if(!canvas) return;
     let canvascompStyles  = window.getComputedStyle(canvas);
     let canvasRect        = canvas.getBoundingClientRect();
@@ -117,7 +120,7 @@ class Canvas extends Component<MyProps, MyStates>
     if (isNaN(w)) w = 0;
     if (isNaN(h)) h = 0;
 
-    let header:any = document.querySelector('#rootHeader');
+    let header:any = this.parent.headerRef.current!.rootRef.current;
     if(!header) return;
     let headerRect        = header.getBoundingClientRect();
     
@@ -235,6 +238,7 @@ class Canvas extends Component<MyProps, MyStates>
                 <div className={this.parent.state.isMobile? mobileStyles.canvasOutter : styles.canvasOutter} style={canvasOutterStyles}>
                 <div 
                   id='canvas' 
+                  ref={this.canvasRef}
                   className={this.parent.state.isMobile? mobileStyles.canvas : styles.canvas} 
                   style={canvasStyle}
                   onMouseMove={function(e:any)

@@ -137,7 +137,7 @@ class ImageCompiler extends Component<MyProps, MyStates>
   getCanvasSize()
   {
     if(!window) return;
-    let canvas:any = document.querySelector('#canvas');
+    let canvas:any = this.componentsGetter().canvas().canvasRef.current;
     if(!canvas) return;
     //let canvascompStyles  = window.getComputedStyle(canvas);
     let canvasRect        = canvas.getBoundingClientRect();

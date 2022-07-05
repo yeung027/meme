@@ -84,7 +84,7 @@ class ImageEditor extends Component<MyProps, MyStates>
     }
 
     let resizeRate:number = 0.5;
-    let finally_rate:any  = await this.getResizeRate_compareWithRaw(uploaded.data_url, resizeRate);
+    //let finally_rate:any  = await this.getResizeRate_compareWithRaw(uploaded.data_url, resizeRate);
     
     let rateWithCanvas:any  = await this.getResizeRate_compareWithCanvas(uploaded.data_url, resizeRate);
     //console.log(uploaded.file);
@@ -97,7 +97,7 @@ class ImageEditor extends Component<MyProps, MyStates>
     let canvas_image_length = !canvas.state.images ? 0 : canvas.state.images.length;
 
 
-    let canvasDom:HTMLCanvasElement = document.querySelector('#canvas')!;
+    let canvasDom:HTMLCanvasElement = this.componentsGetter().canvas().canvasRef.current!;
     let rect = canvasDom.getBoundingClientRect();
     //console.log(rect.left);
 
@@ -188,7 +188,7 @@ class ImageEditor extends Component<MyProps, MyStates>
   getCanvasComputedSize()
   {
     if(!window) throw ('Window is null');
-    let canvas:HTMLCanvasElement = document.querySelector('#canvas')!;
+    let canvas:HTMLCanvasElement = this.componentsGetter().canvas().canvasRef.current!;
     if(!canvas) throw ('canvas is null');
     let canvascompStyles = window.getComputedStyle(canvas);
     let w:number, h:number;

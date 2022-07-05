@@ -43,7 +43,8 @@ type MyStates = {
 
 export class MemePage extends Component<MyProps & WithUserAgentProps, MyStates> 
 {
-  menuRef: any
+  rootRef: any;
+  menuRef: any;
   headerRef: any;
   stepsRef: any;
   canvasRef: any;
@@ -82,6 +83,7 @@ export class MemePage extends Component<MyProps & WithUserAgentProps, MyStates>
       imgZindex: 6
     }//END state
 
+    this.rootRef                = React.createRef();
     this.menuRef                = React.createRef();
     this.componentsGetterRef    = React.createRef();
     this.headerRef              = React.createRef();
@@ -282,7 +284,11 @@ export class MemePage extends Component<MyProps & WithUserAgentProps, MyStates>
               <Menu parent={this} ref={this.menuRef} /> 
               <ExportDialog parent={this} ref={this.exportDialogRef} />
               <CPU parent={this} ref={this.cpuRef} />
-              <div className={this.state.isMobile? mobileStyles.container : styles.container} id ='page-root'>
+              <div 
+                className={this.state.isMobile? mobileStyles.container : styles.container} 
+                id ='page-root'
+                ref={this.rootRef}
+              >
                  {ele}
               </div>
             </div>

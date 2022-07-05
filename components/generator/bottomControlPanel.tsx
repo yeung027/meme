@@ -23,6 +23,8 @@ interface BottomControlPanel {
   parent: any
   stage:any
   editTextRef:any
+  rootRef: any
+  innerRef: any
 }
 
 class BottomControlPanel extends Component<MyProps, MyStates>
@@ -31,6 +33,9 @@ class BottomControlPanel extends Component<MyProps, MyStates>
   {
     super(props);
     this.parent = props.parent;
+
+    this.rootRef = React.createRef();
+    this.innerRef = React.createRef();
 
     enum STAGE {
       UPLOADIMG = 'uploadimg',
@@ -147,10 +152,12 @@ class BottomControlPanel extends Component<MyProps, MyStates>
               className={containerClass} 
               onAnimationEnd={this.animationEnd}
               id="BottomControlPanel"
+              ref={this.rootRef}
             >
               <div 
                 className={innerClass}
                 id="BottomControlPanelInner"
+                ref={this.innerRef}
               >
                   {ui}
               </div>

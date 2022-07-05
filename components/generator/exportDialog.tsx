@@ -33,6 +33,7 @@ interface ExportDialog {
   dialogRef: any
   closeBtnRef: any
   appbarRef: any
+  imageWrapperRef:any
 }
 
 class ExportDialog extends Component<MyProps, MyStates>
@@ -56,7 +57,10 @@ class ExportDialog extends Component<MyProps, MyStates>
       imageWrapperWidth: 0 ,
       imageWrapperHeight: 0
     }//END state
-    
+
+
+    this.imageWrapperRef = React.createRef();
+
     this.componentsGetter        = this.componentsGetter.bind(this);
     this.getTransition      = this.getTransition.bind(this);
     this.dialogClose              = this.dialogClose.bind(this);
@@ -160,7 +164,7 @@ class ExportDialog extends Component<MyProps, MyStates>
   updatePageComputedStyle()
   {
     if(!window) return;
-     let page:any = document.querySelector('#page-root');
+     let page:any = this.parent.rootRef.current;
      
     if(!page) return;
     let pagecompStyles = window.getComputedStyle(page);
@@ -252,7 +256,7 @@ class ExportDialog extends Component<MyProps, MyStates>
   {
     if(!window) return;
     let self = this;
-    let imageWrapper:any = document.querySelector('#exportDialogImageWrapper');
+    let imageWrapper:any = this.imageWrapperRef.current;
     if(!imageWrapper) return setTimeout(
       function() {
         self.updateImageWrapperComputedStyle();
@@ -314,6 +318,7 @@ class ExportDialog extends Component<MyProps, MyStates>
       dialogMainEle =   <div 
                           className={this.parent.state.isMobile? mobileStyles.imageWrapper : styles.imageWrapper}
                           id="exportDialogImageWrapper"
+                          ref={this.imageWrapperRef}
                           style={imageWrapperstyle}
                         >
                           {<img src={this.state.exportSrc!} 

@@ -1,19 +1,22 @@
 import React,{Component} from 'react';
 import styles from '../../styles/generator/steps/desktop.module.css'
 import mobileStyles from '../../styles/generator/steps/mobile.module.css'
-
+import {STEP} from '../../models/step';
 type MyProps = {
     parent:any
     step:any
 };
 
 type MyStates = {
-  currentStep:string
+  currentStep:STEP
 };
 
 interface Steps {
   parent: any
   step:any
+  itemClass:any
+  itemActiveClass:any
+  lineActiveClass:any
 }
 
 class Steps extends Component<MyProps, MyStates>
@@ -22,20 +25,23 @@ class Steps extends Component<MyProps, MyStates>
   {
     super(props);
     this.parent = props.parent;
+    
+    this.itemClass = this.parent.state.isMobile? mobileStyles.item : styles.item;
+    this.itemActiveClass = [this.itemClass, this.parent.state.isMobile? mobileStyles.active : styles.active].join(' ');
 
-    enum STEP {
-      UPLOADIMG = 'uploadimg',
-      EDITIMG = 'editimg',
-      EXPORT = 'export'
-    }
+    this.lineActiveClass = this.parent.state.isMobile? mobileStyles.line : styles.line;
+    this.lineActiveClass = [this.lineActiveClass, this.parent.state.isMobile? mobileStyles.active : styles.active].join(' ');
 
     this.step  = STEP;
 
     this.state = {
-      currentStep: this.step.UPLOADIMG,
+      currentStep: this.parent.state.steps[0],
     }//END state
     
     this.stepChange = this.stepChange.bind(this);
+    this.getUploadImgElement  = this.getUploadImgElement.bind(this);
+    this.getEditImgElement    = this.getEditImgElement.bind(this);
+    this.getCompleteElement   = this.getCompleteElement.bind(this);
 
   }//END constructor
 
@@ -67,6 +73,39 @@ class Steps extends Component<MyProps, MyStates>
 
   }//END stepChange
 
+  getUploadImgElement(isLastItem:boolean)
+  {
+    return  <div className={this.state.currentStep == this.step.UPLOADIMG ? this.itemActiveClass : this.itemClass}>
+              <div className={this.parent.state.isMobile? mobileStyles.dot : styles.dot}>
+                <div className={this.parent.state.isMobile? mobileStyles.circle : styles.circle} />
+                {!isLastItem && <div className={this.lineActiveClass} />}
+              </div>
+              <span>Upload</span>
+            </div>
+  }//END getUploadImgElement
+
+  getEditImgElement(isLastItem:boolean)
+  {
+    return  <div className={this.state.currentStep == this.step.EDITIMG ? this.itemActiveClass : this.itemClass}>
+              <div className={this.parent.state.isMobile? mobileStyles.dot : styles.dot}>
+              <div className={this.parent.state.isMobile? mobileStyles.circle : styles.circle} />
+              {!isLastItem && <div className={this.lineActiveClass} />}
+              </div>
+              <span>Edit</span>
+            </div>
+  }//END getEditImgElement
+
+  getCompleteElement(isLastItem:boolean)
+  {
+    return    <div className={this.state.currentStep == this.step.EXPORT ? this.itemActiveClass : this.itemClass}>
+                <div className={this.parent.state.isMobile? mobileStyles.dot : styles.dot}>
+                <div className={this.parent.state.isMobile? mobileStyles.circle : styles.circle} />
+                {!isLastItem && <div className={this.lineActiveClass} />}
+                </div>
+                <span>Complete</span>
+              </div>
+  }//END getCompleteElement
+
   render() 
   {
 
@@ -78,29 +117,15 @@ class Steps extends Component<MyProps, MyStates>
 
       return  <div className={this.parent.state.isMobile? mobileStyles.container : styles.container}>
                 
-                <div className={this.state.currentStep == this.step.UPLOADIMG ? itemActiveClass : itemClass}>
-                  <div className={this.parent.state.isMobile? mobileStyles.dot : styles.dot}>
-                    <div className={this.parent.state.isMobile? mobileStyles.circle : styles.circle} />
-                    <div className={lineActiveClass} />
-                  </div>
-                  <span>Upload</span>
-                </div>
+                {
+                  this.parent.state.steps.map((step:STEP, i:number) => {
+                    //console.log(step==STEP.EDITIMG);
+                    if(step==STEP.UPLOADIMG) return this.getUploadImgElement(this.parent.state.steps.length<=(i+1));
+                    else if(step==STEP.EDITIMG) return this.getEditImgElement(this.parent.state.steps.length<=(i+1));
+                    else if(step==STEP.EXPORT) return this.getCompleteElement(this.parent.state.steps.length<=(i+1));
+                  }
+                )}
 
-                <div className={this.state.currentStep == this.step.EDITIMG ? itemActiveClass : itemClass}>
-                  <div className={this.parent.state.isMobile? mobileStyles.dot : styles.dot}>
-                  <div className={this.parent.state.isMobile? mobileStyles.circle : styles.circle} />
-                    <div className={lineActiveClass} />
-                  </div>
-                  <span>Edit</span>
-                </div>
-
-
-                <div className={this.state.currentStep == this.step.EXPORT ? itemActiveClass : itemClass}>
-                  <div className={this.parent.state.isMobile? mobileStyles.dot : styles.dot}>
-                  <div className={this.parent.state.isMobile? mobileStyles.circle : styles.circle} />
-                  </div>
-                  <span>Complete</span>
-                </div>
                 
               </div>
   }

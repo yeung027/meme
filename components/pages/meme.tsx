@@ -10,6 +10,7 @@ import BottomControlPanel from '../generator/bottomControlPanel'
 import ExportDialog from '../generator/exportDialog'
 import ComponentsGetter from '../helpers/componentsGetter'
 import Menu from '../menu';
+import { STEP } from '../../models/step';
 
 type MyProps = {
   ua: any,
@@ -38,6 +39,7 @@ type MyStates = {
   touchControllerDidMount: boolean
   rawImgZindex: number
   imgZindex: number
+  steps:STEP[]
 };
 
 
@@ -80,7 +82,8 @@ export class MemePage extends Component<MyProps & WithUserAgentProps, MyStates>
       menuDidMount: false,
       touchControllerDidMount: false,
       rawImgZindex: 5,
-      imgZindex: 6
+      imgZindex: 6,
+      steps:[STEP.EDITIMG, STEP.EXPORT]
     }//END state
 
     this.rootRef                = React.createRef();

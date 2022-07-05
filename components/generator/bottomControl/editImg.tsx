@@ -142,14 +142,14 @@ class EditImgUI extends Component<MyProps, MyStates>
 
   render() 
   {
-    let containerClass    = this.componentsGetter().isMobile()? mobileStyles.container : styles.container;
+    let containerClass    = this.parent.parent.state.isMobile? mobileStyles.container : styles.container;
     
-    let buttonClass       = this.componentsGetter().isMobile()? mobileStyles.btn : styles.btn;
-    let buttonActiveClass = [buttonClass, this.componentsGetter().isMobile()? mobileStyles.active : styles.active].join(' ');
+    let buttonClass       = this.parent.parent.state.isMobile? mobileStyles.btn : styles.btn;
+    let buttonActiveClass = [buttonClass, this.parent.parent.state.isMobile? mobileStyles.active : styles.active].join(' ');
 
-    let nextBtnClass       = [utilStyles.purple_iconRight_btn_l, this.componentsGetter().isMobile()? mobileStyles.nextBtn : styles.nextBtn].join(' ');
+    let nextBtnClass       = [utilStyles.purple_iconRight_btn_l, this.parent.parent.state.isMobile? mobileStyles.nextBtn : styles.nextBtn].join(' ');
 
-    //console.log(this.componentsGetter().isMobile());
+    //console.log(this.parent.parent.state.isMobile);
 
     return  <div className={containerClass}>
               <Snackbar
@@ -162,7 +162,7 @@ class EditImgUI extends Component<MyProps, MyStates>
                 onClose={this.snackOnClose}
                 message={this.state.snackMsg}
                 TransitionComponent={this.getSnackTransition}
-                className={this.componentsGetter().isMobile()? mobileStyles.snack : styles.snack}
+                className={this.parent.parent.state.isMobile? mobileStyles.snack : styles.snack}
                 action={
                   <React.Fragment>
                     <IconButton size="small" aria-label="close" color="inherit" onClick={this.snackOnClose}>
@@ -181,23 +181,23 @@ class EditImgUI extends Component<MyProps, MyStates>
                   vertical: "bottom",
                   horizontal: "right"
                }}
-                className={this.componentsGetter().isMobile()? mobileStyles.snack : styles.snack}
+                className={this.parent.parent.state.isMobile? mobileStyles.snack : styles.snack}
               >
                 
               </Snackbar> */}
 
-              <div className={this.componentsGetter().isMobile()? mobileStyles.header : styles.header}>
-                <div className={this.componentsGetter().isMobile()? mobileStyles.title : styles.title}>
+              <div className={this.parent.parent.state.isMobile? mobileStyles.header : styles.header}>
+                <div className={this.parent.parent.state.isMobile? mobileStyles.title : styles.title}>
                   <i className={'bx bxs-bell'} />
                   <span>Edit Image</span>
                 </div>
-                <div className={this.componentsGetter().isMobile()? mobileStyles.header_r : styles.header_r}>
-                  <span className={this.componentsGetter().isMobile()? mobileStyles.textBtn : styles.textBtn} onClick={this.skipBtnOnclick}>skip</span>
+                <div className={this.parent.parent.state.isMobile? mobileStyles.header_r : styles.header_r}>
+                  <span className={this.parent.parent.state.isMobile? mobileStyles.textBtn : styles.textBtn} onClick={this.skipBtnOnclick}>skip</span>
                 </div>
               </div>
-              <div className={this.componentsGetter().isMobile()? mobileStyles.main : styles.main}>
-                <div className={this.componentsGetter().isMobile()? mobileStyles.mainInner : styles.mainInner}>
-                  {!this.componentsGetter().isMobile() &&
+              <div className={this.parent.parent.state.isMobile? mobileStyles.main : styles.main}>
+                <div className={this.parent.parent.state.isMobile? mobileStyles.mainInner : styles.mainInner}>
+                  {!this.parent.parent.state.isMobile &&
                     this.desktopZoomSlider()
                   }
                   <div className={buttonClass}>

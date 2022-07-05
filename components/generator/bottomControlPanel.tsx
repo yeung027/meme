@@ -48,7 +48,7 @@ class BottomControlPanel extends Component<MyProps, MyStates>
     this.state = {
       isAnimation: false,
       animationInout: true,
-      currentUI: this.stage.UPLOADIMG,
+      currentUI: this.parent.state.steps[0],
       pendingUIChange: false,
       pendingUI: null,
     }//END state
@@ -61,6 +61,10 @@ class BottomControlPanel extends Component<MyProps, MyStates>
 
   componentDidMount() 
   {
+    // console.log(this.parent.state.steps[0]);
+    // this.setState({ 
+    //   currentUI: this.parent.state.steps[0]
+    //  });
     this.parent.bottomControlPanelDidMountCallback();
   }//END componentDidMount
 
@@ -137,7 +141,6 @@ class BottomControlPanel extends Component<MyProps, MyStates>
       //console.log('temp_class: ' + temp_class);
       containerClass = [containerClass, temp_class].join(' ');
     }
-
     let ui  = null;
     if(this.state.currentUI === this.stage.UPLOADIMG)
       ui  = <UploadImgUI parent={this} />

@@ -256,7 +256,7 @@ class ImageCompiler extends Component<MyProps, MyStates>
     let rawImgZindex  = this.componentsGetter().page().state.rawImgZindex;
     let imgZindex     = this.componentsGetter().page().state.imgZindex;
     //console.log('imgZindex: '+imgZindex);
-    if(rawImgZindex > imgZindex)
+    if(rawImgZindex < imgZindex)
     {
       objs[i] ={
         src: this.componentsGetter().page().state.rawImgSrc,//resizedIMG_URL, //image.upload.data_url,
@@ -269,14 +269,14 @@ class ImageCompiler extends Component<MyProps, MyStates>
 
     for (const image of this.componentsGetter().canvas().state.images) {
       let index = i;
-      if(rawImgZindex > imgZindex) index -=1;
+      if(rawImgZindex < imgZindex) index -=1;
       let obj = await this.prepareMergeItems(index);
       //console.log(i);
       objs[i] = obj;
       i++;
     }
     
-    if(rawImgZindex <= imgZindex)
+    if(rawImgZindex >= imgZindex)
     {
       objs[i] ={
         src: this.componentsGetter().page().state.rawImgSrc,//resizedIMG_URL, //image.upload.data_url,

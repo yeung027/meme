@@ -21,8 +21,11 @@ class Another extends MemePage
 
   async initStageSetup()
   {
-    await this.componentsGetterRef.current.imageText().doEditText( -1, 'aaaaaaaa', 30, '#000', 40, 0, 0);
-    await this.componentsGetterRef.current.imageText().doEditText( -2, 'aaaaaaaa', 30, '#eb4034', 40, 70, 100);
+    let canvasDom:HTMLCanvasElement = document.querySelector('#canvas')!;
+    let rect = canvasDom.getBoundingClientRect();
+    await this.componentsGetterRef.current.imageText().doEditText( -1, 'aaaaaaaa', 30, '#000', 40, this.state.isMobile? rect.left : 0, this.state.isMobile? rect.top : 0);
+    await this.componentsGetterRef.current.imageText().doEditText( -2, 'aaaaaaaa', 30, '#eb4034', 40, 
+      this.state.isMobile? rect.left+70 : 70, this.state.isMobile? rect.top+100 : 100);
   }
 
 }//END class WillSmithPunchingPage

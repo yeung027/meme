@@ -2,25 +2,20 @@ import React,{Component} from 'react';
 import styles from '../../../styles/generator/bottomControl/editImg/desktop.module.css'
 import mobileStyles from '../../../styles/generator/bottomControl/editImg/mobile.module.css'
 import utilStyles from '../../../styles/generator/bottomControl/util.module.css'
-import Snackbar from '@material-ui/core/Snackbar';
-import Grow from '@material-ui/core/Grow';
 import Grid from '@material-ui/core/Grid';
 import Slider from '@material-ui/core/Slider';
-import IconButton from '@material-ui/core/IconButton';
 
 type MyProps = {
-    parent:any
+  parent:any
 };
 
 type MyStates = {
-  snackOpen: boolean
-  snackType: any
-  snackMsg: string
-  desktopZoomSliderValue: any
+  desktopZoomSliderValue: number
+  desktopRotateSliderValue:number
 };
 
 interface EditImgUI {
-parent: any
+  parent: any
 }
 
 class EditImgUI extends Component<MyProps, MyStates>
@@ -31,21 +26,19 @@ class EditImgUI extends Component<MyProps, MyStates>
     this.parent = props.parent;
 
     this.state = {
-      snackOpen: false,
-      snackType: 'error',
-      snackMsg: 'dsdsa',
-      desktopZoomSliderValue: 50
+      desktopZoomSliderValue: 50,
+      desktopRotateSliderValue: 0
     }//END state
 
-    this.componentsGetter        = this.componentsGetter.bind(this);
-    this.snackOnClick             = this.snackOnClick.bind(this);
-    this.getSnackTransition       = this.getSnackTransition.bind(this);
-    this.snackOnClose             = this.snackOnClose.bind(this);
+    this.componentsGetter         = this.componentsGetter.bind(this);
     this.nextBtnOnclick           = this.nextBtnOnclick.bind(this);
     this.skipBtnOnclick           = this.skipBtnOnclick.bind(this);
     this.textBtnOnclick           = this.textBtnOnclick.bind(this);
     this.desktopZoomSlider        = this.desktopZoomSlider.bind(this);
     this.desktopZoomSliderOnChange        = this.desktopZoomSliderOnChange.bind(this);
+    this.desktopRotateSlider              = this.desktopRotateSlider.bind(this);
+    this.desktopRotateSliderOnChange      = this.desktopRotateSliderOnChange.bind(this);
+    
   }//END constructor
 
   componentsGetter()
@@ -53,24 +46,6 @@ class EditImgUI extends Component<MyProps, MyStates>
     return this.parent.parent.componentsGetterRef.current;
   }//END componentsGetter
 
-  snackOnClose()
-  {
-    this.setState({ 
-      snackOpen: false,
-    });
-  }//END snackOnClose
-
-  getSnackTransition(props:any) 
-  {
-    return <Grow {...props} />
-  }//END getSnackTransition
-
-  snackOnClick(e:any)
-  {
-    this.setState({ 
-      snackOpen: false,
-    });
-  }//END snackOnClick
 
   textBtnOnclick()
   {
@@ -139,6 +114,49 @@ class EditImgUI extends Component<MyProps, MyStates>
             </div>
   }//END desktopZoomSlider
 
+  desktopRotateSlider()
+  {
+    return  <div className={styles.zoomSliderWrapper}>
+              <div className={styles.zoomSliderLabel}>
+                Rotate
+              </div>
+              <Grid container spacing={2} className={styles.zoomSliderContainer}>
+                <Grid item>
+                <i className={'bx bx-zoom-out'} />
+                </Grid>
+                <Grid item xs>
+                  <Slider 
+                    value={this.state.desktopRotateSliderValue} 
+                    onChange={this.desktopRotateSliderOnChange} 
+                    aria-labelledby="continuous-slider" 
+                  />
+                </Grid>
+                <Grid item>
+                <i className={'bx bx-zoom-in'} />
+                </Grid>
+              </Grid>
+            </div>
+  }//END desktopRotateSlider
+
+  desktopRotateSliderOnChange(e:any , v:any)
+  {
+    let degree:number = (v/100) * 360;
+    //console.log('degree: '+degree);
+    this.setState({ 
+      desktopRotateSliderValue: v
+    });
+
+    if(!this.componentsGetter().canvas()) return;
+    let images  = this.componentsGetter().canvas().state.images;
+    if(!images || !Array.isArray(images) || images.length<=0 ) return;
+
+    //console.log(document.querySelector('#img-tappable-'+0));
+    e.rotation = degree;
+    e.imgObj = images[0];
+    this.componentsGetter().touchController().rotateByPinchMove(e, 'img-tappable-'+0, false);
+
+
+  }//END desktopRotateSlider
 
   render() 
   {
@@ -149,43 +167,8 @@ class EditImgUI extends Component<MyProps, MyStates>
 
     let nextBtnClass       = [utilStyles.purple_iconRight_btn_l, this.parent.parent.state.isMobile? mobileStyles.nextBtn : styles.nextBtn].join(' ');
 
-    //console.log(this.parent.parent.state.isMobile);
 
     return  <div className={containerClass}>
-              <Snackbar
-                anchorOrigin={{
-                  vertical: 'bottom',
-                  horizontal: 'right',
-                }}
-                open={this.state.snackOpen}
-                autoHideDuration={6000}
-                onClose={this.snackOnClose}
-                message={this.state.snackMsg}
-                TransitionComponent={this.getSnackTransition}
-                className={this.parent.parent.state.isMobile? mobileStyles.snack : styles.snack}
-                action={
-                  <React.Fragment>
-                    <IconButton size="small" aria-label="close" color="inherit" onClick={this.snackOnClose}>
-                      <i style={{color:'#fff'}} className={'bx bx-x'} />
-                    </IconButton>
-                  </React.Fragment>
-                }
-              />
-              {/* <Snackbar 
-                open={true || this.state.snackOpen} 
-                autoHideDuration={6000} 
-                onClose={this.snackOnClose}
-                onClick={this.snackOnClick}
-                TransitionComponent={this.getSnackTransition}
-                anchorOrigin={{
-                  vertical: "bottom",
-                  horizontal: "right"
-               }}
-                className={this.parent.parent.state.isMobile? mobileStyles.snack : styles.snack}
-              >
-                
-              </Snackbar> */}
-
               <div className={this.parent.parent.state.isMobile? mobileStyles.header : styles.header}>
                 <div className={this.parent.parent.state.isMobile? mobileStyles.title : styles.title}>
                   <i className={'bx bxs-bell'} />
@@ -199,6 +182,9 @@ class EditImgUI extends Component<MyProps, MyStates>
                 <div className={this.parent.parent.state.isMobile? mobileStyles.mainInner : styles.mainInner}>
                   {!this.parent.parent.state.isMobile &&
                     this.desktopZoomSlider()
+                  }
+                  {!this.parent.parent.state.isMobile &&
+                    this.desktopRotateSlider()
                   }
                   <div className={buttonClass}>
                   <i className={'bx bx-image'} />

@@ -83,7 +83,7 @@ export class MemePage extends Component<MyProps & WithUserAgentProps, MyStates>
       touchControllerDidMount: false,
       rawImgZindex: 5,
       imgZindex: 6,
-      steps:[STEP.EDITIMG, STEP.EXPORT]
+      steps:[STEP.UPLOADIMG, STEP.EDITIMG, STEP.EXPORT]
     }//END state
 
     this.rootRef                = React.createRef();

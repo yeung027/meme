@@ -90,7 +90,7 @@ class TouchController extends Component<MyProps, MyStates>
     this.onPressOrDoubleClick                = this.onPressOrDoubleClick.bind(this);
     this.setEditTextUiSelectingTextIndex  = this.setEditTextUiSelectingTextIndex.bind(this);
     this.rotateImg  = this.rotateImg.bind(this);
-    //this.rotateByPinchMove  = this.rotateByPinchMove.bind(this);
+    this.rotateByPinchMove  = this.rotateByPinchMove.bind(this);
   }//END constructor
 
   componentsGetter()
@@ -288,24 +288,25 @@ class TouchController extends Component<MyProps, MyStates>
     //this.rotateByPinchMove(e, key, true);
   }//END onPinchMove
 
-  // rotateByPinchMove(e: any, key: any, isTouch:boolean)
-  // {
-  //   let keynum= this.getKeyNumByID(key);
-  //   let imgObjs:EditingImage[]  =  this.parent.state.images;
-  //   let image:EditingImage = imgObjs[keynum];
-  //   let rotation:number = image.rotation;
-  //   let e_rotation = e.rotation;
-  //   this.debugLog('e.rotation: '+e.rotation);
-  //   if(!rotation || isNaN(rotation)) rotation = 0;
-  //   rotation +=e_rotation;
-  //   image.rotation = rotation;
-  //   imgObjs[keynum] = image;
-  //   this.parent.setState({ 
-  //     images: imgObjs
-  //    });
-  // }//END rotateByPinchMove
+  rotateByPinchMove(e: any, key: any, isTouch:boolean)
+  {
+    let keynum= this.getKeyNumByID(key);
+    let imgObjs:EditingImage[]  =  this.parent.state.images;
+    let image:EditingImage = imgObjs[keynum];
+    //let rotation:number = image.rotation;
+    let e_rotation = e.rotation;
+    //console.log('e.rotation: '+e.rotation);
+    this.debugLog('e.rotation: '+e.rotation);
+    if(!e_rotation || isNaN(e_rotation)) e_rotation = 0;
+    //rotation +=e_rotation;
+    image.rotation = e_rotation;
+    imgObjs[keynum] = image;
+    this.parent.setState({ 
+      images: imgObjs
+     });
+  }//END rotateByPinchMove
 
-  zoomByPinchMove(e: any, key: any, isTouch:boolean)
+  async zoomByPinchMove(e: any, key: any, isTouch:boolean)
   {
 
     if(!this.checkBottomControlIsStageEditimg()) return;
@@ -362,16 +363,32 @@ class TouchController extends Component<MyProps, MyStates>
       //console.log("w: "+this.parent.state.images[desktopStartObj.keynum].org.w);
       //console.log("h: "+this.parent.state.images[desktopStartObj.keynum].org.h);
       let canvas:Canvas = this.parent;
-      let org:EditingImage = canvas.state.images[desktopStartObj.keynum].org!;
-      new_w = org.width * scaling;
-      new_h = org.height * scaling;
+      if(canvas.state.images[desktopStartObj.keynum].isText)
+      {
+        let imgSizes = [canvas.state.images[desktopStartObj.keynum].width , canvas.state.images[desktopStartObj.keynum].height];
+        if(isNaN(imgSizes[0]) || isNaN(imgSizes[1]))
+          imgSizes = await this.componentsGetter().compiler().getb64ImgSize(canvas.state.images[desktopStartObj.keynum].upload.data_url)
+        //console.log(imgSizes);
+        if(isNaN(scaling)) scaling = 1;
+        //console.log('before 2 width: '+canvas.state.images[desktopStartObj.keynum].width);
+        //console.log('scaling: '+scaling);
+        new_w = canvas.state.images[desktopStartObj.keynum].width * scaling;
+        new_h = canvas.state.images[desktopStartObj.keynum].height * scaling;
+      }
+      else
+      {
+        let org:EditingImage = canvas.state.images[desktopStartObj.keynum].org!;
+        new_w = org.width * scaling;
+        new_h = org.height * scaling;
+      }
       
     }
 
     let finally_size  = this.fixImgSizeWhileZoomOverflow(isTouch, new_w, new_h, new_scale);
     let fixed_xy_by_event_center:any[] = [0,0];
-    
-    
+    //let canvas:Canvas = this.parent;
+    //console.log(canvas.state.images[desktopStartObj.keynum].isText);
+    //console.log('before new_h: '+new_w +", "+new_h);
     if(isTouch)
     {
       let xy:any = this.fixImgWhileOutOfScreen
@@ -397,8 +414,8 @@ class TouchController extends Component<MyProps, MyStates>
     }
 
 
-    console.log('finally_size: '+finally_size[0] +", "+finally_size[1]);
-    console.log('new_w: '+new_w +", new_h: "+new_h);
+    //console.log('finally_size: '+finally_size[0] +", "+finally_size[1]);
+    //console.log('new_w: '+new_w +", new_h: "+new_h);
     this.debugLog('fixed_xy: '+fixed_xy_by_event_center[0] +", "+fixed_xy_by_event_center[1]);
     //console.log('zoom: '+zoom);
     //imgObj[keynum].scale = finally_size[2];

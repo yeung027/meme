@@ -266,7 +266,7 @@ class Canvas extends Component<MyProps, MyStates>
                     let rotation = image.rotation;
                     if(!rotation || isNaN(rotation)) rotation = 0;
 
-                    //console.log('image.y: ' + image.y);
+                    //console.log('canvas rotation: ' + rotation);
                     //console.log('image.x: ' + image.x);
                     //console.log((this.state.canvasLeft+ parseInt(image.x) +  parseInt(image.w)));
                     let wrapperStyle:any = {

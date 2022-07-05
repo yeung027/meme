@@ -14,7 +14,8 @@ type MyStates = {
   pinchStarted: boolean,
   pinchStartObj?:TouchStartObj,
   touchStartObj?:TouchStartObj,
-  isMouseDownHold: boolean
+  isMouseDownHold: boolean,
+  isMouseOver: boolean
 };
 
 type TouchStartObj = {
@@ -30,6 +31,9 @@ interface TouchController  {
   parent: any
   debugRef: any
   tappableRef: any
+  mouseMovingKeynumTimeout: any
+  mouseMovingKey:any
+  lastMouseMovingKey:any
 }
 
 class TouchController extends Component<MyProps, MyStates>
@@ -44,9 +48,13 @@ class TouchController extends Component<MyProps, MyStates>
       touchStart: false,
       pinchStarted: false,
       isMouseDownHold: false,
+      isMouseOver: false,
       debugLog: ['Debug:']
     }//END state
 
+    this.mouseMovingKeynumTimeout = null;
+    this.mouseMovingKey = '';
+    this.lastMouseMovingKey = '';
     this.debugRef = React.createRef();
     this.tappableRef = React.createRef();
 
@@ -118,12 +126,13 @@ class TouchController extends Component<MyProps, MyStates>
   {
     //console.log(Object.keys(e));
     //console.log(e.pageX+', '+e.pageY);
-    if(!this.state.isMouseDownHold) return;
+    if(!this.state.isMouseDownHold && !this.state.isMouseOver) return;
     this.moveImg(e, key, false);
   }//END onMouseMove
 
   onMouseUp(e: any, key: any)
   {
+    //console.log('onMouseUp');
     this.setState({ 
       isMouseDownHold: false
     });
@@ -189,11 +198,16 @@ class TouchController extends Component<MyProps, MyStates>
   {
     //e.rotation = 45;
     //this.rotateByPinchMove(e, key, true);
+    this.setState({ 
+      isMouseOver: false
+     });
   }//END onMouseOut
 
   onMouseOver(e: any, key: any)
   {
-
+    this.setState({ 
+      isMouseOver: true
+     });
   }//END onMouseOver
 
   isTouchDevice() 
@@ -227,6 +241,7 @@ class TouchController extends Component<MyProps, MyStates>
 
   onPinchEnd(e: any, key: any)
   {
+    
     this.setState({ 
       pinchStarted: false,
       pinchStartObj: undefined
@@ -574,8 +589,9 @@ class TouchController extends Component<MyProps, MyStates>
 
   moveImg(e: any, key: any, isTouch: boolean)
   {
-    
     if(!this.checkBottomControlIsStageEditimg()) return;
+    if(this.mouseMovingKeynumTimeout) clearTimeout(this.mouseMovingKeynumTimeout);
+    this.lastMouseMovingKey='';
     let touchStartTouchX = 0 , 
       touchStartTouchY = 0, 
       touchStartImgX = 0, 
@@ -584,9 +600,10 @@ class TouchController extends Component<MyProps, MyStates>
     
       let new_post_left = 0,
       new_post_top = 0;
-
+    let self = this;
     let imgObj:EditingImage[]  =  this.parent.state.images;
     let keynum= this.getKeyNumByID(key);
+    this.mouseMovingKey = key;
     //console.log(this.state.touchStartObj);
     if(this.state.touchStartObj && this.state.touchStartObj.e && this.state.touchStartObj.e.touches 
       && this.state.touchStartObj.imgObj && this.state.touchStartObj.imgObj.x && this.state.touchStartObj.imgObj.y)
@@ -630,7 +647,7 @@ class TouchController extends Component<MyProps, MyStates>
       currentTouchClientY = e.pageY;
     }
 
-    //console.log('keynum: ' + keynum);
+    
     //console.log('imgObj.length: ' + imgObj.length);
     //console.log('touchStartImgX: ' + touchStartImgX);
     if(noTouchStartObj && this.parent.parent.state.isMobile)
@@ -663,7 +680,17 @@ class TouchController extends Component<MyProps, MyStates>
     this.parent.setState({ 
       images: imgObj
      });
+     
+    this.mouseMovingKeynumTimeout = setTimeout(
+      function() {
+        self.lastMouseMovingKey = self.mouseMovingKey;
+        self.mouseMovingKey = '';
+      }
+      .bind(this),
+      20
+    );
 
+     
   }//END moveImg
 
   onTouchMove(e: any, key: any)

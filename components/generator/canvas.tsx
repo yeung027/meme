@@ -53,6 +53,9 @@ class Canvas extends Component<MyProps, MyStates>
     this.loadTouchController                        = this.loadTouchController.bind(this);
     this.onImgdragstart                             = this.onImgdragstart.bind(this);
     this.getRawImageSize                             = this.getRawImageSize.bind(this);
+    this.canvasMouseUp                              = this.canvasMouseUp.bind(this);
+    this.canvasMouseMove                             = this.canvasMouseMove.bind(this);
+    
   }//END constructor
 
   componentsGetter()
@@ -179,8 +182,29 @@ class Canvas extends Component<MyProps, MyStates>
     }
   }//END loadTouchController
 
+  canvasMouseMove(e:any)
+  {
+    if(!this.parent.state.isMobile && this.touchControllerRef.current && this.touchControllerRef.current.state.isMouseDownHold 
+      && this.touchControllerRef.current.mouseMovingKey=='' && this.touchControllerRef.current.lastMouseMovingKey!='')
+      {
+        let temp = this.touchControllerRef.current.lastMouseMovingKey;
+        this.touchControllerRef.current.lastMouseMovingKey = '';
+        this.touchControllerRef.current.moveImg(e, temp, false);
+      }
+  }//END canvasMouseMove
+
+  canvasMouseUp(e:any)
+  {
+    if(!this.parent.state.isMobile && this.touchControllerRef.current && this.touchControllerRef.current.state.isMouseDownHold 
+      && this.touchControllerRef.current.mouseMovingKey=='')
+        this.touchControllerRef.current.setState({ 
+          isMouseDownHold: false
+        });
+  }//END canvasMouseUp
+
   render() 
   {
+    let that = this;
     let canvasBGStyle = {
       width: this.parent.state.isMobile? (this.state.canvasWidth * 0.9)+'px': this.state.canvasWidth+'px',
       height:(this.state.canvasHeight-1)+'px',
@@ -205,7 +229,20 @@ class Canvas extends Component<MyProps, MyStates>
       return  <div className={this.parent.state.isMobile? mobileStyles.container : styles.container} id='canvasOutter'>
                 <TouchController parent={this} ref={this.touchControllerRef} />
                 <div className={this.parent.state.isMobile? mobileStyles.canvasOutter : styles.canvasOutter} style={canvasOutterStyles}>
-                <div id='canvas' className={this.parent.state.isMobile? mobileStyles.canvas : styles.canvas} style={canvasStyle}>
+                <div 
+                  id='canvas' 
+                  className={this.parent.state.isMobile? mobileStyles.canvas : styles.canvas} 
+                  style={canvasStyle}
+                  onMouseMove={function(e:any)
+                  {
+                    that.canvasMouseMove(e);
+                  }}
+
+                  onMouseUp={function(e:any)
+                  {
+                    that.canvasMouseUp(e);
+                  }}
+                >
                   {
 
                     this.state.images.map((image:EditingImage, i) => {     

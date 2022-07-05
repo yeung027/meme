@@ -253,22 +253,38 @@ class ImageCompiler extends Component<MyProps, MyStates>
   {
     let i =0;
     let objs:any[] = [];
-
-    objs[i] ={
-      src: this.componentsGetter().page().state.rawImgSrc,//resizedIMG_URL, //image.upload.data_url,
-      x: 0, 
-      y: 0 ,
-      //opacity: 0.7
-    };
-    i++;
+    let rawImgZindex  = this.componentsGetter().page().state.rawImgZindex;
+    let imgZindex     = this.componentsGetter().page().state.imgZindex;
+    //console.log('imgZindex: '+imgZindex);
+    if(rawImgZindex > imgZindex)
+    {
+      objs[i] ={
+        src: this.componentsGetter().page().state.rawImgSrc,//resizedIMG_URL, //image.upload.data_url,
+        x: 0, 
+        y: 0 ,
+        //opacity: 0.7
+      };
+      i++;
+    }
 
     for (const image of this.componentsGetter().canvas().state.images) {
-      let obj = await this.prepareMergeItems(i-1);
+      let index = i;
+      if(rawImgZindex > imgZindex) index -=1;
+      let obj = await this.prepareMergeItems(index);
       //console.log(i);
       objs[i] = obj;
       i++;
     }
     
+    if(rawImgZindex <= imgZindex)
+    {
+      objs[i] ={
+        src: this.componentsGetter().page().state.rawImgSrc,//resizedIMG_URL, //image.upload.data_url,
+        x: 0, 
+        y: 0 ,
+        //opacity: 0.7
+      };
+    }
 
     //console.log('finally'+objs.length);
 

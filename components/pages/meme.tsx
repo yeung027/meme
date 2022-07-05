@@ -36,6 +36,8 @@ type MyStates = {
   exportDialogDidMount: boolean
   menuDidMount: boolean
   touchControllerDidMount: boolean
+  rawImgZindex: number
+  imgZindex: number
 };
 
 
@@ -74,33 +76,35 @@ export class MemePage extends Component<MyProps & WithUserAgentProps, MyStates>
       componentsGetterDidMount: false,
       exportDialogDidMount: false,
       menuDidMount: false,
-      touchControllerDidMount: false
+      touchControllerDidMount: false,
+      rawImgZindex: 5,
+      imgZindex: 6
     }//END state
 
-    this.menuRef = React.createRef();
-    this.componentsGetterRef = React.createRef();
-    this.headerRef = React.createRef();
-    this.stepsRef = React.createRef();
-    this.canvasRef = React.createRef();
-    this.bottomControlPanelRef = React.createRef();
-    this.cpuRef = React.createRef();
-    this.exportDialogRef = React.createRef();
+    this.menuRef                = React.createRef();
+    this.componentsGetterRef    = React.createRef();
+    this.headerRef              = React.createRef();
+    this.stepsRef               = React.createRef();
+    this.canvasRef              = React.createRef();
+    this.bottomControlPanelRef  = React.createRef();
+    this.cpuRef                 = React.createRef();
+    this.exportDialogRef        = React.createRef();
 
     this.checkIsAllCallbackDoneAndDo      = this.checkIsAllCallbackDoneAndDo.bind(this);
     this.headerDidMountCallback           = this.headerDidMountCallback.bind(this);
     this.stepsDidMountCallback            = this.stepsDidMountCallback.bind(this);
     this.canvasDidMountCallback           = this.canvasDidMountCallback.bind(this);
     this.bottomControlPanelDidMountCallback           = this.bottomControlPanelDidMountCallback.bind(this);
-    this.uploadImgDidMountCallback           = this.uploadImgDidMountCallback.bind(this);
-    this.cpuDidMountCallback           = this.cpuDidMountCallback.bind(this);
-    this.imageEditorDidMountCallback           = this.imageEditorDidMountCallback.bind(this);
-    this.imageTextDidMountCallback           = this.imageTextDidMountCallback.bind(this);
-    this.imageCompilerDidMountCallback           = this.imageCompilerDidMountCallback.bind(this);
-    this.componentsGetterDidMountCallback           = this.componentsGetterDidMountCallback.bind(this);
-    this.exportDialogDidMountCallback           = this.exportDialogDidMountCallback.bind(this);
-    this.menuDidMountCallback           = this.menuDidMountCallback.bind(this);
-    this.touchControllerDidMountCallback           = this.touchControllerDidMountCallback.bind(this);
-    this.getState           = this.getState.bind(this);
+    this.uploadImgDidMountCallback                    = this.uploadImgDidMountCallback.bind(this);
+    this.cpuDidMountCallback                          = this.cpuDidMountCallback.bind(this);
+    this.imageEditorDidMountCallback                  = this.imageEditorDidMountCallback.bind(this);
+    this.imageTextDidMountCallback                    = this.imageTextDidMountCallback.bind(this);
+    this.imageCompilerDidMountCallback                = this.imageCompilerDidMountCallback.bind(this);
+    this.componentsGetterDidMountCallback             = this.componentsGetterDidMountCallback.bind(this);
+    this.exportDialogDidMountCallback                 = this.exportDialogDidMountCallback.bind(this);
+    this.menuDidMountCallback                         = this.menuDidMountCallback.bind(this);
+    this.touchControllerDidMountCallback              = this.touchControllerDidMountCallback.bind(this);
+    this.getState                                     = this.getState.bind(this);
   }//END constructor  
   
   getState()

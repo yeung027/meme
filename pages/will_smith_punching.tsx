@@ -11,6 +11,8 @@ class WillSmithPunchingPage extends MemePage
     let state:any   = this.getState();
     state.rawImgSrc = "/generator/will_smith_punching/raw.png";
     state.pageTitle = "Will Smith Punching generator";
+    state.rawImgZindex  = 6;
+    state.imgZindex     = 5;
     this.state      = state;
 
 

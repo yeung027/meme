@@ -226,6 +226,10 @@ class Canvas extends Component<MyProps, MyStates>
       clipPath: 'inset('+clipTop+'px '+clipRight+'px '+clipBottom+'px '+clipLeft+'px)',
     }
 
+    let rawImageWrapperStyle:any = {
+      zIndex:this.parent.state.rawImgZindex
+    }
+
       return  <div className={this.parent.state.isMobile? mobileStyles.container : styles.container} id='canvasOutter'>
                 <TouchController parent={this} ref={this.touchControllerRef} />
                 <div className={this.parent.state.isMobile? mobileStyles.canvasOutter : styles.canvasOutter} style={canvasOutterStyles}>
@@ -248,10 +252,10 @@ class Canvas extends Component<MyProps, MyStates>
                     this.state.images.map((image:EditingImage, i) => {     
                     
                     let tappableId  = 'img-tappable-'+image.index;
-                    let clipLeft    =  this.parent.state.isMobile? this.state.canvasLeft - image.x + 1 : 0 - image.x;
-                    let clipTop     =  this.parent.state.isMobile? this.state.canvasTop - image.y + 1 : 0 - image.y;
-                    let clipRight   =  this.parent.state.isMobile? (image.x+  image.width )- (this.state.canvasLeft + (this.state.canvasWidth * 0.9)) - 1 : (image.x +  image.width) - this.state.canvasWidth;
-                    let clipBottom  =  this.parent.state.isMobile? (image.y +  image.height) - (this.state.canvasTop + this.state.canvasHeight) - 1 :  (image.y +  image.height) - this.state.canvasHeight;
+                    // let clipLeft    =  this.parent.state.isMobile? this.state.canvasLeft - image.x + 1 : 0 - image.x;
+                    // let clipTop     =  this.parent.state.isMobile? this.state.canvasTop - image.y + 1 : 0 - image.y;
+                    // let clipRight   =  this.parent.state.isMobile? (image.x+  image.width )- (this.state.canvasLeft + (this.state.canvasWidth * 0.9)) - 1 : (image.x +  image.width) - this.state.canvasWidth;
+                    // let clipBottom  =  this.parent.state.isMobile? (image.y +  image.height) - (this.state.canvasTop + this.state.canvasHeight) - 1 :  (image.y +  image.height) - this.state.canvasHeight;
                     let left  = image.x;
                     let top   = image.y;
                     
@@ -266,7 +270,8 @@ class Canvas extends Component<MyProps, MyStates>
                       height:image.height,
                       top: top,
                       left: left,
-                      transform: 'rotate('+rotation+'deg)'
+                      transform: 'rotate('+rotation+'deg)',
+                      zIndex:this.parent.state.imgZindex
                       //border:'red 2px solid',
                       //clipPath: 'inset('+clipTop+'px '+clipRight+'px '+clipBottom+'px '+clipLeft+'px)',
                     }  
@@ -274,7 +279,7 @@ class Canvas extends Component<MyProps, MyStates>
                     let imageStyle:any = {
                       //transform: 'rotate(90deg)'
                     }
-
+                    
 
                     let tapperClass = this.parent.state.isMobile? mobileStyles.tappable : styles.tappable;
                     
@@ -291,7 +296,10 @@ class Canvas extends Component<MyProps, MyStates>
                     return ele;
                     }
                   )}
-                    <div className={this.parent.state.isMobile? mobileStyles.rawImgWrapper : styles.rawImgWrapper}>
+                    <div 
+                      className={this.parent.state.isMobile? mobileStyles.rawImgWrapper : styles.rawImgWrapper}
+                      style={rawImageWrapperStyle}
+                    >
  
                       <img 
                         id='canvasIMG' 

@@ -48,7 +48,7 @@ class ImageCompiler extends Component<MyProps, MyStates>
     this.getCanvasSize      = this.getCanvasSize.bind(this);
     this.doSignleOutput      = this.doSignleOutput.bind(this);
     this.prepareMergeItems      = this.prepareMergeItems.bind(this);
-    // this.rotateB64  = this.rotateB64.bind(this);
+    //this.rotateB64  = this.rotateB64.bind(this);
     // this.doRotateB64  = this.doRotateB64.bind(this);
     
   }//END constructor
@@ -62,6 +62,7 @@ class ImageCompiler extends Component<MyProps, MyStates>
   {
     return this.parent.parent.componentsGetterRef.current;
   }//END componentsGetter
+
 
   // async rotateB64(key: any, degrees:number) 
   // {

@@ -1,7 +1,7 @@
 import React,{Component} from 'react';
 import EditingImage from '../../../models/editingImage';
+import UploadedImage from '../../../models/uploadedImage';
 import Canvas from '../canvas';
-
 const Pinchable  = require('react-tappable');
 
 type MyProps = {
@@ -288,18 +288,62 @@ class TouchController extends Component<MyProps, MyStates>
     //this.rotateByPinchMove(e, key, true);
   }//END onPinchMove
 
-  rotateByPinchMove(e: any, key: any, isTouch:boolean)
+  async rotateByPinchMove(e: any, key: any, isTouch:boolean)
   {
     let keynum= this.getKeyNumByID(key);
     let imgObjs:EditingImage[]  =  this.parent.state.images;
     let image:EditingImage = imgObjs[keynum];
+    if(!imgObjs[keynum].org)
+    {
+      imgObjs[keynum].org = imgObjs[keynum];
+    }
+    let upload:UploadedImage = imgObjs[keynum].org!.upload;
     //let rotation:number = image.rotation;
-    let e_rotation = e.rotation;
+    let degree = e.rotation;
     //console.log('e.rotation: '+e.rotation);
     this.debugLog('e.rotation: '+e.rotation);
-    if(!e_rotation || isNaN(e_rotation)) e_rotation = 0;
+    if(!degree || isNaN(degree)) degree = 0;
+    let angle = ((degree % 180) + 180) % 180 * Math.PI / 180;
     //rotation +=e_rotation;
-    image.rotation = e_rotation;
+
+    const canvas = document.createElement('canvas');
+    let imageEle = new Image();
+    let rotated:any =  await new Promise((resolve, reject) => 
+    {
+      
+      let ctx = canvas.getContext("2d")!;
+      
+      imageEle.onload = function () {
+        let cheight = Math.ceil(
+          Math.sin(angle) * imageEle.width + Math.abs(Math.cos(angle)) * imageEle.height);
+        let cwidth = Math.ceil(
+          Math.sin(angle) * imageEle.height + Math.abs(Math.cos(angle)) * imageEle.width);
+        canvas.height = cheight;// Math.max(cheight, img.height)
+        canvas.width = cwidth; // Math.max(cwidth, img.width)
+        ctx.translate(canvas.width / 2, canvas.height / 2);
+        ctx.rotate(angle);
+        ctx.drawImage(imageEle, (-imageEle.width) / 2, (-imageEle.height) / 2);
+        var dataURL = canvas.toDataURL();
+        //console.log(dataURL);
+        resolve(dataURL);
+      };
+
+      imageEle.onerror = function(e)
+      {
+        reject(e);
+      }
+  
+      imageEle.src = upload.data_url;
+
+    });//END Promise
+
+    console.log('rotated2');
+    
+    
+    image.rotation = degree;
+    image.upload.data_url = rotated;
+    image.width = canvas.width;
+    image.height = canvas.height;
     imgObjs[keynum] = image;
     this.parent.setState({ 
       images: imgObjs

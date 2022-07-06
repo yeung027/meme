@@ -60,7 +60,7 @@ class ImageText extends Component<MyProps, MyStates>
   setEditTextUiSelectingTextIndex(index:number)
   {
     let self = this;
-    if(!this.parent.parent.parent.bottomControlPanelRef.current.editTextRef.current)
+    if(!this.parent.parent.parent.bottomControlPanelRef.current || !this.parent.parent.parent.bottomControlPanelRef.current.editTextRef.current)
     {
       setTimeout(
         function() {

@@ -263,8 +263,8 @@ class Canvas extends Component<MyProps, MyStates>
                     let left  = image.x;
                     let top   = image.y;
                     
-                    let rotation = image.rotation;
-                    if(!rotation || isNaN(rotation)) rotation = 0;
+                    //let rotation = image.rotation;
+                    //if(!rotation || isNaN(rotation)) rotation = 0;
 
                     //console.log('canvas rotation: ' + rotation);
                     //console.log('image.x: ' + image.x);
@@ -274,7 +274,7 @@ class Canvas extends Component<MyProps, MyStates>
                       height:image.height,
                       top: top,
                       left: left,
-                      transform: 'rotate('+rotation+'deg)',
+                      //transform: 'rotate('+rotation+'deg)',
                       zIndex:this.parent.state.imgZindex
                       //border:'red 2px solid',
                       //clipPath: 'inset('+clipTop+'px '+clipRight+'px '+clipBottom+'px '+clipLeft+'px)',
@@ -282,6 +282,7 @@ class Canvas extends Component<MyProps, MyStates>
 
                     let imageStyle:any = {
                       //transform: 'rotate(90deg)'
+                      border:'red 1px solid'
                     }
                     
 

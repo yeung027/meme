@@ -1,6 +1,6 @@
 import React,{Component} from 'react';
 import EditingImage from '../../models/editingImage';
-
+const timers = require('timers-promises')
 type MyProps = {
     parent:any
 };
@@ -44,6 +44,8 @@ class ImageText extends Component<MyProps, MyStates>
     this.createReloadFontFamilyTimeout        = this.createReloadFontFamilyTimeout.bind(this);
     this.setBottomControlToEditText           = this.setBottomControlToEditText.bind(this);
     this.setEditTextUiSelectingTextIndex      = this.setEditTextUiSelectingTextIndex.bind(this);
+    this.editTextWithCallBack      = this.editTextWithCallBack.bind(this);
+    
     
   }//END constructor
 
@@ -57,26 +59,27 @@ class ImageText extends Component<MyProps, MyStates>
     return this.parent.parent.parent.componentsGetterRef.current;
   }//END componentsGetter
 
-  setEditTextUiSelectingTextIndex(index:number)
+  async setEditTextUiSelectingTextIndex(index:number)
   {
-    let self = this;
-    if(!this.parent.parent.parent.bottomControlPanelRef.current || !this.parent.parent.parent.bottomControlPanelRef.current.editTextRef.current)
+    let result:boolean = await new Promise(async (resolve, reject) => 
     {
-      setTimeout(
-        function() {
-          self.setEditTextUiSelectingTextIndex(index);
-        }
-        .bind(this),
-        200
-      );
-      return;
-    }
+      let self = this;
+      while(!this.parent.parent.parent.bottomControlPanelRef.current || !this.parent.parent.parent.bottomControlPanelRef.current.editTextRef.current)
+      {
+        await timers.setTimeout(200);
+      }
 
-    this.componentsGetter().editText().setState({ 
-      selectingTextIndex: index
-    }); 
-    //console.log(editText);
-  }
+      this.componentsGetter().editText().setState({ 
+        selectingTextIndex: index
+      },function(){
+        resolve(true);
+      }); 
+      return result;
+    });//END Promise
+
+
+    
+  }//END setEditTextUiSelectingTextIndex
 
   onBlur(e: any, keyNum:number)
   {
@@ -268,10 +271,16 @@ class ImageText extends Component<MyProps, MyStates>
     return width;
   }//END calWidth
   
-
   async doEditText( imgObjIndex:number, text:string, fontSize:number, fontColor:string, height:number, x:number, y:number)
   {
+    //this.doEditTextWithCallBack( imgObjIndex, text, fontSize, fontColor, height, x, y, null);
+  }
+
+  async editTextWithCallBack( imgObjIndex:number, text:string, fontSize:number, fontColor:string, height:number, x:number, y:number, callback:any)
+  {
+    console.log('gdffgdgdfgfd #22222222');
     var that = this;
+    let result:any = null;
     const start_x = 10, start_y = 30;
     let canvas:HTMLCanvasElement = document.createElement("canvas");
     canvas.style.fontWeight = '400';
@@ -339,7 +348,7 @@ class ImageText extends Component<MyProps, MyStates>
           color:fontColor
         }
       };
-
+      
       let images:EditingImage[]  = this.componentsGetter().canvas().state.images;
       images  = images.concat(obj);
       
@@ -349,7 +358,10 @@ class ImageText extends Component<MyProps, MyStates>
         that.createReloadFontFamilyTimeout(imgObjIndex, text, fontSize, fontColor, height);
       }); 
 
-      this.setEditTextUiSelectingTextIndex(images.length-1);
+      //console.log('gdffgdgdfgfd #11111');
+      result = await this.setEditTextUiSelectingTextIndex(imgObjIndex);
+      //console.log('gdffgdgdfgfd #22222222');
+      //console.log(callback);
     }//END if -1
     else
     {
@@ -369,15 +381,22 @@ class ImageText extends Component<MyProps, MyStates>
         value: text
       };
       
-
+      //console.log('gdffgdgdfgfd #000');
       imagesCopy[imgObjIndex] = obj;
       this.componentsGetter().canvas().setState({ 
         images: imagesCopy
       }, function(){
         //that.createReloadFontFamilyTimeout(imgObjIndex, text, fontSize, fontColor, height);
       }); 
-      this.setEditTextUiSelectingTextIndex(imgObjIndex);
+      //console.log('gdffgdgdfgfd #11111');
+      result = await this.setEditTextUiSelectingTextIndex(imgObjIndex);
+      //console.log('gdffgdgdfgfd #22222222');
+      
     }
+
+    //console.log(callback);
+      //if(callback) console.log('gdffgdgdfgfd $333333');
+    if(callback) callback();
 
   }//END doEditText
 
@@ -388,7 +407,7 @@ class ImageText extends Component<MyProps, MyStates>
     var that = this;
     if(this.state.reloadFontFamilyCount<=1)
     {
-      console.log('color: '+fontColor+', imgObjIndex:'+imgObjIndex);
+      //console.log('color: '+fontColor+', imgObjIndex:'+imgObjIndex);
       let index:number = imgObjIndex;
       if(index<=0) index = this.componentsGetter().canvas().state.images.length-1;
       //let images  = this.componentsGetter().canvas().state.images;

@@ -141,15 +141,20 @@ class BottomControlPanel extends Component<MyProps, MyStates>
       //console.log('temp_class: ' + temp_class);
       containerClass = [containerClass, temp_class].join(' ');
     }
-    let ui  = null;
+
+    let uploadStyle:any  = {display:'none', width:'100%'};
+    let editImgStyle:any  = {display:'none', width:'100%'};
+    let editTextStyle:any  = {display:'none', width:'100%'};
+    let exportStyle:any  = {display:'none', width:'100%'};
+    
     if(this.state.currentUI === this.stage.UPLOADIMG)
-      ui  = <UploadImgUI parent={this} />
+      uploadStyle.display = 'block';
     else if(this.state.currentUI === this.stage.EDITIMG)
-      ui  = <EditImgUI parent={this} />
+      editImgStyle.display = 'block';
     else if(this.state.currentUI === this.stage.EDITTEXT)
-      ui  = <EditTextUI parent={this} ref={this.editTextRef} />
+      editTextStyle.display = 'block';
     else if(this.state.currentUI === this.stage.EXPORT)
-      ui  = <ExportUI parent={this} />
+      exportStyle.display = 'block';
 
     return  <div 
               className={containerClass} 
@@ -162,7 +167,10 @@ class BottomControlPanel extends Component<MyProps, MyStates>
                 id="BottomControlPanelInner"
                 ref={this.innerRef}
               >
-                  {ui}
+                  <div style={uploadStyle}><UploadImgUI parent={this} /></div>
+                  <div style={editImgStyle}><EditImgUI parent={this} /></div>
+                  <div style={editTextStyle}><EditTextUI parent={this} ref={this.editTextRef} /></div>
+                  <div style={exportStyle}><ExportUI parent={this} /></div>
               </div>
             </div>
 

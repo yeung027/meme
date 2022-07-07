@@ -286,8 +286,11 @@ class ExportDialog extends Component<MyProps, MyStates>
       left: (this.state.pageWidth - this.state.closeBtnWidth - 10)+'px',
       lineHeight: this.state.appbarHeight+'px'
     }
-    alert('this.state.pageWidth'+this.state.pageWidth);
-    alert('this.state.closeBtnWidth'+this.state.closeBtnWidth);
+    if(this.parent.canvasRef.current && this.parent.canvasRef.current.touchControllerRef.current)
+    {
+      this.parent.canvasRef.current.touchControllerRef.current.debugLog('this.state.pageWidth'+this.state.pageWidth);
+      this.parent.canvasRef.current.touchControllerRef.current.debugLog('this.state.closeBtnWidth'+this.state.closeBtnWidth);
+    }
     if(!this.parent.state.isMobile)
     {
       closeBtnStyle.left = (this.state.pageWidth - this.state.closeBtnWidth - 70)+'px';

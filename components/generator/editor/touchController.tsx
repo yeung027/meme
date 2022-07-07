@@ -389,6 +389,7 @@ class TouchController extends Component<MyProps, MyStates>
     }
 
     this.debugLog('e.rotation: '+e.rotation);
+    this.debugLog('e.angle: '+e.angle);
     if(isTouch && e.rotation && !isNaN(e.rotation))
     {
       await this.rotateByPinchMove(e, key, isTouch);

@@ -220,8 +220,8 @@ class TouchController extends Component<MyProps, MyStates>
 
   async onPinch(e: any, key: any)
   {
-    this.debugLog('e.rotation: '+e.rotation);
-    this.debugLog('e.angle: '+e.angle);
+    // this.debugLog('e.rotation: '+e.rotation);
+    // this.debugLog('e.angle: '+e.angle);
     if(e.rotation && !isNaN(e.rotation))
     {
       await this.rotateByPinchMove(e, key, true);
@@ -849,11 +849,15 @@ class TouchController extends Component<MyProps, MyStates>
 
         onPinch={function(e:any)
         {
+          self.debugLog('e.rotation: '+e.rotation);
+          self.debugLog('e.angle: '+e.angle);
           self.onPinch(e, key);
         }}
 
         onPinchStart={function(e:any)
         {
+          self.debugLog('e.rotation: '+e.rotation);
+          self.debugLog('e.angle: '+e.angle);
           self.onPinchStart(e, key);
         }}
 

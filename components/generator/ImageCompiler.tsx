@@ -187,6 +187,14 @@ class ImageCompiler extends Component<MyProps, MyStates>
     //console.log(index)
     let image:EditingImage = this.componentsGetter().canvas().state.images[index];
 
+    if(image.rotated)
+    { 
+      let temp = image;
+      image = image.rotated;
+      image.x = temp.x;
+      image.y = temp.y;
+    }
+
     let b64:UploadedImage = image.upload;
     let b64ImageSize:any  = await this.getb64ImgSize(b64.data_url);
     //console.log('prepareMergeItems b64ImageSize: '+ b64ImageSize[0]+', '+b64ImageSize[1]);

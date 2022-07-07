@@ -184,7 +184,6 @@ class TouchController extends Component<MyProps, MyStates>
           upload:imgObj.upload,
           isText:imgObj.isText,
           index:imgObj.index,
-          rotation:imgObj.rotation,
           x: imgObj.x,
           y:imgObj.y,
           width: imgObj.width,
@@ -288,6 +287,8 @@ class TouchController extends Component<MyProps, MyStates>
     //this.rotateByPinchMove(e, key, true);
   }//END onPinchMove
 
+  
+
   async rotateByPinchMove(e: any, key: any, isTouch:boolean)
   {
     let keynum= this.getKeyNumByID(key);
@@ -296,8 +297,16 @@ class TouchController extends Component<MyProps, MyStates>
     if(!imgObjs[keynum].org)
     {
       imgObjs[keynum].org = imgObjs[keynum];
+      console.log(imgObjs[keynum].org?.upload.data_url);
     }
     let upload:UploadedImage = imgObjs[keynum].org!.upload;
+
+    
+
+   
+
+
+    
     //let rotation:number = image.rotation;
     let degree = e.rotation;
     //console.log('e.rotation: '+e.rotation);
@@ -308,6 +317,9 @@ class TouchController extends Component<MyProps, MyStates>
 
     const canvas = document.createElement('canvas');
     let imageEle = new Image();
+
+    let blob = (await (fetch(upload.data_url))).blob();
+    let blobUrl = URL.createObjectURL(await blob);
     let rotated:any =  await new Promise((resolve, reject) => 
     {
       
@@ -332,18 +344,25 @@ class TouchController extends Component<MyProps, MyStates>
       {
         reject(e);
       }
-  
-      imageEle.src = upload.data_url;
+      
+      imageEle.src = blobUrl;
 
     });//END Promise
 
-    console.log('rotated2');
+    //console.log('rotated2');
     
+    //console.log(rotated);
     
-    image.rotation = degree;
-    image.upload.data_url = rotated;
-    image.width = canvas.width;
-    image.height = canvas.height;
+    let rotatedObj:EditingImage = {
+      upload:{data_url:rotated},
+      x:image.x,
+      y:image.y,
+      width:canvas.width,
+      height: canvas.height,
+      isText:image.isText,
+      index:image.index
+    }
+    image.rotated = rotatedObj;
     imgObjs[keynum] = image;
     this.parent.setState({ 
       images: imgObjs
@@ -621,7 +640,6 @@ class TouchController extends Component<MyProps, MyStates>
           upload:imgObj.upload,
           isText:imgObj.isText,
           index:imgObj.index,
-          rotation:imgObj.rotation,
           x: imgObj.x,
           y:imgObj.y,
           width: imgObj.width,
@@ -650,7 +668,7 @@ class TouchController extends Component<MyProps, MyStates>
 
   moveImg(e: any, key: any, isTouch: boolean)
   {
-    if(!this.checkBottomControlIsStageEditimg()) return;
+    //if(!this.checkBottomControlIsStageEditimg()) return;
     if(this.mouseMovingKeynumTimeout) clearTimeout(this.mouseMovingKeynumTimeout);
     this.lastMouseMovingKey='';
     let touchStartTouchX = 0 , 

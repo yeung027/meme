@@ -270,8 +270,8 @@ class Canvas extends Component<MyProps, MyStates>
                     //console.log('image.x: ' + image.x);
                     //console.log((this.state.canvasLeft+ parseInt(image.x) +  parseInt(image.w)));
                     let wrapperStyle:any = {
-                      width: image.width,
-                      height:image.height,
+                      width: image.rotated? image.rotated.width : image.width,
+                      height:image.rotated? image.rotated.height : image.height,
                       top: top,
                       left: left,
                       //transform: 'rotate('+rotation+'deg)',
@@ -282,13 +282,13 @@ class Canvas extends Component<MyProps, MyStates>
 
                     let imageStyle:any = {
                       //transform: 'rotate(90deg)'
-                      border:'red 1px solid'
+                      //border:'red 1px solid'
                     }
                     
 
                     let tapperClass = this.parent.state.isMobile? mobileStyles.tappable : styles.tappable;
                     
-                    let imgEle= <img key={'img-key-'+i} id={'img-key-'+i} src={image.upload.data_url} 
+                    let imgEle= <img key={'img-key-'+i} id={'img-key-'+i} src={image.rotated? image.rotated.upload.data_url : image.upload.data_url} 
                                   className={this.parent.state.isMobile? mobileStyles.img : styles.img} 
                                   onDragStart={this.onImgdragstart}
                                   style={imageStyle}

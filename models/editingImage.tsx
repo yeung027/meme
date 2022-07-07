@@ -10,8 +10,8 @@ type EditingImage = {
     index:number
     isText:boolean
     text?:EditingText
-    rotation:number
     org?:EditingImage
+    rotated?:EditingImage
 };
 
 

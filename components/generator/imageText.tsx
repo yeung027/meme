@@ -331,7 +331,6 @@ class ImageText extends Component<MyProps, MyStates>
         width: width ,
         height: height,
         //scale: 1 , 
-        rotation:0,
         index: canvas_image_length,
         isText: true,
         text:{

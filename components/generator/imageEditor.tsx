@@ -111,7 +111,6 @@ class ImageEditor extends Component<MyProps, MyStates>
       //scale: finally_rate , 
       index: canvas_image_length,
       isText:false,
-      rotation:0
     };
     obj.org = {
       upload:obj.upload,
@@ -119,7 +118,6 @@ class ImageEditor extends Component<MyProps, MyStates>
       y:obj.y,
       isText:obj.isText,
       text: obj.text,
-      rotation: obj.rotation,
       index:obj.index,
       width: b64ImageSize[0] * rateWithCanvas,
       height: b64ImageSize[1] * rateWithCanvas

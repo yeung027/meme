@@ -64,18 +64,22 @@ class ExportDialog extends Component<MyProps, MyStates>
 
 
     this.imageWrapperRef = React.createRef();
+    this.closeBtnRef = React.createRef();
+    this.appbarRef = React.createRef();
+    this.dialogRef = React.createRef();
 
-    this.componentsGetter        = this.componentsGetter.bind(this);
-    this.getTransition      = this.getTransition.bind(this);
-    this.dialogClose              = this.dialogClose.bind(this);
-    this.updatePageComputedStyle            = this.updatePageComputedStyle.bind(this);
-    this.updateCloseBtnComputedStyle  = this.updateCloseBtnComputedStyle.bind(this);
-    this.updateAppBarComputedStyle    = this.updateAppBarComputedStyle.bind(this);
-    this.exportCallback           = this.exportCallback.bind(this);
-    this.export           = this.export.bind(this);
-    this.bottomDownloadBtnClick           = this.bottomDownloadBtnClick.bind(this);
-    this.getRawImageSize                             = this.getRawImageSize.bind(this);
-    this.updateImageWrapperComputedStyle                             = this.updateImageWrapperComputedStyle.bind(this);
+    this.componentsGetter                     = this.componentsGetter.bind(this);
+    this.getTransition                        = this.getTransition.bind(this);
+    this.dialogClose                          = this.dialogClose.bind(this);
+    this.updatePageComputedStyle              = this.updatePageComputedStyle.bind(this);
+    this.updateCloseBtnComputedStyle          = this.updateCloseBtnComputedStyle.bind(this);
+    this.updateAppBarComputedStyle            = this.updateAppBarComputedStyle.bind(this);
+    this.exportCallback                       = this.exportCallback.bind(this);
+    this.export                               = this.export.bind(this);
+    this.bottomDownloadBtnClick               = this.bottomDownloadBtnClick.bind(this);
+    this.getRawImageSize                      = this.getRawImageSize.bind(this);
+    this.updateImageWrapperComputedStyle      = this.updateImageWrapperComputedStyle.bind(this);
+    this.updateDomSize                        = this.updateDomSize.bind(this);
     
   }//END constructor
 
@@ -129,9 +133,13 @@ class ExportDialog extends Component<MyProps, MyStates>
 
   export()
   {
+    let self = this;
     this.setState({ 
       open: true,
+    },function(){
+      self.updateDomSize();
     });
+    
     //console.log(this.componentsGetter().compiler());
     this.componentsGetter().compiler().getOutPut(this.exportCallback);
   }//END export
@@ -186,8 +194,9 @@ class ExportDialog extends Component<MyProps, MyStates>
 
   updateCloseBtnComputedStyle()
   {
-    if(!this.closeBtnRef || !this.closeBtnRef.current)
+    if((!this.closeBtnRef || !this.closeBtnRef.current) && this.state.open)
     {
+      //console.log('ooooooo');
       var self = this;
       setTimeout(
         function() {
@@ -199,7 +208,7 @@ class ExportDialog extends Component<MyProps, MyStates>
       return;
     }
 
-    
+    if(!this.closeBtnRef.current) return;
 
     let style = window.getComputedStyle(this.closeBtnRef.current);
     let w:number, h:number;
@@ -247,6 +256,11 @@ class ExportDialog extends Component<MyProps, MyStates>
   }//END updateAppBarComputedStyle
 
   componentDidMount() 
+  {
+    this.updateDomSize();
+  }
+
+  updateDomSize() 
   {
     this.updatePageComputedStyle();
     this.updateAppBarComputedStyle();

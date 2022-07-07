@@ -67,6 +67,7 @@ class TouchController extends Component<MyProps, MyStates>
     this.getKeyNumByID          = this.getKeyNumByID.bind(this);
     this.checkPositionIsOverflowAndFix      = this.checkPositionIsOverflowAndFix.bind(this);
     this.checkBottomControlIsStageEditimg   = this.checkBottomControlIsStageEditimg.bind(this);
+    this.onPinch        = this.onPinch.bind(this);
     this.onPinchStart   = this.onPinchStart.bind(this);
     this.onPinchMove    = this.onPinchMove.bind(this);
     this.onPinchEnd     = this.onPinchEnd.bind(this);
@@ -216,6 +217,16 @@ class TouchController extends Component<MyProps, MyStates>
        (navigator.maxTouchPoints > 0) ||
        (nav.msMaxTouchPoints > 0));
   }
+
+  async onPinch(e: any, key: any)
+  {
+    this.debugLog('e.rotation: '+e.rotation);
+    this.debugLog('e.angle: '+e.angle);
+    if(e.rotation && !isNaN(e.rotation))
+    {
+      await this.rotateByPinchMove(e, key, true);
+    }
+  }//END onPinch
 
   onPinchStart(e: any, key: any)
   {
@@ -388,12 +399,7 @@ class TouchController extends Component<MyProps, MyStates>
       return;
     }
 
-    this.debugLog('e.rotation: '+e.rotation);
-    this.debugLog('e.angle: '+e.angle);
-    if(isTouch && e.rotation && !isNaN(e.rotation))
-    {
-      await this.rotateByPinchMove(e, key, isTouch);
-    }
+    
 
     
     let imgObj:EditingImage[]  =  this.parent.state.images;
@@ -840,6 +846,11 @@ class TouchController extends Component<MyProps, MyStates>
         {
           self.handleTap(e, key);
         }} 
+
+        onPinch={function(e:any)
+        {
+          self.onPinch(e, key);
+        }}
 
         onPinchStart={function(e:any)
         {

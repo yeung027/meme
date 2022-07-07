@@ -863,6 +863,8 @@ class TouchController extends Component<MyProps, MyStates>
 
         onPinchMove={function(e:any)
         {
+          self.debugLog('e.rotation: '+e.rotation);
+          self.debugLog('e.angle: '+e.angle);
           self.onPinchMove(e, key);
         }}
 

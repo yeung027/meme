@@ -666,10 +666,16 @@ class TouchController extends Component<MyProps, MyStates>
   }//END checkBottomControlIsStageEditimg
 
 
-  moveImg(e: any, key: any, isTouch: boolean)
+  async moveImg(e: any, key: any, isTouch: boolean)
   {
     //if(!this.checkBottomControlIsStageEditimg()) return;
     if(this.mouseMovingKeynumTimeout) clearTimeout(this.mouseMovingKeynumTimeout);
+
+    if(isTouch && e.rotation && !isNaN(e.rotation))
+    {
+      await this.rotateByPinchMove(e, key, isTouch);
+    }
+
     this.lastMouseMovingKey='';
     let touchStartTouchX = 0 , 
       touchStartTouchY = 0, 

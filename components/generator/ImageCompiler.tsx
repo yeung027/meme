@@ -175,7 +175,7 @@ class ImageCompiler extends Component<MyProps, MyStates>
       });
     });//END Promise
 
-    let output = await this.b64ToImgFile(merge);//s
+    let output = await this.b64ToImgFile(merge, true);//s
     //console.log(output);
     this.state.output_requester_callback(merge, output);
 
@@ -317,7 +317,7 @@ class ImageCompiler extends Component<MyProps, MyStates>
         });
       });//END Promise
       
-      let output = await this.b64ToImgFile(merge);
+      let output = await this.b64ToImgFile(merge, true);
       this.state.output_requester_callback(merge, output);
 
 
@@ -389,11 +389,11 @@ class ImageCompiler extends Component<MyProps, MyStates>
   }//END resizeIMG
 
 
-  async b64ToImgFile(b64:any)
+  async b64ToImgFile(b64:any, isSizeByRaw:boolean)
   {
     let canvas = document.createElement("canvas");
     let ctx = canvas.getContext('2d', {alpha:true})!;
-    let size = await this.getb64ImgSize(b64);
+    let size = isSizeByRaw ? await this.getRawImgSize() : await this.getb64ImgSize(b64);
     //let rawImageSize:any  = await this.getRawImgSize();
     //let size = [100, 200];
     canvas.width = size[0];

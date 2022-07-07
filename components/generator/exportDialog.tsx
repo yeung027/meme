@@ -298,7 +298,7 @@ class ExportDialog extends Component<MyProps, MyStates>
     if(this.state.rawImageSize[0] > this.state.rawImageSize[1])
     {
       let scale:number = this.state.rawImageSize[1] / this.state.rawImageSize[0];
-      wStr= this.parent.isMobile ? (pageRect.height*0.8)+'px' : (pageRect.width*0.8)+'px';
+      wStr= this.parent.isMobile ? (pageRect.width*0.7)+'px' : (pageRect.width*0.7)+'px';
       hStr = scale*pageRect.width+'px';
       //console.log('wStr: '+wStr);
       //console.log('hStr: '+hStr); 
@@ -306,7 +306,7 @@ class ExportDialog extends Component<MyProps, MyStates>
     else
     {
       let scale:number = this.state.rawImageSize[0] / this.state.rawImageSize[1];
-      hStr= this.parent.isMobile ? (pageRect.height*0.8)+'px' : (pageRect.height*0.8)+'px';
+      hStr= this.parent.isMobile ? (pageRect.height*0.7)+'px' : (pageRect.height*0.7)+'px';
       wStr = scale*pageRect.height+'px';
       //console.log('wStr: '+wStr);
       //console.log('hStr: '+hStr); 

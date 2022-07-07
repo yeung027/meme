@@ -372,7 +372,7 @@ class TouchController extends Component<MyProps, MyStates>
   async zoomByPinchMove(e: any, key: any, isTouch:boolean)
   {
 
-    if(!this.checkBottomControlIsStageEditimg()) return;
+    //if(!this.checkBottomControlIsStageEditimg()) return;
     let keynum= this.getKeyNumByID(key);
     //this.debugLog(keyNum);
     //let eTarget:any = e.target;
@@ -380,7 +380,7 @@ class TouchController extends Component<MyProps, MyStates>
     //this.debugLog(e.touches[0].identifier);
     //let tappableNode:any  = eTarget.parentNode;
     //let keynum  = this.getKeyNumByNode(tappableNode);
-    let tappableNode:any  = document.querySelector('#'+key);
+    //let tappableNode:any  = document.querySelector('#'+key);
 
     if(isNaN(keynum))
     {
@@ -388,6 +388,13 @@ class TouchController extends Component<MyProps, MyStates>
       return;
     }
 
+    this.debugLog('e.rotation: '+e.rotation);
+    if(isTouch && e.rotation && !isNaN(e.rotation))
+    {
+      await this.rotateByPinchMove(e, key, isTouch);
+    }
+
+    
     let imgObj:EditingImage[]  =  this.parent.state.images;
 
     if(!imgObj || imgObj.length<(keynum+1)) return;// this.debugLog('error! imgObj');
@@ -670,11 +677,7 @@ class TouchController extends Component<MyProps, MyStates>
   {
     //if(!this.checkBottomControlIsStageEditimg()) return;
     if(this.mouseMovingKeynumTimeout) clearTimeout(this.mouseMovingKeynumTimeout);
-    this.debugLog('e.rotation: '+e.rotation);
-    if(isTouch && e.rotation && !isNaN(e.rotation))
-    {
-      await this.rotateByPinchMove(e, key, isTouch);
-    }
+    
 
     this.lastMouseMovingKey='';
     let touchStartTouchX = 0 , 

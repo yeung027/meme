@@ -19,6 +19,7 @@
 .item
 {
     display: flex;
+    cursor: pointer;
     flex-direction: column;
     align-items: center;
     justify-content: center;
@@ -31,6 +32,8 @@
     -moz-box-sizing: border-box;    /* Firefox, other Gecko */
     box-sizing: border-box;         /* Opera/IE 8+ */
 }
+
+
 
 .dot
 {
@@ -82,4 +85,9 @@
 .active .line
 {
     background-color: #FFC531;
+}
+
+.item:hover, .item.active:hover
+{
+    color: #ff4800;
 }

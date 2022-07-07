@@ -47,6 +47,7 @@ class ButtonControlUploadGUI extends Component<MyProps, MyStates>
     this.snackOnClose             = this.snackOnClose.bind(this);
     this.uploadOnChange           = this.uploadOnChange.bind(this);
     this.uploadOnChangeCallback   = this.uploadOnChangeCallback.bind(this);
+    this.skipBtnOnclick           = this.skipBtnOnclick.bind(this);
   }//END constructor
 
 
@@ -141,6 +142,15 @@ class ButtonControlUploadGUI extends Component<MyProps, MyStates>
     }
   }//END uploadOnChange
 
+  skipBtnOnclick()
+  {
+    //console.log(this.parent);
+
+    this.parent.stageChange(this.parent.stage.EDITIMG);
+    this.parent.parent.stepsRef.current.stepChange(this.parent.parent.stepsRef.current.step.EDITIMG);
+
+  }//END skipBtnOnclick
+
   uploadOnChangeCallback(success:boolean)
   {
     //console.log(this.componentsGetter().steps().stepChange);
@@ -208,7 +218,7 @@ class ButtonControlUploadGUI extends Component<MyProps, MyStates>
                   <span>Add image & merge</span>
                 </div>
                 <div className={this.isMobile()? mobileStyles.header_r : styles.header_r}>
-                  <span className={this.isMobile()? mobileStyles.textBtn : styles.textBtn}>skip</span>
+                  <span className={this.isMobile()? mobileStyles.textBtn : styles.textBtn} onClick={this.skipBtnOnclick}>skip</span>
                 </div>
               </div>
               <div className={this.isMobile()? mobileStyles.main : styles.main}>

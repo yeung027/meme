@@ -42,13 +42,20 @@ class Steps extends Component<MyProps, MyStates>
     this.getUploadImgElement  = this.getUploadImgElement.bind(this);
     this.getEditImgElement    = this.getEditImgElement.bind(this);
     this.getCompleteElement   = this.getCompleteElement.bind(this);
-
+    this.stepChangeWithBottomControl   = this.stepChangeWithBottomControl.bind(this);
   }//END constructor
 
   componentDidMount() 
   {
     this.parent.stepsDidMountCallback();
   }//END componentDidMount
+
+  stepChangeWithBottomControl(step:string)
+  {
+    this.stepChange(step);
+    if(this.parent.bottomControlPanelRef.current)
+      this.parent.bottomControlPanelRef.current.stageChange(step);
+  }//END stepChangeWithBottomControl
 
   stepChange(step:string)
   {
@@ -75,7 +82,8 @@ class Steps extends Component<MyProps, MyStates>
 
   getUploadImgElement(isLastItem:boolean)
   {
-    return  <div className={this.state.currentStep == this.step.UPLOADIMG ? this.itemActiveClass : this.itemClass}>
+    return  <div className={this.state.currentStep == this.step.UPLOADIMG ? this.itemActiveClass : this.itemClass} 
+                onClick={()=>{this.stepChangeWithBottomControl(this.step.UPLOADIMG)}}>
               <div className={this.parent.state.isMobile? mobileStyles.dot : styles.dot}>
                 <div className={this.parent.state.isMobile? mobileStyles.circle : styles.circle} />
                 {!isLastItem && <div className={this.lineActiveClass} />}
@@ -86,7 +94,8 @@ class Steps extends Component<MyProps, MyStates>
 
   getEditImgElement(isLastItem:boolean)
   {
-    return  <div className={this.state.currentStep == this.step.EDITIMG ? this.itemActiveClass : this.itemClass}>
+    return  <div className={this.state.currentStep == this.step.EDITIMG ? this.itemActiveClass : this.itemClass}
+              onClick={()=>{this.stepChangeWithBottomControl(this.step.EDITIMG)}}>
               <div className={this.parent.state.isMobile? mobileStyles.dot : styles.dot}>
               <div className={this.parent.state.isMobile? mobileStyles.circle : styles.circle} />
               {!isLastItem && <div className={this.lineActiveClass} />}
@@ -97,7 +106,8 @@ class Steps extends Component<MyProps, MyStates>
 
   getCompleteElement(isLastItem:boolean)
   {
-    return    <div className={this.state.currentStep == this.step.EXPORT ? this.itemActiveClass : this.itemClass}>
+    return    <div className={this.state.currentStep == this.step.EXPORT ? this.itemActiveClass : this.itemClass}
+                onClick={()=>{this.stepChangeWithBottomControl(this.step.EXPORT)}}>
                 <div className={this.parent.state.isMobile? mobileStyles.dot : styles.dot}>
                 <div className={this.parent.state.isMobile? mobileStyles.circle : styles.circle} />
                 {!isLastItem && <div className={this.lineActiveClass} />}

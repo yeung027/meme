@@ -12,6 +12,8 @@ type MyStates = {
   images: EditingImage[]
   canvasWidth: number
   canvasHeight: number
+  canvasStrWidth: string
+  canvasStrHeight: string
   canvasLeft: number
   canvasTop: number
   headerHeight: number
@@ -38,6 +40,8 @@ class Canvas extends Component<MyProps, MyStates>
       images: [],
       canvasWidth: 0,
       canvasHeight: 0,
+      canvasStrWidth: '0px',
+      canvasStrHeight: '0px',
       canvasLeft: 0,
       canvasTop: 0,
       headerHeight:0,
@@ -106,31 +110,41 @@ class Canvas extends Component<MyProps, MyStates>
       .bind(this),
       70
     );
-    let wScale:number = this.state.rawImageSize[0] / this.state.rawImageSize[1];
 
-    //console.log('wScale: '+wScale);
 
     let canvas:any = this.canvasRef.current;
     if(!canvas) return;
     let canvascompStyles  = window.getComputedStyle(canvas);
     let canvasRect        = canvas.getBoundingClientRect();
     let w:number, h:number;
+    let wStr:string = '0px', hStr:string = '0px';
     w = parseInt(canvascompStyles.width);
     h = parseInt(canvascompStyles.height);
-    if (isNaN(w)) w = 0;
-    if (isNaN(h)) h = 0;
+    //if (isNaN(w)) w = 0;
+    //if (isNaN(h)) h = 0;
 
     let header:any = this.parent.headerRef.current!.rootRef.current;
     if(!header) return;
     let headerRect        = header.getBoundingClientRect();
     
-
-    w = h * wScale;
+    
+    if(this.state.rawImageSize[0] > this.state.rawImageSize[1])
+    {
+      let wScale:number = this.state.rawImageSize[1] / this.state.rawImageSize[0];
+      wStr= this.parent.isMobile ? '100vw' : '80%';
+      hStr = wScale*canvasRect.width+'px';
+      console.log('wStr: '+wStr);
+      console.log('hStr: '+hStr); 
+    }
+    w= canvasRect.width;
+    h= canvasRect.height;
     /*  console.log('w: '+w);
      console.log('h: '+h); */
     this.setState({ 
       canvasWidth: w ,
       canvasHeight: h,
+      canvasStrWidth: wStr,
+      canvasStrHeight: hStr,
       canvasLeft: canvasRect.left,
       canvasTop: canvasRect.top,
       headerHeight: headerRect.height,
@@ -209,17 +223,19 @@ class Canvas extends Component<MyProps, MyStates>
   {
     let that = this;
     let canvasBGStyle = {
-      width: this.parent.state.isMobile? (this.state.canvasWidth * 0.9)+'px': this.state.canvasWidth+'px',
+      width: this.parent.state.isMobile? (this.state.canvasStrWidth): this.state.canvasWidth,
       height:(this.state.canvasHeight-1)+'px',
     }
 
     let canvasOutterStyles = {}; 
     if(!this.parent.state.isMobile || true)
     {
-      canvasOutterStyles = {width: this.state.canvasWidth+'px'};
+      canvasOutterStyles = {
+        width: this.state.canvasStrWidth,
+        height: this.state.canvasStrHeight,
+      };
     }
-    
-
+    console.log(canvasOutterStyles);
     let clipLeft    =  0 ;
     let clipTop     =   0 ;
     let clipRight   =   0;

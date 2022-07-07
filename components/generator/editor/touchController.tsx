@@ -170,7 +170,7 @@ class TouchController extends Component<MyProps, MyStates>
     let keynum= this.getKeyNumByID(key);
     let imgObj:EditingImage  =  this.parent.state.images.length > keynum ? this.parent.state.images[keynum] : null;
 
-    if(!imgObj) return this.debugLog('error! imgObj');
+    if(!imgObj) return ;//this.debugLog('error! imgObj');
 
     this.setState({ 
       touchStart: true,
@@ -223,7 +223,7 @@ class TouchController extends Component<MyProps, MyStates>
     let canvas:Canvas = this.parent;
     let imgObj:EditingImage  = canvas.state.images[keynum];
 
-    if(!imgObj) return this.debugLog('error! imgObj');
+    if(!imgObj) return ;//this.debugLog('error! imgObj');
 
     this.setState({ 
       pinchStarted: true,
@@ -390,7 +390,7 @@ class TouchController extends Component<MyProps, MyStates>
 
     let imgObj:EditingImage[]  =  this.parent.state.images;
 
-    if(!imgObj || imgObj.length<(keynum+1)) return this.debugLog('error! imgObj');
+    if(!imgObj || imgObj.length<(keynum+1)) return;// this.debugLog('error! imgObj');
 
 
     let zoom = e.zoom;
@@ -479,7 +479,7 @@ class TouchController extends Component<MyProps, MyStates>
 
     //console.log('finally_size: '+finally_size[0] +", "+finally_size[1]);
     //console.log('new_w: '+new_w +", new_h: "+new_h);
-    this.debugLog('fixed_xy: '+fixed_xy_by_event_center[0] +", "+fixed_xy_by_event_center[1]);
+    //this.debugLog('fixed_xy: '+fixed_xy_by_event_center[0] +", "+fixed_xy_by_event_center[1]);
     //console.log('zoom: '+zoom);
     //imgObj[keynum].scale = finally_size[2];
 
@@ -626,7 +626,7 @@ class TouchController extends Component<MyProps, MyStates>
     let keynum= this.getKeyNumByID(key);
     let imgObj:EditingImage  =  this.parent.state.images.length > keynum ? this.parent.state.images[keynum] : null;
 
-    if(!imgObj) return this.debugLog('error! imgObj');
+    if(!imgObj) return;// this.debugLog('error! imgObj');
 
     this.setState({ 
       touchStart: true,
@@ -670,7 +670,7 @@ class TouchController extends Component<MyProps, MyStates>
   {
     //if(!this.checkBottomControlIsStageEditimg()) return;
     if(this.mouseMovingKeynumTimeout) clearTimeout(this.mouseMovingKeynumTimeout);
-
+    this.debugLog('e.rotation: '+e.rotation);
     if(isTouch && e.rotation && !isNaN(e.rotation))
     {
       await this.rotateByPinchMove(e, key, isTouch);

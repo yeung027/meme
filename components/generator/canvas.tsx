@@ -130,12 +130,21 @@ class Canvas extends Component<MyProps, MyStates>
     
     if(this.state.rawImageSize[0] > this.state.rawImageSize[1])
     {
-      let wScale:number = this.state.rawImageSize[1] / this.state.rawImageSize[0];
-      wStr= this.parent.isMobile ? '100vw' : '80%';
-      hStr = wScale*canvasRect.width+'px';
-      console.log('wStr: '+wStr);
-      console.log('hStr: '+hStr); 
+      let scale:number = this.state.rawImageSize[1] / this.state.rawImageSize[0];
+      wStr= this.parent.isMobile ? '100%' : '80%';
+      hStr = scale*canvasRect.width+'px';
+      //console.log('wStr: '+wStr);
+      //console.log('hStr: '+hStr); 
     }
+    else
+    {
+      let scale:number = this.state.rawImageSize[0] / this.state.rawImageSize[1];
+      hStr= this.parent.isMobile ? '100%' : '80%';
+      wStr = scale*canvasRect.height+'px';
+      //console.log('wStr: '+wStr);
+      //console.log('hStr: '+hStr); 
+    }
+
     w= canvasRect.width;
     h= canvasRect.height;
     /*  console.log('w: '+w);
@@ -235,7 +244,7 @@ class Canvas extends Component<MyProps, MyStates>
         height: this.state.canvasStrHeight,
       };
     }
-    console.log(canvasOutterStyles);
+    //console.log(canvasOutterStyles);
     let clipLeft    =  0 ;
     let clipTop     =   0 ;
     let clipRight   =   0;

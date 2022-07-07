@@ -8,7 +8,7 @@ class Another extends MemePage
   {
     super(props);
     let state:any   = this.getState();
-    state.rawImgSrc = "/generator/will_smith_punching/flower.jpg";
+    state.rawImgSrc = "/generator/will_smith_punching/pp1.png";
     state.pageTitle = "Another generator";
     this.state      = state;
   }//END constructor  

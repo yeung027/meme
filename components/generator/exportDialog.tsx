@@ -26,6 +26,8 @@ type MyStates = {
   rawImageSize:number[]
   imageWrapperWidth: number 
   imageWrapperHeight: number
+  imageWrapperStrWidth: string 
+  imageWrapperStrHeight: string
 };
 
 interface ExportDialog {
@@ -55,7 +57,9 @@ class ExportDialog extends Component<MyProps, MyStates>
       exportSrc: '',
       rawImageSize:[],
       imageWrapperWidth: 0 ,
-      imageWrapperHeight: 0
+      imageWrapperHeight: 0,
+      imageWrapperStrWidth: '0',
+      imageWrapperStrHeight: '0'
     }//END state
 
 
@@ -265,14 +269,40 @@ class ExportDialog extends Component<MyProps, MyStates>
       70
     );
 
+    let page:any = this.parent.rootRef.current;
+     
+    if(!page) return;
+    let pagecompStyles = window.getComputedStyle(page);
+    let pageRect        = page.getBoundingClientRect();
+
     let compStyles  = window.getComputedStyle(imageWrapper);
     let w:number, h:number;
+    let wStr:string ='0px', hStr:string = '0px';
     w = parseInt(compStyles.width);
     h = parseInt(compStyles.height);
 
+    if(this.state.rawImageSize[0] > this.state.rawImageSize[1])
+    {
+      let scale:number = this.state.rawImageSize[1] / this.state.rawImageSize[0];
+      wStr= this.parent.isMobile ? (pageRect.height*0.8)+'px' : (pageRect.width*0.8)+'px';
+      hStr = scale*pageRect.width+'px';
+      //console.log('wStr: '+wStr);
+      //console.log('hStr: '+hStr); 
+    }
+    else
+    {
+      let scale:number = this.state.rawImageSize[0] / this.state.rawImageSize[1];
+      hStr= this.parent.isMobile ? (pageRect.height*0.8)+'px' : (pageRect.height*0.8)+'px';
+      wStr = scale*pageRect.height+'px';
+      //console.log('wStr: '+wStr);
+      //console.log('hStr: '+hStr); 
+    }
+
     this.setState({ 
       imageWrapperWidth: w,
-      imageWrapperHeight: h
+      imageWrapperHeight: h,
+      imageWrapperStrWidth: wStr,
+      imageWrapperStrHeight: hStr
     });  
   }//END updateImageWrapperComputedStyle
 
@@ -305,16 +335,11 @@ class ExportDialog extends Component<MyProps, MyStates>
     {
       let wScale:number = 1;
       let wStyle:string = '';
-      let imageWrapperstyle:any = {};
-      if( this.state.rawImageSize &&  this.state.rawImageSize!=[])
-      {
-        wScale = this.state.rawImageSize[0] / this.state.rawImageSize[1];
-        if(this.state.imageWrapperWidth>0 && this.state.imageWrapperHeight >0)
-        {
-          wStyle = (this.state.imageWrapperHeight * wScale)+'px';
-          imageWrapperstyle.width = wStyle;
-        }
-      }
+      let imageWrapperstyle:any = {
+        width: this.state.imageWrapperStrWidth,
+        height: this.state.imageWrapperStrHeight,
+      };
+     
 
       
       

@@ -281,11 +281,11 @@ class ImageText extends Component<MyProps, MyStates>
     //console.log('gdffgdgdfgfd #22222222');
     var that = this;
     let result:any = null;
-    const start_x = 10, start_y = 30;
+    const start_x = 3, start_y = 30;
     let canvas:HTMLCanvasElement = document.createElement("canvas");
     canvas.style.fontWeight = '400';
     let ctx = canvas.getContext('2d', {alpha:true})!;
-    let width:number = this.calWidth(ctx, text);
+    let width:number = ctx.measureText(text).width*(fontSize/10)*1.1+start_x;//this.calWidth(ctx, text);
     //(ctx.measureText(text).width * 1.5) * text.length +(start_x * 2);
     canvas.width = width;
     canvas.height = height;

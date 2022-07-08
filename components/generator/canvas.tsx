@@ -300,8 +300,8 @@ class Canvas extends Component<MyProps, MyStates>
                       top: top,
                       left: left,
                       //transform: 'rotate('+rotation+'deg)',
-                      zIndex:this.parent.state.imgZindex
-                      //border:'red 2px solid',
+                      zIndex:this.parent.state.imgZindex,
+                      border:'red 2px solid',
                       //clipPath: 'inset('+clipTop+'px '+clipRight+'px '+clipBottom+'px '+clipLeft+'px)',
                     }  
 

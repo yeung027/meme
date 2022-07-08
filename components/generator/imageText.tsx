@@ -66,7 +66,7 @@ class ImageText extends Component<MyProps, MyStates>
       let self = this;
       while(!this.parent.parent.parent.bottomControlPanelRef.current || !this.parent.parent.parent.bottomControlPanelRef.current.editTextRef.current)
       {
-        await timers.setTimeout(200);
+        await timers.setTimeout(70);
       }
 
       this.componentsGetter().editText().setState({ 
@@ -278,7 +278,7 @@ class ImageText extends Component<MyProps, MyStates>
 
   async editTextWithCallBack( imgObjIndex:number, text:string, fontSize:number, fontColor:string, height:number, x:number, y:number, callback:any)
   {
-    console.log('gdffgdgdfgfd #22222222');
+    //console.log('gdffgdgdfgfd #22222222');
     var that = this;
     let result:any = null;
     const start_x = 10, start_y = 30;
@@ -329,7 +329,7 @@ class ImageText extends Component<MyProps, MyStates>
 
     //let b64ImageSize:any  = await this.parent.getb64ImgSize(uploaded.data_url);
     let canvas_image_length = !this.componentsGetter().canvas() || !this.componentsGetter().canvas().state.images ? 0 : this.componentsGetter().canvas().state.images.length;
-
+    let finally_index = -1;
     if(imgObjIndex<=-1)
     {
       let obj:EditingImage = {
@@ -360,6 +360,8 @@ class ImageText extends Component<MyProps, MyStates>
 
       //console.log('gdffgdgdfgfd #11111');
       result = await this.setEditTextUiSelectingTextIndex(imgObjIndex);
+
+      finally_index = this.componentsGetter().canvas().state.images.length - 1;
       //console.log('gdffgdgdfgfd #22222222');
       //console.log(callback);
     }//END if -1
@@ -391,12 +393,12 @@ class ImageText extends Component<MyProps, MyStates>
       //console.log('gdffgdgdfgfd #11111');
       result = await this.setEditTextUiSelectingTextIndex(imgObjIndex);
       //console.log('gdffgdgdfgfd #22222222');
-      
+      finally_index = imgObjIndex;
     }
 
     //console.log(callback);
       //if(callback) console.log('gdffgdgdfgfd $333333');
-    if(callback) callback();
+    if(callback) callback(finally_index);
 
   }//END doEditText
 

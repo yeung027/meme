@@ -97,6 +97,7 @@
     align-content: center;
     width: 51px;
     height: 51px;
+    overflow: hidden;
 }
 
 .avator img

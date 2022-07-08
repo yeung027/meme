@@ -98,25 +98,25 @@ class EditTextUI extends Component<MyProps, MyStates>
   async updateColorPickerPosition()
   {
     //if(!this.parent.parent.isMobile ) return;
-
+    const timerInterval:number = 70;
     let bottomControlPanelDom:HTMLDivElement = this.parent.rootRef.current!;
     let colorPickerWrapperDom:any = this.parent.parent.isMobile  ? 
       this.colorPickerRef.current : this.colorPicker1Ref.current;
     let bottomControlPanelInnerDom:HTMLDivElement = this.parent.innerRef.current!;
     while(!this.parent.innerRef.current)
     {
-      await timers.setTimeout(200);
+      await timers.setTimeout(timerInterval);
     }
     bottomControlPanelInnerDom = this.parent.innerRef.current!;
     while(!this.parent.innerRef.current)
     {
-      await timers.setTimeout(200);
+      await timers.setTimeout(timerInterval);
     }
     bottomControlPanelInnerDom = this.parent.innerRef.current!;
 
     while(!this.parent.rootRef.current)
     {
-      await timers.setTimeout(200);
+      await timers.setTimeout(timerInterval);
     }
     bottomControlPanelDom = this.parent.rootRef.current!;
 

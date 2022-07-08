@@ -92,6 +92,18 @@ class IndexPage extends Component<MyProps & WithUserAgentProps, MyStates>
                 </a>
               </Link>
 
+              <Link href="rain">
+                <a className={this.state.isMobile ? mobileStyles.listItem : styles.listItem}>
+                  <div className={this.state.isMobile ? mobileStyles.avator : styles.avator}>
+                    <img src='generator/rain/rain.png' />
+                  </div>
+                  <div className={this.state.isMobile ? mobileStyles.listItemCenter : styles.listItemCenter}>
+                    <span className={this.state.isMobile ? mobileStyles.listItemTitle : styles.listItemTitle}>title 2</span>
+                    <span className={this.state.isMobile ? mobileStyles.listItemH2 : styles.listItemH2}>sub 2</span>
+                  </div>
+                </a>
+              </Link>
+
 
             </div>
   }//END getlist

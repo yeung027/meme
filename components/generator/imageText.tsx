@@ -1,6 +1,7 @@
 import React,{Component} from 'react';
 import EditingImage from '../../models/editingImage';
-const timers = require('timers-promises')
+const timers = require('timers-promises');
+
 type MyProps = {
     parent:any
 };
@@ -49,9 +50,20 @@ class ImageText extends Component<MyProps, MyStates>
     
   }//END constructor
 
-  componentDidMount() 
+  async componentDidMount() 
   {
     this.parent.parent.parent.imageTextDidMountCallback();
+    while(!window)
+    {
+      await timers.setTimeout(70);
+      
+    }
+    var WebFont = require('webfontloader');
+    WebFont.load({
+      google: {
+        families: ['Edu QLD Beginner']
+      }
+    });
   }//END componentDidMount
 
   componentsGetter()
@@ -151,7 +163,7 @@ class ImageText extends Component<MyProps, MyStates>
     input.className = "floatTextInputEdit";
     input.style.height = imgObj.height+'px';
     input.style.width = imgObj.width+'px';
-    input.style.fontFamily = "Noto Sans TC, Roboto";
+    input.style.fontFamily = 'Edu QLD Beginner';//"Noto Sans TC, Roboto";
     input.style.fontSize = imgObj.text?.fontSize+'px';
     input.value = imgObj.text!.value!;
     form.id = 'floatTextInputEditForm-'+keynum;
@@ -289,7 +301,7 @@ class ImageText extends Component<MyProps, MyStates>
     //(ctx.measureText(text).width * 1.5) * text.length +(start_x * 2);
     canvas.width = width;
     canvas.height = height;
-    ctx.font = fontSize+"px Noto Sans TC, Roboto";
+    ctx.font = fontSize+"px Edu QLD Beginner";
     canvas.style.background = 'transparent';
     ctx.fillStyle = "rgba(255, 255, 255, 0)";
     //ctx.fillStyle = "rgb(255, 255, 255)";

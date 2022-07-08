@@ -48,8 +48,14 @@ class EditTextUI extends Component<MyProps, MyStates>
     this.updateColorPickerPosition           = this.updateColorPickerPosition.bind(this);
     this.colorPickerOnChangeComplete  = this.colorPickerOnChangeComplete.bind(this);
     this.colorBackDropOnclick = this.colorBackDropOnclick.bind(this);
-    this.updateImageObjColor= this.updateImageObjColor.bind(this);
+    this.updateImageObjColor = this.updateImageObjColor.bind(this);
+    this.familyBtnOnclick = this.familyBtnOnclick.bind(this);
   }//END constructor
+
+  familyBtnOnclick(e:any)
+  {
+    this.setState({ colorPickerOpen: !this.state.colorPickerOpen });
+  }//END familyBtnOnclick
 
   componentsGetter()
   {
@@ -224,15 +230,16 @@ class EditTextUI extends Component<MyProps, MyStates>
                     <span onClick={this.colorBtnOnclick}>Color</span>
                     {!this.parent.parent.isMobile && this.getColorPickerEle(2)}
                   </div>
-                  <div className={buttonClass} >
-                  <i className={'bx bx-text'} />
-                    <span>Text</span>
+                  <div className={buttonActiveClass} >
+                    <i className={'bx bx-font-family'} onClick={this.familyBtnOnclick} />
+                    <span>Font Family</span>
                   </div>
 
                   <div className={buttonActiveClass} onClick={this.okBtnOnclick}>
-                  <i className={'bx bx-left-arrow-alt'} />
-                  <span>Back</span>
+                    <i className={'bx bx-left-arrow-alt'} />
+                    <span>Back</span>
                   </div>
+
 
                   {/* <div className={okBtnClass} onClick={this.okBtnOnclick}>
                     <span>ok</span>

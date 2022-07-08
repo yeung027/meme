@@ -101,7 +101,6 @@
     margin: 0;
     padding:0;
     position: absolute;
-    border:red 2px solid
 }
 
 .btn
@@ -175,3 +174,4 @@
     display: block;
     z-index: 59;
 }
+

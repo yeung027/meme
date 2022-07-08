@@ -61,7 +61,7 @@ class ImageText extends Component<MyProps, MyStates>
     var WebFont = require('webfontloader');
     WebFont.load({
       google: {
-        families: ['Edu QLD Beginner']
+        families: ['Roboto','Edu QLD Beginner']
       }
     });
   }//END componentDidMount

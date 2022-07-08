@@ -53,8 +53,10 @@ class Steps extends Component<MyProps, MyStates>
   stepChangeWithBottomControl(step:string)
   {
     this.stepChange(step);
+    let buttomStep = step;
+    if(buttomStep==this.step.UPLOADIMG) buttomStep = this.parent.bottomControlPanelRef.current.stage.UPLOADIMG;
     if(this.parent.bottomControlPanelRef.current)
-      this.parent.bottomControlPanelRef.current.stageChange(step);
+      this.parent.bottomControlPanelRef.current.stageChange(buttomStep);
   }//END stepChangeWithBottomControl
 
   stepChange(step:string)

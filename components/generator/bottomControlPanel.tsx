@@ -23,7 +23,11 @@ type MyStates = {
 interface BottomControlPanel {
   parent: any
   stage:any
+  uploadImgRef:any
+  editImgRef:any
   editTextRef:any
+  textFamilyRef:any
+  exportRef:any
   rootRef: any
   innerRef: any
 }
@@ -37,6 +41,11 @@ class BottomControlPanel extends Component<MyProps, MyStates>
 
     this.rootRef = React.createRef();
     this.innerRef = React.createRef();
+    this.uploadImgRef = React.createRef();
+    this.editImgRef = React.createRef();
+    this.editTextRef = React.createRef();
+    this.textFamilyRef = React.createRef();
+    this.exportRef = React.createRef();
 
     enum STAGE {
       UPLOADIMG = 'uploadimg',
@@ -54,8 +63,6 @@ class BottomControlPanel extends Component<MyProps, MyStates>
       pendingUIChange: false,
       pendingUI: null,
     }//END state
-    
-    this.editTextRef = React.createRef();
 
     this.animationEnd = this.animationEnd.bind(this);
     this.stageChange  = this.stageChange.bind(this);
@@ -152,24 +159,7 @@ class BottomControlPanel extends Component<MyProps, MyStates>
       //console.log('temp_class: ' + temp_class);
       containerClass = [containerClass, temp_class].join(' ');
     }
-
-    let uploadStyle:any  = {display:'none', width:'100%'};
-    let editImgStyle:any  = {display:'none', width:'100%'};
-    let editTextStyle:any  = {display:'none', width:'100%'};
-    let exportStyle:any  = {display:'none', width:'100%'};
-    let textFamilyStyle:any  = {display:'none', width:'100%'};
     
-    if(this.state.currentUI === this.stage.UPLOADIMG)
-      uploadStyle.display = 'block';
-    else if(this.state.currentUI === this.stage.EDITIMG)
-      editImgStyle.display = 'block';
-    else if(this.state.currentUI === this.stage.EDITTEXT)
-      editTextStyle.display = 'block';
-    else if(this.state.currentUI === this.stage.EXPORT)
-      exportStyle.display = 'block';
-    else if(this.state.currentUI === this.stage.TEXTFAMILY)
-      textFamilyStyle.display = 'block';
-
     return  <div 
               className={containerClass} 
               onAnimationEnd={this.animationEnd}
@@ -181,11 +171,11 @@ class BottomControlPanel extends Component<MyProps, MyStates>
                 id="BottomControlPanelInner"
                 ref={this.innerRef}
               >
-                  <div style={uploadStyle}><UploadImgUI parent={this} /></div>
-                  <div style={editImgStyle}><EditImgUI parent={this} /></div>
-                  <div style={editTextStyle}><EditTextUI parent={this} ref={this.editTextRef} /></div>
-                  <div style={exportStyle}><ExportUI parent={this} /></div>
-                  <div style={textFamilyStyle}><TextFamilyUI parent={this} /></div>
+                  <UploadImgUI parent={this} ref={this.uploadImgRef} />
+                  <EditImgUI parent={this} ref={this.editImgRef} />
+                  <EditTextUI parent={this} ref={this.editTextRef} />
+                  <ExportUI parent={this} ref={this.exportRef} />
+                  <TextFamilyUI parent={this} ref={this.textFamilyRef} />
               </div>
             </div>
 

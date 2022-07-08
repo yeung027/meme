@@ -115,7 +115,7 @@ class ExportUI extends Component<MyProps, MyStates>
     
 
 
-    return  <div className={containerClass}>
+    return  <div className={containerClass} style={{display: this.parent.state.currentUI === this.parent.stage.EXPORT ? 'flex' : 'none'}}>
               <Snackbar
                 anchorOrigin={{
                   vertical: 'bottom',

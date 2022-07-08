@@ -171,7 +171,7 @@ class ButtonControlUploadGUI extends Component<MyProps, MyStates>
       uploadBtnClass  = [uploadBtnClass, utilStyles.blink].join(' ');
     }
 
-    return  <div className={containerClass}>
+    return  <div className={containerClass} style={{display: this.parent.state.currentUI === this.parent.stage.UPLOADIMG ? 'flex' : 'none'}}>
               <Snackbar
                 anchorOrigin={{
                   vertical: 'bottom',

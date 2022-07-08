@@ -174,7 +174,7 @@ class EditImgUI extends Component<MyProps, MyStates>
     let nextBtnClass       = [utilStyles.purple_iconRight_btn_l, this.parent.parent.state.isMobile? mobileStyles.nextBtn : styles.nextBtn].join(' ');
 
 
-    return  <div className={containerClass}>
+    return  <div className={containerClass} style={{display: this.parent.state.currentUI === this.parent.stage.EDITIMG ? 'flex' : 'none'}}>
               <div className={this.parent.parent.state.isMobile? mobileStyles.header : styles.header}>
                 <div className={this.parent.parent.state.isMobile? mobileStyles.title : styles.title}>
                   <i className={'bx bxs-bell'} />

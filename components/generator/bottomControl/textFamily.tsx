@@ -79,7 +79,7 @@ class TextFamilyUI extends Component<MyProps, MyStates>
     let backBtnClass = this.parent.parent.state.isMobile? mobileStyles.textBtn : styles.textBtn;
     backBtnClass = [backBtnClass, this.parent.parent.state.isMobile? utilStyles.headerRIconBtn_r : utilStyles.headerRIconBtn].join(' ');
 
-    return  <div className={containerClass}>
+    return  <div className={containerClass} style={{display: this.parent.state.currentUI === this.parent.stage.TEXTFAMILY ? 'flex' : 'none'}}>
 
               <div className={this.parent.parent.isMobile ?  mobileStyles.header : styles.header}>
                 <div className={this.parent.parent.isMobile ?  mobileStyles.title : styles.title}>
@@ -87,7 +87,7 @@ class TextFamilyUI extends Component<MyProps, MyStates>
                   <span>Font Family</span>
                 </div>
                 <div className={this.parent.parent.isMobile ?  mobileStyles.header_r : styles.header_r}>
-                  <span className={backBtnClass}>
+                  <span className={backBtnClass} onClick={this.okBtnOnclick}>
                     <i className={this.parent.parent.state.isMobile?'bx bx-right-arrow-alt' : 'bx bx-left-arrow-alt'} />
                     back
                   </span>
@@ -98,18 +98,11 @@ class TextFamilyUI extends Component<MyProps, MyStates>
                   className={this.parent.parent.isMobile ?  mobileStyles.mainInner : styles.mainInner}
                 >
 
-                 
+                 f
 
-                  <div className={buttonActiveClass} onClick={this.okBtnOnclick}>
-                    <i className={'bx bx-left-arrow-alt'} />
-                    <span>Back</span>
-                  </div>
+                  
 
 
-                  {/* <div className={okBtnClass} onClick={this.okBtnOnclick}>
-                    <span>ok</span>
-                    <i className={'bx bx-chevron-right'} />
-                  </div> */}
                 </div>
               </div>
             </div>

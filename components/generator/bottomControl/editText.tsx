@@ -209,7 +209,7 @@ class EditTextUI extends Component<MyProps, MyStates>
 
     //console.log(this.parent.parent.isMobile );
     
-    return  <div className={containerClass}>
+    return  <div className={containerClass} style={{display: this.parent.state.currentUI === this.parent.stage.EDITTEXT ? 'flex' : 'none'}}>
               {this.getColorPickerEle(1)}
 
               <div className={this.parent.parent.isMobile ?  mobileStyles.header : styles.header}>

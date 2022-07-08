@@ -144,6 +144,26 @@ class TextFamilyUI extends Component<MyProps, MyStates>
                     {showCaseText}
                   </div>
 
+                  <div className={[ this.parent.parent.state.isMobile ? mobileStyles.DancingScript : styles.DancingScript,  this.parent.parent.state.isMobile ? mobileStyles.item : styles.item].join(' ')}>
+                    {showCaseText}
+                  </div>
+
+                  <div className={[ this.parent.parent.state.isMobile ? mobileStyles.RubikMoonrocks : styles.RubikMoonrocks,  this.parent.parent.state.isMobile ? mobileStyles.item : styles.item].join(' ')}>
+                    {showCaseText}
+                  </div>
+
+                  <div className={[ this.parent.parent.state.isMobile ? mobileStyles.IndieFlower : styles.IndieFlower,  this.parent.parent.state.isMobile ? mobileStyles.item : styles.item].join(' ')}>
+                    {showCaseText}
+                  </div>
+
+                  <div className={[ this.parent.parent.state.isMobile ? mobileStyles.Caveat : styles.Caveat,  this.parent.parent.state.isMobile ? mobileStyles.item : styles.item].join(' ')}>
+                    {showCaseText}
+                  </div>
+
+                  <div className={[ this.parent.parent.state.isMobile ? mobileStyles.CormorantGaramond : styles.CormorantGaramond,  this.parent.parent.state.isMobile ? mobileStyles.item : styles.item].join(' ')}>
+                    {showCaseText}
+                  </div>
+
                   <div style={{clear:'both'}}></div>
                 </div>
               </div>

@@ -62,7 +62,8 @@ class ImageText extends Component<MyProps, MyStates>
     WebFont.load({
       google: {
         families: ['Roboto','Edu QLD Beginner','Noto Sans TC','Edu SA Beginner','Montserrat','Edu TAS Beginner', 'cursive','Edu VIC WA NT Beginner'
-        ,'Roboto Mono', 'monospace', 'Raleway', 'sans-serif','Playfair Display', 'serif', 'Splash', 'cursive']
+        ,'Roboto Mono', 'monospace', 'Raleway', 'sans-serif','Playfair Display', 'serif', 'Splash', 'cursive','Dancing Script',
+        'Rubik Moonrocks','Indie Flower','Caveat','Cormorant Garamond']
       }
     });
   }//END componentDidMount

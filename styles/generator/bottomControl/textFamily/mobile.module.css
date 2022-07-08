@@ -231,8 +231,51 @@
 {
     font-family: 'Edu SA Beginner';
 }
-
 .Montserrat
 {
     font-family: 'Montserrat';
+}
+.EduTASBeginner
+{
+    font-family: 'Edu TAS Beginner',cursive;
+}
+.EduVICWANTBeginner
+{
+    font-family: 'Edu VIC WA NT Beginner';
+}
+.RobotoMono
+{
+    font-family: 'Roboto Mono', monospace;
+}
+.Raleway
+{
+    font-family: 'Raleway', sans-serif;
+}
+.PlayfairDisplay
+{
+    font-family: 'Playfair Display', serif;
+}
+.Splash
+{
+    font-family: 'Splash', cursive;
+}
+.DancingScript
+{
+    font-family: 'Dancing Script', cursive;
+}
+.RubikMoonrocks
+{
+    font-family: 'Rubik Moonrocks', cursive;
+}
+.IndieFlower
+{
+    font-family: 'Indie Flower', cursive;
+}
+.Caveat
+{
+    font-family: 'Caveat', cursive;
+}
+.CormorantGaramond
+{
+    font-family: 'Cormorant Garamond', serif;
 }

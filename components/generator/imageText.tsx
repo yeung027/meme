@@ -273,7 +273,7 @@ class ImageText extends Component<MyProps, MyStates>
   
   async doEditText( imgObjIndex:number, text:string, fontSize:number, fontColor:string, height:number, x:number, y:number)
   {
-    //this.doEditTextWithCallBack( imgObjIndex, text, fontSize, fontColor, height, x, y, null);
+    this.editTextWithCallBack( imgObjIndex, text, fontSize, fontColor, height, x, y, null);
   }
 
   async editTextWithCallBack( imgObjIndex:number, text:string, fontSize:number, fontColor:string, height:number, x:number, y:number, callback:any)

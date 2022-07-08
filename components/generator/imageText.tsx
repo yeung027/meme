@@ -61,7 +61,8 @@ class ImageText extends Component<MyProps, MyStates>
     var WebFont = require('webfontloader');
     WebFont.load({
       google: {
-        families: ['Roboto','Edu QLD Beginner']
+        families: ['Roboto','Edu QLD Beginner','Noto Sans TC','Edu SA Beginner','Montserrat','Edu TAS Beginner', 'cursive','Edu VIC WA NT Beginner'
+        ,'Roboto Mono', 'monospace', 'Raleway', 'sans-serif','Playfair Display', 'serif', 'Splash', 'cursive']
       }
     });
   }//END componentDidMount

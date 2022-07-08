@@ -86,16 +86,7 @@
     box-sizing: border-box;         /* Opera/IE 8+ */
 }
 
-.mainInner
-{
-    display: flex;
-    height: calc(100% - 46px);
-    width: 100%;
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: center;
-    /* border:red 1px solid; */
-}
+
 
 .textBtn
 {
@@ -192,4 +183,82 @@
 .header_r .textBtn i
 {
     display: inline-block;
+}
+
+.mainInner
+{
+    display: flex;
+    height: calc(100% - 46px);
+    width: 80%;
+    flex-direction: column;
+    gap: 5px;
+    align-items: center;
+    overflow-y: scroll;
+    /* border:red 1px solid; */
+}
+
+.item
+{
+    /* border:red 1px solid; */
+    width:90%;
+    padding:5px 0;
+    text-align: center;
+    cursor: pointer;
+    background-color: #F5F5F5;
+    border: #9e9e9e 1px solid;
+    border-radius: 3px;
+    color:#171717;
+}
+
+.item:hover 
+{
+    color:#FFC531;
+}
+
+.roboto
+{
+    font-family: 'Roboto';
+}
+
+.EduQLDBeginner
+{
+    font-family: 'Edu QLD Beginner';
+}
+
+.NotoSansTC
+{
+    font-family: 'Noto Sans TC';
+}
+
+.EduSABeginner
+{
+    font-family: 'Edu SA Beginner';
+}
+.Montserrat
+{
+    font-family: 'Montserrat';
+}
+.EduTASBeginner
+{
+    font-family: 'Edu TAS Beginner',cursive;
+}
+.EduVICWANTBeginner
+{
+    font-family: 'Edu VIC WA NT Beginner';
+}
+.RobotoMono
+{
+    font-family: 'Roboto Mono', monospace;
+}
+.Raleway
+{
+    font-family: 'Raleway', sans-serif;
+}
+.PlayfairDisplay
+{
+    font-family: 'Playfair Display', serif;
+}
+.Splash
+{
+    font-family: 'Splash', cursive;
 }

@@ -59,7 +59,7 @@ class BottomControlPanel extends Component<MyProps, MyStates>
     this.state = {
       isAnimation: false,
       animationInout: true,
-      currentUI: this.stage.EDITTEXT,//this.parent.state.steps[0],
+      currentUI: this.stage.TEXTFAMILY,//this.parent.state.steps[0],
       pendingUIChange: false,
       pendingUI: null,
     }//END state

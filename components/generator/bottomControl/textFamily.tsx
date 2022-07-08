@@ -71,38 +71,80 @@ class TextFamilyUI extends Component<MyProps, MyStates>
 
   render() 
   {
-    let containerClass    = this.parent.parent.isMobile ?  mobileStyles.container : styles.container;
+    let containerClass    =  this.parent.parent.state.isMobile ?  mobileStyles.container : styles.container;
     
-    let buttonClass       = this.parent.parent.isMobile ?  mobileStyles.btn : styles.btn;
-    let buttonActiveClass = [buttonClass, this.parent.parent.isMobile ?  mobileStyles.active : styles.active].join(' ');
+    let buttonClass       =  this.parent.parent.state.isMobile ?  mobileStyles.btn : styles.btn;
+    let buttonActiveClass = [buttonClass,  this.parent.parent.state.isMobile ?  mobileStyles.active : styles.active].join(' ');
 
     let backBtnClass = this.parent.parent.state.isMobile? mobileStyles.textBtn : styles.textBtn;
     backBtnClass = [backBtnClass, this.parent.parent.state.isMobile? utilStyles.headerRIconBtn_r : utilStyles.headerRIconBtn].join(' ');
 
+    let showCaseText = this.parent.parent.state.isMobile ? 'Abc123中文' : 'Abc Def Example 123 中文';
+
     return  <div className={containerClass} style={{display: this.parent.state.currentUI === this.parent.stage.TEXTFAMILY ? 'flex' : 'none'}}>
 
-              <div className={this.parent.parent.isMobile ?  mobileStyles.header : styles.header}>
-                <div className={this.parent.parent.isMobile ?  mobileStyles.title : styles.title}>
+              <div className={ this.parent.parent.state.isMobile ?  mobileStyles.header : styles.header}>
+                <div className={ this.parent.parent.state.isMobile ?  mobileStyles.title : styles.title}>
                   <i className={'bx bxs-bell'} />
                   <span>Font Family</span>
                 </div>
-                <div className={this.parent.parent.isMobile ?  mobileStyles.header_r : styles.header_r}>
+                <div className={ this.parent.parent.state.isMobile ?  mobileStyles.header_r : styles.header_r}>
                   <span className={backBtnClass} onClick={this.okBtnOnclick}>
                     <i className={this.parent.parent.state.isMobile?'bx bx-right-arrow-alt' : 'bx bx-left-arrow-alt'} />
                     back
                   </span>
                 </div>
               </div>
-              <div className={this.parent.parent.isMobile ?  mobileStyles.main : styles.main}>
+              <div className={ this.parent.parent.state.isMobile ?  mobileStyles.main : styles.main}>
                 <div 
-                  className={this.parent.parent.isMobile ?  mobileStyles.mainInner : styles.mainInner}
+                  className={ this.parent.parent.state.isMobile ?  mobileStyles.mainInner : styles.mainInner}
                 >
 
-                 f
+                  <div className={[ this.parent.parent.state.isMobile ? mobileStyles.roboto : styles.roboto,  this.parent.parent.state.isMobile ? mobileStyles.item : styles.item].join(' ')}>
+                    {showCaseText}
+                  </div>
 
-                  
+                  <div className={[ this.parent.parent.state.isMobile ? mobileStyles.EduQLDBeginner : styles.EduQLDBeginner,  this.parent.parent.state.isMobile ? mobileStyles.item : styles.item].join(' ')}>
+                    {showCaseText}
+                  </div>
 
+                  <div className={[ this.parent.parent.state.isMobile ? mobileStyles.NotoSansTC : styles.NotoSansTC,  this.parent.parent.state.isMobile ? mobileStyles.item : styles.item].join(' ')}>
+                    {showCaseText}
+                  </div>
 
+                  <div className={[ this.parent.parent.state.isMobile ? mobileStyles.EduSABeginner : styles.EduSABeginner,  this.parent.parent.state.isMobile ? mobileStyles.item : styles.item].join(' ')}>
+                    {showCaseText}
+                  </div>
+
+                  <div className={[ this.parent.parent.state.isMobile ? mobileStyles.Montserrat : styles.Montserrat,  this.parent.parent.state.isMobile ? mobileStyles.item : styles.item].join(' ')}>
+                    {showCaseText}
+                  </div>
+
+                  <div className={[ this.parent.parent.state.isMobile ? mobileStyles.EduTASBeginner : styles.EduTASBeginner,  this.parent.parent.state.isMobile ? mobileStyles.item : styles.item].join(' ')}>
+                    {showCaseText}
+                  </div>
+
+                  <div className={[ this.parent.parent.state.isMobile ? mobileStyles.EduVICWANTBeginner : styles.EduVICWANTBeginner,  this.parent.parent.state.isMobile ? mobileStyles.item : styles.item].join(' ')}>
+                    {showCaseText}
+                  </div>
+
+                  <div className={[ this.parent.parent.state.isMobile ? mobileStyles.RobotoMono : styles.RobotoMono,  this.parent.parent.state.isMobile ? mobileStyles.item : styles.item].join(' ')}>
+                    {showCaseText}
+                  </div>
+
+                  <div className={[ this.parent.parent.state.isMobile ? mobileStyles.Raleway : styles.Raleway,  this.parent.parent.state.isMobile ? mobileStyles.item : styles.item].join(' ')}>
+                    {showCaseText}
+                  </div>
+
+                  <div className={[ this.parent.parent.state.isMobile ? mobileStyles.PlayfairDisplay : styles.PlayfairDisplay,  this.parent.parent.state.isMobile ? mobileStyles.item : styles.item].join(' ')}>
+                    {showCaseText}
+                  </div>
+
+                  <div className={[ this.parent.parent.state.isMobile ? mobileStyles.Splash : styles.Splash,  this.parent.parent.state.isMobile ? mobileStyles.item : styles.item].join(' ')}>
+                    {showCaseText}
+                  </div>
+
+                  <div style={{clear:'both'}}></div>
                 </div>
               </div>
             </div>

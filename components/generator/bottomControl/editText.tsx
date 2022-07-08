@@ -229,10 +229,15 @@ class EditTextUI extends Component<MyProps, MyStates>
                     <span>Text</span>
                   </div>
 
-                  <div className={okBtnClass} onClick={this.okBtnOnclick}>
+                  <div className={buttonActiveClass} onClick={this.okBtnOnclick}>
+                  <i className={'bx bx-left-arrow-alt'} />
+                  <span>Back</span>
+                  </div>
+
+                  {/* <div className={okBtnClass} onClick={this.okBtnOnclick}>
                     <span>ok</span>
                     <i className={'bx bx-chevron-right'} />
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>

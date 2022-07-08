@@ -33,6 +33,7 @@ class EditImgUI extends Component<MyProps, MyStates>
     this.componentsGetter         = this.componentsGetter.bind(this);
     this.nextBtnOnclick           = this.nextBtnOnclick.bind(this);
     this.skipBtnOnclick           = this.skipBtnOnclick.bind(this);
+    this.addTextBtnOnclick        = this.addTextBtnOnclick.bind(this);
     this.textBtnOnclick           = this.textBtnOnclick.bind(this);
     this.desktopZoomSlider        = this.desktopZoomSlider.bind(this);
     this.desktopZoomSliderOnChange        = this.desktopZoomSliderOnChange.bind(this);
@@ -47,12 +48,17 @@ class EditImgUI extends Component<MyProps, MyStates>
   }//END componentsGetter
 
 
-  textBtnOnclick()
+  addTextBtnOnclick()
   {
     //console.log(this.componentsGetter().imageText());
     this.componentsGetter().imageText().textBtnOnclick();
+  }//END addTextBtnOnclick
 
-
+  textBtnOnclick()
+  {
+    this.parent.stageChange(this.parent.stage.EDITIMG);
+    this.componentsGetter().steps().stepChange(this.componentsGetter().steps().step.EDITIMG);
+    this.componentsGetter().bottomControlPanel().stageChange(this.componentsGetter().bottomControlPanel().stage.EDITTEXT);
   }//END textBtnOnclick
 
   skipBtnOnclick()
@@ -190,8 +196,13 @@ class EditImgUI extends Component<MyProps, MyStates>
                   <i className={'bx bx-image'} />
                     <span>Image</span>
                   </div>
+                  <div className={buttonActiveClass} onClick={this.addTextBtnOnclick}>
+                  <i className={'bx bx-list-plus'} />
+                    <span>Add Text</span>
+                  </div>
+
                   <div className={buttonActiveClass} onClick={this.textBtnOnclick}>
-                  <i className={'bx bx-text'} />
+                  <i className={'bx bx-italic'} />
                     <span>Text</span>
                   </div>
 

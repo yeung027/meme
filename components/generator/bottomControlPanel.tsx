@@ -5,6 +5,7 @@ import UploadImgUI from './bottomControl/uploadImg';
 import EditImgUI from './bottomControl/editImg';
 import EditTextUI from './bottomControl/editText';
 import ExportUI from './bottomControl/export';
+import TextFamilyUI from './bottomControl/textFamily';
 
 type MyProps = {
     parent:any
@@ -41,6 +42,7 @@ class BottomControlPanel extends Component<MyProps, MyStates>
       UPLOADIMG = 'uploadimg',
       EDITIMG = 'editimg',
       EDITTEXT = 'edittext',
+      TEXTFAMILY = 'textfamily',
       EXPORT = 'export'
     }
 
@@ -48,7 +50,7 @@ class BottomControlPanel extends Component<MyProps, MyStates>
     this.state = {
       isAnimation: false,
       animationInout: true,
-      currentUI: this.parent.state.steps[0],
+      currentUI: this.stage.TEXTFAMILY,//this.parent.state.steps[0],
       pendingUIChange: false,
       pendingUI: null,
     }//END state
@@ -127,6 +129,15 @@ class BottomControlPanel extends Component<MyProps, MyStates>
         animationInout: false
        });
     }
+    else if(ui === this.stage.TEXTFAMILY)
+    {
+      this.setState({ 
+        isAnimation: true,
+        pendingUIChange: true,
+        pendingUI: this.stage.TEXTFAMILY,
+        animationInout: false
+       });
+    }
 
   }//END stageChange
 
@@ -146,6 +157,7 @@ class BottomControlPanel extends Component<MyProps, MyStates>
     let editImgStyle:any  = {display:'none', width:'100%'};
     let editTextStyle:any  = {display:'none', width:'100%'};
     let exportStyle:any  = {display:'none', width:'100%'};
+    let textFamilyStyle:any  = {display:'none', width:'100%'};
     
     if(this.state.currentUI === this.stage.UPLOADIMG)
       uploadStyle.display = 'block';
@@ -155,6 +167,8 @@ class BottomControlPanel extends Component<MyProps, MyStates>
       editTextStyle.display = 'block';
     else if(this.state.currentUI === this.stage.EXPORT)
       exportStyle.display = 'block';
+    else if(this.state.currentUI === this.stage.TEXTFAMILY)
+      textFamilyStyle.display = 'block';
 
     return  <div 
               className={containerClass} 
@@ -171,6 +185,7 @@ class BottomControlPanel extends Component<MyProps, MyStates>
                   <div style={editImgStyle}><EditImgUI parent={this} /></div>
                   <div style={editTextStyle}><EditTextUI parent={this} ref={this.editTextRef} /></div>
                   <div style={exportStyle}><ExportUI parent={this} /></div>
+                  <div style={textFamilyStyle}><TextFamilyUI parent={this} /></div>
               </div>
             </div>
 

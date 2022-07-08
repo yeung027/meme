@@ -54,7 +54,8 @@ class EditTextUI extends Component<MyProps, MyStates>
 
   familyBtnOnclick(e:any)
   {
-    this.setState({ colorPickerOpen: !this.state.colorPickerOpen });
+    this.parent.stageChange(this.parent.stage.TEXTFAMILY);
+    this.componentsGetter().steps().stepChange(this.componentsGetter().steps().EDITIMG);
   }//END familyBtnOnclick
 
   componentsGetter()

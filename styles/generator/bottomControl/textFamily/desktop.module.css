@@ -1,13 +1,15 @@
 /* @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap'); */
 
 
+
 .container
 {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content:flex-start;
+    align-items:center;
     width: 100%;
-    height:102px;
+    height:100%;
 }
 
 .header
@@ -16,8 +18,9 @@
     height: 46px;
     display: flex;
     justify-items: center;
-    align-items: center;
+    align-items:flex-start;
     line-height: 46px;
+    /* border:red 1px solid; */
 }
 
 .title
@@ -44,6 +47,12 @@
     font-weight: 500;
 }
 
+.titleIcon
+{
+    line-height: 46px;
+    color: #7900D2;
+}
+
 .header_r
 {
     width: 20%;
@@ -56,29 +65,37 @@
     -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
     -moz-box-sizing: border-box;    /* Firefox, other Gecko */
     box-sizing: border-box;         /* Opera/IE 8+ */
-}
-
-.titleIcon
-{
-    line-height: 46px;
-    color: #7900D2;
+    /* border:red 1px solid; */
 }
 
 .main
 {
-    height: 56px;
+    height: calc(100% - 46px);
     width: 100%;
     -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
     -moz-box-sizing: border-box;    /* Firefox, other Gecko */
     box-sizing: border-box;         /* Opera/IE 8+ */
-    padding:auto 17px;
+    padding:37px 17px;
     display: flex;
     flex-direction: column;
     justify-content:flex-start;
     align-items:center;
-    
+    /* border:red 1px solid; */
+    -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+    box-sizing: border-box;         /* Opera/IE 8+ */
 }
 
+.mainInner
+{
+    display: flex;
+    height: calc(100% - 46px);
+    width: 100%;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    /* border:red 1px solid; */
+}
 
 .textBtn
 {
@@ -86,23 +103,14 @@
     font-family: 'Roboto';
     font-weight: 400;
     color: #7900D2;
+    cursor: pointer;
 }
 
-
-
-.mainInner
+.textBtn:hover
 {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    align-items: center;
-    width: 95%;
-    height: 56px;
-    margin: 0;
-    padding:0;
-    position: absolute;
-    border:red 2px solid
+    color:#FFC531;
 }
+
 
 .btn
 {
@@ -136,30 +144,30 @@
     cursor: pointer;
 }
 
+
+
 .okBtn i
 {
     color: #fff;
 }
 
-
 .colorPickerWrapper
 {
     position: absolute;
-    top:0;
-    left:0;
-    z-index: 50;
-    
-    width:100vw;
-    height:95vh;
+    top:280px;
+    left:170px;
     display: none;
-    justify-content: center;
-    align-items: center;
-    background-color:rgba(0, 0, 0, 0.5);
+    z-index: 50;
 }
 
 .colorPickerOpen
 {
-    display: flex;
+    display: block;
+}
+
+.colorPickerBackDrop
+{
+    display: none;
 }
 
 .colorPickerInner
@@ -169,9 +177,19 @@
 
 .colorPickerBackDrop
 {
+    display: none;
+}
+
+.colorPickerBackDrop2
+{
     width:100vw;
-    height:100%;
+    height:100vh;
     position: absolute;
     display: block;
-    z-index: 59;
+    z-index: 49;
+}
+
+.header_r .textBtn i
+{
+    display: inline-block;
 }

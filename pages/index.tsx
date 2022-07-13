@@ -1,8 +1,9 @@
 import type { NextPage } from 'next'
+import { useEffect } from 'react';
 import { useAppSelector, useAppDispatch } from '../app/hooks';
+import { fontLoader } from '../components/font';
+import Header from '../components/header';
 import {
-  decrement,
-  increment,
   generatorState,
   GeneratorState,
 } from '../reducers/generator';
@@ -10,16 +11,18 @@ import {
 const Home: NextPage = () => {
   const state:GeneratorState = useAppSelector(generatorState);
   const dispatch = useAppDispatch();
+  
+  useEffect(() => {
+    fontLoader();
+    console.log('yeah');
+  });
 
   return (
-    <div className='text-3xl font-bold underline'>
-      {state.value}
-      <input 
-                        type="button" 
-                        value="increment" 
-                        onClick={() => dispatch(increment())}
-                        className="w-11/12 bg-gray-400 p-1 text-zinc-900 hover:text-red-600 cursor-pointer"
-                    />
+    <div className='bg-[#5f00d2] w-screen h-screen flex flex-col justify-start items-center overflow-hidden font-roboto'>
+      <Header />
+      <div className='bg-[#F5F5F5] w-full rounded-t-3xl'>
+1
+      </div>
     </div>
   )
 }

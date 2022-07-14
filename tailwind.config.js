@@ -4,9 +4,6 @@ module.exports = {
     "./pages/**/*.{js,ts,jsx,tsx}",
     "./components/**/*.{js,ts,jsx,tsx}",
   ],
-  variants: {
-    textColor: ['responsive', 'hover', 'focus', 'group-hover'],
-  },
   theme: {
     fontFamily: {
         'roboto': ['Roboto', 'sans-serif'],
@@ -19,4 +16,11 @@ module.exports = {
     },
   },
   plugins: [],
+  variants: {
+    extend: {
+      backgroundColor: ['hover', 'focus'],
+      translate: ['group-hover', 'hover'],
+      textColor:['hover']
+    }
+  },
 }

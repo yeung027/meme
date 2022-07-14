@@ -2,13 +2,13 @@ import { BiExport, BiDotsVerticalRounded } from "react-icons/bi";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { 
     MemeState, 
-    memeState,
+    memeState as originMemeState,
     menuOpen
 } from "../reducers/meme";
 
 export default function Header()
 {
-    const state:MemeState = useAppSelector(memeState);
+    const state:MemeState = useAppSelector(originMemeState);
     const dispatch = useAppDispatch();
 
     return  <div className='w-full h-[70px] grid grid-cols-2 items-end text-white pb-2 z-10'>

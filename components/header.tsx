@@ -3,7 +3,8 @@ import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { 
     MemeState, 
     memeState as originMemeState,
-    menuOpen
+    menuOpen,
+    exportDialogOpen
 } from "../reducers/meme";
 
 export default function Header()
@@ -20,7 +21,10 @@ export default function Header()
                         className="cursor-pointer" 
                         onClick={() => dispatch(menuOpen(true))} 
                     />
-                    <BiExport className="cursor-pointer" />
+                    <BiExport 
+                        className="cursor-pointer"
+                        onClick={() => dispatch(exportDialogOpen(true))} 
+                    />
                 </div>
             </div>
 }

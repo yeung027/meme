@@ -4,6 +4,7 @@ import { useAppSelector, useAppDispatch } from '../app/hooks';
 import { fontLoader } from '../components/font';
 import Canvas from '../components/generator/canvas';
 import ControlPanel from '../components/generator/controlPanel';
+import ExportDialog from '../components/generator/exportDialog';
 import Steps from '../components/generator/steps';
 import Header from '../components/header';
 import Menu from '../components/menu';
@@ -18,13 +19,14 @@ const Home: NextPage = () => {
   
   useEffect(() => {
     fontLoader();
-    // if(document && document.body)
-    //   document.body.classList.add('fixed');
+    if(document && document.body)
+      document.body.classList.add('fixed');
   });
 
   return (
     <div className='bg-my-purple w-screen h-screen grid grid-rows-[70px_1fr_96px] overflow-hidden font-roboto'>
       <div className='w-full h-[70px] z-10'>
+        <ExportDialog />
         <Menu />
         <Header />
       </div>

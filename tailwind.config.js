@@ -20,6 +20,10 @@ module.exports = {
         'my-orange': '#FFC531',
       },
     },
+    screens: {
+      'mobile': '390px',
+      'desktop': '1280px',
+    },
   },
   plugins: [],
   variants: {

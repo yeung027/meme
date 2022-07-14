@@ -22,7 +22,7 @@ export default function UploadPanel()
                 <div className="w-full h-11 grid grid-cols-2">
                     <div className="h-11 flex flex-row items-center pl-4">
                         <BiBell className="text-my-purple3" />
-                        <span className="text-sm text-black pl-1 font-medium font-roboto">
+                        <span className="text-sm text-black pl-1 font-medium font-roboto whitespace-nowrap">
                             Upload photo
                         </span>
                     </div>

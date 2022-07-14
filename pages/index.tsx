@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { useAppSelector, useAppDispatch } from '../app/hooks';
 import { fontLoader } from '../components/font';
 import Canvas from '../components/generator/canvas';
+import ControlPanel from '../components/generator/controlPanel';
 import Steps from '../components/generator/steps';
 import Header from '../components/header';
 import Menu from '../components/menu';
@@ -17,6 +18,7 @@ const Home: NextPage = () => {
   
   useEffect(() => {
     fontLoader();
+    document.body.classList.add('fixed');
   });
 
   return (
@@ -29,8 +31,8 @@ const Home: NextPage = () => {
         <Steps />
         <Canvas />
       </div>
-      <div className='border-t border-lightGray2 h-24 w-full bg-white flex justify-center items-center'>
-222
+      <div className='border-t border-lightGray2 h-24 w-full bg-white'>
+        <ControlPanel />
       </div>
     </div>
   )

@@ -11,7 +11,7 @@ export default function Menu()
     const memeState:MemeState = useAppSelector(originMemeState);
     const dispatch = useAppDispatch();
 
-    let componentClass:string = "fixed w-screen h-screen duration-500 ease-in-out transition transform z-30 flex flex-row";
+    let componentClass:string = "fixed w-screen h-screen duration-500 ease-in-out transform z-30 flex flex-row";
     componentClass += memeState.menuOpen ? "translate-x-0" : " -translate-x-full";
     
     return  <div className={componentClass}>

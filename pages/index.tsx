@@ -18,7 +18,8 @@ const Home: NextPage = () => {
   
   useEffect(() => {
     fontLoader();
-    document.body.classList.add('fixed');
+    // if(document && document.body)
+    //   document.body.classList.add('fixed');
   });
 
   return (

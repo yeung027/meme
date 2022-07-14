@@ -18,3 +18,9 @@ a {
 * {
   box-sizing: border-box;
 }
+
+@supports (-webkit-touch-callout: none) {
+  .h-screen {
+    height: -webkit-fill-available;
+  }
+}

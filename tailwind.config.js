@@ -18,6 +18,12 @@ module.exports = {
         'lightGray': '#F5F5F5',
         'lightGray2': '#EEEEEE',
         'my-orange': '#FFC531',
+        'my-orange2': '#ffd66e',
+        'dark-purple': '#1e013d',
+        'my-yellow' :'#ebdb02',
+        'my-dark' : '#242323',
+        'my-darkGray' : '#292929',
+        'my-darkGray2' : '#403f3f',
       },
     },
     screens: {

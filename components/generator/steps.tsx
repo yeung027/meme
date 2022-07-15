@@ -15,9 +15,9 @@ export default function Steps()
     const activeLineClass = "absolute w-14 h-px bg-my-orange mt-1 ml-2 z-0";
 
 
-    return  <div className='h-12 flex flex-row items-center rounded-xl px-6 box-border shadow-[2px_2px_4px_0_rgba(0,0,0,0.1)]'>
+    return  <div className='h-12 flex flex-row items-center rounded-xl px-6 box-border shadow-[2px_2px_4px_0_rgba(0,0,0,0.1)] bg-white'>
 
-                <div className="flex flex-col h-10 min-w-[56px] box-border gap-0.5 items-center justify-center pt-1">
+                <div className="flex flex-col h-10 min-w-[56px] box-border gap-0.5 items-center justify-center pt-2">
                     <div className="h-2 w-2 flex">
                     <div className={activeCircleClass} />
                     <div className={activeLineClass} />
@@ -27,7 +27,7 @@ export default function Steps()
                     </span>
                 </div>
 
-                <div className="flex flex-col h-10 min-w-[56px] box-border gap-0.5 items-center justify-center pt-1">
+                <div className="flex flex-col h-10 min-w-[56px] box-border gap-0.5 items-center justify-center pt-2">
                     <div className="h-2 w-2 flex">
                     <div className={circleClass} />
                     <div className={lineClass} />
@@ -37,7 +37,7 @@ export default function Steps()
                     </span>
                 </div>
 
-                <div className="flex flex-col h-10 min-w-[56px] box-border gap-0.5 items-center justify-center pt-1">
+                <div className="flex flex-col h-10 min-w-[56px] box-border gap-0.5 items-center justify-center pt-2">
                     <div className="h-2 w-2 flex">
                     <div className={circleClass} />
                     

@@ -13,10 +13,10 @@ export default function Header()
     const dispatch = useAppDispatch();
 
     return  <div className='w-full h-[70px] grid grid-cols-2 items-end text-white pb-2 z-10 desktop:bg-my-purple'>
-                <div className='flex flex-row text-left pl-2 font-medium whitespace-nowrap'>
+                <div className='flex flex-row text-left pl-2.5 desktop:pl-4 font-medium whitespace-nowrap'>
                     Generator
                 </div>
-                <div className='flex flex-row-reverse h-full items-end text-2xl pr-2 gap-2'>
+                <div className='flex flex-row-reverse h-full items-end text-2xl pr-2.5 desktop:pr-4 gap-3'>
                     <BiDotsVerticalRounded 
                         className="cursor-pointer" 
                         onClick={() => dispatch(menuOpen(true))} 

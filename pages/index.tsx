@@ -1,5 +1,5 @@
 import type { NextPage } from 'next'
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useAppSelector, useAppDispatch } from '../app/hooks';
 import { fontLoader } from '../components/font';
 import Canvas from '../components/generator/canvas';
@@ -16,14 +16,22 @@ import {
 const Home: NextPage = () => {
   const state:GeneratorState = useAppSelector(generatorState);
   const dispatch = useAppDispatch();
+  const [mode, setMode] = useState('light');
   
   useEffect(() => {
     fontLoader();
 
-    console.log(window.screen.orientation.lock)
-    //window.screen.orientation.lock('landscape');
+    window.matchMedia('(prefers-color-scheme: dark)')
+  .addEventListener('change', event => {
+      const colorScheme:string = event.matches ? "dark" : "light";
+      console.log(colorScheme); // "dark" or "light"
+      setMode(colorScheme);
+ });
+
     if(document && document.body)
       document.body.classList.add('fixed');
+
+      alert(mode);
   });
 //grid-rows-[70px_1fr_96px] border border-4 border-black 
   return (

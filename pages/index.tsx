@@ -21,23 +21,16 @@ const Home: NextPage = () => {
   const state:GeneratorState = useAppSelector(generatorState);
   const memeState:MemeState = useAppSelector(originMemeState);
   const dispatch = useAppDispatch();
-  const [mode, setMode] = useState('light');
   
   useEffect(() => {
     fontLoader();
 
-   
-
     if(document && document.body)
       document.body.classList.add('fixed');
-
-      //alert(mode);
   });
-//grid-rows-[70px_1fr_96px] border border-4 border-black 
-  let containerClass = 'desktop:bg-white w-screen h-screen grid grid-rows-[70px_1fr] desktop:flex desktop:flex-col overflow-hidden font-roboto';
-  containerClass += memeState.darkMode ? ' bg-black' : ' bg-my-purple'
+
   return (
-    <div className={containerClass}>
+    <div className='desktop:bg-white w-screen h-screen grid grid-rows-[70px_1fr] desktop:flex desktop:flex-col overflow-hidden font-roboto'>
       <div className='w-full h-[70px] z-10'>
         <ExportDialog />
         <Menu />

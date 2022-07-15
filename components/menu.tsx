@@ -18,7 +18,7 @@ export default function Menu()
                 <div className="w-4/6 desktop:w-72 h-screen bg-lightGray dark:bg-my-darkGray shadow-[8px_0_10px_5px_rgba(0,0,0,0.2)]">
                     <div className="fixed w-4/6 desktop:w-72 flex flex-row justify-end pt-2 pr-2 z-30">
                         <BiX 
-                            className="text-my-purple2 dark:text-my-orange text-xl cursor-pointer"
+                            className="text-my-purple3 dark:text-my-orange text-xl cursor-pointer"
                             onClick={() => dispatch(menuOpen(false))}
                          />
                     </div>
@@ -29,7 +29,7 @@ export default function Menu()
                         </li>
                     </ul>
                 </div>
-                <div className="w-2/6 h-screen" onClick={() => dispatch(menuOpen(false))} />
+                <div className="w-2/6 desktop:w-[calc(100%-288px)] h-screen" onClick={() => dispatch(menuOpen(false))} />
                 
             </div>
 }

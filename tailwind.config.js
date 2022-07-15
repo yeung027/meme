@@ -16,7 +16,7 @@ module.exports = {
         'my-gray': '#5c5c5c',
         'my-gray2': '#C1CAD7',
         'lightGray': '#F5F5F5',
-        'lightGray2': '#F5F5F5',
+        'lightGray2': '#EEEEEE',
         'my-orange': '#FFC531',
       },
     },

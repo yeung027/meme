@@ -19,6 +19,9 @@ const Home: NextPage = () => {
   
   useEffect(() => {
     fontLoader();
+
+    console.log(window.screen.orientation.lock)
+    //window.screen.orientation.lock('landscape');
     if(document && document.body)
       document.body.classList.add('fixed');
   });

@@ -1,6 +1,6 @@
 import { ReactElement } from 'react';
 
-export function RoundedPurpleButton(props:{processing:boolean, onclick:any, defaultIcon:ReactElement})
+export function RoundedPurpleButton(props:{processing:boolean, onclick:()=>void, defaultIcon:ReactElement})
 {
     let uploadBtnIcon =     <div className="h-9 flex flex-row items-center">
                                 {props.defaultIcon}
@@ -29,4 +29,4 @@ export function RoundedPurpleButton(props:{processing:boolean, onclick:any, defa
                 {uploadBtnIcon}
                 <span className={uploadBtnSpanClass}>{uploadBtnLabel}</span>
             </div>
-}
+}//END RoundedPurpleButton

@@ -18,7 +18,11 @@ import {
   memeState as originMemeState,
 } from "../reducers/meme";
 
-const Home: NextPage = () => {
+interface Props {
+    title: string;
+  }
+
+const Home: NextPage<Props> = (props) => {
   const state:GeneratorState = useAppSelector(generatorState);
   const memeState:MemeState = useAppSelector(originMemeState);
   const dispatch = useAppDispatch();
@@ -48,7 +52,7 @@ const Home: NextPage = () => {
       <div className='w-full h-[70px] z-10'>
         <ExportDialog />
         <Menu />
-        <Header />
+        <Header title={props.title} />
       </div>
       <div className={row2ContainerClass}>
         <div className={'bg-lightGray dark:bg-my-dark w-full grid grid-rows-[48px_1fr] justify-items-center gap-y-4 rounded-t-3xl desktop:rounded-none p-6 shadow-[0_-10px_7px_2px_rgba(105,0,197,1)] dark:shadow-[0_-10px_7px_2px_rgba(23,23,23,0.5)] desktop:shadow-none z-0'+darkModeTransformClass}>

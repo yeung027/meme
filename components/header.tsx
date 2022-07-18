@@ -8,7 +8,7 @@ import {
     exportDialogOpen
 } from "../reducers/meme";
 
-export default function Header()
+export default function Header(props:{title:string})
 {
     const state:MemeState = useAppSelector(originMemeState);
     const dispatch = useAppDispatch();
@@ -18,7 +18,7 @@ export default function Header()
             >
                 <div className="hidden desktop:block w-full h-[70px] absolute top-0 dark:bg-dark-purple z-0" />
                 <div className={'flex flex-row text-left pl-2.5 desktop:pl-4 font-medium whitespace-nowrap text-white dark:text-my-yellow z-10'+darkModeTransformClass}>
-                    Generator
+                    {props.title}
                 </div>
                 <div className='flex flex-row-reverse h-full items-end text-2xl pr-2.5 desktop:pr-4 gap-3 z-10'>
                     <BiDotsVerticalRounded 

@@ -1,6 +1,6 @@
 import Link from 'next/link'
 function Error({ statusCode }) {
-  if(!statusCode || trim(statusCode)=='') statusCode = '500';
+  if(!statusCode || statusCode.toString().trim()=='') statusCode = '500';
   return (
     <div>
     <main

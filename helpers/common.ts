@@ -1,5 +1,3 @@
-import { ThunkDispatch } from "@reduxjs/toolkit";
-import { useAppDispatch } from "../app/hooks";
 import { 
     setDarkMode,
 } from "../reducers/meme";

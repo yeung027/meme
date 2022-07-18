@@ -10,8 +10,8 @@ export default function ControlPanel()
     const memeState:MemeState = useAppSelector(originMemeState);
     const dispatch = useAppDispatch();
 
-    let componentClass:string = "w-full h-full flex justify-center items-center duration-500 ease-in-out transform ";
-    componentClass += memeState.controlPanelEase ? "translate-y-0" : "translate-y-full";
+    let componentClass:string = "w-full h-full flex justify-center items-center duration-500 ease-in-out transform";
+    componentClass += memeState.controlPanelEase ? " translate-y-0" : " translate-y-full";
     
     return  <div className={componentClass}>
                 <UploadPanel />

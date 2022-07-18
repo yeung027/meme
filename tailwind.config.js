@@ -13,6 +13,7 @@ module.exports = {
         'my-purple': '#5f00d2',
         'my-purple2': '#6900c5',
         'my-purple3': '#7900D2',
+        'my-purple4': '#BCA9F1',
         'my-gray': '#5c5c5c',
         'my-gray2': '#C1CAD7',
         'lightGray': '#F5F5F5',

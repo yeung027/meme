@@ -1,12 +1,25 @@
 import { NextPage } from "next"
-import Generator from '../_pages/generator';
+import Generator from '../components/pages/generator';
+import {
+  // generatorState as originGeneratorState,
+  // GeneratorState,
+  setSteps,
+} from '../reducers/generator';
+import { useAppDispatch } from "../app/hooks";
+import { STEP } from "../models/generator";
 
-const Home: NextPage = () => {
+const Example: NextPage = () => {
+  // const generatorState:GeneratorState = useAppSelector(originGeneratorState);
+  const dispatch = useAppDispatch();
+  
+  let steps:STEP[] = [STEP.UPLOADIMG];
+  dispatch(setSteps(steps));
   return  <>
             <Generator 
+              dispatch={dispatch}
               title='Welcome to example'
-             />
+            />
           </>
 }
 
-export default Home
+export default Example

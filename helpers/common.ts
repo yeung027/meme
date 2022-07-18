@@ -1,3 +1,4 @@
+import { Dispatch } from "@reduxjs/toolkit";
 import { 
     setDarkMode,
 } from "../reducers/meme";
@@ -6,7 +7,7 @@ export const delay = (ms:number) => new Promise(res => setTimeout(res, ms));
 
 export const darkModeTransformClass:string = ' delay-1000 duration-1000 ease-in-out transform';
 
-export const addDarkModeListener = async (dispatch:any) => {
+export const addDarkModeListener = async (dispatch:Dispatch) => {
     let retryCount:number = 0;
     while(!window)
     {

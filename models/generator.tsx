@@ -17,9 +17,15 @@ export type EditableText = {
     color:string
 }
 
-export enum STAGE {
+export enum ControlPanelSTAGE {
     UPLOADIMG = 'uploadimg',
     EDITIMG = 'editimg',
     EDITTEXT = 'edittext',
     EXPORT = 'export'
 }
+
+export enum STEP {
+    UPLOADIMG = 'uploadimg',
+    EDITING = 'editing',
+    EXPORT = 'export'
+  }

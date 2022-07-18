@@ -1,7 +1,6 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { getImageSize, wideEnoughToSetLandscape } from "../../helpers/generator/image";
-import { ImageBasicInfo } from "../../models/generator";
+import { wideEnoughToSetLandscape } from "../../helpers/generator/image";
 import { GeneratorState } from "../../reducers/generator";
 import { 
     MemeState, 
@@ -13,12 +12,12 @@ import {
 
 export default function Canvas()
 {
+    const [rotateCanvas, setRotateCanvas] = useState(false);
+
     useEffect(() => {
-        getImageSize(generatorState.rawImageUrl).then((result:ImageBasicInfo)=>{
-            console.log('wtf: '+result.width+', '+result.height)
-        });
         wideEnoughToSetLandscape(generatorState.rawImageUrl).then((result:boolean)=>{
-            console.log('the result is ...: '+result);
+            console.log('result: '+result);
+            setRotateCanvas(result);
         })
     });
 
@@ -26,10 +25,15 @@ export default function Canvas()
     const generatorState:GeneratorState = useAppSelector(originGeneratorState);
     const dispatch = useAppDispatch();
     let containerClass = 'flex flex-col justify-center items-center';
-    containerClass+= ' w-full h-[calc(100vh-70px-96px-48px-16px-24px-24px)] desktop:h-[calc(100vh-70px-24px-24px-16px-48px)]';
+    containerClass += ' w-full h-[calc(100vh-70px-96px-48px-16px-24px-24px)] desktop:h-[calc(100vh-70px-24px-24px-16px-48px)]';
+
+    let imageClass = 'border-2 border-my-purple4';
+    if(rotateCanvas) imageClass += ' -rotate-90 desktop:rotate-0 ';
+    else imageClass += ' max-w-full max-h-full';
+
     return  <div className={containerClass}>
                 <img 
-                    className="max-w-full max-h-full border-2 border-my-purple4"
+                    className={imageClass}
                     src={generatorState.rawImageUrl}
                  />
             </div>

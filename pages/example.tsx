@@ -12,10 +12,9 @@ import { STEP } from "../models/generator";
 const Example: NextPage = () => {
   // const generatorState:GeneratorState = useAppSelector(originGeneratorState);
   const dispatch = useAppDispatch();
-  
   let steps:STEP[] = [STEP.UPLOADIMG];
   dispatch(setSteps(steps));
-  dispatch(setRawImageUrl('generator/example/3.jpg'));
+  dispatch(setRawImageUrl('generator/example/5.png'));
   return  <>
             <Generator 
               dispatch={dispatch}

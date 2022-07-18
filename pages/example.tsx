@@ -1,6 +1,7 @@
 import { NextPage } from "next"
 import Generator from '../components/pages/generator';
 import {
+  setRawImageUrl,
   // generatorState as originGeneratorState,
   // GeneratorState,
   setSteps,
@@ -14,6 +15,7 @@ const Example: NextPage = () => {
   
   let steps:STEP[] = [STEP.UPLOADIMG];
   dispatch(setSteps(steps));
+  dispatch(setRawImageUrl('generator/example/3.jpg'));
   return  <>
             <Generator 
               dispatch={dispatch}

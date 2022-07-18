@@ -28,4 +28,9 @@ export enum STEP {
     UPLOADIMG = 'uploadimg',
     EDITING = 'editing',
     EXPORT = 'export'
-  }
+}
+
+export type ImageBasicInfo = {
+    width:number,
+    height:number
+}

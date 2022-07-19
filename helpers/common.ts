@@ -29,7 +29,7 @@ export const addDarkModeListener = async (dispatch:Dispatch) => {
 export const getInnerHeight = (isMobile:boolean) => {
     if(!window || !window.innerHeight || isNaN(window.innerHeight) || !isMobile) return 'h-screen';
 
-    return 'h-['+window.innerHeight+'px]';
+    return 'h-['+(window.innerHeight-30)+'px]';
 };
 
 export const getInnerHeightLandscape = (isMobile:boolean) => {

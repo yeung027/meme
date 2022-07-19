@@ -56,7 +56,7 @@ const Home: NextPage<Props> = (props) => {
         }
       )
     
-    let containerAdditionClass:string = ' border border-4 border-red-500 landscape:pb-[env(safe-area-inset-bottom)] '+getInnerHeight(true);
+    let containerAdditionClass:string = ' landscape:pb-[env(safe-area-inset-bottom)] '+getInnerHeight(true);
     let subcontainerAdditionClass:string = '';
     let subcontainer2AdditionClass:string = ' landscape:'+getInnerHeightLandscape(true);
     let subSubcontainerAdditionClass:string = '';

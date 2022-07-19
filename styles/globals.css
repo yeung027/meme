@@ -21,7 +21,7 @@ a {
 
 /* @supports (-webkit-touch-callout: none) { */
   .h-screen {
-    height: calc(-webkit-fill-available - env(safe-area-inset-bottom) );
+    height: calc(100vh - env(safe-area-inset-bottom));
   }
 /* } */
 

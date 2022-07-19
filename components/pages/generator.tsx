@@ -15,7 +15,7 @@ import {
 } from "../../reducers/meme";
 import { Dispatch } from '@reduxjs/toolkit';
 import Head from 'next/head';
-
+import { isMobile } from "react-device-detect";
 
 interface Props {
     dispatch:Dispatch,
@@ -56,19 +56,19 @@ const Home: NextPage<Props> = (props) => {
         }
       )
     
-    let containerAdditionClass:string = ' landscape:pb-[env(safe-area-inset-bottom)] '+getInnerHeight(true);
+    let containerAdditionClass:string = ' border border-4 border-red-500 h-screen';
     let subcontainerAdditionClass:string = '';
     let subcontainer2AdditionClass:string = ' landscape:'+getInnerHeightLandscape(true);
     let subSubcontainerAdditionClass:string = '';
     let subSubcontainer2AdditionClass:string = '';
 
-    // if(isMobile)
-    // {
-    //   containerAdditionClass+=' landscape:grid-cols-[70px_1fr] landscape:'+getInnerHeightLandscape(true);
-    //   subSubcontainerAdditionClass+=' landscape:rounded-tr-none';
-    //   subcontainerAdditionClass+=' landscape:'+getInnerHeightLandscape(true)+' landscape:rounded-bl-3xl';
-    //   subSubcontainer2AdditionClass += ' landscape:bg-my-purple';
-    // }
+    if(isMobile)
+    {
+      containerAdditionClass+=' landscape:grid-cols-[70px_1fr] landscape:pb-[env(safe-area-inset-bottom)]';
+      subSubcontainerAdditionClass+=' landscape:rounded-tr-none';
+      subcontainerAdditionClass+=' landscape:'+getInnerHeightLandscape(true)+' landscape:rounded-bl-3xl';
+      subSubcontainer2AdditionClass += ' landscape:bg-my-purple';
+    }
 
     if(memeState.darkMode)
     {

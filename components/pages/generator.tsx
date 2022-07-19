@@ -56,10 +56,10 @@ const Home: NextPage<Props> = (props) => {
         }
       )
     
-    let containerAdditionClass:string = ' border border-4 border-red-500 h-screen';
-    let subcontainerAdditionClass:string = '';
-    let subcontainer2AdditionClass:string = ' landscape:h-screen';
-    let subSubcontainerAdditionClass:string = '';
+    let containerAdditionClass:string = ' h-screen';
+    let subcontainerAdditionClass:string = ' bg-my-purple landscape:h-[-webkit-fill-available] landscape:pb-0.5';
+    let subcontainer2AdditionClass:string = ' landscape:h-[-webkit-fill-available]';
+    let subSubcontainerAdditionClass:string = ' ';
     let subSubcontainer2AdditionClass:string = '';
 
     if(isMobile)

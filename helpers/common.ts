@@ -24,3 +24,5 @@ export const addDarkModeListener = async (dispatch:Dispatch) => {
 
     return true;
 }
+
+export const hScreen = ():string => 'h-[-webkit-fill-available]';

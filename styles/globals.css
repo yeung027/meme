@@ -19,11 +19,12 @@ a {
   box-sizing: border-box;
 }
 
-/* @supports (-webkit-touch-callout: none) { */
+@supports (-webkit-touch-callout: none) {
   .h-screen {
-    height: calc(100vh - env(safe-area-inset-bottom));
+    height: -webkit-fill-available;
+    padding-bottom: env(safe-area-inset-bottom);
   }
-/* } */
+}
 
 .background-animate {
   background-size: 400%;

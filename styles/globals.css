@@ -23,6 +23,9 @@ a {
   .h-screen {
     height: -webkit-fill-available;
   }
+  .h-screen2 {
+    height: -webkit-fill-available;
+  }
 }
 
 .background-animate {

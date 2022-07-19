@@ -15,7 +15,7 @@ import {
 } from "../../reducers/meme";
 import { Dispatch } from '@reduxjs/toolkit';
 import Head from 'next/head';
-import { isMobile } from 'react-device-detect';
+
 
 interface Props {
     dispatch:Dispatch,
@@ -37,6 +37,10 @@ const Home: NextPage<Props> = (props) => {
   const [subcontainer2Class, setSubcontainer2Class] = useState(defaultSubcontainer2Class);
   const [subSubcontainer1Class, setSubSubcontainer1Class] = useState(defaultSubSubcontainer1Class);
   const [subSubcontainer2Class, setSubSubcontainer2Class] = useState(defaultSubSubcontainer2Class);
+  
+  
+  
+  
   useEffect(() => {
     fontLoader();
 
@@ -52,19 +56,19 @@ const Home: NextPage<Props> = (props) => {
         }
       )
     
-    let containerAdditionClass:string = ' landscape:pb-[env(safe-area-inset-bottom)] '+getInnerHeight(isMobile);
+    let containerAdditionClass:string = ' border border-4 border-red-500 landscape:pb-[env(safe-area-inset-bottom)] '+getInnerHeight(true);
     let subcontainerAdditionClass:string = '';
-    let subcontainer2AdditionClass:string = ' landscape:'+getInnerHeightLandscape(isMobile);
+    let subcontainer2AdditionClass:string = ' landscape:'+getInnerHeightLandscape(true);
     let subSubcontainerAdditionClass:string = '';
     let subSubcontainer2AdditionClass:string = '';
 
-    if(isMobile)
-    {
-      containerAdditionClass+=' landscape:grid-cols-[70px_1fr] landscape:'+getInnerHeightLandscape(isMobile);
-      subSubcontainerAdditionClass+=' landscape:rounded-tr-none';
-      subcontainerAdditionClass+=' landscape:'+getInnerHeightLandscape(isMobile)+' landscape:rounded-bl-3xl';
-      subSubcontainer2AdditionClass += ' landscape:bg-my-purple';
-    }
+    // if(isMobile)
+    // {
+    //   containerAdditionClass+=' landscape:grid-cols-[70px_1fr] landscape:'+getInnerHeightLandscape(true);
+    //   subSubcontainerAdditionClass+=' landscape:rounded-tr-none';
+    //   subcontainerAdditionClass+=' landscape:'+getInnerHeightLandscape(true)+' landscape:rounded-bl-3xl';
+    //   subSubcontainer2AdditionClass += ' landscape:bg-my-purple';
+    // }
 
     if(memeState.darkMode)
     {
@@ -106,6 +110,14 @@ const Home: NextPage<Props> = (props) => {
     </div>
     //
   )
+}
+
+export function getServerSideProps(context:any) {
+  return {
+    props: {
+      uaString: context.req.headers['user-agent']
+    }
+  }
 }
 
 export default Home

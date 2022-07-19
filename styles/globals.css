@@ -21,10 +21,8 @@ a {
 
 @supports (-webkit-touch-callout: none) {
   .h-screen {
-    height: -webkit-fill-available;
-  }
-  .h-screen2 {
-    height: -webkit-fill-available;
+    /* height: -webkit-fill-available; */
+    height: calc(100vh - env(safe-area-inset-bottom))
   }
 }
 

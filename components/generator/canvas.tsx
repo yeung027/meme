@@ -22,11 +22,11 @@ export default function Canvas()
     useEffect(() => {
         if(isMobile)
         {
-            setContainerClass(defaultContainerClass+' w-full h-[calc(100vh-70px-96px-48px-16px-24px-24px)] landscape:h-[calc(100vh-70px-48px-96px)]');
+            //setContainerClass(defaultContainerClass+' w-full h-[calc(100vh-70px-96px-48px-16px-24px-24px)] landscape:h-[calc(100vh-70px-48px-96px)]');
         }
         else
         {
-            setContainerClass(defaultContainerClass+' desktop:h-[calc(100vh-70px-24px-24px-16px-48px)]');
+           // setContainerClass(defaultContainerClass+' desktop:h-[calc(100vh-70px-24px-24px-16px-48px)]');
         }
         wideEnoughToSetLandscape(generatorState.rawImageUrl).then((result:boolean)=>{
             setRotateCanvas(result);
@@ -40,7 +40,7 @@ export default function Canvas()
     const generatorState:GeneratorState = useAppSelector(originGeneratorState);
     const dispatch = useAppDispatch();
     
-    let imageClass = 'border-2 border-my-purple4 max-w-full max-h-full';
+    let imageClass = 'border-2 border-my-purple4 max-w-full max-h-full h-1/2 w-1/2';
 
     return  <div className={containerClass} ref={containerEl}>
                 <img 

@@ -17,7 +17,7 @@ export default function UploadPanel()
         setUploading(!uploading);
     }
 
-    return  <div className="w-full h-full flex flex-col">
+    return  <div className="w-full h-full flex flex-col bg-white landscape:rounded-bl-3xl">
                 <div className="w-full h-11 grid grid-cols-2">
                     <div className="h-11 flex flex-row items-center pl-4">
                         <BiBell className={"text-my-purple3 dark:text-my-orange"+darkModeTransformClass} />

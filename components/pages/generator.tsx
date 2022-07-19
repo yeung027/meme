@@ -28,6 +28,7 @@ const Home: NextPage<Props> = (props) => {
   const defaultSubcontainer1Class = 'grid grid-rows-[1fr_96px] desktop:flex desktop:flex-row-reverse desktop:gap-6 desktop:h-full';
   const defaultSubSubcontainer1Class = 'bg-lightGray dark:bg-my-dark w-full grid grid-rows-[48px_1fr] justify-items-center gap-y-4 rounded-t-3xl desktop:rounded-none p-6 shadow-[0_-10px_7px_2px_rgba(105,0,197,1)] dark:shadow-[0_-10px_7px_2px_rgba(23,23,23,0.5)] desktop:shadow-none z-0';
   const defaultSubSubcontainer2Class = 'border-t desktop:border-0 border-my-gray2 dark:border-my-dark h-24 w-full bg-white dark:bg-my-darkGray2 desktop:h-full desktop:w-[300px] desktop:shadow-[1px_0_15px_1px_rgba(0,0,0,0.2)]';
+  const [renderVersion, setRenderVersion] = useState(0);
   const [containerClass, setContainerClass] = useState(defaultContainerClass);
   const [subcontainer1Class, setSubcontainer1Class] = useState(defaultSubcontainer1Class);
   const [subSubcontainer1Class, setSubSubcontainer1Class] = useState(defaultSubSubcontainer1Class);
@@ -39,6 +40,14 @@ const Home: NextPage<Props> = (props) => {
       document.body.classList.add('fixed');
       addDarkModeListener(props.dispatch);
     
+    if(window)
+      window.addEventListener(
+        'orientationchange',
+        ()=>{
+          setRenderVersion(renderVersion+1);
+        }
+      )
+
     let containerAdditionClass:string = '';
     let subcontainerAdditionClass:string = '';
     let subSubcontainerAdditionClass:string = '';
@@ -72,7 +81,6 @@ const Home: NextPage<Props> = (props) => {
   return (
     <div className={containerClass}>
       <Head>
-        <meta name='viewport' viewport-fit='cover' />
         <link rel="shortcut icon" href="/icos/favicon.ico" />
       </Head>
       <div className='w-full h-[70px] z-10 landscape:h-screen'>

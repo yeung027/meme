@@ -64,7 +64,7 @@ const Home: NextPage<Props> = (props) => {
 
     if(isMobile)
     {
-      containerAdditionClass+=' landscape:grid-cols-[70px_1fr] landscape:pb-[env(safe-area-inset-bottom)]';
+      containerAdditionClass+=' landscape:grid-cols-[70px_1fr]';
       subSubcontainerAdditionClass+=' landscape:rounded-tr-none';
       subcontainerAdditionClass+=' landscape:'+getInnerHeightLandscape(true)+' landscape:rounded-bl-3xl';
       subSubcontainer2AdditionClass += ' landscape:bg-my-purple';

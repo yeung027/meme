@@ -24,18 +24,3 @@ export const addDarkModeListener = async (dispatch:Dispatch) => {
 
     return true;
 }
-
-
-export const getInnerHeight = (isMobile:boolean) => {
-    if(!window || !window.innerHeight || isNaN(window.innerHeight) || !isMobile ||true) return 'h-screen';
-
-    return 'h-['+(window.innerHeight-30)+'px]';
-};
-
-export const getInnerHeightLandscape = (isMobile:boolean) => {
-    //console.log('window.innerHeight: '+window.innerHeight)
-    //var innerHeight = require('ios-inner-height');
-    if(!window || !window.innerWidth || isNaN(window.innerWidth) || !isMobile ||true) return 'h-screen';
-
-    return 'h-screen';
-};

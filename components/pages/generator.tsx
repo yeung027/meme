@@ -8,7 +8,7 @@ import ExportDialog from '../generator/exportDialog';
 import Steps from '../generator/steps';
 import Header from '../header';
 import Menu from '../menu';
-import { addDarkModeListener, darkModeTransformClass, getInnerHeight, getInnerHeightLandscape } from '../../helpers/common';
+import { addDarkModeListener, darkModeTransformClass } from '../../helpers/common';
 import { 
   MemeState,
   memeState as originMemeState,
@@ -58,7 +58,7 @@ const Home: NextPage<Props> = (props) => {
     
     let containerAdditionClass:string = ' border border-4 border-red-500 h-screen';
     let subcontainerAdditionClass:string = '';
-    let subcontainer2AdditionClass:string = ' landscape:'+getInnerHeightLandscape(true);
+    let subcontainer2AdditionClass:string = ' landscape:h-screen';
     let subSubcontainerAdditionClass:string = '';
     let subSubcontainer2AdditionClass:string = '';
 
@@ -66,7 +66,7 @@ const Home: NextPage<Props> = (props) => {
     {
       containerAdditionClass+=' landscape:grid-cols-[70px_1fr]';
       subSubcontainerAdditionClass+=' landscape:rounded-tr-none';
-      subcontainerAdditionClass+=' landscape:'+getInnerHeightLandscape(true)+' landscape:rounded-bl-3xl';
+      subcontainerAdditionClass+=' landscape:h-screen landscape:rounded-bl-3xl';
       subSubcontainer2AdditionClass += ' landscape:bg-my-purple';
     }
 

@@ -22,7 +22,6 @@ a {
 @supports (-webkit-touch-callout: none) {
   .h-screen {
     height: -webkit-fill-available;
-    flex: 0 0 auto;
   }
 }
 

@@ -25,3 +25,10 @@ export const addDarkModeListener = async (dispatch:Dispatch) => {
     return true;
 }
 
+
+export const getInnerHeight = (isMobile:boolean) => {
+    var innerHeight = require('ios-inner-height');
+    if(!isNaN(innerHeight()) || !isMobile) return 'h-screen';
+
+    return 'h-['+innerHeight()+'px]';
+};

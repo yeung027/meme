@@ -8,7 +8,7 @@ import ExportDialog from '../generator/exportDialog';
 import Steps from '../generator/steps';
 import Header from '../header';
 import Menu from '../menu';
-import { addDarkModeListener, darkModeTransformClass, getInnerHeight } from '../../helpers/common';
+import { addDarkModeListener, darkModeTransformClass, getInnerHeight, getInnerHeightLandscape } from '../../helpers/common';
 import { 
   MemeState,
   memeState as originMemeState,
@@ -54,15 +54,15 @@ const Home: NextPage<Props> = (props) => {
     
     let containerAdditionClass:string = ' '+getInnerHeight(isMobile);
     let subcontainerAdditionClass:string = '';
-    let subcontainer2AdditionClass:string = ' landscape:'+getInnerHeight(isMobile);
+    let subcontainer2AdditionClass:string = ' landscape:'+getInnerHeightLandscape(isMobile);
     let subSubcontainerAdditionClass:string = '';
     let subSubcontainer2AdditionClass:string = '';
 
     if(isMobile)
     {
-      containerAdditionClass+=' landscape:grid-cols-[70px_1fr] landscape:'+getInnerHeight(isMobile);
+      containerAdditionClass+=' landscape:grid-cols-[70px_1fr] landscape:'+getInnerHeightLandscape(isMobile);
       subSubcontainerAdditionClass+=' landscape:rounded-tr-none';
-      subcontainerAdditionClass+=' landscape:'+getInnerHeight(isMobile)+' landscape:rounded-bl-3xl';
+      subcontainerAdditionClass+=' landscape:'+getInnerHeightLandscape(isMobile)+' landscape:rounded-bl-3xl';
       subSubcontainer2AdditionClass += ' landscape:bg-my-purple';
     }
 

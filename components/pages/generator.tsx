@@ -52,7 +52,7 @@ const Home: NextPage<Props> = (props) => {
         }
       )
     
-    let containerAdditionClass:string = ' '+getInnerHeight(isMobile);
+    let containerAdditionClass:string = ' landscape:pb-[env(safe-area-inset-bottom)] '+getInnerHeight(isMobile);
     let subcontainerAdditionClass:string = '';
     let subcontainer2AdditionClass:string = ' landscape:'+getInnerHeightLandscape(isMobile);
     let subSubcontainerAdditionClass:string = '';

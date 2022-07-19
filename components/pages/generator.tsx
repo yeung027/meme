@@ -14,6 +14,7 @@ import {
   memeState as originMemeState,
 } from "../../reducers/meme";
 import { Dispatch } from '@reduxjs/toolkit';
+import Head from 'next/head';
 
 interface Props {
     dispatch:Dispatch,
@@ -45,6 +46,9 @@ const Home: NextPage<Props> = (props) => {
   
   return (
     <div className={containerClass}>
+      <Head>
+        <link rel="shortcut icon" href="/icos/favicon.ico" />
+      </Head>
       <div className='w-full h-[70px] z-10'>
         <ExportDialog />
         <Menu />

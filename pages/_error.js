@@ -1,8 +1,12 @@
-import Link from 'next/link'
+import Link from 'next/link';
+import Head from 'next/head';
 function Error({ statusCode }) {
   if(!statusCode || statusCode.toString().trim()=='') statusCode = '500';
   return (
     <div>
+      <Head>
+        <link rel="shortcut icon" href="/icos/favicon.ico" />
+      </Head>
     <main
         aria-labelledby="pageTitle"
         className="flex items-center justify-center h-screen bg-gray-100  border-2"

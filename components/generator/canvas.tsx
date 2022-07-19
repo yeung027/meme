@@ -43,10 +43,10 @@ export default function Canvas()
     let imageClass = 'border-2 border-my-purple4 max-w-full max-h-full h-1/2 w-1/2';
 
     return  <div className={containerClass} ref={containerEl}>
-                <img 
+                {/* <img 
                     ref={imgEl}
                     className={imageClass}
                     src={generatorState.rawImageUrl}
-                 />
+                 /> */}
             </div>
 }

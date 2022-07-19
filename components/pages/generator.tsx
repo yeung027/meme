@@ -33,6 +33,7 @@ const Home: NextPage<Props> = (props) => {
   });
 
   let containerClass = 'bg-my-purple dark:bg-dark-purple w-screen h-screen grid grid-rows-[70px_1fr] desktop:flex desktop:flex-col overflow-hidden font-roboto'+darkModeTransformClass;
+  containerClass += ' landscape:grid-cols-[70px_1fr]';
   let row2ContainerClass = 'grid grid-rows-[1fr_96px] desktop:flex desktop:flex-row-reverse desktop:gap-6 desktop:h-full';
   if(memeState.darkMode)
   {
@@ -49,7 +50,7 @@ const Home: NextPage<Props> = (props) => {
       <Head>
         <link rel="shortcut icon" href="/icos/favicon.ico" />
       </Head>
-      <div className='w-full h-[70px] z-10'>
+      <div className='w-full h-[70px] z-10 landscape:h-screen'>
         <ExportDialog />
         <Menu />
         <Header title={props.title} />

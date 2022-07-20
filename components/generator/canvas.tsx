@@ -19,7 +19,6 @@ export default function Canvas()
     const [containerClass, setContainerClass] = useState(defaultContainerClass);
     const [imageClass, setImageClass] = useState(defaultImageClass);
     const [rotateCanvas, setRotateCanvas] = useState(false);
-    const [windowHeight, setWindowHeight] = useState(0);
     const containerEl   = useRef(null);
     const imgEl         = useRef(null);
 
@@ -33,9 +32,8 @@ export default function Canvas()
             {
                 let containerDivEl:HTMLDivElement   = containerEl.current!;
                 let containerCompStyles  = window.getComputedStyle(containerDivEl);
-                setWindowHeight(window.innerHeight);
                 landscapeHeight = ' landscape:h-['+containerCompStyles.height+'px]';
-                portraitHeight  = ' h-[calc('+windowHeight+'px-70px-96px-48px-16px-24px-24px)]';
+                portraitHeight  = ' h-[calc('+window.innerHeight+'px-70px-96px-48px-16px-24px-24px)]';
                 imageClass = ' max-h-['+containerCompStyles.height+'] max-w-['+window.innerWidth+'px]';
                 let imgHTMLEl:HTMLImageElement = imgEl.current!;
                 imgHTMLEl.style.maxHeight = containerCompStyles.height;
@@ -56,14 +54,13 @@ export default function Canvas()
     }
 
     useLayoutEffect(() => {
-        const handler = ()=>{
-            if(window) setWindowHeight(window.innerHeight);
-            updateLayout();
-        }
 
-        addWindowSizeChangeListener(handler);
-        addOrientationChangeListener(handler);
-        return () => window.removeEventListener('resize', handler);
+        addWindowSizeChangeListener(updateLayout);
+        addOrientationChangeListener(updateLayout);
+        return () => {
+            window.removeEventListener('resize', updateLayout);
+            window.removeEventListener('orientationchange', updateLayout);
+        };
     }, []);
 
     useLayoutEffect(() => {

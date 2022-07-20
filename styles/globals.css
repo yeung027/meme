@@ -43,3 +43,11 @@ a {
     background-position: 100% 50%;
   }
 }
+
+@media (orientation: landscape) {
+  .landscapeText
+  {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+  }
+}

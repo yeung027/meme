@@ -25,7 +25,7 @@ export default function Canvas()
             let landscapeHeight:string = '';
             if(window)
             {
-                landscapeHeight = ' landscape:h-[calc('+window.innerHeight+'px-70px-48px-96px)]';
+                landscapeHeight = ' landscape:h-[calc('+window.innerHeight+'px-24px-96px)]';
             }
             setContainerClass(defaultContainerClass+' w-full h-[calc(100vh-70px-96px-48px-16px-24px-24px)]'+landscapeHeight);
         }

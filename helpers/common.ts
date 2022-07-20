@@ -25,4 +25,14 @@ export const addDarkModeListener = async (dispatch:Dispatch) => {
     return true;
 }
 
-export const hScreen = ():string => 'h-[-webkit-fill-available]';
+export const addWindowSizeChangeListener = async (handler:()=>void) => {
+    let retryCount:number = 0;
+    while(!window)
+    {
+        await delay(70);
+        retryCount++;
+        if(retryCount>30) return false;
+    }
+    
+    window.addEventListener('resize', handler);
+}

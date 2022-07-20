@@ -1,5 +1,5 @@
 import type { NextPage } from 'next'
-import { useEffect, useState } from 'react';
+import { useEffect, useLayoutEffect, useState } from 'react';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { fontLoader } from '../font';
 import Canvas from '../generator/canvas';
@@ -39,23 +39,7 @@ const Home: NextPage<Props> = (props) => {
   const [subSubcontainer2Class, setSubSubcontainer2Class] = useState(defaultSubSubcontainer2Class);
   
   
-  
-  
-  useEffect(() => {
-    fontLoader();
-
-    if(document && document.body)
-      document.body.classList.add('fixed');
-      addDarkModeListener(props.dispatch);
-    
-    if(window)
-      window.addEventListener(
-        'orientationchange',
-        ()=>{
-          setRenderVersion(renderVersion+1);
-        }
-      )
-    
+  useLayoutEffect(() => { 
     let containerAdditionClass:string = ' h-screen';
     let subcontainerAdditionClass:string = ' bg-my-purple dark:bg-dark-purple';
     let subcontainer2AdditionClass:string = ' ';
@@ -88,6 +72,24 @@ const Home: NextPage<Props> = (props) => {
     setSubcontainer2Class(defaultSubcontainer2Class+subcontainer2AdditionClass);
     setSubSubcontainer1Class(defaultSubSubcontainer1Class+subSubcontainerAdditionClass);
     setSubSubcontainer2Class(defaultSubSubcontainer2Class+subSubcontainer2AdditionClass);
+  });
+  
+  useEffect(() => {
+    fontLoader();
+
+    if(document && document.body)
+      document.body.classList.add('fixed');
+      addDarkModeListener(props.dispatch);
+    
+    if(window)
+      window.addEventListener(
+        'orientationchange',
+        ()=>{
+          setRenderVersion(renderVersion+1);
+        }
+      )
+    
+    
   });
 
   

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { wideEnoughToSetLandscape } from "../../helpers/generator/image";
 import { GeneratorState } from "../../reducers/generator";
@@ -10,24 +10,37 @@ import {
     generatorState as originGeneratorState
   } from '../../reducers/generator';
 import { isMobile } from "react-device-detect";
+import { addWindowSizeChangeListener } from "../../helpers/common";
 
 export default function Canvas()
 {
     const defaultContainerClass = 'flex flex-col justify-center items-center border border-2 border-red-500';
     const [containerClass, setContainerClass] = useState(defaultContainerClass);
     const [rotateCanvas, setRotateCanvas] = useState(false);
+    const [windowHeight, setWindowHeight] = useState(0);
     const containerEl   = useRef(null);
     const imgEl         = useRef(null);
 
-    useEffect(() => {
+    useLayoutEffect(() => {
+        const handler = ()=>{
+            if(window) setWindowHeight(window.innerHeight);
+        }
+
+        addWindowSizeChangeListener(handler);
+        return () => window.removeEventListener('resize', handler);
+    }, []);
+
+    useLayoutEffect(() => {
         if(isMobile)
         {
             let landscapeHeight:string  = '';
             let portraitHeight:string   = '';
             if(window)
             {
-                landscapeHeight = ' landscape:h-[calc('+window.innerHeight+'px-96px)]';
-                portraitHeight  = ' h-[calc('+window.innerHeight+'px-70px-96px-48px-16px-24px-24px)]';
+                setWindowHeight(window.innerHeight);
+                console.log(windowHeight)
+                landscapeHeight = ' landscape:h-['+(windowHeight-96-24-55)+'px]';
+                portraitHeight  = ' h-[calc('+windowHeight+'px-70px-96px-48px-16px-24px-24px)]';
             }
             setContainerClass(defaultContainerClass+' w-full '+portraitHeight+' '+landscapeHeight);
         }

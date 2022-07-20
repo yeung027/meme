@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useLayoutEffect, useState } from "react";
 import { isMobile } from "react-device-detect";
 import { BiExport, BiDotsVerticalRounded } from "react-icons/bi";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
@@ -30,7 +30,7 @@ export default function Steps()
     const [spanClass, setSpanClass] = useState(defaultSpanClass);
     const [activeSpanClass, setActiveSpanClass] = useState(defaultActiveSpanClass);
 
-    useEffect(() => {
+    useLayoutEffect(() => {
 
         if(isMobile)
         {

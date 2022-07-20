@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
-import { useEffect, useState } from 'react';
+import { useLayoutEffect, useState } from 'react';
 import { 
     MemeState, 
     memeState as originMemeState,
@@ -20,7 +20,7 @@ export default function UploadPanel()
         setUploading(!uploading);
     }
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         let containerAdditionClass:string = '';
         if(memeState.darkMode)
         {

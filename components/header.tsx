@@ -8,7 +8,7 @@ import {
     exportDialogOpen
 } from "../reducers/meme";
 import {isMobile} from 'react-device-detect';
-import { useEffect, useState } from "react";
+import { useLayoutEffect, useState } from "react";
 
 export default function Header(props:{title:string})
 {
@@ -21,7 +21,7 @@ export default function Header(props:{title:string})
     const state:MemeState = useAppSelector(originMemeState);
     const dispatch = useAppDispatch();
     
-    useEffect(() => {
+    useLayoutEffect(() => {
         if(isMobile)
         {
             setContainerClass(defaultContainerClass+' landscape:h-[-webkit-fill-available] landscape:grid landscape:grid-rows-2 landscape:justify-end');

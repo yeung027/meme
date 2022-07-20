@@ -57,7 +57,7 @@ const Home: NextPage<Props> = (props) => {
       )
     
     let containerAdditionClass:string = ' h-screen';
-    let subcontainerAdditionClass:string = ' bg-my-purple landscape:h-[-webkit-fill-available] landscape:pb-0.5';
+    let subcontainerAdditionClass:string = ' bg-my-purple border border-4 border-red-500 landscape:h-[-webkit-fill-available] landscape:pb-0.5';
     let subcontainer2AdditionClass:string = ' landscape:h-[-webkit-fill-available]';
     let subSubcontainerAdditionClass:string = ' ';
     let subSubcontainer2AdditionClass:string = '';

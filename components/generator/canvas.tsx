@@ -10,7 +10,7 @@ import {
     generatorState as originGeneratorState
   } from '../../reducers/generator';
 import { isMobile } from "react-device-detect";
-import { addWindowSizeChangeListener } from "../../helpers/common";
+import { addOrientationChangeListener, addWindowSizeChangeListener } from "../../helpers/common";
 
 export default function Canvas()
 {
@@ -23,16 +23,7 @@ export default function Canvas()
     const containerEl   = useRef(null);
     const imgEl         = useRef(null);
 
-    useLayoutEffect(() => {
-        const handler = ()=>{
-            if(window) setWindowHeight(window.innerHeight);
-        }
-
-        addWindowSizeChangeListener(handler);
-        return () => window.removeEventListener('resize', handler);
-    }, []);
-
-    useLayoutEffect(() => {
+    const updateLayout = ()=>{
         if(isMobile)
         {
             let landscapeHeight:string  = '';
@@ -51,7 +42,6 @@ export default function Canvas()
             }
             setContainerClass(defaultContainerClass+' w-full h-full '+portraitHeight+' '+landscapeHeight);
             setImageClass(defaultImageClass+imageClass);
-            console.log(imageClass);
         }
         else
         {
@@ -63,6 +53,21 @@ export default function Canvas()
             //let htmlImgEl:HTMLImageElement      = imgEl.current!;
             //rotateImgToLandscape(containerDivEl, htmlImgEl);
         })
+    }
+
+    useLayoutEffect(() => {
+        const handler = ()=>{
+            if(window) setWindowHeight(window.innerHeight);
+            updateLayout();
+        }
+
+        addWindowSizeChangeListener(handler);
+        addOrientationChangeListener(handler);
+        return () => window.removeEventListener('resize', handler);
+    }, []);
+
+    useLayoutEffect(() => {
+        updateLayout();
     });
 
     const memeState:MemeState = useAppSelector(originMemeState);

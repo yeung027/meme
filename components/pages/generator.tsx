@@ -87,6 +87,8 @@ const Home: NextPage<Props> = (props) => {
 
     if(document && document.body)
       document.body.classList.add('fixed');
+      document.body.classList.add('bg-my-purple');
+      document.body.classList.add('dark:bg-dark-purple');
       addDarkModeListener(props.dispatch);
     
     if(window)

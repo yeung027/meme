@@ -16,7 +16,6 @@ export default function Canvas()
 {
     const defaultContainerClass = 'flex flex-col justify-center items-center w-full h-full';
     const defaultImageClass = 'border-2 border-my-purple4 desktop:max-w-full desktop:max-h-full absolute desktop:static';
-    //const [containerClass, setContainerClass] = useState(defaultContainerClass);
     const [imageClass, setImageClass] = useState(defaultImageClass);
     const [rotateCanvas, setRotateCanvas] = useState(false);
     const containerEl   = useRef(null);
@@ -36,12 +35,7 @@ export default function Canvas()
                 portraitHeight  = ' h-[calc('+window.innerHeight+'px-70px-96px-48px-16px-24px-24px)]';
                 imageClass = '  max-w-[90%] max-h-[calc(100%-70px-27px)] landscape:max-h-[90%]';
             }
-            //setContainerClass(defaultContainerClass+' w-full h-full ');
             setImageClass(defaultImageClass+imageClass);
-        }
-        else
-        {
-            //setContainerClass(defaultContainerClass+' desktop:h-[calc(100vh-70px-24px-24px-16px-48px)]');
         }
         wideEnoughToSetLandscape(generatorState.rawImageUrl).then((result:boolean)=>{
             setRotateCanvas(result);

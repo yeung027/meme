@@ -45,7 +45,5 @@ export const addOrientationChangeListener = async (handler:()=>void) => {
         retryCount++;
         if(retryCount>30) return false;
     }
-    
-    if ('onorientationchange' in window) 
-        window.addEventListener("orientationchange", handler);
+    window.addEventListener("orientationchange", handler);
 }

@@ -14,8 +14,8 @@ import { addOrientationChangeListener, addWindowSizeChangeListener } from "../..
 
 export default function Canvas()
 {
-    const defaultContainerClass = 'flex flex-col justify-center items-center';
-    const defaultImageClass = 'border-2 border-my-purple4 desktop:max-w-full desktop:max-h-full';
+    const defaultContainerClass = 'flex flex-col justify-center items-center border border-4 border-red-500';
+    const defaultImageClass = 'border-2 border-my-purple4 desktop:max-w-full desktop:max-h-full absolute';
     const [containerClass, setContainerClass] = useState(defaultContainerClass);
     const [imageClass, setImageClass] = useState(defaultImageClass);
     const [containerCompHeight, setContainerCompHeight] = useState(0);
@@ -24,8 +24,8 @@ export default function Canvas()
     const imgEl         = useRef(null);
 
     useEffect(() => {
-        let imgHTMLEl:HTMLImageElement = imgEl.current!;
-        imgHTMLEl.style.maxHeight = containerCompHeight+'px';
+        // let imgHTMLEl:HTMLImageElement = imgEl.current!;
+        // imgHTMLEl.style.maxHeight = containerCompHeight+'px';
      }, [containerCompHeight]);
 
     const updateLayout = ()=>{
@@ -38,10 +38,12 @@ export default function Canvas()
             {
                 let containerDivEl:HTMLDivElement   = containerEl.current!;
                 let containerCompStyles  = window.getComputedStyle(containerDivEl);
+                let canvasRect        = containerDivEl.getBoundingClientRect();
                 landscapeHeight = ' ';
                 setContainerCompHeight(parseInt(containerCompStyles.height));
                 portraitHeight  = ' h-[calc('+window.innerHeight+'px-70px-96px-48px-16px-24px-24px)]';
-                imageClass = ' max-h-['+containerCompStyles.height+'] max-w-['+window.innerWidth+'px]';
+                imageClass = '  max-w-[90%] landscape:h-['+canvasRect.height+'px]';
+                //alert(imageClass);
                 let imgHTMLEl:HTMLImageElement = imgEl.current!;
                 //imgHTMLEl.style.maxHeight = parseInt(containerCompStyles.height)+'px';
             }

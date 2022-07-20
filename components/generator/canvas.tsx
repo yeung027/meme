@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { wideEnoughToSetLandscape } from "../../helpers/generator/image";
 import { GeneratorState } from "../../reducers/generator";
@@ -23,9 +23,10 @@ export default function Canvas()
     const containerEl   = useRef(null);
     const imgEl         = useRef(null);
 
-    // useEffect(() => {
-    //     console.log('Do something after counter has changed', counter);
-    //  }, [containerCompHeight]);
+    useEffect(() => {
+        let imgHTMLEl:HTMLImageElement = imgEl.current!;
+        imgHTMLEl.style.maxHeight = containerCompHeight+'px';
+     }, [containerCompHeight]);
 
     const updateLayout = ()=>{
         if(isMobile)
@@ -38,7 +39,7 @@ export default function Canvas()
                 let containerDivEl:HTMLDivElement   = containerEl.current!;
                 let containerCompStyles  = window.getComputedStyle(containerDivEl);
                 landscapeHeight = ' ';
-                //setContainerCompHeight();
+                setContainerCompHeight(parseInt(containerCompStyles.height));
                 portraitHeight  = ' h-[calc('+window.innerHeight+'px-70px-96px-48px-16px-24px-24px)]';
                 imageClass = ' max-h-['+containerCompStyles.height+'] max-w-['+window.innerWidth+'px]';
                 let imgHTMLEl:HTMLImageElement = imgEl.current!;

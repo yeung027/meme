@@ -58,7 +58,7 @@ const Home: NextPage<Props> = (props) => {
     
     let containerAdditionClass:string = ' h-screen';
     let subcontainerAdditionClass:string = ' bg-my-purple border border-4 border-red-500';
-    let subcontainer2AdditionClass:string = ' landscape:h-[-webkit-fill-available]';
+    let subcontainer2AdditionClass:string = ' ';
     let subSubcontainerAdditionClass:string = ' ';
     let subSubcontainer2AdditionClass:string = '';
 
@@ -67,7 +67,8 @@ const Home: NextPage<Props> = (props) => {
       containerAdditionClass+=' landscape:grid-cols-[70px_1fr]';
       subSubcontainerAdditionClass+=' landscape:rounded-tr-none';
       subcontainerAdditionClass+=' landscape:h-[-webkit-fill-available] landscape:pb-0.5 landscape:rounded-bl-3xl';
-      subSubcontainer2AdditionClass += ' landscape:bg-my-purple';
+      subcontainer2AdditionClass += ' landscape:h-[-webkit-fill-available] border border-4 border-blue-500';//landscape:h-[-webkit-fill-available]
+      subSubcontainer2AdditionClass += ' landscape:bg-my-purple'; 
     }
 
     if(memeState.darkMode)

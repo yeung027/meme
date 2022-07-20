@@ -26,7 +26,7 @@ export default function Header(props:{title:string})
         {
             setContainerClass(defaultContainerClass+' border border-4 border-gray-500 landscape:h-[-webkit-fill-available] landscape:flex landscape:flex-col-reverse landscape:justify-start');
             setSubContainer1Class(defaultSubcontainer1Class+'  border border-4 border-red-500 landscape:w-[70px] landscape:pl-0 landscape:-rotate-90 landscape:pl-6');
-            setSubContainer2Class(defaultSubcontainer2Class+' landscape:h-full border border-4 border-blue-500 landscape:w-[70px] landscape:pr-0 landscape:items-center landscape:flex-col landscape:pt-2');
+            setSubContainer2Class(defaultSubcontainer2Class+' border border-4 border-blue-500 landscape:w-[70px] landscape:pr-0 landscape:items-center landscape:flex-col landscape:pt-2');
         }
     });
 

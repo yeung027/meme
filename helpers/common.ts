@@ -1,4 +1,5 @@
 import { Dispatch } from "@reduxjs/toolkit";
+import { ORIENTATION } from "../models/common";
 import { 
     setDarkMode,
 } from "../reducers/meme";
@@ -46,4 +47,8 @@ export const addOrientationChangeListener = async (handler:()=>void) => {
         if(retryCount>30) return false;
     }
     window.addEventListener("orientationchange", handler);
+}
+
+export const isOrientation =  ():ORIENTATION => {
+    return window.innerHeight >= window.innerWidth ? ORIENTATION.PORTRAIT : ORIENTATION.LANDSCAPE
 }

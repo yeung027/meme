@@ -50,5 +50,10 @@ a {
     writing-mode: vertical-rl;
     text-orientation: mixed;
   }
+
+  .landscapePaddingBottomSafeArea
+  {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
 }
 

@@ -34,7 +34,7 @@ export default function Canvas()
                 let containerCompStyles  = window.getComputedStyle(containerDivEl);
                 landscapeHeight = ' landscape:h-['+containerCompStyles.height+'px]';
                 portraitHeight  = ' h-[calc('+window.innerHeight+'px-70px-96px-48px-16px-24px-24px)]';
-                imageClass = ' max-h-['+containerCompStyles.height+'] landscape:max-h-['+parseInt(containerCompStyles.height)+'px-env(safe-area-inset-bottom)] max-w-['+window.innerWidth+'px]';
+                imageClass = ' max-h-['+containerCompStyles.height+'] landscapePaddingBottomSafeArea max-w-['+window.innerWidth+'px]';
                 let imgHTMLEl:HTMLImageElement = imgEl.current!;
                 //imgHTMLEl.style.maxHeight = (parseInt(containerCompStyles.height)-200)+'px';
             }

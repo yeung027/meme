@@ -65,7 +65,7 @@ const Home: NextPage<Props> = (props) => {
     if(isMobile)
     {
       containerAdditionClass+=' landscape:grid-cols-[70px_1fr] landscape:h-[-webkit-fill-available]';
-      subSubcontainerAdditionClass+=' landscape:rounded-tr-none landscape:flex landscape:flex-row landscape:gap-2';
+      subSubcontainerAdditionClass+=' landscape:rounded-tr-none landscape:flex landscape:flex-row landscape:gap-2 landscape:items-center';
       subcontainerAdditionClass+=' landscape:h-[-webkit-fill-available] landscape:pb-0.5 landscape:rounded-bl-3xl';
       subcontainer2AdditionClass += ' landscape:h-[-webkit-fill-available]';//landscape:h-[-webkit-fill-available]
       subSubcontainer2AdditionClass += ' border border-2 border-red-500'+memeState.darkMode? ' ' : ' landscape:bg-my-purple'; 

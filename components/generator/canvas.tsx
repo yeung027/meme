@@ -22,12 +22,14 @@ export default function Canvas()
     useEffect(() => {
         if(isMobile)
         {
-            let landscapeHeight:string = '';
+            let landscapeHeight:string  = '';
+            let portraitHeight:string   = '';
             if(window)
             {
-                landscapeHeight = ' landscape:h-[calc('+window.innerHeight+'px-24px-96px)]';
+                landscapeHeight = ' landscape:h-[calc('+window.innerHeight+'px-96px)]';
+                portraitHeight  = ' h-[calc('+window.innerHeight+'px-70px-96px-48px-16px-24px-24px)]';
             }
-            setContainerClass(defaultContainerClass+' w-full h-[calc(100vh-70px-96px-48px-16px-24px-24px)]'+landscapeHeight);
+            setContainerClass(defaultContainerClass+' w-full '+portraitHeight+' '+landscapeHeight);
         }
         else
         {

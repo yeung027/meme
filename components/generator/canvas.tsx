@@ -45,7 +45,7 @@ export default function Canvas()
                 setWindowHeight(window.innerHeight);
                 landscapeHeight = ' landscape:h-['+containerCompStyles.height+'px]';
                 portraitHeight  = ' h-[calc('+windowHeight+'px-70px-96px-48px-16px-24px-24px)]';
-                imageClass = ' max-h-['+(parseInt(containerCompStyles.height))+'px)] max-w-['+window.innerWidth+'px]';
+                imageClass = ' max-h-['+(parseInt(containerCompStyles.height)-250)+'px)] max-w-['+window.innerWidth+'px]';
             }
             setContainerClass(defaultContainerClass+' w-full h-full '+portraitHeight+' '+landscapeHeight);
             setImageClass(defaultImageClass+imageClass);

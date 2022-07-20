@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { 
     MemeState, 
     memeState as originMemeState,
@@ -7,9 +7,12 @@ import {
 import { BiBell, BiPlus } from "react-icons/bi";
 import {RoundedPurpleButton} from '../../UI/button';
 import { darkModeTransformClass } from "../../../helpers/common";
+import { isMobile } from "react-device-detect";
 
 export default function UploadPanel()
 {
+    const defaultContainerClass = "w-full h-full flex flex-col bg-white";
+    const [containerClass, setContainerClass] = useState(defaultContainerClass);
     const [uploading, setUploading] = useState(false);
     const memeState:MemeState = useAppSelector(originMemeState);
     const dispatch = useAppDispatch();    
@@ -17,7 +20,24 @@ export default function UploadPanel()
         setUploading(!uploading);
     }
 
-    return  <div className="w-full h-full flex flex-col bg-white landscape:rounded-bl-3xl">
+    useEffect(() => {
+        let containerAdditionClass:string = '';
+        if(memeState.darkMode)
+        {
+            containerAdditionClass+=' bg-my-darkGray2';
+        }
+        else
+        {
+            containerAdditionClass+=' bg-white';
+        }
+        if(isMobile)
+        {
+            containerAdditionClass+=' landscape:rounded-bl-3xl';
+        }
+        setContainerClass(defaultContainerClass+containerAdditionClass);
+    });
+
+    return  <div className={containerClass}>
                 <div className="w-full h-11 grid grid-cols-2">
                     <div className="h-11 flex flex-row items-center pl-4">
                         <BiBell className={"text-my-purple3 dark:text-my-orange"+darkModeTransformClass} />

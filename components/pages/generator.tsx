@@ -57,10 +57,10 @@ const Home: NextPage<Props> = (props) => {
       )
     
     let containerAdditionClass:string = ' h-screen';
-    let subcontainerAdditionClass:string = ' bg-my-purple';
+    let subcontainerAdditionClass:string = ' bg-my-purple dark:bg-dark-purple';
     let subcontainer2AdditionClass:string = ' ';
     let subSubcontainerAdditionClass:string = ' ';
-    let subSubcontainer2AdditionClass:string = '';
+    let subSubcontainer2AdditionClass:string = ' ';
 
     if(isMobile)
     {
@@ -68,17 +68,19 @@ const Home: NextPage<Props> = (props) => {
       subSubcontainerAdditionClass+=' landscape:rounded-tr-none';
       subcontainerAdditionClass+=' landscape:h-[-webkit-fill-available] landscape:pb-0.5 landscape:rounded-bl-3xl';
       subcontainer2AdditionClass += ' landscape:h-[-webkit-fill-available]';//landscape:h-[-webkit-fill-available]
-      subSubcontainer2AdditionClass += ' landscape:bg-my-purple'; 
+      subSubcontainer2AdditionClass += ' border border-2 border-red-500'+memeState.darkMode? ' ' : ' landscape:bg-my-purple'; 
     }
 
     if(memeState.darkMode)
     {
       containerAdditionClass += ' desktop:bg-white';
       subcontainerAdditionClass += ' desktop:bg-my-dark';
+      subSubcontainer2AdditionClass += ' landscape:bg-dark-purple';
     }
     else
     {
       subcontainerAdditionClass+=' desktop:bg-lightGray';
+      subSubcontainer2AdditionClass += ' landscape:bg-my-purple';
     }
 
     setContainerClass(defaultContainerClass+containerAdditionClass);

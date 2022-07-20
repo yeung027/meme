@@ -57,17 +57,17 @@ const Home: NextPage<Props> = (props) => {
       )
     
     let containerAdditionClass:string = ' h-screen';
-    let subcontainerAdditionClass:string = ' bg-my-purple border border-4 border-red-500';
+    let subcontainerAdditionClass:string = ' bg-my-purple';
     let subcontainer2AdditionClass:string = ' ';
     let subSubcontainerAdditionClass:string = ' ';
     let subSubcontainer2AdditionClass:string = '';
 
     if(isMobile)
     {
-      containerAdditionClass+=' landscape:grid-cols-[70px_1fr]';
+      containerAdditionClass+=' landscape:grid-cols-[70px_1fr] landscape:h-[-webkit-fill-available]';
       subSubcontainerAdditionClass+=' landscape:rounded-tr-none';
       subcontainerAdditionClass+=' landscape:h-[-webkit-fill-available] landscape:pb-0.5 landscape:rounded-bl-3xl';
-      subcontainer2AdditionClass += ' landscape:h-[-webkit-fill-available] border border-4 border-blue-500';//landscape:h-[-webkit-fill-available]
+      subcontainer2AdditionClass += ' landscape:h-[-webkit-fill-available]';//landscape:h-[-webkit-fill-available]
       subSubcontainer2AdditionClass += ' landscape:bg-my-purple'; 
     }
 

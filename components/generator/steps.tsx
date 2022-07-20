@@ -34,7 +34,12 @@ export default function Steps()
 
         if(isMobile)
         {
-            setContainerClass(defaultContainerClass+' border border-2 border-red-500 landscape:flex-col landscape:h-fit');
+            setContainerClass(defaultContainerClass+' landscape:flex-col landscape:h-fit');
+            setItemClass(defaultItemClass+' landscape:flex-row landscape:justify-start');
+            setLineClass(defaultLineClass+' landscape:h-11 landscape:w-px landscape:ml-1');
+            setActiveLineClass(defaultActiveLineClass+' landscape:h-11 landscape:w-px landscape:ml-1');
+            setSpanClass(defaultSpanClass+' ml-1');
+            setActiveSpanClass(defaultActiveSpanClass+' ml-1');
         }
     });
 

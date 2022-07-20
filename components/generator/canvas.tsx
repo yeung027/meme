@@ -37,7 +37,7 @@ export default function Canvas()
             {
                 let containerDivEl:HTMLDivElement   = containerEl.current!;
                 let containerCompStyles  = window.getComputedStyle(containerDivEl);
-                landscapeHeight = ' landscape:max-h-['+containerCompStyles.height+']';
+                landscapeHeight = ' ';
                 //setContainerCompHeight();
                 portraitHeight  = ' h-[calc('+window.innerHeight+'px-70px-96px-48px-16px-24px-24px)]';
                 imageClass = ' max-h-['+containerCompStyles.height+'] max-w-['+window.innerWidth+'px]';

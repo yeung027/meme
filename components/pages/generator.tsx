@@ -8,7 +8,7 @@ import ExportDialog from '../generator/exportDialog';
 import Steps from '../generator/steps';
 import Header from '../header';
 import Menu from '../menu';
-import { addDarkModeListener, darkModeTransformClass } from '../../helpers/common';
+import { addDarkModeListener, addWindowSizeChangeListener, darkModeTransformClass } from '../../helpers/common';
 import { 
   MemeState,
   memeState as originMemeState,
@@ -38,7 +38,15 @@ const Home: NextPage<Props> = (props) => {
   const [subSubcontainer1Class, setSubSubcontainer1Class] = useState(defaultSubSubcontainer1Class);
   const [subSubcontainer2Class, setSubSubcontainer2Class] = useState(defaultSubSubcontainer2Class);
   
-  
+  useLayoutEffect(() => {
+    const handler = ()=>{
+      setRenderVersion(renderVersion+1);
+    }
+
+    addWindowSizeChangeListener(handler);
+    return () => window.removeEventListener('resize', handler);
+}, []);
+
   useLayoutEffect(() => { 
     let containerAdditionClass:string = ' h-screen';
     let subcontainerAdditionClass:string = ' bg-my-purple dark:bg-dark-purple';
@@ -74,7 +82,7 @@ const Home: NextPage<Props> = (props) => {
     setSubSubcontainer2Class(defaultSubSubcontainer2Class+subSubcontainer2AdditionClass);
   });
   
-  useEffect(() => {
+  useLayoutEffect(() => {
     fontLoader();
 
     if(document && document.body)
@@ -88,8 +96,6 @@ const Home: NextPage<Props> = (props) => {
           setRenderVersion(renderVersion+1);
         }
       )
-    
-    
   });
 
   

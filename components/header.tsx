@@ -24,9 +24,9 @@ export default function Header(props:{title:string})
     useEffect(() => {
         if(isMobile)
         {
-            setContainerClass(defaultContainerClass+' landscape:h-[-webkit-fill-available] landscape:flex landscape:flex-col-reverse landscape:justify-end');
-            setSubContainer1Class(defaultSubcontainer1Class+' border border-4 border-blue-500 landscapePaddingXAuto landscape:self-center landscape:h-full landscape:rotate-180 landscapeText landscape:w-[70px] landscape:pl-0 landscape:pl-6 landscape:items-center landscape:justify-end');
-            setSubContainer2Class(defaultSubcontainer2Class+' border border-4 border-red-500 landscape:h-full landscape:w-[70px] landscape:pr-0 landscape:items-center landscape:justify-end landscape:flex-col landscape:pt-2 landscape:top-0');
+            setContainerClass(defaultContainerClass+' landscape:h-[-webkit-fill-available] landscape:grid landscape:grid-rows-2 landscape:justify-end');
+            setSubContainer1Class(defaultSubcontainer1Class+' border border-4 border-blue-500 landscape:leading-[70px] landscape:self-center landscape:rotate-180 landscapeText landscape:w-[70px] landscape:pl-0 landscape:pl-6 landscape:items-center landscape:justify-end');
+            setSubContainer2Class(defaultSubcontainer2Class+' border border-4 border-red-500 landscape:w-[70px] landscape:pr-0 landscape:items-center landscape:justify-end landscape:flex-col landscape:pt-2 landscape:top-0');
         }
     });
 

@@ -22,11 +22,16 @@ export default function Canvas()
     useEffect(() => {
         if(isMobile)
         {
-            //setContainerClass(defaultContainerClass+' w-full h-[calc(100vh-70px-96px-48px-16px-24px-24px)] landscape:h-[calc(100vh-70px-48px-96px)]');
+            let landscapeHeight:string = '';
+            if(window)
+            {
+                landscapeHeight = ' landscape:h-[calc('+window.innerHeight+'px-70px-48px-96px)]';
+            }
+            setContainerClass(defaultContainerClass+' w-full h-[calc(100vh-70px-96px-48px-16px-24px-24px)]'+landscapeHeight);
         }
         else
         {
-           // setContainerClass(defaultContainerClass+' desktop:h-[calc(100vh-70px-24px-24px-16px-48px)]');
+            setContainerClass(defaultContainerClass+' desktop:h-[calc(100vh-70px-24px-24px-16px-48px)]');
         }
         wideEnoughToSetLandscape(generatorState.rawImageUrl).then((result:boolean)=>{
             setRotateCanvas(result);

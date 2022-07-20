@@ -50,4 +50,10 @@ a {
     writing-mode: vertical-rl;
     text-orientation: mixed;
   }
+
+  .landscapePaddingXAuto
+  {
+    padding: 0 auto;
+  }
 }
+

@@ -25,8 +25,8 @@ export default function Header(props:{title:string})
         if(isMobile)
         {
             setContainerClass(defaultContainerClass+' landscape:h-[-webkit-fill-available] landscape:flex landscape:flex-col-reverse landscape:justify-end');
-            setSubContainer1Class(defaultSubcontainer1Class+' border border-4 border-blue-500 landscape:rotate-180 landscapeText landscape:w-[70px] landscape:pl-0 landscape:pl-6 landscape:items-center landscape:justify-end');
-            setSubContainer2Class(defaultSubcontainer2Class+' border border-4 border-red-500 landscape:w-[70px] landscape:pr-0 landscape:items-center landscape:justify-end landscape:flex-col landscape:pt-2 landscape:top-0');
+            setSubContainer1Class(defaultSubcontainer1Class+' border border-4 border-blue-500 landscapePaddingXAuto landscape:h-1/2 landscape:rotate-180 landscapeText landscape:w-[70px] landscape:pl-0 landscape:pl-6 landscape:items-center landscape:justify-end');
+            setSubContainer2Class(defaultSubcontainer2Class+' border border-4 border-red-500 landscape:h-1/2 landscape:w-[70px] landscape:pr-0 landscape:items-center landscape:justify-end landscape:flex-col landscape:pt-2 landscape:top-0');
         }
     });
 

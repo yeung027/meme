@@ -18,9 +18,14 @@ export default function Canvas()
     const defaultImageClass = 'border-2 border-my-purple4 desktop:max-w-full desktop:max-h-full';
     const [containerClass, setContainerClass] = useState(defaultContainerClass);
     const [imageClass, setImageClass] = useState(defaultImageClass);
+    const [containerCompHeight, setContainerCompHeight] = useState(0);
     const [rotateCanvas, setRotateCanvas] = useState(false);
     const containerEl   = useRef(null);
     const imgEl         = useRef(null);
+
+    // useEffect(() => {
+    //     console.log('Do something after counter has changed', counter);
+    //  }, [containerCompHeight]);
 
     const updateLayout = ()=>{
         if(isMobile)
@@ -32,11 +37,12 @@ export default function Canvas()
             {
                 let containerDivEl:HTMLDivElement   = containerEl.current!;
                 let containerCompStyles  = window.getComputedStyle(containerDivEl);
-                landscapeHeight = ' landscape:h-['+containerCompStyles.height+'px]';
+                landscapeHeight = ' landscape:max-h-['+containerCompStyles.height+']';
+                //setContainerCompHeight();
                 portraitHeight  = ' h-[calc('+window.innerHeight+'px-70px-96px-48px-16px-24px-24px)]';
-                //imageClass = ' max-h-['+containerCompStyles.height+'] max-w-['+window.innerWidth+'px]';
+                imageClass = ' max-h-['+containerCompStyles.height+'] max-w-['+window.innerWidth+'px]';
                 let imgHTMLEl:HTMLImageElement = imgEl.current!;
-                imgHTMLEl.style.maxHeight = parseInt(containerCompStyles.height)+'px';
+                //imgHTMLEl.style.maxHeight = parseInt(containerCompStyles.height)+'px';
             }
             setContainerClass(defaultContainerClass+' w-full h-full '+portraitHeight+' '+landscapeHeight);
             setImageClass(defaultImageClass+imageClass);

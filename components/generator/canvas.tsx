@@ -37,12 +37,13 @@ export default function Canvas()
             let portraitHeight:string   = '';
             if(window)
             {
+                let containerDivEl:HTMLDivElement   = containerEl.current!;
+                let containerCompStyles  = window.getComputedStyle(containerDivEl);
                 setWindowHeight(window.innerHeight);
-                console.log(windowHeight)
-                landscapeHeight = ' landscape:h-['+(windowHeight-96-24-55)+'px]';
+                landscapeHeight = ' landscape:h-['+containerCompStyles.height+'px]';
                 portraitHeight  = ' h-[calc('+windowHeight+'px-70px-96px-48px-16px-24px-24px)]';
             }
-            setContainerClass(defaultContainerClass+' w-full '+portraitHeight+' '+landscapeHeight);
+            setContainerClass(defaultContainerClass+' w-full h-full '+portraitHeight+' '+landscapeHeight);
         }
         else
         {

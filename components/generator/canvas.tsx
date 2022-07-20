@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { wideEnoughToSetLandscape } from "../../helpers/generator/image";
 import { GeneratorState } from "../../reducers/generator";
@@ -14,19 +14,13 @@ import { addOrientationChangeListener, addWindowSizeChangeListener } from "../..
 
 export default function Canvas()
 {
-    const defaultContainerClass = 'flex flex-col justify-center items-center border border-4 border-red-500';
-    const defaultImageClass = 'border-2 border-my-purple4 desktop:max-w-full desktop:max-h-full absolute';
+    const defaultContainerClass = 'flex flex-col justify-center items-center';
+    const defaultImageClass = 'border-2 border-my-purple4 desktop:max-w-full desktop:max-h-full absolute desktop:static';
     const [containerClass, setContainerClass] = useState(defaultContainerClass);
     const [imageClass, setImageClass] = useState(defaultImageClass);
-    const [containerCompHeight, setContainerCompHeight] = useState(0);
     const [rotateCanvas, setRotateCanvas] = useState(false);
     const containerEl   = useRef(null);
     const imgEl         = useRef(null);
-
-    useEffect(() => {
-        // let imgHTMLEl:HTMLImageElement = imgEl.current!;
-        // imgHTMLEl.style.maxHeight = containerCompHeight+'px';
-     }, [containerCompHeight]);
 
     const updateLayout = ()=>{
         if(isMobile)
@@ -37,15 +31,10 @@ export default function Canvas()
             if(window)
             {
                 let containerDivEl:HTMLDivElement   = containerEl.current!;
-                let containerCompStyles  = window.getComputedStyle(containerDivEl);
                 let canvasRect        = containerDivEl.getBoundingClientRect();
                 landscapeHeight = ' ';
-                setContainerCompHeight(parseInt(containerCompStyles.height));
                 portraitHeight  = ' h-[calc('+window.innerHeight+'px-70px-96px-48px-16px-24px-24px)]';
                 imageClass = '  max-w-[90%] landscape:h-['+canvasRect.height+'px]';
-                //alert(imageClass);
-                let imgHTMLEl:HTMLImageElement = imgEl.current!;
-                //imgHTMLEl.style.maxHeight = parseInt(containerCompStyles.height)+'px';
             }
             setContainerClass(defaultContainerClass+' w-full h-full '+portraitHeight+' '+landscapeHeight);
             setImageClass(defaultImageClass+imageClass);
@@ -68,7 +57,7 @@ export default function Canvas()
         addOrientationChangeListener(updateLayout);
         return () => {
             window.removeEventListener('resize', updateLayout);
-            window.removeEventListener('orientationchange', updateLayout);
+            //window.removeEventListener('orientationchange', updateLayout);
         };
     }, []);
 

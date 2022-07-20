@@ -34,7 +34,7 @@ export default function Steps()
 
         if(isMobile)
         {
-            setContainerClass(defaultContainerClass+' border border-2 border-red-500 landscape:flex-col landscape:h-[calc(100vh-env(safe-area-inset-bottom)-24px-96px)]');
+            setContainerClass(defaultContainerClass+' border border-2 border-red-500 landscape:flex-col landscape:h-fit');
         }
     });
 

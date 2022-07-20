@@ -15,7 +15,9 @@ import { addWindowSizeChangeListener } from "../../helpers/common";
 export default function Canvas()
 {
     const defaultContainerClass = 'flex flex-col justify-center items-center';
+    const defaultImageClass = 'border-2 border-my-purple4 desktop:max-w-full desktop:max-h-full';
     const [containerClass, setContainerClass] = useState(defaultContainerClass);
+    const [imageClass, setImageClass] = useState(defaultImageClass);
     const [rotateCanvas, setRotateCanvas] = useState(false);
     const [windowHeight, setWindowHeight] = useState(0);
     const containerEl   = useRef(null);
@@ -35,6 +37,7 @@ export default function Canvas()
         {
             let landscapeHeight:string  = '';
             let portraitHeight:string   = '';
+            let imageClass = '';
             if(window)
             {
                 let containerDivEl:HTMLDivElement   = containerEl.current!;
@@ -42,8 +45,10 @@ export default function Canvas()
                 setWindowHeight(window.innerHeight);
                 landscapeHeight = ' landscape:h-['+containerCompStyles.height+'px]';
                 portraitHeight  = ' h-[calc('+windowHeight+'px-70px-96px-48px-16px-24px-24px)]';
+                imageClass = ' max-h-['+containerCompStyles.height+'px)] max-w-['+window.innerWidth+'px]';
             }
             setContainerClass(defaultContainerClass+' w-full h-full '+portraitHeight+' '+landscapeHeight);
+            setImageClass(defaultImageClass+imageClass);
         }
         else
         {
@@ -61,7 +66,6 @@ export default function Canvas()
     const generatorState:GeneratorState = useAppSelector(originGeneratorState);
     const dispatch = useAppDispatch();
     
-    let imageClass = 'border-2 border-my-purple4 max-w-full max-h-full';
 
     return  <div className={containerClass} ref={containerEl}>
                 <img 

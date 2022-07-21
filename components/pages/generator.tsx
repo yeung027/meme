@@ -57,10 +57,11 @@ const Home: NextPage<Props> = (props) => {
 
 
   let containerClass:string = `border border-4 border-red-500 h-screen w-screen bg-my-purple dark:bg-dark-purple grid grid-rows-[70px_1fr] desktop:flex desktop:flex-col overflow-hidden font-roboto`;
-  containerClass = 'border border-4 border-red-500 h-screen w-screen bg-my-purple flex flex-col-reverse items-center pb-1 text-cyan-500 font-medium text-4xl'
+  containerClass = 'h-screen-ios bg-yellow-200 border border-4 border-red-500 bg-my-purple flex flex-col-reverse items-center pb-1 text-cyan-500 font-medium text-4xl'
   return (
     
-    <div className={containerClass} style={{height:(memeState.iosInnerHeight)+'px'}}>111L一___
+    <div className={containerClass} >111L一___
+    {/* style={{height:(memeState.iosInnerHeight)+'px'}} */}
       {/* <Head>
         <link rel="shortcut icon" href="/icos/favicon.ico" />
       </Head>

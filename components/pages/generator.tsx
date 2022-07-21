@@ -56,8 +56,11 @@ const Home: NextPage<Props> = (props) => {
 
 
 
-  let containerClass:string = 'box-border border border-4 border-red-500 h-full w-screen bg-my-purple dark:bg-dark-purple grid grid-rows-[70px_1fr] overflow-hidden font-roboto';
+  let containerClass:string = 'box-border h-full w-screen bg-my-purple dark:bg-dark-purple grid grid-rows-[70px_1fr] overflow-hidden font-roboto';
   containerClass += ' myLandscape:grid-cols-[70px_1fr]';
+  let subcontainer1Class = 'bg-black grid grid-rows-[1fr_96px] desktop:flex desktop:flex-row-reverse desktop:gap-6 desktop:h-full';
+  subcontainer1Class += ' dark:bg-my-dark desktop:bg-lightGray';
+  subcontainer1Class += ' landscapeFillAvailable myLandscape:pb-0.5 myLandscape:rounded-bl-3xl';
 
   return (
     
@@ -70,15 +73,15 @@ const Home: NextPage<Props> = (props) => {
         <Menu />
         <Header title={props.title} />
       </div>
-      <div className='border border-4 border-blue-500 myLandscape:h-full'>1LLLLLLLL
-        {/* <div className={''+darkModeTransformClass}>
-          <Steps />
-          <Canvas />
+      <div className={subcontainer1Class}>
+        <div className={'border border-4 border-blue-500 '+darkModeTransformClass}>
+          {/* <Steps />
+          <Canvas /> */}
         </div>
-        <div className={''+darkModeTransformClass}>
-          <ControlPanel />
+        <div className={'border border-4 border-red-500 '+darkModeTransformClass}>
+          {/* <ControlPanel /> */}
           
-        </div> */}
+        </div>
       </div>
     </div>
   )

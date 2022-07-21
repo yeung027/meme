@@ -57,7 +57,7 @@ const Home: NextPage<Props> = (props) => {
 
 
   let containerClass:string = `border border-4 border-red-500 h-screen w-screen bg-my-purple dark:bg-dark-purple grid grid-rows-[70px_1fr] desktop:flex desktop:flex-col overflow-hidden font-roboto`;
-  containerClass = 'h-screen myLandscape:h-[100vh] bg-yellow-200 border border-4 border-red-500 bg-my-purple flex flex-col-reverse items-center text-cyan-500 font-medium text-4xl'
+  containerClass = 'h-screen box-border bg-yellow-200 border border-4 border-red-500 bg-my-purple flex flex-col-reverse items-center text-cyan-500 font-medium text-4xl'
   return (
     
     <div className={containerClass} >111L一___

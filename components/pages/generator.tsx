@@ -56,29 +56,28 @@ const Home: NextPage<Props> = (props) => {
 
 
 
-  let containerClass:string = `border border-4 border-red-500 h-screen w-screen bg-my-purple dark:bg-dark-purple grid grid-rows-[70px_1fr] desktop:flex desktop:flex-col overflow-hidden font-roboto`;
-  containerClass = 'h-screen box-border bg-yellow-200 border border-4 border-red-500 bg-my-purple flex flex-col-reverse items-center text-cyan-500 font-medium text-4xl'
+  let containerClass:string = 'box-border h-screen w-screen bg-my-purple dark:bg-dark-purple grid grid-rows-[70px_1fr] overflow-hidden font-roboto';
+  containerClass += ' myLandscape:grid-cols-[70px_1fr]';
   return (
     
-    <div className={containerClass} >111L一___
-    {/* style={{height:(memeState.iosInnerHeight)+'px'}} */}
-      {/* <Head>
+    <div className={containerClass} >
+      <Head>
         <link rel="shortcut icon" href="/icos/favicon.ico" />
       </Head>
-      <div className=''>
-        <ExportDialog />
+      <div className='border border-4 border-red-500 myLandscape:h-screen'>
+        {/* <ExportDialog />
         <Menu />
-        <Header title={props.title} />
+        <Header title={props.title} /> */}
       </div>
-      <div className=''>
+      <div className='border border-4 border-blue-500 myLandscape:h-screen'>
         <div className={''+darkModeTransformClass}>
-          <Steps />
-          <Canvas />
+          {/* <Steps />
+          <Canvas /> */}
         </div>
         <div className={''+darkModeTransformClass}>
           <ControlPanel />
         </div>
-      </div> */}
+      </div>
     </div>
   )
 }

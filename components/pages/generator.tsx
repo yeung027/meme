@@ -60,7 +60,7 @@ const Home: NextPage<Props> = (props) => {
   containerClass = 'border border-4 border-red-500 h-screen w-screen bg-my-purple flex flex-col-reverse items-center pb-1 text-cyan-500 font-medium text-4xl'
   return (
     
-    <div className={containerClass} style={{height:(memeState.iosInnerHeight*0.9)+'px'}}>111
+    <div className={containerClass} style={{height:(memeState.iosInnerHeight)+'px'}}>111L一___
       {/* <Head>
         <link rel="shortcut icon" href="/icos/favicon.ico" />
       </Head>

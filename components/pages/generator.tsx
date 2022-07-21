@@ -56,8 +56,9 @@ const Home: NextPage<Props> = (props) => {
 
 
 
-  let containerClass:string = 'box-border h-screen w-screen bg-my-purple dark:bg-dark-purple grid grid-rows-[70px_1fr] overflow-hidden font-roboto';
+  let containerClass:string = 'box-border border border-4 border-red-500 box-border h-screen w-screen bg-my-purple dark:bg-dark-purple grid grid-rows-[70px_1fr] overflow-hidden font-roboto';
   containerClass += ' myLandscape:grid-cols-[70px_1fr]';
+
   return (
     
     <div className={containerClass} >
@@ -69,14 +70,15 @@ const Home: NextPage<Props> = (props) => {
         <Menu />
         <Header title={props.title} />
       </div>
-      <div className='border border-4 border-blue-500 myLandscape:h-screen'>
-        <div className={''+darkModeTransformClass}>
-          {/* <Steps />
-          <Canvas /> */}
+      <div className='border border-4 border-blue-500  flex flex-col justify-end text-4xl text-white'>1LLLLLLLL
+        {/* <div className={''+darkModeTransformClass}>
+          <Steps />
+          <Canvas />
         </div>
         <div className={''+darkModeTransformClass}>
           <ControlPanel />
-        </div>
+          
+        </div> */}
       </div>
     </div>
   )

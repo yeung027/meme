@@ -57,26 +57,27 @@ const Home: NextPage<Props> = (props) => {
 
 
   let containerClass:string = `border border-4 border-red-500 h-screen w-screen bg-my-purple dark:bg-dark-purple grid grid-rows-[70px_1fr] desktop:flex desktop:flex-col overflow-hidden font-roboto`;
+  containerClass = 'border border-4 border-red-500 h-screen w-screen bg-my-purple flex flex-col-reverse items-center pb-1 text-cyan-500 font-medium text-4xl'
   return (
     
-    <div className={containerClass} style={{height:(memeState.iosInnerHeight*0.9)+'px'}}>
-      <Head>
+    <div className={containerClass} style={{height:(memeState.iosInnerHeight*0.9)+'px'}}>111
+      {/* <Head>
         <link rel="shortcut icon" href="/icos/favicon.ico" />
       </Head>
       <div className=''>
-        {/* <ExportDialog />
+        <ExportDialog />
         <Menu />
-        <Header title={props.title} /> */}
+        <Header title={props.title} />
       </div>
       <div className=''>
         <div className={''+darkModeTransformClass}>
-          {/* <Steps />
-          <Canvas /> */}
+          <Steps />
+          <Canvas />
         </div>
         <div className={''+darkModeTransformClass}>
-          {/* <ControlPanel /> */}
+          <ControlPanel />
         </div>
-      </div>
+      </div> */}
     </div>
   )
 }

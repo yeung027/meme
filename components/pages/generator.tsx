@@ -17,6 +17,7 @@ import {
 } from "../../reducers/meme";
 import { useLayoutEffect } from 'react';
 import { fontLoader } from '../font';
+import { useAppSelector } from '../../app/hooks';
 
 var innerHeight = require('ios-inner-height');
 
@@ -27,12 +28,14 @@ interface Props {
 
 
 const Home: NextPage<Props> = (props) => {
-  
+  const memeState:MemeState = useAppSelector(originMemeState);
   const sizeChangeHandler = ()=>{
-    console.log('change..')
+    props.dispatch(setIosInnerHeight(innerHeight()));
+    console.log(innerHeight());
   }
 
   useLayoutEffect(() => {
+    props.dispatch(setIosInnerHeight(innerHeight()));
     fontLoader();
 
     if(document && document.body)
@@ -56,7 +59,7 @@ const Home: NextPage<Props> = (props) => {
   let containerClass:string = `border border-4 border-red-500 h-screen w-screen bg-my-purple dark:bg-dark-purple grid grid-rows-[70px_1fr] desktop:flex desktop:flex-col overflow-hidden font-roboto`;
   return (
     
-    <div className={containerClass} >
+    <div className={containerClass} style={{height:(memeState.iosInnerHeight*0.9)+'px'}}>
       <Head>
         <link rel="shortcut icon" href="/icos/favicon.ico" />
       </Head>

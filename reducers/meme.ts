@@ -6,14 +6,16 @@ export interface MemeState {
   menuOpen: boolean;
   exportDialogOpen: boolean;
   controlPanelEase: boolean; //true: in, false: out
-  darkMode: boolean
+  darkMode: boolean,
+  iosInnerHeight:number
 }
 
 const initialState: MemeState = {
     menuOpen: false,
     exportDialogOpen:false,
     controlPanelEase:true,
-    darkMode: false
+    darkMode: false,
+    iosInnerHeight:0
 };
 
 export const generatorSlice = createSlice({
@@ -32,12 +34,15 @@ export const generatorSlice = createSlice({
     setDarkMode: (state, action: PayloadAction<boolean>) => {
         state.darkMode = action.payload;
     },
+    setIosInnerHeight: (state, action: PayloadAction<number>) => {
+      state.iosInnerHeight = action.payload;
+  },
   },
  
 });
 
 export const memeState = (state: RootState) => state.meme;
 
-export const { menuOpen, exportDialogOpen, controlPanelEase, setDarkMode } = generatorSlice.actions;
+export const { menuOpen, exportDialogOpen, controlPanelEase, setDarkMode, setIosInnerHeight } = generatorSlice.actions;
 
 export default generatorSlice.reducer;

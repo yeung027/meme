@@ -12,11 +12,11 @@ import { useLayoutEffect, useState } from "react";
 
 export default function Header(props:{title:string})
 {
-    let containerClass = 'border border-4 border-black w-full h-[70px] grid portrait:grid-cols-2 desktop:grid-cols-2 items-end text-white pb-2 z-10 dark:bg-dark-purple desktop:bg-my-purple';
-    containerClass+=' myLandscape:h-screen myLandscape:grid myLandscape:grid-rows-2 myLandscape:justify-end'
-    let subContainer1Class = 'border border-4 border-yellow-500 flex-row text-left pl-2.5 desktop:pl-4 font-medium whitespace-nowrap text-white dark:text-my-yellow z-10';
-    subContainer1Class += ' myLandscape:-mb-5 myLandscape:leading-[70px] myLandscape:rotate-180 landscapeText myLandscape:w-[70px] myLandscape:pl-0 myLandscape:justify-end';
-    let subContainer2Class = 'border border-4 border-gray-500 flex flex-row-reverse h-full items-end text-2xl pr-2.5 desktop:pr-4 gap-3 z-10';
+    let containerClass = 'w-full h-[70px] grid portrait:grid-cols-2 desktop:grid-cols-2 items-end text-white pb-2 z-10 dark:bg-dark-purple desktop:bg-my-purple';
+    containerClass+=' bg-cyan-500 myLandscape:pb-0 landscapeFillAvailable myLandscape:grid myLandscape:grid-rows-2 myLandscape:justify-end'
+    let subContainer1Class = 'flex-row text-left pl-2.5 desktop:pl-4 font-medium whitespace-nowrap text-white dark:text-my-yellow z-10';
+    subContainer1Class += ' myLandscape:leading-[70px] myLandscape:rotate-180 landscapeText myLandscape:w-[70px] myLandscape:pl-0 myLandscape:justify-end';
+    let subContainer2Class = 'flex flex-row-reverse h-full items-end text-2xl pr-2.5 desktop:pr-4 gap-3 z-10';
     subContainer2Class += ' myLandscape:w-[70px] myLandscape:pr-0 myLandscape:items-center myLandscape:justify-end myLandscape:flex-col myLandscape:pb-2';
     const dispatch = useAppDispatch();
     

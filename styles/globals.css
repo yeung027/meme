@@ -35,6 +35,9 @@ a {
     .landscapeFillAvailable {
       height: -webkit-fill-available;
     }
+    .landscapeHFull {
+      height: 100vh;
+    }
   }
 }
 

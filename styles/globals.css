@@ -43,16 +43,13 @@ a {
   }
 }
 
-@media (orientation: landscape) {
+@media (orientation: landscape) and (max-width:1279px) {
+  
   .landscapeText
   {
     writing-mode: vertical-rl;
     text-orientation: mixed;
   }
 
-  .landscapePaddingBottomSafeArea
-  {
-    padding-bottom: env(safe-area-inset-bottom);
-  }
 }
 

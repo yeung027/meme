@@ -12,23 +12,14 @@ import { useLayoutEffect, useState } from "react";
 
 export default function Header(props:{title:string})
 {
-    const defaultContainerClass = 'w-full h-[70px] grid portrait:grid-cols-2 desktop:grid-cols-2 items-end text-white pb-2 z-10 dark:bg-dark-purple desktop:bg-my-purple';
-    const defaultSubcontainer1Class = 'flex flex-row text-left pl-2.5 desktop:pl-4 font-medium whitespace-nowrap text-white dark:text-my-yellow z-10';
-    const defaultSubcontainer2Class = 'flex flex-row-reverse h-full items-end text-2xl pr-2.5 desktop:pr-4 gap-3 z-10';
-    const [containerClass, setContainerClass] = useState(defaultContainerClass);
-    const [subContainer1Class, setSubContainer1Class] = useState(defaultSubcontainer1Class);
-    const [subContainer2Class, setSubContainer2Class] = useState(defaultSubcontainer2Class);
-    const state:MemeState = useAppSelector(originMemeState);
+    let containerClass = 'border border-4 border-black w-full h-[70px] grid portrait:grid-cols-2 desktop:grid-cols-2 items-end text-white pb-2 z-10 dark:bg-dark-purple desktop:bg-my-purple';
+    containerClass+=' myLandscape:h-screen myLandscape:grid myLandscape:grid-rows-2 myLandscape:justify-end'
+    let subContainer1Class = 'border border-4 border-yellow-500 flex-row text-left pl-2.5 desktop:pl-4 font-medium whitespace-nowrap text-white dark:text-my-yellow z-10';
+    subContainer1Class += ' myLandscape:-mb-5 myLandscape:leading-[70px] myLandscape:rotate-180 landscapeText myLandscape:w-[70px] myLandscape:pl-0 myLandscape:justify-end';
+    let subContainer2Class = 'border border-4 border-gray-500 flex flex-row-reverse h-full items-end text-2xl pr-2.5 desktop:pr-4 gap-3 z-10';
+    subContainer2Class += ' myLandscape:w-[70px] myLandscape:pr-0 myLandscape:items-center myLandscape:justify-end myLandscape:flex-col myLandscape:pb-2';
     const dispatch = useAppDispatch();
     
-    useLayoutEffect(() => {
-        if(isMobile)
-        {
-            setContainerClass(defaultContainerClass+' landscape:h-[-webkit-fill-available] landscape:grid landscape:grid-rows-2 landscape:justify-end');
-            setSubContainer1Class(defaultSubcontainer1Class+' landscape:-mb-5 landscape:leading-[70px] landscape:rotate-180 landscapeText landscape:w-[70px] landscape:pl-0 landscape:justify-end');
-            setSubContainer2Class(defaultSubcontainer2Class+' landscape:w-[70px] landscape:pr-0 landscape:items-center landscape:justify-end landscape:flex-col landscape:pb-2');
-        }
-    });
 
    
     return  <div 

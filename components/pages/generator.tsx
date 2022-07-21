@@ -64,10 +64,10 @@ const Home: NextPage<Props> = (props) => {
       <Head>
         <link rel="shortcut icon" href="/icos/favicon.ico" />
       </Head>
-      <div className='border border-4 border-red-500 myLandscape:h-screen'>
-        {/* <ExportDialog />
+      <div className='myLandscape:h-screen'>
+        <ExportDialog />
         <Menu />
-        <Header title={props.title} /> */}
+        <Header title={props.title} />
       </div>
       <div className='border border-4 border-blue-500 myLandscape:h-screen'>
         <div className={''+darkModeTransformClass}>

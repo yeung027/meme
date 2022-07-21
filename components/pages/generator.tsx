@@ -56,7 +56,7 @@ const Home: NextPage<Props> = (props) => {
 
 
 
-  let containerClass:string = 'box-border border border-4 border-red-500 box-border h-screen w-screen bg-my-purple dark:bg-dark-purple grid grid-rows-[70px_1fr] overflow-hidden font-roboto';
+  let containerClass:string = 'border border-4 border-red-500 h-full w-screen bg-my-purple dark:bg-dark-purple grid grid-rows-[70px_1fr] overflow-hidden font-roboto';
   containerClass += ' myLandscape:grid-cols-[70px_1fr]';
 
   return (
@@ -65,12 +65,12 @@ const Home: NextPage<Props> = (props) => {
       <Head>
         <link rel="shortcut icon" href="/icos/favicon.ico" />
       </Head>
-      <div className='myLandscape:h-screen'>
-        <ExportDialog />
+      <div className='border border-4 border-gray-500 landscapeFillAvailable' >
+        {/* <ExportDialog />
         <Menu />
-        <Header title={props.title} />
+        <Header title={props.title} /> */}
       </div>
-      <div className='border border-4 border-blue-500  flex flex-col justify-end text-4xl text-white'>1LLLLLLLL
+      <div className='border border-4 border-blue-500 myLandscape:h-full'>1LLLLLLLL
         {/* <div className={''+darkModeTransformClass}>
           <Steps />
           <Canvas />

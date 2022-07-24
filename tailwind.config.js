@@ -33,6 +33,7 @@ module.exports = {
       'myLandscape': { 'raw': '(orientation: landscape) and (max-width:1279px)' },
       'mobile': '390px',
       'desktop': '1280px',
+      'desktopDark': { 'raw': '(min-width:180px) and (prefers-color-scheme: dark)' }
     },
   },
   plugins: [iOSHeight,],

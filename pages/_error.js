@@ -9,7 +9,7 @@ function Error({ statusCode }) {
       </Head>
     <main
         aria-labelledby="pageTitle"
-        className="flex items-center justify-center h-screen bg-gray-100  border-2"
+        className="flex items-center justify-center h-screen w-screen bg-gray-100  border-2"
       >
         <div className="p-4 space-y-4">
           <div className="flex flex-col items-start space-y-3 sm:flex-row sm:space-y-0 sm:items-center sm:space-x-3">
@@ -22,7 +22,7 @@ function Error({ statusCode }) {
                 </span>
               </h1>
               <p className="text-base font-normal text-gray-600 dark:text-gray-300">
-                The page you ara looking for was not found.
+                The page you are looking for was not found.
               </p>
               <p className="text-base font-normal text-gray-600 dark:text-gray-300">
                 You may return to

@@ -11,7 +11,7 @@ export default function UploadPanel()
     }
 
 
-    return  <div className='w-full h-full flex flex-col bg-white'>
+    return  <div className='w-full h-full flex flex-col bg-white myLandscape:rounded-bl-3xl dark:bg-my-darkGray2'>
                 <div className="w-full h-11 grid grid-cols-2">
                     <div className="h-11 flex flex-row items-center pl-4">
                         <BiBell className={"text-my-purple3 dark:text-my-orange"+darkModeTransformClass} />

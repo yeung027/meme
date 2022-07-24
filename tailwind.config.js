@@ -30,10 +30,12 @@ module.exports = {
       },
     },
     screens: {
+      
       'myLandscape': { 'raw': '(orientation: landscape) and (max-width:1279px)' },
       'mobile': '390px',
+      'mobileDark': { 'raw': '(max-width:1279px) and (prefers-color-scheme: dark)' },
       'desktop': '1280px',
-      'desktopDark': { 'raw': '(min-width:180px) and (prefers-color-scheme: dark)' }
+      'desktopDark': { 'raw': '(min-width:180px) and (prefers-color-scheme: dark)' },
     },
   },
   plugins: [iOSHeight,],

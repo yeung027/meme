@@ -79,8 +79,8 @@ const Home: NextPage<Props> = (props) => {
       </div>
       <div className={subcontainer1Class}>
         <div className={subSubcontainer1Class+darkModeTransformClass}>
-          <Steps />2
-          {/* <Canvas />  */}
+          <Steps />
+          <Canvas /> 
         </div>
         <div className={subSubcontainer2Class+darkModeTransformClass}>
           <ControlPanel />

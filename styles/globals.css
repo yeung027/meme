@@ -31,9 +31,14 @@ a {
 }
 
 @media (orientation: landscape){
+  
   @supports (-webkit-touch-callout: none) {
     .landscapeFillAvailable {
       height: -webkit-fill-available;
+    }
+    .landscapeCanvasHeight {
+      
+      
     }
     .landscapeHFull {
       height: 100vh;
@@ -46,6 +51,7 @@ a {
     .portraitFillAvailable {
       height: -webkit-fill-available;
     }
+    
   }
 }
 

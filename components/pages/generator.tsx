@@ -13,13 +13,10 @@ import { addDarkModeListener, addOrientationChangeListener, addWindowSizeChangeL
 import { 
   MemeState,
   memeState as originMemeState,
-  setIosInnerHeight
 } from "../../reducers/meme";
-import { useLayoutEffect } from 'react';
+import { useEffect, useLayoutEffect } from 'react';
 import { fontLoader } from '../font';
 import { useAppSelector } from '../../app/hooks';
-
-var innerHeight = require('ios-inner-height');
 
 interface Props {
     dispatch:Dispatch,
@@ -30,20 +27,16 @@ interface Props {
 const Home: NextPage<Props> = (props) => {
   const memeState:MemeState = useAppSelector(originMemeState);
   const sizeChangeHandler = ()=>{
-    props.dispatch(setIosInnerHeight(innerHeight()));
-    console.log(innerHeight());
+    
   }
-
-  useLayoutEffect(() => {
-    props.dispatch(setIosInnerHeight(innerHeight()));
+  useEffect(() => {
     fontLoader();
 
     if(document && document.body)
       document.body.classList.add('fixed');
       document.body.classList.add('bg-my-purple');
       document.body.classList.add('dark:bg-dark-purple');
-      
-    
+
     addDarkModeListener(props.dispatch);
     addOrientationChangeListener(sizeChangeHandler);
     addWindowSizeChangeListener(sizeChangeHandler);

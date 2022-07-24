@@ -14,7 +14,7 @@ import {
   MemeState,
   memeState as originMemeState,
 } from "../../reducers/meme";
-import { useEffect, useLayoutEffect } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { fontLoader } from '../font';
 import { useAppSelector } from '../../app/hooks';
 
@@ -26,8 +26,12 @@ interface Props {
 
 const Home: NextPage<Props> = (props) => {
   const memeState:MemeState = useAppSelector(originMemeState);
+  const [version, setVersion] = useState(0);
+  const containerEl   = useRef(null);
   const sizeChangeHandler = ()=>{
-    
+    setVersion(version+1);
+    // let a:any = containerEl.current;
+    // if(a) a.scrollIntoView({ behavior: 'smooth', block: 'start' })
   }
   useEffect(() => {
     fontLoader();
@@ -61,7 +65,7 @@ const Home: NextPage<Props> = (props) => {
   
   return (
     
-    <div className={containerClass} >
+    <div className={containerClass} ref={containerEl}>
       <Head>
         <link rel="shortcut icon" href="/icos/favicon.ico" />
       </Head>

@@ -14,7 +14,7 @@ const Example: NextPage = () => {
   const dispatch = useAppDispatch();
   let steps:STEP[] = [STEP.UPLOADIMG];
   dispatch(setSteps(steps));
-  dispatch(setRawImageUrl('generator/example/5.png'));
+  dispatch(setRawImageUrl('generator/example/p1.jpg'));
   return  <>
             <Generator 
               dispatch={dispatch}

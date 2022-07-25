@@ -1,12 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { delay } from "../../helpers/common";
-import { Base64 } from "../../models/generator";
 import {
     GeneratorState,
     generatorState as originGeneratorState,
-    setCompiledOutput
   } from '../../reducers/generator';
+/* @ts-ignore */
+import fx from "glfx";
 
 export default function Canvas()
 {
@@ -21,7 +20,7 @@ export default function Canvas()
     const [rotateCanvas, setRotateCanvas] = useState(false);
     
   const onload = async ()=>{
-
+    var canvas = fx.canvas();
   }
 
     useEffect(() => {

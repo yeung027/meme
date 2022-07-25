@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { divToImage } from "../../helpers/generator/image";
+import { delay } from "../../helpers/common";
 import { Base64 } from "../../models/generator";
 import {
     GeneratorState,
@@ -20,14 +20,12 @@ export default function Canvas()
     const [imageClass, setImageClass] = useState(defaultImageClass);
     const [rotateCanvas, setRotateCanvas] = useState(false);
     
+  const onload = async ()=>{
+
+  }
+
     useEffect(() => {
-      if(generatorState.compiledOutput) return;
-      let containerEle:HTMLDivElement = containerEl.current!;
-      let result:Promise<Base64<'png'>> = divToImage(containerEle);
-      result.then((png:Base64<'png'>)=>{
-        let a:any = png;
-        dispatch(setCompiledOutput(a));
-      }).catch((e)=>{console.error(e)})
+      onload();
     });
 
 
@@ -38,6 +36,6 @@ export default function Canvas()
                     src={generatorState.rawImageUrl}
                  />
                  <div className="absolute w-1/2 z-10"><img src='generator/example/2.jpg' /></div>
-                 {/* <div className="absolute z-20 bg-white border border-4 border-red-500 ">{generatorState.compiledOutput && <img src={generatorState.compiledOutput} />}</div> */}
+                 
             </div>
 }

@@ -25,22 +25,3 @@ export const getImageSize = (b64:string):Promise<ImageBasicInfo> =>
 
 
 
-export const divToImage = (divEl:HTMLDivElement):Promise<Base64<'png'>> =>
-{
-    var htmlToImage = require('html-to-image');
-    return new Promise<Base64<'png'>>((resolve, reject) => {
-
-        htmlToImage.toPng(divEl)
-        .then(function (dataUrl:any) {
-            var img = new Image();
-            img.src = dataUrl;
-            let png:Base64<'png'> = dataUrl;
-            resolve(png);
-        })
-        .catch(function (error:any) {
-            reject(error);
-        });
-
-
-    })
-}//END divToImage

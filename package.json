@@ -10,7 +10,6 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.3",
-    "html-to-image": "^1.9.0",
     "ky-universal": "^0.10.1",
     "next": "12.2.2",
     "react": "18.2.0",

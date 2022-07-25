@@ -14,9 +14,10 @@ import {
   MemeState,
   memeState as originMemeState,
 } from "../../reducers/meme";
-import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { fontLoader } from '../font';
 import { useAppSelector } from '../../app/hooks';
+
 
 interface Props {
     dispatch:Dispatch,
@@ -35,7 +36,7 @@ const Home: NextPage<Props> = (props) => {
   }
   useEffect(() => {
     fontLoader();
-
+    
     if(document && document.body)
       document.body.classList.add('fixed');
       document.body.classList.add('bg-my-purple');

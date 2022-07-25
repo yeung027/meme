@@ -1,16 +1,17 @@
 
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../app/store';
-import { STEP } from '../models/generator';
+import { Base64, STEP } from '../models/generator';
 
 export interface GeneratorState {
   steps: STEP[];
-  rawImageUrl: string
+  rawImageUrl: string;
+  compiledOutput?:Base64<any>
 }
 
 const initialState: GeneratorState = {
   steps: [],
-  rawImageUrl: 'generator/example/2.jpg'
+  rawImageUrl: 'generator/example/2.jpg',
 };
 
 export const generatorSlice = createSlice({
@@ -23,12 +24,15 @@ export const generatorSlice = createSlice({
     setRawImageUrl: (state, action: PayloadAction<string>) => {
       state.rawImageUrl = action.payload;
     },
+    setCompiledOutput: (state, action: PayloadAction<Base64<any>>) => {
+      state.compiledOutput = action.payload;
+    },
   },
  
 });
 
 export const generatorState = (state: RootState) => state.generator;
 
-export const { setSteps, setRawImageUrl } = generatorSlice.actions;
+export const { setSteps, setRawImageUrl, setCompiledOutput } = generatorSlice.actions;
 
 export default generatorSlice.reducer;

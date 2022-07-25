@@ -4,12 +4,17 @@ import {
     memeState as originMemeState,
     exportDialogOpen
 } from "../../reducers/meme";
+import {
+    GeneratorState,
+    generatorState as originGeneratorState
+  } from '../../reducers/generator';
 import { BiX } from "react-icons/bi";
 import { darkModeTransformClass } from "../../helpers/common";
 
 export default function ExportDialog()
 {
     const memeState:MemeState = useAppSelector(originMemeState);
+    const generatorState:GeneratorState = useAppSelector(originGeneratorState);
     const dispatch = useAppDispatch();
 
     let componentClass:string = "w-screen h-screen absolute z-50 flex flex-col bg-white dark:bg-my-darkGray2 dark:text-white gap-2 duration-200 ease-in-out transform";
@@ -29,8 +34,8 @@ export default function ExportDialog()
                         />
                     </div>
                 </div>
-                <div className="w-full h-full">
-                    yeah
+                <div className="w-full h-full flex justify-center items-center">
+                    {generatorState.compiledOutput && <img className="max-w-[80%] max-h-[80%]" src={generatorState.compiledOutput} />}
                 </div>
             </div>
 }

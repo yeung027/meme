@@ -10,7 +10,7 @@ import {
 import {isMobile} from 'react-device-detect';
 import { useLayoutEffect, useState } from "react";
 
-export default function Header(props:{title:string})
+export default function Header(props:{title:string, isIndex:boolean})
 {
     let containerClass = 'w-full h-[70px] grid portrait:grid-cols-2 desktop:grid-cols-2 items-end text-white pb-2 z-20 dark:bg-dark-purple desktop:bg-my-purple';
     containerClass+=' myLandscape:pb-0 landscapeFillAvailable myLandscape:grid myLandscape:grid-rows-2 myLandscape:justify-end'
@@ -34,10 +34,12 @@ export default function Header(props:{title:string})
                         className={"cursor-pointer text-white dark:text-my-yellow"+darkModeTransformClass}
                         onClick={() => dispatch(menuOpen(true))} 
                     />
-                    <BiExport 
-                        className={"cursor-pointer text-white dark:text-my-yellow"+darkModeTransformClass}
-                        onClick={() => dispatch(exportDialogOpen(true))} 
-                    />
+                    {!props.isIndex &&
+                        <BiExport 
+                            className={"cursor-pointer text-white dark:text-my-yellow"+darkModeTransformClass}
+                            onClick={() => dispatch(exportDialogOpen(true))} 
+                        />
+                    }
                 </div>
             </div>
 }

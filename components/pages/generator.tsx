@@ -73,7 +73,7 @@ const Home: NextPage<Props> = (props) => {
       <div className='landscapeFillAvailable' >
         <ExportDialog />
         <Menu />
-        <Header title={props.title} />
+        <Header title={props.title} isIndex={false} />
       </div>
       <div className={subcontainer1Class}>
         <div className={subSubcontainer1Class+darkModeTransformClass}>

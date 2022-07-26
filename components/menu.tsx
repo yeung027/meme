@@ -8,7 +8,7 @@ import {
 } from "../reducers/meme";
 import MenuContent from "./menuContent";
 
-export default function Menu()
+export default function Menu(props:{isIndex:boolean})
 {
     const memeState:MemeState = useAppSelector(originMemeState);
     const dispatch = useAppDispatch();
@@ -24,7 +24,7 @@ export default function Menu()
                             onClick={() => dispatch(menuOpen(false))}
                          />
                     </div>
-                    <MenuContent />
+                    <MenuContent isIndex={props.isIndex} />
                 </div>
                 <div className="w-2/6 desktop:w-[calc(100%-288px)] h-screen" onClick={() => dispatch(menuOpen(false))} />
                 

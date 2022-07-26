@@ -74,7 +74,7 @@ const Home: NextPage<Props> = (props) => {
       </Head>
       <div className='landscapeFillAvailable' >
         <ExportDialog />
-        <Menu />
+        <Menu isIndex={false} />
         <Header title={props.title} isIndex={false} />
       </div>
       <div className={subcontainer1Class}>

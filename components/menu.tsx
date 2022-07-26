@@ -6,6 +6,7 @@ import {
     memeState as originMemeState,
     menuOpen,
 } from "../reducers/meme";
+import MenuContent from "./menuContent";
 
 export default function Menu()
 {
@@ -23,12 +24,7 @@ export default function Menu()
                             onClick={() => dispatch(menuOpen(false))}
                          />
                     </div>
-                    <ul className="w-full h-full flex z-20 flex flex-col ">
-                        <li className={"flex flex-row text-my-gray dark:text-my-orange pl-8 pt-16 space-x-1 cursor-pointer group hover:text-my-orange"+darkModeTransformClass}>
-                            <BiHomeAlt className={"text-my-gray dark:text-my-orange text-xl group-hover:text-my-orange"+darkModeTransformClass} />
-                            <span className="">Home</span>
-                        </li>
-                    </ul>
+                    <MenuContent />
                 </div>
                 <div className="w-2/6 desktop:w-[calc(100%-288px)] h-screen" onClick={() => dispatch(menuOpen(false))} />
                 

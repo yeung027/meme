@@ -19,6 +19,7 @@ const Example: NextPage = () => {
             <Generator 
               dispatch={dispatch}
               title='Welcome to example'
+              headerTitle='Welcome to example'
             />
           </>
 }

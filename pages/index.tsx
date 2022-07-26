@@ -4,6 +4,7 @@ import { useRef } from "react";
 import { useAppDispatch } from "../app/hooks";
 import Header from "../components/header";
 import Menu from "../components/menu";
+import MenuContent from "../components/menuContent";
 import { darkModeTransformClass } from "../helpers/common";
 
 
@@ -25,6 +26,7 @@ const Index: NextPage = () => {
     
     <div className={containerClass} ref={containerEl}>
       <Head>
+        <title>Meme Generator</title>
         <link rel="shortcut icon" href="/icos/favicon.ico" />
       </Head>
       <div className='landscapeFillAvailable' >
@@ -33,11 +35,12 @@ const Index: NextPage = () => {
       </div>
       <div className={subcontainer1Class}>
         <div className={subSubcontainer1Class+darkModeTransformClass}>
-          1
+            1
         </div>
         <div className={subSubcontainer2Class+darkModeTransformClass}>
-          
-          2
+            <div className="hidden desktop:block">
+                <MenuContent />
+            </div>
         </div>
       </div>
     </div>

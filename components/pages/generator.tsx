@@ -22,6 +22,7 @@ import { useAppSelector } from '../../app/hooks';
 interface Props {
     dispatch:Dispatch,
     title: string;
+    headerTitle:string;
   }
 
 
@@ -68,6 +69,7 @@ const Home: NextPage<Props> = (props) => {
     
     <div className={containerClass} ref={containerEl}>
       <Head>
+        <title>{props.headerTitle}</title>
         <link rel="shortcut icon" href="/icos/favicon.ico" />
       </Head>
       <div className='landscapeFillAvailable' >

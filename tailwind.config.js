@@ -26,6 +26,7 @@ module.exports = {
         'my-dark' : '#242323',
         'my-darkGray' : '#292929',
         'my-darkGray2' : '#403f3f',
+        'lightBlue': '#8497AF',
       },
     },
     screens: {

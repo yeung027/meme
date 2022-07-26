@@ -14,7 +14,7 @@ export default function MenuContent(props:{isIndex:boolean})
                         >
                             <a className="flex flex-row ">
                             <BiHomeAlt className={"text-my-gray dark:text-my-orange text-xl group-hover:text-my-orange"+darkModeTransformClass} />
-                            <span className="pl-2">{props.isIndex ? "a" : "b"}</span>
+                            <span className="pl-2">Home</span>
                             </a>
                         </li>
                     </Link>

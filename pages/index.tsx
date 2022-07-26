@@ -2,6 +2,7 @@ import { NextPage } from "next"
 import Head from "next/head";
 import { useRef } from "react";
 import { useAppDispatch } from "../app/hooks";
+import GeneratorList from "../components/generator/generatorsList";
 import Header from "../components/header";
 import Menu from "../components/menu";
 import MenuContent from "../components/menuContent";
@@ -35,7 +36,7 @@ const Index: NextPage = () => {
       </div>
       <div className={subcontainer1Class}>
         <div className={subSubcontainer1Class+darkModeTransformClass}>
-            1
+            <GeneratorList />
         </div>
         <div className={subSubcontainer2Class+darkModeTransformClass}>
             <div className="hidden desktop:block">

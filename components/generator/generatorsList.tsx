@@ -6,8 +6,8 @@ export default function GeneratorList()
 {
 
 
-    let componentClass:string = "overflow-hidden h-fit flex flex-col gap-4 min-w-[80%]";
-    let itemClass:string = "rounded-2xl bg-white dark:bg-my-gray py-1.5 px-3.5 shadow-[5px_5px_15px_3px_rgba(0,0,0,0.09)] flex flex-row"+darkModeTransformClass;
+    let componentClass:string = "overflow-hidden h-fit flex flex-col gap-2 min-w-[80%]";
+    let itemClass:string = "mx-3 my-3 rounded-2xl bg-white dark:bg-my-gray py-1.5 px-3.5 shadow-[5px_5px_15px_3px_rgba(0,0,0,0.09)] flex flex-row"+darkModeTransformClass;
     let avatorClass:string = "rounded-full border-2 border-my-purple2 dark:border-dark-purple flex justify-center content-center w-[51px] h-[51px] overflow-hidden"+darkModeTransformClass;
     let avatorImgClass:string = "w-[46px] h-[46px] m-auto";
     let listItemCenterClass:string = "flex flex-col justify-center content-center ml-5 gap-px";

@@ -52,3 +52,17 @@ export const addOrientationChangeListener = async (handler:()=>void) => {
 export const isOrientation =  ():ORIENTATION => {
     return window.innerHeight >= window.innerWidth ? ORIENTATION.PORTRAIT : ORIENTATION.LANDSCAPE
 }
+
+export const addScrollListener = async(handler:()=>void) => {
+    let retryCount:number = 0;
+    while(!window)
+    {
+        await delay(70);
+        retryCount++;
+        if(retryCount>30) return false;
+    }
+    
+    window.addEventListener('scroll', handler, { passive: true });
+
+    return true;
+}

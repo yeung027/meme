@@ -26,7 +26,7 @@ const Index: NextPage = () => {
   subSubcontainer2Class +=' myLandscape:bg-my-purple mobileDark:bg-dark-purple desktop:fixed desktop:left-0';
   
   const scrollHandler = () => {
-    dispatch(setHeaderVisible((window.pageYOffset <= scrollIndex) && ( (window.pageYOffset * 0.7) < scrollIndex )) );
+    dispatch(setHeaderVisible((window.pageYOffset <= scrollIndex) && ( (window.pageYOffset * 0.7) < scrollIndex && 300 > scrollIndex)) );
 
     setScrollIndex(window.pageYOffset);
   }

@@ -67,7 +67,7 @@ const Home: NextPage = () => {
     });
 
 
-
+//
     let containerClass:string = 'box-border landscapeFillAvailable portraitFillAvailable desktop:h-screen w-screen bg-my-purple dark:bg-dark-purple grid grid-rows-[70px_1fr] overflow-hidden font-roboto';
     containerClass += ' myLandscape:grid-cols-[70px_1fr]';
     let subcontainer1Class = 'grid grid-rows-[1fr_96px] desktop:flex desktop:flex-row-reverse desktop:gap-6 desktop:h-full desktopDark:bg-my-dark';

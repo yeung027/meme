@@ -18,6 +18,7 @@ import { useEffect, useRef, useState } from 'react';
 import { fontLoader } from '../helpers/font';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { setRawImageUrl } from '../reducers/generator';
+import { createText } from '../helpers/generator/text';
 
 
 
@@ -59,6 +60,10 @@ const Home: NextPage = () => {
         window.removeEventListener('orientationchange', sizeChangeHandler);
         window.removeEventListener('resize', sizeChangeHandler);
         }
+    });
+
+    useEffect(() => {
+        createText(dispatch);
     });
 
 

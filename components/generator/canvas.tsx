@@ -7,6 +7,7 @@ import {
 /* @ts-ignore */
 import fx from "glfx";
 import Textarea from 'react-expanding-textarea'
+import { Editable } from "../../models/generator";
 
 export default function Canvas()
 {
@@ -28,26 +29,19 @@ export default function Canvas()
       onload();
     });
 
-    const handleChange = useCallback((e: any) => {
-      console.log('Changed value to: ', e.target.value)
-    }, [])
+
 
     return  <div className={containerClass} ref={containerEl}>
-      {/* <Textarea
-        className="textarea border border-2 border-red-500 w-[500px]"
-        defaultValue="Lorem ipsum dolor sit amet, ..."
-        id="my-textarea"
-        maxLength={3000}
-        name="pet[notes]"
-        onChange={handleChange}
-        placeholder="."
-        
-      /> */}
-                <img 
+     {/* et a = <img src={editable.b64} className="absolute border border-4 border-red-500 w-[200px] h-[100px]" /> */}
+                
+                  {generatorState.editables.map((editable:Editable, i) => {
+                    let imgEle = <img src={editable.b64} key={`key-canvas-img-${i}`} className="absolute border border-2 border-red-500 w-fit h-fit z-20" />
+                    return imgEle
+                  })}
+                 <img 
                     ref={imgEl}
                     className={imageClass}
                     src={generatorState.rawImageUrl}
                  />
-                 
             </div>
 }

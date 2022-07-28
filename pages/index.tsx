@@ -26,7 +26,7 @@ const Index: NextPage = () => {
   subSubcontainer2Class +=' myLandscape:bg-my-purple mobileDark:bg-dark-purple desktop:fixed desktop:left-0';
   
   const scrollHandler = () => {
-    dispatch(setHeaderVisible((window.pageYOffset <= scrollIndex) && ( (window.pageYOffset * 0.7) < scrollIndex && (300 < scrollIndex) )) );
+    dispatch(setHeaderVisible(((window.pageYOffset <= scrollIndex) ||  window.pageYOffset <=100) ));
 
     setScrollIndex(window.pageYOffset);
   }
@@ -48,7 +48,7 @@ const Index: NextPage = () => {
         <title>Meme Generator</title>
         <link rel="shortcut icon" href="/icos/favicon.ico" />
       </Head>
-      <div className='landscapeFillAvailable' >
+      <div className='landscapeFillAvailable'>
         <Menu isIndex={true} />
         <Header title="Meme Generator" isIndex={true} />
       </div>

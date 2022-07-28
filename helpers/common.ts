@@ -67,3 +67,12 @@ export const addScrollListener = async(handler:()=>void) => {
     return true;
 }
 
+export var subContainerRef:HTMLDivElement;
+export const setSubContainerRef = (ref:HTMLDivElement) =>{
+    subContainerRef = ref;
+}
+
+export var canvasRef:HTMLDivElement;
+export const setCanvasRef = (ref:HTMLDivElement) =>{
+    canvasRef = ref;
+}

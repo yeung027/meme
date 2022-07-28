@@ -15,13 +15,13 @@ export default function Header(props:{title:string, isIndex:boolean})
     const containerEl   = useRef(null);
     const memeState:MemeState = useAppSelector(originMemeState);
     let containerClass = 'w-full h-[70px] grid portrait:grid-cols-2 desktop:grid-cols-2 items-end text-white pb-2 z-20 dark:bg-dark-purple desktop:bg-my-purple';
-    containerClass+=' myLandscape:pb-0 landscapeFillAvailable myLandscape:grid myLandscape:grid-rows-2 myLandscape:justify-end'
-    if(!memeState.headerVisible) containerClass = containerClass+' -translate-y-full desktop:translate-y-0 delay-75 duration-150 myLandscape:duration-0';
+    containerClass+=' myLandscape:pb-0 landscapeFillAvailable myLandscape:flex myLandscape:flex-col myLandscape:justify-start'
+    if(!memeState.headerVisible) containerClass = containerClass+' -translate-y-[30px] desktop:translate-y-0 delay-75 duration-150 myLandscape:duration-0';
     else containerClass = containerClass+' translate-y-0 delay-0 duration-75 myLandscape:duration-0';
     if(props.isIndex) containerClass+=' fixed myLandscape:static ease-in-out transform bg-my-purple delay-200 duration-1000 ease-in-out transform';
     let subContainer1Class = 'font-notoSansTC flex-row text-left pl-2.5 desktop:pl-4 font-medium whitespace-nowrap text-white dark:text-my-yellow z-10';
-    subContainer1Class += ' myLandscape:leading-[70px] myLandscape:rotate-180 landscapeText myLandscape:w-[70px] myLandscape:pl-0 myLandscape:justify-end';
-    let subContainer2Class = 'flex flex-row-reverse h-full items-end text-2xl pr-2.5 desktop:pr-4 gap-3 z-10';
+    subContainer1Class += ' myLandscape:leading-[70px] myLandscape:rotate-270 landscapeText myLandscape:w-[70px] myLandscape:pt-6';
+    let subContainer2Class = 'myLandscape:absolute myLandscape:bottom-0 flex flex-row-reverse h-full items-end text-2xl pr-2.5 desktop:pr-4 gap-3 z-10';
     subContainer2Class += ' myLandscape:w-[70px] myLandscape:pr-0 myLandscape:items-center myLandscape:justify-end myLandscape:flex-col myLandscape:pb-2';
     const dispatch = useAppDispatch();
     
@@ -31,7 +31,7 @@ export default function Header(props:{title:string, isIndex:boolean})
                 ref={containerEl}
             >
                 <div className="hidden desktop:block w-full h-[70px] absolute top-0 dark:bg-dark-purple z-0" />
-                <div className={subContainer1Class+darkModeTransformClass}>
+                <div className={subContainer1Class}>
                     {props.title}
                 </div>
                 <div className={subContainer2Class+darkModeTransformClass}>

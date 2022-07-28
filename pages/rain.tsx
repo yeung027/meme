@@ -9,12 +9,12 @@ import Menu from '../components/menu';
 
 import { Dispatch } from '@reduxjs/toolkit';
 import Head from 'next/head';
-import { addDarkModeListener, addOrientationChangeListener, addSizeChangeListener, darkModeTransformClass } from '../helpers/common';
+import { addDarkModeListener, addOrientationChangeListener, addSizeChangeListener, darkModeTransformClass, setSubContainerRef } from '../helpers/common';
 import { 
   MemeState,
   memeState as originMemeState,
 } from "../reducers/meme";
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { fontLoader } from '../helpers/font';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { setRawImageUrl } from '../reducers/generator';
@@ -28,6 +28,7 @@ const Home: NextPage = () => {
     const memeState:MemeState = useAppSelector(originMemeState);
     const [version, setVersion] = useState(0);
     const containerEl   = useRef(null);
+    const subContainerEl   = useRef(null);
     dispatch(setRawImageUrl('generator/rain/raw.jpg'));
     const sizeChangeHandler = ()=>{
         setVersion(version+1);
@@ -44,6 +45,10 @@ const Home: NextPage = () => {
         });
     }
 
+    useLayoutEffect(() => {
+        setSubContainerRef(subContainerEl.current!);
+    });
+    
     useEffect(() => {
         loadFont();
         
@@ -85,15 +90,15 @@ const Home: NextPage = () => {
             <title>你嗰邊大雨啫，我呢邊無喎</title>
             <link rel="shortcut icon" href="/icos/favicon.ico" />
         </Head>
-        <div className='landscapeFillAvailable' >
+        <div className='landscapeFillAvailable'>
             <ExportDialog />
             <Menu isIndex={false} />
             <Header title="你嗰邊大雨啫，我呢邊無喎" isIndex={false} />
         </div>
         <div className={subcontainer1Class}>
-            <div className={subSubcontainer1Class+darkModeTransformClass}>
-            <Steps />
-            <Canvas /> 
+            <div className={subSubcontainer1Class+darkModeTransformClass} ref={subContainerEl}>
+                <Steps />
+                <Canvas /> 
             </div>
             <div className={subSubcontainer2Class+darkModeTransformClass}>
             <ControlPanel />

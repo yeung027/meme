@@ -8,7 +8,7 @@ import {
 import fx from "glfx";
 import Textarea from 'react-expanding-textarea'
 import { Editable } from "../../models/generator";
-import { addOrientationChangeListener, addSizeChangeListener, isOrientation } from "../../helpers/common";
+import { addOrientationChangeListener, addSizeChangeListener, isOrientation, setCanvasRef } from "../../helpers/common";
 
 
 export default function Canvas()
@@ -40,7 +40,7 @@ export default function Canvas()
       let containerEle:HTMLDivElement = containerEl.current!;
       addOrientationChangeListener(containerEle, sizeChangeHandler);
       addSizeChangeListener(containerEle, sizeChangeHandler);
-
+      setCanvasRef(containerEl.current!);
       return () => {
         containerEle.removeEventListener('orientationchange', sizeChangeHandler);
         containerEle.removeEventListener('resize', sizeChangeHandler);

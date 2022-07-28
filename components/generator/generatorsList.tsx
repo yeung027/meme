@@ -15,7 +15,7 @@ export default function GeneratorList()
     let span2Class:string = "h-5 text-lightBlue dark:text-my-yellow text-sm font-normal"+darkModeTransformClass;
 
     return  <div className={componentClass}>
-                <Link href="/example">
+                <Link href="/rain">
                     <a className={itemClass}>
                         <div className={avatorClass}>
                             <img className={avatorImgClass} src="generator/example/p1.jpg" />
@@ -153,7 +153,7 @@ export default function GeneratorList()
                             <img className={avatorImgClass} src="generator/example/2.jpg" />
                         </div>
                         <div className={listItemCenterClass}>
-                            <span className={span1Class}>hello</span>
+                            <span className={span1Class}>last</span>
                             <span className={span2Class}>3</span>
                         </div>
                     </a>

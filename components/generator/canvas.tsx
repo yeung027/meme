@@ -14,7 +14,7 @@ export default function Canvas()
     const dispatch = useAppDispatch();
     const containerEl   = useRef(null);
     const imgEl         = useRef(null);
-    let containerClass = 'flex flex-col justify-center items-center h-full w-full border border-2 border-red-500';
+    let containerClass = 'flex flex-col justify-center items-center h-full w-full';
     let defaultImageClass = 'absolute border-2 border-my-purple4 max-w-[95%] max-h-[calc(100vh-70px-96px-48px-16px-24px-24px-50px)] myLandscape:max-h-[95%]';
     defaultImageClass+= ' desktop:h-full';
     const [imageClass, setImageClass] = useState(defaultImageClass);
@@ -33,7 +33,7 @@ export default function Canvas()
     }, [])
 
     return  <div className={containerClass} ref={containerEl}>
-      <Textarea
+      {/* <Textarea
         className="textarea border border-2 border-red-500 w-[500px]"
         defaultValue="Lorem ipsum dolor sit amet, ..."
         id="my-textarea"
@@ -42,13 +42,12 @@ export default function Canvas()
         onChange={handleChange}
         placeholder="."
         
-      />
-                {/* <img 
+      /> */}
+                <img 
                     ref={imgEl}
                     className={imageClass}
                     src={generatorState.rawImageUrl}
                  />
-                 <div className="absolute w-1/2 z-10"><img src='generator/example/2.jpg' /></div> */}
                  
             </div>
 }

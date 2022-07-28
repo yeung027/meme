@@ -34,6 +34,8 @@ const Index: NextPage = () => {
 
   useEffect(() => {
     addScrollListener(scrollHandler);
+    if(document && document.body)
+        document.body.classList.add('overflow-x-hidden');
     return () => {
       window.removeEventListener('scroll', scrollHandler);
     }

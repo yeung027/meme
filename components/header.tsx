@@ -18,7 +18,7 @@ export default function Header(props:{title:string, isIndex:boolean})
     if(!memeState.headerVisible) containerClass = containerClass+' -translate-y-full desktop:translate-y-0 delay-75 duration-150 myLandscape:duration-0';
     else containerClass = containerClass+' translate-y-0 delay-0 duration-75 myLandscape:duration-0';
     if(props.isIndex) containerClass+=' fixed myLandscape:static ease-in-out transform bg-my-purple delay-200 duration-1000 ease-in-out transform';
-    let subContainer1Class = 'flex-row text-left pl-2.5 desktop:pl-4 font-medium whitespace-nowrap text-white dark:text-my-yellow z-10';
+    let subContainer1Class = 'font-notoSansTC flex-row text-left pl-2.5 desktop:pl-4 font-medium whitespace-nowrap text-white dark:text-my-yellow z-10';
     subContainer1Class += ' myLandscape:leading-[70px] myLandscape:rotate-180 landscapeText myLandscape:w-[70px] myLandscape:pl-0 myLandscape:justify-end';
     let subContainer2Class = 'flex flex-row-reverse h-full items-end text-2xl pr-2.5 desktop:pr-4 gap-3 z-10';
     subContainer2Class += ' myLandscape:w-[70px] myLandscape:pr-0 myLandscape:items-center myLandscape:justify-end myLandscape:flex-col myLandscape:pb-2';

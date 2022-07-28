@@ -1,6 +1,6 @@
-import { delay } from "../helpers/common";
+import { delay } from "./common";
 
-export const fontLoader = async () => {
+export const fontLoader = async ():Promise<any> => {
     let retry = 0;
     while(window == undefined) 
     {
@@ -15,4 +15,5 @@ export const fontLoader = async () => {
         families: ['Roboto', 'sans-serif']
         }
     });
+    return WebFont;
 }

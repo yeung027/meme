@@ -15,7 +15,7 @@ import {
   memeState as originMemeState,
 } from "../../reducers/meme";
 import { useEffect, useRef, useState } from 'react';
-import { fontLoader } from '../font';
+import { fontLoader } from '../../helpers/font';
 import { useAppSelector } from '../../app/hooks';
 
 

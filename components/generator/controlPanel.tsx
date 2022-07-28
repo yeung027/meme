@@ -21,7 +21,7 @@ export default function ControlPanel()
     }
 
     useEffect(() => {
-        show();
+        //show();
     });
       
     let componentClass:string = "w-full h-full flex justify-center items-center duration-500 ease-in-out transform";

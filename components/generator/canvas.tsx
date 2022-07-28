@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import {
     GeneratorState,
@@ -6,6 +6,7 @@ import {
   } from '../../reducers/generator';
 /* @ts-ignore */
 import fx from "glfx";
+import Textarea from 'react-expanding-textarea'
 
 export default function Canvas()
 {
@@ -27,14 +28,27 @@ export default function Canvas()
       onload();
     });
 
+    const handleChange = useCallback((e: any) => {
+      console.log('Changed value to: ', e.target.value)
+    }, [])
 
     return  <div className={containerClass} ref={containerEl}>
-                <img 
+      <Textarea
+        className="textarea border border-2 border-red-500 w-[500px]"
+        defaultValue="Lorem ipsum dolor sit amet, ..."
+        id="my-textarea"
+        maxLength={3000}
+        name="pet[notes]"
+        onChange={handleChange}
+        placeholder="."
+        
+      />
+                {/* <img 
                     ref={imgEl}
                     className={imageClass}
                     src={generatorState.rawImageUrl}
                  />
-                 <div className="absolute w-1/2 z-10"><img src='generator/example/2.jpg' /></div>
+                 <div className="absolute w-1/2 z-10"><img src='generator/example/2.jpg' /></div> */}
                  
             </div>
 }

@@ -36,10 +36,7 @@ a {
     .landscapeFillAvailable {
       height: -webkit-fill-available;
     }
-    .landscapeCanvasHeight {
-      
-      
-    }
+    
     .landscapeHFull {
       height: 100vh;
     }

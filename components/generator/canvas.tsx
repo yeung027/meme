@@ -8,6 +8,7 @@ import {
 import fx from "glfx";
 import Textarea from 'react-expanding-textarea'
 import { Editable } from "../../models/generator";
+import { addOrientationChangeListener, addSizeChangeListener, headerRef } from "../../helpers/common";
 
 export default function Canvas()
 {
@@ -16,32 +17,60 @@ export default function Canvas()
     const containerEl   = useRef(null);
     const imgEl         = useRef(null);
     let containerClass = 'flex flex-col justify-center items-center h-full w-full';
-    let defaultImageClass = 'absolute border-2 border-my-purple4 max-w-[95%] max-h-[calc(100vh-70px-96px-48px-16px-24px-24px-50px)] myLandscape:max-h-[95%]';
+    let defaultImageClass = 'z-10 absolute border-2 border-my-purple4 max-w-[95%] max-h-[calc(100vh-70px-96px-48px-16px-24px-24px-50px)] myLandscape:max-h-[95%]';
     defaultImageClass+= ' desktop:h-full';
     const [imageClass, setImageClass] = useState(defaultImageClass);
-    const [rotateCanvas, setRotateCanvas] = useState(false);
     
-  const onload = async ()=>{
-    var canvas = fx.canvas();
-  }
+    const onload = async ()=>{
+      //var canvas = fx.canvas();
+      sizeChangeHandler();
+    }
+
+    const sizeChangeHandler = () => {
+      let imgEle:HTMLImageElement   = imgEl.current!;
+      let imgRect                   = imgEle.getBoundingClientRect();
+
+      console.log(headerRef);
+      console.log(`${imgRect.x}, ${imgRect.y}`);
+    }//END sizeChangeHandler
 
     useEffect(() => {
       onload();
+      let containerEle:HTMLDivElement = containerEl.current!;
+      addOrientationChangeListener(containerEle, sizeChangeHandler);
+      addSizeChangeListener(containerEle, sizeChangeHandler);
+
+      return () => {
+        containerEle.removeEventListener('orientationchange', sizeChangeHandler);
+        containerEle.removeEventListener('resize', sizeChangeHandler);
+      }
+    });
+
+    useEffect(() => {
+     
+      
     });
 
 
-
-    return  <div className={containerClass} ref={containerEl}>
-     {/* et a = <img src={editable.b64} className="absolute border border-4 border-red-500 w-[200px] h-[100px]" /> */}
-                
-                  {generatorState.editables.map((editable:Editable, i) => {
-                    let imgEle = <img src={editable.b64} key={`key-canvas-img-${i}`} className="absolute border border-2 border-red-500 w-fit h-fit z-20" />
-                    return imgEle
-                  })}
-                 <img 
+    return  <div className={containerClass} ref={containerEl}>       
+                  <img 
                     ref={imgEl}
                     className={imageClass}
                     src={generatorState.rawImageUrl}
                  />
+                  {generatorState.editables.map((editable:Editable, i) => {
+                    let imgEle:HTMLImageElement   = imgEl.current!;
+                    let imgRect                   = imgEle.getBoundingClientRect();
+                    console.log(imgRect.top)
+                    const classStr:string = 'absolute border border-2 border-red-500 w-fit h-fit z-20';
+                    let headerRect  = headerRef.getBoundingClientRect();
+                    let style = {
+                      top:(imgRect.top - headerRect.height)+'px'
+                    }
+                    
+                    let ele = <img src={editable.b64} key={`key-canvas-img-${i}`} className={classStr} style={style} />
+                    return ele
+                  })}
+                 
             </div>
 }

@@ -9,7 +9,7 @@ import Menu from '../components/menu';
 
 import { Dispatch } from '@reduxjs/toolkit';
 import Head from 'next/head';
-import { addDarkModeListener, addOrientationChangeListener, addWindowSizeChangeListener, darkModeTransformClass } from '../helpers/common';
+import { addDarkModeListener, addOrientationChangeListener, addSizeChangeListener, darkModeTransformClass } from '../helpers/common';
 import { 
   MemeState,
   memeState as originMemeState,
@@ -31,6 +31,7 @@ const Home: NextPage = () => {
     dispatch(setRawImageUrl('generator/rain/raw.jpg'));
     const sizeChangeHandler = ()=>{
         setVersion(version+1);
+        //console.log('window change');
         // let a:any = containerEl.current;
         // if(a) a.scrollIntoView({ behavior: 'smooth', block: 'start' })
     }
@@ -46,19 +47,18 @@ const Home: NextPage = () => {
     useEffect(() => {
         loadFont();
         
-        
         if(document && document.body)
         document.body.classList.add('fixed');
         document.body.classList.add('bg-my-purple');
         document.body.classList.add('dark:bg-dark-purple');
 
         addDarkModeListener(dispatch);
-        addOrientationChangeListener(sizeChangeHandler);
-        addWindowSizeChangeListener(sizeChangeHandler);
+        addOrientationChangeListener(window, sizeChangeHandler);
+        addSizeChangeListener(window, sizeChangeHandler);
 
         return () => {
-        window.removeEventListener('orientationchange', sizeChangeHandler);
-        window.removeEventListener('resize', sizeChangeHandler);
+            window.removeEventListener('orientationchange', sizeChangeHandler);
+            window.removeEventListener('resize', sizeChangeHandler);
         }
     });
 

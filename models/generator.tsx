@@ -3,16 +3,16 @@ export type Base64<imageType extends string> = `data:image/${imageType};base64${
 export type Editable = {
     index:number,
     b64: any,
-    x:number,
-    y:number,
-    width:number,
-    height:number,
+    x:number, //should be percentage of raw image
+    y:number, //should be percentage of raw image
+    width:number, //should be percentage of raw image
+    height:number, //should be percentage of raw image
     zindex:number,
     text?:EditableText
 }
 
 export type EditableText = {
-    fontSize:number,
+    fontSize:number, //should be percentage of raw image
     value:string,
     color:string
 }

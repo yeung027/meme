@@ -11,11 +11,11 @@ export interface MemeState {
 }
 
 const initialState: MemeState = {
-    menuOpen: false,
-    exportDialogOpen:false,
-    controlPanelEase:true,
-    darkMode: false,
-    headerVisible: true
+  menuOpen: false,
+  exportDialogOpen: false,
+  controlPanelEase: true,
+  darkMode: false,
+  headerVisible: true,
 };
 
 export const generatorSlice = createSlice({
@@ -36,7 +36,7 @@ export const generatorSlice = createSlice({
     },
     setHeaderVisible: (state, action: PayloadAction<boolean>) => {
       state.headerVisible = action.payload;
-  },
+    }
   },
  
 });

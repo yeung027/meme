@@ -26,7 +26,7 @@ export const addDarkModeListener = async (dispatch:Dispatch) => {
     return true;
 }
 
-export const addWindowSizeChangeListener = async (handler:()=>void) => {
+export const addSizeChangeListener = async (ele:HTMLElement | Window, handler:()=>void) => {
     let retryCount:number = 0;
     while(!window)
     {
@@ -38,7 +38,7 @@ export const addWindowSizeChangeListener = async (handler:()=>void) => {
     window.addEventListener('resize', handler);
 }
 
-export const addOrientationChangeListener = async (handler:()=>void) => {
+export const addOrientationChangeListener = async (ele:HTMLElement | Window, handler:()=>void) => {
     let retryCount:number = 0;
     while(!window)
     {
@@ -65,4 +65,9 @@ export const addScrollListener = async(handler:()=>void) => {
     window.addEventListener('scroll', handler, { passive: true });
 
     return true;
+}
+
+export var headerRef:HTMLDivElement;
+export const setHeaderRef = (ref:HTMLDivElement) =>{
+    headerRef = ref;
 }

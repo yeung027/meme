@@ -8,7 +8,9 @@ import {
 import fx from "glfx";
 import Textarea from 'react-expanding-textarea'
 import { Editable } from "../../models/generator";
-import { addOrientationChangeListener, addSizeChangeListener, headerRef } from "../../helpers/common";
+import { addOrientationChangeListener, addSizeChangeListener, headerRef, isOrientation } from "../../helpers/common";
+import { ORIENTATION } from "../../models/common";
+import {isMobile} from 'react-device-detect';
 
 export default function Canvas()
 {
@@ -46,10 +48,6 @@ export default function Canvas()
       }
     });
 
-    useEffect(() => {
-     
-      
-    });
 
 
     return  <div className={containerClass} ref={containerEl}>       
@@ -61,11 +59,15 @@ export default function Canvas()
                   {generatorState.editables.map((editable:Editable, i) => {
                     let imgEle:HTMLImageElement   = imgEl.current!;
                     let imgRect                   = imgEle.getBoundingClientRect();
-                    console.log(imgRect.top)
+                    let orientation:ORIENTATION = isOrientation();
+
+
                     const classStr:string = 'absolute border border-2 border-red-500 w-fit h-fit z-20';
                     let headerRect  = headerRef.getBoundingClientRect();
+                    let top:number = imgRect.top;
+                    if(orientation == ORIENTATION.PORTRAIT || !isMobile) top-=headerRect.height;
                     let style = {
-                      top:(imgRect.top - headerRect.height)+'px'
+                      top:top+'px'
                     }
                     
                     let ele = <img src={editable.b64} key={`key-canvas-img-${i}`} className={classStr} style={style} />

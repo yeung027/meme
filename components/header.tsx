@@ -1,6 +1,6 @@
 import { BiExport, BiDotsVerticalRounded } from "react-icons/bi";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
-import { darkModeTransformClass, setHeaderRef } from "../helpers/common";
+import { darkModeTransformClass } from "../helpers/common";
 import { 
     MemeState, 
     memeState as originMemeState,
@@ -24,11 +24,7 @@ export default function Header(props:{title:string, isIndex:boolean})
     let subContainer2Class = 'flex flex-row-reverse h-full items-end text-2xl pr-2.5 desktop:pr-4 gap-3 z-10';
     subContainer2Class += ' myLandscape:w-[70px] myLandscape:pr-0 myLandscape:items-center myLandscape:justify-end myLandscape:flex-col myLandscape:pb-2';
     const dispatch = useAppDispatch();
-      
-    useLayoutEffect(() => {
-        let containerEle:HTMLDivElement = containerEl.current!;
-        setHeaderRef(containerEle);
-    });
+    
 
     return  <div 
                 className={containerClass}

@@ -8,9 +8,8 @@ import {
 import fx from "glfx";
 import Textarea from 'react-expanding-textarea'
 import { Editable } from "../../models/generator";
-import { addOrientationChangeListener, addSizeChangeListener, headerRef, isOrientation } from "../../helpers/common";
-import { ORIENTATION } from "../../models/common";
-import {isMobile} from 'react-device-detect';
+import { addOrientationChangeListener, addSizeChangeListener, isOrientation } from "../../helpers/common";
+
 
 export default function Canvas()
 {
@@ -32,8 +31,8 @@ export default function Canvas()
       let imgEle:HTMLImageElement   = imgEl.current!;
       let imgRect                   = imgEle.getBoundingClientRect();
 
-      console.log(headerRef);
-      console.log(`${imgRect.x}, ${imgRect.y}`);
+      // console.log(headerRef);
+      // console.log(`${imgRect.x}, ${imgRect.y}`);
     }//END sizeChangeHandler
 
     useEffect(() => {
@@ -58,16 +57,14 @@ export default function Canvas()
                  />
                   {generatorState.editables.map((editable:Editable, i) => {
                     let imgEle:HTMLImageElement   = imgEl.current!;
-                    let imgRect                   = imgEle.getBoundingClientRect();
-                    let orientation:ORIENTATION = isOrientation();
-
+                    let imgCompStyles  = window.getComputedStyle(imgEle);
 
                     const classStr:string = 'absolute border border-2 border-red-500 w-fit h-fit z-20';
-                    let headerRect  = headerRef.getBoundingClientRect();
-                    let top:number = imgRect.top;
-                    if(orientation == ORIENTATION.PORTRAIT || !isMobile) top-=headerRect.height;
+                    let top:number = parseInt(imgCompStyles.top)+editable.y;
+                    let left:number = parseInt(imgCompStyles.left)+editable.x;
                     let style = {
-                      top:top+'px'
+                      top:top+'px',
+                      left:left+'px'
                     }
                     
                     let ele = <img src={editable.b64} key={`key-canvas-img-${i}`} className={classStr} style={style} />

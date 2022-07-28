@@ -67,7 +67,3 @@ export const addScrollListener = async(handler:()=>void) => {
     return true;
 }
 
-export var headerRef:HTMLDivElement;
-export const setHeaderRef = (ref:HTMLDivElement) =>{
-    headerRef = ref;
-}

@@ -8,7 +8,7 @@ import {
 import fx from "glfx";
 import Textarea from 'react-expanding-textarea'
 import { Editable } from "../../models/generator";
-import { addOrientationChangeListener, addSizeChangeListener, isOrientation, setCanvasRef } from "../../helpers/common";
+import { addOrientationChangeListener, addSizeChangeListener, delay, isOrientation, setCanvasRef } from "../../helpers/common";
 
 
 export default function Canvas()
@@ -21,15 +21,21 @@ export default function Canvas()
     let defaultImageClass = 'z-10 absolute border-2 border-my-purple4 max-w-[95%] max-h-[calc(100vh-70px-96px-48px-16px-24px-24px-50px)] myLandscape:max-h-[95%]';
     defaultImageClass+= ' desktop:h-full';
     const [imageClass, setImageClass] = useState(defaultImageClass);
+    const [version, setVersion] = useState(0);
     
     const onload = async ()=>{
       //var canvas = fx.canvas();
       sizeChangeHandler();
+
+      setInterval(() => {
+        setVersion(version + 1);
+      }, 1000);
     }
 
     const sizeChangeHandler = () => {
       let imgEle:HTMLImageElement   = imgEl.current!;
-      let imgRect                   = imgEle.getBoundingClientRect();
+      let imgRect:DOMRect;
+      if(imgEle) imgRect = imgEle.getBoundingClientRect();
 
       // console.log(headerRef);
       // console.log(`${imgRect.x}, ${imgRect.y}`);

@@ -36,7 +36,7 @@ export default function Header(props:{title:string, isIndex:boolean})
                 </div>
                 <div className={subContainer2Class+darkModeTransformClass}>
                     <BiDotsVerticalRounded 
-                        className={`block desktop:${props.isIndex? `hidden` : `block`} cursor-pointer text-white dark:text-my-yellow`+darkModeTransformClass}
+                        className={`block ${props.isIndex? `desktop:hidden` : `desktop:block`} cursor-pointer text-white dark:text-my-yellow`+darkModeTransformClass}
                         onClick={() => dispatch(menuOpen(true))} 
                     />
                     <BiExport 

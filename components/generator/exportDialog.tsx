@@ -17,7 +17,7 @@ export default function ExportDialog()
     const generatorState:GeneratorState = useAppSelector(originGeneratorState);
     const dispatch = useAppDispatch();
 
-    let componentClass:string = "w-screen h-screen absolute z-50 flex flex-col bg-white dark:bg-my-darkGray2 dark:text-white gap-2 duration-200 ease-in-out transform";
+    let componentClass:string = "w-screen h-screen landscapeFillAvailable absolute z-50 flex flex-col bg-white dark:bg-my-darkGray2 dark:text-white gap-2 duration-200 ease-in-out transform";
     componentClass += memeState.exportDialogOpen ? " opacity-100 translate-y-0" : " opacity-0 translate-y-full";
     
     return  <div className={componentClass}>
@@ -34,7 +34,7 @@ export default function ExportDialog()
                         />
                     </div>
                 </div>
-                <div className="w-full h-full flex justify-center items-center">
+                <div className="w-full h-full -mt-[60px] myLandscape:-mt-[30px] flex justify-center items-center border border-2 border-blue-500">
                     {generatorState.compiledOutput && <img className="max-w-[80%] max-h-[80%] border border-2 border-red-500" src={generatorState.compiledOutput} />}
                 </div>
             </div>

@@ -19,6 +19,7 @@ import { fontLoader } from '../helpers/font';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { setRawImageUrl } from '../reducers/generator';
 import { createText } from '../helpers/generator/text';
+import { compile } from '../helpers/generator/compiler';
 
 
 
@@ -56,7 +57,7 @@ const Home: NextPage = () => {
     
     useEffect(() => {
         loadFont();
-        
+        compile(dispatch);
         if(document && document.body)
         document.body.classList.add('fixed');
         document.body.classList.add('bg-my-purple');

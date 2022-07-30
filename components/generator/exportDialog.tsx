@@ -35,7 +35,7 @@ export default function ExportDialog()
                     </div>
                 </div>
                 <div className="w-full h-full flex justify-center items-center">
-                    {generatorState.compiledOutput && <img className="max-w-[80%] max-h-[80%]" src={generatorState.compiledOutput} />}
+                    {generatorState.compiledOutput && <img className="max-w-[80%] max-h-[80%] border border-2 border-red-500" src={generatorState.compiledOutput} />}
                 </div>
             </div>
 }

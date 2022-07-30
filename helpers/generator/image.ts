@@ -24,4 +24,40 @@ export const getImageSize = (b64:string):Promise<ImageBasicInfo> =>
 }//END getImageSize
 
 
+export const getDataUrlByUrl = (url:string):Promise<string> =>
+{
+    return new Promise<string>((resolve, reject) => {
+        let img= new Image();
+        img.onload = function(){ 
+            var canvas = document.createElement('canvas');
+            var ctx = canvas.getContext('2d');
+
+            // We set the dimensions at the wanted size.
+            canvas.width = img.width;
+            canvas.height = img.height;
+
+            if(ctx) ctx.drawImage(img, 0, 0, img.width, img.height);
+            else reject('Error occurred while ctx is null');
+            var result = canvas.toDataURL();
+            resolve(result);
+        };
+    img.onerror = () => reject('Error occurred while get b64 Image Size');
+    img.src = url;
+    })
+}//END getDataUrlByUrl
+
+export const dataUrlToBase64 = (dataURL:string):Base64<any> =>
+{
+    const prefix = 'data:image/';
+    const prefixBeforeCode = ';base64';
+
+    const indexOfPrefix         = dataURL.indexOf(prefix);
+    const indexOfBeforeCode     = dataURL.indexOf(prefixBeforeCode);
+    if(indexOfPrefix < 0 || indexOfBeforeCode < 0) throw('invalid dataurl!!');
+    let imgtype = dataURL.substring(indexOfPrefix+prefix.length, indexOfBeforeCode);
+    let imgcode = dataURL.substring(indexOfBeforeCode+prefixBeforeCode.length);
+    let result:Base64<any> = `data:image/${imgtype};base64${imgcode}`
+    return result;
+}//END dataUrlToBase64
+
 

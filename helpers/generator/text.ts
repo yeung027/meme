@@ -35,8 +35,8 @@ export const createText = (dispatch:Dispatch) =>
         b64: url,
         x:0,
         y:0,
-        width:200,
-        height:100,
+        width:0.5,
+        height:0.5,
         zindex:20,
         text:editableText
     }

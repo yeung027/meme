@@ -8,7 +8,7 @@ export const delay = (ms:number) => new Promise(res => setTimeout(res, ms));
 
 export const darkModeTransformClass:string = ' delay-1000 duration-1000 ease-in-out transform';
 
-export const addDarkModeListener = async (dispatch:Dispatch) => {
+export const waitForWindow = async () => {
     let retryCount:number = 0;
     while(!window)
     {
@@ -16,6 +16,11 @@ export const addDarkModeListener = async (dispatch:Dispatch) => {
         retryCount++;
         if(retryCount>30) return false;
     }
+    return true;
+}
+
+export const addDarkModeListener = async (dispatch:Dispatch) => {
+    await waitForWindow();
     
     dispatch(setDarkMode(window.matchMedia('(prefers-color-scheme: dark)').matches));
     window.matchMedia('(prefers-color-scheme: dark)')
@@ -27,25 +32,13 @@ export const addDarkModeListener = async (dispatch:Dispatch) => {
 }
 
 export const addSizeChangeListener = async (ele:HTMLElement | Window, handler:()=>void) => {
-    let retryCount:number = 0;
-    while(!window)
-    {
-        await delay(70);
-        retryCount++;
-        if(retryCount>30) return false;
-    }
+    await waitForWindow();
     
     window.addEventListener('resize', handler);
 }
 
 export const addOrientationChangeListener = async (ele:HTMLElement | Window, handler:()=>void) => {
-    let retryCount:number = 0;
-    while(!window)
-    {
-        await delay(70);
-        retryCount++;
-        if(retryCount>30) return false;
-    }
+    await waitForWindow();
     window.addEventListener("orientationchange", handler);
 }
 
@@ -54,13 +47,7 @@ export const isOrientation =  ():ORIENTATION => {
 }
 
 export const addScrollListener = async(handler:()=>void) => {
-    let retryCount:number = 0;
-    while(!window)
-    {
-        await delay(70);
-        retryCount++;
-        if(retryCount>30) return false;
-    }
+    await waitForWindow();
     
     window.addEventListener('scroll', handler, { passive: true });
 
@@ -76,3 +63,10 @@ export var canvasRef:HTMLDivElement;
 export const setCanvasRef = (ref:HTMLDivElement) =>{
     canvasRef = ref;
 }
+
+export const scrollToIndex = async (index:number) => {
+    await waitForWindow();
+    window.scrollTo({
+        top: index
+    });
+};

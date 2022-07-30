@@ -9,7 +9,7 @@ import Menu from '../components/menu';
 
 import { Dispatch } from '@reduxjs/toolkit';
 import Head from 'next/head';
-import { addDarkModeListener, addOrientationChangeListener, addSizeChangeListener, darkModeTransformClass, setSubContainerRef } from '../helpers/common';
+import { addDarkModeListener, addOrientationChangeListener, addSizeChangeListener, darkModeTransformClass, setSubContainerRef, scrollToIndex } from '../helpers/common';
 import { 
   MemeState,
   memeState as originMemeState,
@@ -30,12 +30,17 @@ const Home: NextPage = () => {
     const containerEl   = useRef(null);
     const subContainerEl   = useRef(null);
     dispatch(setRawImageUrl('generator/rain/raw.jpg'));
+
     const sizeChangeHandler = ()=>{
         setVersion(version+1);
-        //console.log('window change');
-        // let a:any = containerEl.current;
-        // if(a) a.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        scrollToIndex(1);
     }
+
+    const orientationchangeHandler = ()=>{
+        setVersion(version+1);
+        scrollToIndex(1);
+    }
+
     const loadFont = async () => {
         let webFont = await fontLoader();
         webFont.load({
@@ -62,7 +67,7 @@ const Home: NextPage = () => {
         addSizeChangeListener(window, sizeChangeHandler);
 
         return () => {
-            window.removeEventListener('orientationchange', sizeChangeHandler);
+            window.removeEventListener('orientationchange', orientationchangeHandler);
             window.removeEventListener('resize', sizeChangeHandler);
         }
     });

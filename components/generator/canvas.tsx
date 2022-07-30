@@ -8,7 +8,7 @@ import {
 import fx from "glfx";
 import Textarea from 'react-expanding-textarea'
 import { Editable } from "../../models/generator";
-import { addOrientationChangeListener, addSizeChangeListener, delay, isOrientation, setCanvasRef } from "../../helpers/common";
+import { addOrientationChangeListener, addSizeChangeListener, delay, isOrientation, setCanvasRef, waitForWindow } from "../../helpers/common";
 
 
 export default function Canvas()
@@ -63,11 +63,13 @@ export default function Canvas()
                  />
                   {generatorState.editables.map((editable:Editable, i) => {
                     let imgEle:HTMLImageElement   = imgEl.current!;
-                    let imgCompStyles  = window.getComputedStyle(imgEle);
+                    let imgCompStyles;
+                    if(window && imgEle)
+                      imgCompStyles = window.getComputedStyle(imgEle);
 
                     const classStr:string = 'absolute border border-2 border-red-500 w-fit h-fit z-20';
-                    let top:number = parseInt(imgCompStyles.top)+editable.y;
-                    let left:number = parseInt(imgCompStyles.left)+editable.x;
+                    let top:number = imgCompStyles ? parseInt(imgCompStyles.top)+editable.y : 0;
+                    let left:number = imgCompStyles ? parseInt(imgCompStyles.left)+editable.x : 0;
                     let style = {
                       top:top+'px',
                       left:left+'px'

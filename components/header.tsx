@@ -10,7 +10,7 @@ import {
 import {isMobile} from 'react-device-detect';
 import { useLayoutEffect, useRef, useState } from "react";
 
-export default function Header(props:{title:string, isIndex:boolean})
+export default function Header(props:{title:string, isIndex:boolean})//
 {
     const containerEl   = useRef(null);
     const memeState:MemeState = useAppSelector(originMemeState);

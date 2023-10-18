@@ -23,6 +23,7 @@ export default function Canvas()
     defaultImageClass+= ' desktop:h-full';
     const [imageClass, setImageClass] = useState(defaultImageClass);
     const [version, setVersion] = useState(0);
+    const [windowLoaded, setWindowLoaded] = useState(false);
     
     const onload = async ()=>{
       //var canvas = fx.canvas();
@@ -54,35 +55,46 @@ export default function Canvas()
       }
     });
 
+    useEffect(() => {
+      setWindowLoaded(window!=undefined);
+    });
 
+    const content = <>
+                      <img 
+                          ref={imgEl}
+                          className={imageClass}
+                          src={generatorState.rawImageUrl}
+                      />
+                      {windowLoaded &&
+                        generatorState.editables.map((editable:Editable, i) => {
+                          let imgEle:HTMLImageElement   = imgEl.current!;
+                          let imgCompStyles;
+                          if(window && imgEle)
+                            imgCompStyles = window.getComputedStyle(imgEle);
+
+                          const classStr:string = 'absolute border border-2 border-red-500 z-20';
+                          let top:number = imgCompStyles ? parseInt(imgCompStyles.top)+editable.y : 0;
+                          let left:number = imgCompStyles ? parseInt(imgCompStyles.left)+editable.x : 0;
+                          
+                          let imgBasicInfo:ImageBasicInfo = {width:editable.width, height:editable.height};
+                          let temp:any  =  getImageBasicInfoCompareWithImage(imgBasicInfo, imgEl.current!);;
+                          if(temp!=null) imgBasicInfo = temp;
+                          let style = {
+                            top:top+'px',
+                            left:left+'px',
+                            width:imgBasicInfo.width+'px',
+                            height:imgBasicInfo.height+'px'
+                          }
+                          
+                          let ele = <img src={editable.b64} key={`key-canvas-img-${i}`} className={classStr} style={style} />
+                          return ele
+                      })}
+                    </>
 
     return  <div className={containerClass} ref={containerEl}>       
-                  <img 
-                    ref={imgEl}
-                    className={imageClass}
-                    src={generatorState.rawImageUrl}
-                 />
-                  {generatorState.editables.map((editable:Editable, i) => {
-                    let imgEle:HTMLImageElement   = imgEl.current!;
-                    let imgCompStyles;
-                    if(window && imgEle)
-                      imgCompStyles = window.getComputedStyle(imgEle);
-
-                    const classStr:string = 'absolute border border-2 border-red-500 z-20';
-                    let top:number = imgCompStyles ? parseInt(imgCompStyles.top)+editable.y : 0;
-                    let left:number = imgCompStyles ? parseInt(imgCompStyles.left)+editable.x : 0;
-                    let imgBasicInfo:ImageBasicInfo = {width:editable.width, height:editable.height};
-                    imgBasicInfo = getImageBasicInfoCompareWithImage(imgBasicInfo, imgEl.current!);
-                    let style = {
-                      top:top+'px',
-                      left:left+'px',
-                      width:imgBasicInfo.width+'px',
-                      height:imgBasicInfo.height+'px'
-                    }
-                    
-                    let ele = <img src={editable.b64} key={`key-canvas-img-${i}`} className={classStr} style={style} />
-                    return ele
-                  })}
+                  {windowLoaded &&
+                    content
+                  }
                  
             </div>
 }

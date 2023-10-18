@@ -60,8 +60,9 @@ export const dataUrlToBase64 = (dataURL:string):Base64<any> =>
     return result;
 }//END dataUrlToBase64
 
-export const getImageBasicInfoCompareWithImage = (orgInfo:ImageBasicInfo, imageEle:HTMLImageElement, ):ImageBasicInfo =>
+export const getImageBasicInfoCompareWithImage = (orgInfo:ImageBasicInfo, imageEle:HTMLImageElement, ):ImageBasicInfo | null =>
 {
+    if(!window || window == undefined || window === null || !imageEle) return null;
     let imgCompStyles:CSSStyleDeclaration = window.getComputedStyle(imageEle);
     let result:ImageBasicInfo = {
         width: parseInt(imgCompStyles.width) * orgInfo.width,
